@@ -1,57 +1,15 @@
-# Project Name
+# Microsoft Azure Blockchain PowerShell Samples
 
-(short, 1-3 sentenced, description of the project)
+## Introduction
 
-## Features
+This repo contains samples for Azure Blockchain using PowerShell. 
 
-This project framework provides the following features:
+* [collectBlockchainWorkbenchTroubleshooting.ps1](https://github.com/Azure-Samples/blockchain-powershell/blob/master/collectBlockchainWorkbenchTroubleshooting.ps1) - generates a summary and detailed logs for troubleshooting Azure Blockchain Workbench. See [Azure Blockchain Workbench troubleshooting]() for more details.
 
-* Feature 1
-* Feature 2
-* ...
+## Prerequisites
 
-## Getting Started
+If needed, install the Azure PowerShell module using the instructions found in the [Azure PowerShell guide](https://docs.microsoft.com/powershell/azureps-cmdlets-docs/), and then run `Login-AzureRmAccount` to create a connection with Azure. Also, you need to have an SSH public key named `id_rsa.pub` in the .ssh directory of your user profile.
 
-### Prerequisites
+## Contributing
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
