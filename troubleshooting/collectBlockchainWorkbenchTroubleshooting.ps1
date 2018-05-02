@@ -7,7 +7,7 @@ troubleshooting
 .DESCRIPTION
 
 Collects logs and metrics from an Azure Blockchain Workbench instance for
-troubleshooting. This script will promp for Azure authentication if you
+troubleshooting. This script will prompt for Azure authentication if you
 are not already logged in.
 
 NOTE: If you don't have the latest Azure Powershell installed on your machine,
@@ -24,6 +24,10 @@ Name of the Azure Resource Group where Blockchain Workbench has been deployed to
 .PARAMETER OutputDirectory
 Path to create the output .ZIP file. If not specified, defaults to the current
 directory
+
+.PARAMETER LookbackHours
+Number of hours to use when pulling telemetry. Default to 24 hours. Maximum
+value is 90 hours.
 
 .PARAMETER OmsSubscriptionId
 The subscription id where OMS is deployed. Only pass this parameter if the OMS
@@ -45,11 +49,15 @@ None. You cannot pipe objects to this script.
 
 .OUTPUTS
 
-None. This script does not generate any output.
+None. This script does not generate any output. It creates a .ZIP file which 
+contains a summary file with a "top errors" report, last timestamp 
+information for each Workbench microservice, and recommended actions.
+Following that, it creates two subfolders, "details" and "metrics" for futher
+troubleshooting.
 
 .EXAMPLE
 
-C:\tmp> .\collectBlockchainWorkbenchTroubleshooting.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "workbench-resource-group-name"
+C:\tmp> .\collectBlockchainWorkbenchTroubleshooting.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -58,6 +66,7 @@ param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
     [Parameter(Mandatory=$false)][string]$OutputDirectory,
+    [Parameter(Mandatory=$false)][int]$LookbackHours = 24,
     [Parameter(Mandatory=$false)][string]$OmsSubscriptionId,
     [Parameter(Mandatory=$false)][string]$OmsResourceGroup,
     [Parameter(Mandatory=$false)][string]$OmsWorkspaceName
@@ -411,6 +420,12 @@ $logId = 0
 
 Write-Progress -Id $logId -Activity "Login & Setup" -Status "Login to Azure" -PercentComplete 0
 
+if (($LookbackHours -lt 1) -or ($LookbackHours -gt 90))
+{
+    throw "Please limit the number of hours of telemetry to pull to a value between 1 and 90."
+}
+$LookbackHoursStr = "$LookbackHours" + "h"
+
 if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null)
 {
     throw "Azure Powershell cmdlets were not detected. We recommend that you use the MSI installer to get the latest at
@@ -522,12 +537,12 @@ Write-Progress -Id $logId -Activity "Summary Report" -Status "Generating summary
 $summaryFile = Join-Path $outputPath "summary.txt"
 
 $lastEvent = Execute-InsightsQuery -subscription $SubscriptionID -resourceGroup $ResourceGroupName -aiName $appInsightsResource.Name -query "traces
-| where timestamp > ago(1h)
+| where timestamp > ago($LookbackHoursStr)
 | evaluate bag_unpack(customDimensions)
 | summarize LastLog = max(timestamp) by ServiceName"
 
 $topErrors = Execute-InsightsQuery -subscription $SubscriptionID -resourceGroup $ResourceGroupName -aiName $appInsightsResource.Name -query "exceptions
-| where timestamp > ago(120h)
+| where timestamp > ago($LookbackHoursStr)
 | reduce by outerMessage"
 
 Add-Content $summaryFile "Summary Report Output" 
@@ -575,12 +590,12 @@ RestQueryResultsToObjectView($lastExceptions) | ConvertTo-Csv | out-file $except
 Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecting API Metrics" -PercentComplete 25
 $apiMetrics = Join-Path $outputPath "\metrics\workbench\apiMetrics.txt"
 
-$http5xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http5xx -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$http4xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http4xx -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$http3xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http3xx -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$http2xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http2xx -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$requests = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Requests -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00  -WarningAction Ignore
-$avgRespTime = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName AverageResponseTime -StartTime (get-date).AddHours(-8) -TimeGrain 00:01:00 -WarningAction Ignore
+$http5xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http5xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http4xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http4xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http3xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http3xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http2xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http2xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$requests = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Requests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
+$avgRespTime = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName AverageResponseTime -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 00:01:00 -WarningAction Ignore
 
 Add-Content $apiMetrics "Web API Metrics" 
 Add-Content $apiMetrics "====================="
@@ -615,10 +630,10 @@ Add-Content $apiMetrics ""
 Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecting Service Bus Metrics" -PercentComplete 45
 $sbMetrics = Join-Path $outputPath "\metrics\workbench\sbMetrics.txt"
 
-$incomingMessages = Get-AzureRmMetric -ResourceId $serviceBus.Id -MetricName IncomingMessages -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$outgoingMeesages = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName OutgoingMessages -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$serverErrors = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName ServerErrors -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00 -WarningAction Ignore
-$requests = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName IncomingRequests -StartTime (get-date).AddHours(-8) -TimeGrain 01:00:00  -WarningAction Ignore
+$incomingMessages = Get-AzureRmMetric -ResourceId $serviceBus.Id -MetricName IncomingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$outgoingMeesages = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName OutgoingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$serverErrors = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName ServerErrors -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$requests = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName IncomingRequests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
 
 Add-Content $sbMetrics "Service Bus Metrics" 
 Add-Content $sbMetrics "====================="
@@ -642,7 +657,7 @@ Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecti
 $availabilityTest = Join-Path $outputPath "\details\workbench\availabilityTest.csv"
 
 $availability = Execute-InsightsQuery -subscription $SubscriptionID -resourceGroup $ResourceGroupName -aiName $appInsightsResource.Name -query "availabilityResults
-| where timestamp > ago(18h)"
+| where timestamp > ago($LookbackHoursStr)"
 
 RestQueryResultsToObjectView($availability) | ConvertTo-Csv | out-file $availabilityTest -Append utf8
 
@@ -657,7 +672,7 @@ foreach ($service in $services)
     $microserviceFile = Join-Path $outputPath "\details\workbench\servicelogs_$service.csv"
 
     $logs = Execute-InsightsQuery -subscription $SubscriptionID -resourceGroup $ResourceGroupName -aiName $appInsightsResource.Name -query "traces
-    | where timestamp > ago(8h)
+    | where timestamp > ago($LookbackHoursStr)
     | where customDimensions contains '$service'
     | take 1500"
 
@@ -713,11 +728,9 @@ if ($logAnalytics -ne $null)
     $networkPerf = Join-Path $outputPath "\metrics\blockchain\network_perf_counters.csv"
 
     $networkPerfResult =  Invoke-LogAnalyticsQuery -SubscriptionId $logAnalytics.SubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.ResourceName -Query "Perf
-    | where TimeGenerated  > ago(2h)
+    | where TimeGenerated  > ago($LookbackHoursStr)
     | summarize min(CounterValue), max(CounterValue), avg(CounterValue), percentiles_array(CounterValue, 50, 90, 95), stdev(CounterValue)  by Computer, CounterPath, bin(TimeGenerated, 5m)
     | order by Computer, CounterPath, TimeGenerated"
-
-    $networkPerfResult.Results | ConvertTo-Csv | out-file $networkPerf -Append utf8
 
     Write-Progress -Id $logId -Activity "Blockchain Network Log Collection" -Status "Collecting Blockchain Network Logs" -PercentComplete 100
 }
@@ -728,8 +741,3 @@ if ($logAnalytics -ne $null)
 $timestamp = Get-Date -Format o | foreach {$_ -replace ":", "."}
 $finalPath = Join-Path $OutputDirectory "\workbench-logs-$timestamp.zip"
 ZipFiles $finalPath $outputPath
-
-# for debuggin - remove this line later
-Write-Output $OutputDirectory
-Write-Output $finalPath
-explorer $OutputDirectory
