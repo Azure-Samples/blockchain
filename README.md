@@ -1,4 +1,4 @@
-# Microsoft Azure Blockchain PowerShell Samples
+# Microsoft Azure Blockchain Workbench Samples
 
 ## Introduction
 
