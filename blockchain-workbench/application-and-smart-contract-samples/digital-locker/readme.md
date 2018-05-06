@@ -76,6 +76,6 @@ owner grants access to a random third party. 
 
 Application Files
 -----------------
-[DigitalLocker.json](./Ethereum/DigitalLocker.json)
+[DigitalLocker.json](./ethereum/DigitalLocker.json)
 
-[DigitalLocker.sol](./Ethereum/DigitalLocker.sol)
+[DigitalLocker.sol](./ethereum/DigitalLocker.sol)
