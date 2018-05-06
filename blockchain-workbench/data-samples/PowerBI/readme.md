@@ -22,33 +22,33 @@ Once installed, open the application and click on the “Get Data” button.
 
 ![](media/fb339d0e122afa2d125a1d52caa297cf.png)
 
--   Select SQL Server from the list of data source types
+Select SQL Server from the list of data source types
 
--   Provide the server and database name in the dialog shown below. Specify
-    whether you want to import the data or perform a DirectQuery then click the
-    Ok button.
+Provide the server and database name in the dialog shown below. Specify
+whether you want to import the data or perform a DirectQuery then click the
+Ok button.
 
     ![](media/2297aa08bcc4356a4e946567deb337f0.png)
 
--   You will now provide the database credentials to access Azure Blockchain
-    Workbench. Click on the “Database” link on the side of the dialog and enter
-    your credentials.
+You will now provide the database credentials to access Azure Blockchain
+Workbench. Click on the “Database” link on the side of the dialog and enter
+your credentials.
 
-    If you are using the credentials created by the Azure Blockchain Workbench
-    deployment process, the username will be dbadmin and the password will be
-    the one you provided during deployment.
+If you are using the credentials created by the Azure Blockchain Workbench
+deployment process, the username will be dbadmin and the password will be
+the one you provided during deployment.
 
     ![](media/70d45b123a4858a05a5a4e3aa2147833.png)
 
--   Once connected to the database, the Navigator dialog will display the tables
-    and views available within the database. The views are designed for
-    reporting and are all prefixed ‘vw’.
+Once connected to the database, the Navigator dialog will display the tables
+and views available within the database. The views are designed for
+reporting and are all prefixed ‘vw’.
 
     ![](media/334fc7167e9a17205faebbd57c2a1d8a.png)
 
--   Select the views you wish to include. For demonstration purposes we will
-    include vwContractAction which will provide details on all of the actions
-    that have taken place on a contract.
+Select the views you wish to include. For demonstration purposes we will
+include vwContractAction which will provide details on all of the actions
+that have taken place on a contract.
 
 ![](media/3cd76fcdf68bfd84a6004c2cf81a4444.png)
 
