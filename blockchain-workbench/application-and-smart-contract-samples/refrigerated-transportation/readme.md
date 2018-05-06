@@ -81,6 +81,6 @@ transportation is completed.  
 
 Application Files
 -----------------
-[RefrigeratedTransportation.json](./Ethereum/RefrigeratedTransportation.json)
+[RefrigeratedTransportation.json](./ethereum/RefrigeratedTransportation.json)
 
-[RefrigeratedTransportation.sol](./Ethereum/RefrigeratedTransportation.sol)
+[RefrigeratedTransportation.sol](./ethereum/RefrigeratedTransportation.sol)
