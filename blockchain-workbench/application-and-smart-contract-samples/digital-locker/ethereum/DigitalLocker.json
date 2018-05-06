@@ -1,0 +1,423 @@
+{
+  "ApplicationName": "DigitalLocker",
+  "DisplayName": "Digital Locker",
+  "Description": "...",
+  "ApplicationRoles": [
+    {
+      "Name": "Owner",
+      "Description": "..."
+    },
+    {
+      "Name": "BankAgent",
+      "Description": "..."
+    },
+    {
+      "Name": "ThirdPartyRequestor",
+      "Description": "..."
+    },
+    {
+      "Name": "CurrentAuthorizedUser",
+      "Description": "..."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "DigitalLocker",
+      "DisplayName": "Digital Locker",
+      "Description": "...",
+      "Initiators": [
+        "Owner"
+      ],
+      "StartState": "Requested",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "Owner",
+          "DisplayName": "Owner",
+          "Description": "...",
+          "Type": {
+            "Name": "Owner"
+          }
+        },
+        {
+          "Name": "BankAgent",
+          "DisplayName": "Bank Agent",
+          "Description": "...",
+          "Type": {
+            "Name": "BankAgent"
+          }
+        },
+        {
+          "Name": "LockerFriendlyName",
+          "DisplayName": "Locker Friendly Name",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "LockerIdentifier",
+          "DisplayName": "Locker Identifier",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "CurrentAuthorizedUser",
+          "DisplayName": "Current Authorized User",
+          "Description": "...",
+          "Type": {
+            "Name": "CurrentAuthorizedUser"
+          }
+        },
+        {
+          "Name": "ExpirationDate",
+          "DisplayName": "Expiration Date",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "Image",
+          "DisplayName": "Image",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "ThirdPartyRequestor",
+          "DisplayName": "Third Party Requestor",
+          "Description": "...",
+          "Type": {
+            "Name": "ThirdPartyRequestor"
+          }
+        },
+        {
+          "Name": "IntendedPurpose",
+          "DisplayName": "Intended Purpose",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "LockerStatus",
+          "DisplayName": "Locker Status",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "RejectionReason",
+          "DisplayName": "Rejection Reason",
+          "Description": "...",
+          "Type": {
+            "Name": "string"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "lockerFriendlyName",
+            "Description": "...",
+            "DisplayName": "Locker Friendly Name",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "bankAgent",
+            "Description": "...",
+            "DisplayName": "Bank Agent",
+            "Type": {
+              "Name": "BankAgent"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "BeginReviewProcess",
+          "DisplayName": "Begin Review Process",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "RejectApplication",
+          "DisplayName": "Reject Application",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "rejectionReason",
+              "Description": "...",
+              "DisplayName": "Rejection Reason",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "UploadDocuments",
+          "DisplayName": "Documents Upload Placeholder",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "lockerIdentifier",
+              "Description": "...",
+              "DisplayName": "Locker Identifier Placeholder",
+              "Type": {
+                "Name": "string"
+              }
+            },
+            {
+              "Name": "image",
+              "Description": "...",
+              "DisplayName": "Image Upload Placeholder",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "ShareWithThirdParty",
+          "DisplayName": "Share With Third Party",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "thirdPartyRequestor",
+              "Description": "...",
+              "DisplayName": "Third Party Requestor",
+              "Type": {
+                "Name": "ThirdPartyRequestor"
+              }
+            },
+            {
+              "Name": "expirationDate",
+              "Description": "...",
+              "DisplayName": "Expiration Date Placeholder",
+              "Type": {
+                "Name": "string"
+              }
+            },
+            {
+              "Name": "intendedPurpose",
+              "Description": "...",
+              "DisplayName": "Intended Purpose",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "AcceptSharingRequest",
+          "DisplayName": "Accept Sharing Request",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "RejectSharingRequest",
+          "DisplayName": "Reject Sharing Request",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "RequestLockerAccess",
+          "DisplayName": "Request Locker Access",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "intendedPurpose",
+              "Description": "...",
+              "DisplayName": "Intended Purpose",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "ReleaseLockerAccess",
+          "DisplayName": "Release Locker Access",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "RevokeAccessFromThirdParty",
+          "DisplayName": "Revoke Access From Third Party",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "Terminate",
+          "DisplayName": "Terminate",
+          "Description": "...",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "Requested",
+          "DisplayName": "Requested",
+          "Description": "...",
+          "PercentComplete": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [
+                "BankAgent"
+              ],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "BeginReviewProcess",
+              "NextStates": [
+                "DocumentReview"
+              ],
+              "DisplayName": "Begin Review Process"
+            }
+          ]
+        },
+        {
+          "Name": "DocumentReview",
+          "DisplayName": "DocumentReview",
+          "Description": "...",
+          "PercentComplete": 20,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "BankAgent" ],
+              "Description": "...",
+              "Function": "UploadDocuments",
+              "NextStates": [ "AvailableToShare" ],
+              "DisplayName": "Upload Documents Placeholder"
+            }
+          ]
+        },
+        {
+          "Name": "AvailableToShare",
+          "DisplayName": "Available To Share",
+          "Description": "...",
+          "PercentComplete": 30,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "ShareWithThirdParty",
+              "NextStates": ["SharingWithThirdParty" ],
+              "DisplayName": "Share With Third Party"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "Terminate",
+              "NextStates": [ "Terminated" ],
+              "DisplayName": "Terminate"
+            },
+            {
+              "AllowedRoles": [ "ThirdPartyRequestor" ],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "RequestLockerAccess",
+              "NextStates": [ "SharingRequestPending" ],
+              "DisplayName": "Request Locker Access"
+            }
+          ]
+        },
+        {
+          "Name": "SharingRequestPending",
+          "DisplayName": "Sharing Request Pending",
+          "Description": "...",
+          "PercentComplete": 40,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "AcceptSharingRequest",
+              "NextStates": [
+                "SharingWithThirdParty"
+              ],
+              "DisplayName": "Accept Sharing Request"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "RejectSharingRequest",
+              "NextStates": [ "AvailableToShare" ],
+              "DisplayName": "Reject Sharing Request"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "Terminate",
+              "NextStates": [ "Terminated" ],
+              "DisplayName": "Terminate"
+            }
+          ]
+        },
+        {
+          "Name": "SharingWithThirdParty",
+          "DisplayName": "Sharing With Third Party",
+          "Description": "...",
+          "PercentComplete": 45,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "RevokeAccessFromThirdParty",
+              "NextStates": [ "AvailableToShare" ],
+              "DisplayName": "Revoke Access From Third Party"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "Terminate",
+              "NextStates": [ "Terminated" ],
+              "DisplayName": "Terminate"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "ThirdPartyRequestor" ],
+              "Description": "...",
+              "Function": "ReleaseLockerAccess",
+              "NextStates": [ "AvailableToShare" ],
+              "DisplayName": "Release Locker Access"
+            }
+          ]
+        },
+        {
+          "Name": "Terminated",
+          "DisplayName": "Terminated",
+          "Description": "...",
+          "PercentComplete": 100,
+          "Style": "Failure",
+          "Transitions": []
+        }
+      ]
+    }
+  ]
+}
