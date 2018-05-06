@@ -44,6 +44,6 @@ response. 
 Application Files
 -----------------
 
-[HelloBlockchain.json](./application-and-smart-contract-samples/hello-blockchain/HelloBlockchain.json)
+[HelloBlockchain.json](HelloBlockchain.json)
 
-[HelloBlockchain.sol](./application-and-smart-contract-samples/hello-blockchain/HelloBlockchain.sol)
+[HelloBlockchain.sol](HelloBlockchain.sol)
