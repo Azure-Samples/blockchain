@@ -59,6 +59,6 @@ available, a buyer making an offer, and the owner accepting the offer. 
 Application Files
 -----------------
 
-[SimpleMarketplace.json](SimpleMarketplace.json)
+[SimpleMarketplace.json](./ethereum/SimpleMarketplace.json)
 
-[SimpleMarketplace.sol](SimpleMarketplace.sol)
+[SimpleMarketplace.sol](./ethereum/SimpleMarketplace.sol)
