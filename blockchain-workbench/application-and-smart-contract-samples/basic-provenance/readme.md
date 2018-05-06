@@ -14,24 +14,23 @@ interactions among the states in this workflow. 
 Application Roles 
 ------------------
 
-InitiatingCounterParty 
-
-Counterparty 
-
-Owner 
-
-Observed 
+| Name                   | Description                                       |
+|------------------------|---------------------------------------------------|
+| InitiatingCounterParty | The first participant in the supply chain.        |
+| Counterparty           | A party to whom responsibility for a product has been assigned, e.g. a shipper |
+| Owner                  | The organization that owns the product being transported, e.g. a manufacturer |
+| Observer               | The individual or organization monitoring the supply chain, e.g. a government agency |
 
  
 
 States 
 -------
 
-Created 
-
-InTransit 
-
-Completed 
+| Name                   | Description                                       |
+|------------------------|---------------------------------------------------|
+|Created |Indicates thatthe contract has initiated and tracking is in progress. |
+|InTransit |Indicates that a Counterparty currently is in possesion and responsibile for goods being transported.|
+|Completed |Indicates the product has reached it's intended destination.|
 
  
 
@@ -62,6 +61,6 @@ responsibility to a counterparty once and then completing the workflow. 
 
 Application Files
 -----------------
-[BasicProvenance.json](./Ethereum/BasicProvenance.json)
+[BasicProvenance.json](./ethereum/BasicProvenance.json)
 
-[BasicProvenance.sol](./Ethereum/BasicProvenance.sol)
+[BasicProvenance.sol](./ethereum/BasicProvenance.sol)
