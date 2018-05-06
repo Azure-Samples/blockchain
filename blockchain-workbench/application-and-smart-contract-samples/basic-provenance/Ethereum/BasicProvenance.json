@@ -1,0 +1,181 @@
+{
+  "ApplicationName": "BasicProvenance",
+  "DisplayName": "BasicProvenance",
+  "Description": "...",
+  "ApplicationRoles": [
+    {
+      "Name": "InitiatingCounterparty",
+      "Description": "..."
+    },
+    {
+      "Name": "Counterparty",
+      "Description": "..."
+    },
+    {
+      "Name": "Owner",
+      "Description": "..."
+    },
+	{
+      "Name": "Observer",
+      "Description": "..."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "BasicProvenance",
+      "DisplayName": "Basic Provenance",
+      "Description": "...",
+      "Initiators": [ "Owner" ],
+      "StartState":  "Created",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "InitiatingCounterparty",
+          "DisplayName": "InitiatingCounterparty",
+          "Description": "...",
+          "Type": {
+            "Name": "InitiatingCounterparty"
+          }
+        },
+        {
+          "Name": "Counterparty",
+          "DisplayName": "Counterparty",
+          "Description": "...",
+          "Type": {
+            "Name": "Counterparty"
+          }
+        },
+        {
+          "Name": "PreviousCounterparty",
+          "DisplayName": "PreviousCounterparty",
+          "Description": "...",
+          "Type": {
+            "Name": "Counterparty"
+          }
+        },
+        {
+          "Name": "SupplyChainOwner",
+          "DisplayName": "SupplyChainOwner",
+          "Description": "...",
+          "Type": {
+            "Name": "Owner"
+          }
+        },
+        {
+          "Name": "SupplyChainObserver",
+          "DisplayName": "SupplyChainObserver",
+          "Description": "...",
+          "Type": {
+            "Name": "Observer"
+          }
+        }
+      ],
+      "Constructor": {
+		  "Parameters": [
+			  {
+				"Name": "supplyChainOwner",
+				"Description": "...",
+				"DisplayName": "supplyChainOwner",
+				"Type": {
+				  "Name": "Owner"
+				}
+			  },
+			  {
+				"Name": "supplyChainObserver",
+				"Description": "...",
+				"DisplayName": "supplyChainObserver",
+				"Type": {
+				  "Name": "Observer"
+				}
+			  }
+			]
+      },
+	  "Functions": [
+        {
+          "Name": "TransferResponsibility",
+          "DisplayName": "TransferResponsibility",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "newCounterparty",
+              "Description": "...",
+              "DisplayName": "newCounterparty",
+              "Type": {
+                "Name": "Counterparty"
+              }
+            }
+          ]
+        },
+		{
+          "Name": "Complete",
+          "DisplayName": "Complete",
+          "Description": "...",
+          "Parameters": [
+          ]
+        }
+	  ],
+	  "States": [
+		{
+          "Name": "Created",
+          "DisplayName": "Created",
+          "Description": "...",
+          "PercentComplete": 10,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [
+			{
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["InitiatingCounterparty"],
+              "Description": "...",
+              "Function": "TransferResponsibility",
+              "NextStates": [ "InTransit" ],
+              "DisplayName": "TransferResponsibility"
+            }
+		  ]
+		},
+		{
+          "Name": "InTransit",
+          "DisplayName": "InTransit",
+          "Description": "...",
+          "PercentComplete": 50,
+          "Value": 1,
+          "Style": "Success",
+          "Transitions": [
+			{
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["Counterparty" ],
+              "Description": "...",
+              "Function": "TransferResponsibility",
+              "NextStates": ["InTransit"],
+              "DisplayName": "TransferResponsibility"
+            },
+			{
+              "AllowedRoles": ["Owner"],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "Complete",
+              "NextStates": ["Completed"],
+              "DisplayName": "Complete"
+            }
+		  ]
+		},
+		{
+          "Name": "Completed",
+          "DisplayName": "Completed",
+          "Description": "...",
+          "PercentComplete": 100,
+          "Value": 2,
+          "Style": "Success",
+          "Transitions": []
+		}
+	  ]  
+	}
+   ]
+}
