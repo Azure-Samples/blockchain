@@ -1,0 +1,368 @@
+{
+  "ApplicationName": "RefrigeratedTransportation",
+  "DisplayName": "Refrigerated Transportation",
+  "Description": "Application to track end-to-end transportation of perishable goods.",
+  "ApplicationRoles": [
+    {
+      "Name": "InitiatingCounterparty",
+      "Description": "First party who stores or transports a shipment."
+    },
+    {
+      "Name": "Counterparty",
+      "Description": "A party who stores or transports a shipment."
+    },
+    {
+      "Name": "Device",
+      "Description": "A device to track humidity and temperature."
+    },
+    {
+      "Name": "Owner",
+      "Description": "The owner who owns the end-to-end shipment."
+    },
+    {
+      "Name": "Observer",
+      "Description": "An observer who has oversight on the end-to-end shipment."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "RefrigeratedTransportation",
+      "DisplayName": "Refrigerated Transportation",
+      "Description": "Main workflow to track end-to-end transportation of perishable goods.",
+      "Initiators": [ "Owner" ],
+      "StartState": "Created",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "Owner",
+          "DisplayName": "Owner",
+          "Description": "The owner of the end-to-end shipment.",
+          "Type": {
+            "Name": "Owner"
+          }
+        },
+        {
+          "Name": "InitiatingCounterparty",
+          "DisplayName": "Initial Party",
+          "Description": "First party who stored or transported the shipment.",
+          "Type": {
+            "Name": "InitiatingCounterparty"
+          }
+        },
+        {
+          "Name": "Counterparty",
+          "DisplayName": "Current Party",
+          "Description": "Current party who is storing or transporting the shipment.",
+          "Type": {
+            "Name": "Counterparty"
+          }
+        },
+        {
+          "Name": "PreviousCounterparty",
+          "DisplayName": "Last Party",
+          "Description": "Last party who stored or transported the shipment.",
+          "Type": {
+            "Name": "Counterparty"
+          }
+        },
+        {
+          "Name": "Device",
+          "DisplayName": "Device",
+          "Description": "The device used to track humidity and temperature of the shipment.",
+          "Type": {
+            "Name": "Device"
+          }
+        },
+        {
+          "Name": "SupplyChainOwner",
+          "DisplayName": "Owner",
+          "Description": "The owner of the shipment.",
+          "Type": {
+            "Name": "Owner"
+          }
+        },
+        {
+          "Name": "SupplyChainObserver",
+          "DisplayName": "Observer",
+          "Description": "The observer overseeing the shipment.",
+          "Type": {
+            "Name": "Observer"
+          }
+        },
+        {
+          "Name": "MinHumidity",
+          "DisplayName": "Min Humidity",
+          "Description": "Minimum humidity requirement.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "MaxHumidity",
+          "DisplayName": "Max Humidity",
+          "Description": "Max humidity requirement.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "MinTemperature",
+          "DisplayName": "Min Temperature",
+          "Description": "Min temperature requirement.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "MaxTemperature",
+          "DisplayName": "Max Temperature",
+          "Description": "Max temperature requirement.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "ComplianceSensorType",
+          "DisplayName": "Sensor Type",
+          "Description": "The type of IoT sensor used to read out of compliance reading. Either humidity or temperature.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "ComplianceSensorReading",
+          "DisplayName": "Sensor Reading",
+          "Description": "The IoT sensor value for the out of compliance reading.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "ComplianceStatus",
+          "DisplayName": "Status",
+          "Description": "Boolean to indicate whether the shipment is in compliance or not.",
+          "Type": {
+            "Name": "bool"
+          }
+        },
+        {
+          "Name": "ComplianceDetail",
+          "DisplayName": "Detail",
+          "Description": "A friendly string indicating the issue and sensor reading.",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "LastSensorUpdateTimestamp",
+          "DisplayName": "Sensor Time",
+          "Description": "The time the sensor reading was taken.",
+          "Type": {
+            "Name": "int"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "device",
+            "Description": "...",
+            "DisplayName": "Device",
+            "Type": {
+              "Name": "Device"
+            }
+          },
+          {
+            "Name": "supplyChainOwner",
+            "Description": "...",
+            "DisplayName": "Owner",
+            "Type": {
+              "Name": "Owner"
+            }
+          },
+          {
+            "Name": "supplyChainObserver",
+            "Description": "...",
+            "DisplayName": "Observer",
+            "Type": {
+              "Name": "Observer"
+            }
+          },
+          {
+            "Name": "minHumidity",
+            "Description": "...",
+            "DisplayName": "Min Humidity",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "maxHumidity",
+            "Description": "...",
+            "DisplayName": "Max Humidity",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "minTemperature",
+            "Description": "...",
+            "DisplayName": "Min Temperature",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "maxTemperature",
+            "Description": "...",
+            "DisplayName": "Max Temperature",
+            "Type": {
+              "Name": "int"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "IngestTelemetry",
+          "DisplayName": "Ingest Telemetry",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "humidity",
+              "Description": "...",
+              "DisplayName": "Humidity",
+              "Type": {
+                "Name": "int"
+              }
+            },
+            {
+              "Name": "temperature",
+              "Description": "...",
+              "DisplayName": "Temperature",
+              "Type": {
+                "Name": "int"
+              }
+            },
+            {
+              "Name": "timestamp",
+              "Description": "...",
+              "DisplayName": "Timestamp",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "TransferResponsibility",
+          "DisplayName": "Transfer Responsibility",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "newCounterparty",
+              "Description": "...",
+              "DisplayName": "Party",
+              "Type": {
+                "Name": "Counterparty"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Complete",
+          "DisplayName": "Complete",
+          "Description": "...",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "Created",
+          "DisplayName": "Created",
+          "Description": "...",
+          "PercentComplete": 10,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "InitiatingCounterparty" ],
+              "Description": "...",
+              "Function": "TransferResponsibility",
+              "NextStates": [ "InTransit" ],
+              "DisplayName": "Transfer Responsibility"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Device" ],
+              "Description": "...",
+              "Function": "IngestTelemetry",
+              "NextStates": [ "OutOfCompliance", "Created" ],
+              "DisplayName": "Ingest Telemetry"
+            }
+          ]
+        },
+        {
+          "Name": "InTransit",
+          "DisplayName": "In Transit",
+          "Description": "...",
+          "PercentComplete": 50,
+          "Value": 1,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Counterparty" ],
+              "Description": "...",
+              "Function": "TransferResponsibility",
+              "NextStates": [ "InTransit" ],
+              "DisplayName": "Transfer Responsibility"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Device" ],
+              "Description": "...",
+              "Function": "IngestTelemetry",
+              "NextStates": [ "OutOfCompliance", "InTransit" ],
+              "DisplayName": "Ingest Telemetry"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Owner" ],
+              "Description": "...",
+              "Function": "Complete",
+              "NextStates": [ "Completed" ],
+              "DisplayName": "Complete"
+            }
+          ]
+        },
+        {
+          "Name": "Completed",
+          "DisplayName": "Completed",
+          "Description": "...",
+          "PercentComplete": 100,
+          "Value": 2,
+          "Style": "Success",
+          "Transitions": []
+        },
+        {
+          "Name": "OutOfCompliance",
+          "DisplayName": "Out Of Compliance",
+          "Description": "...",
+          "PercentComplete": 100,
+          "Value": 3,
+          "Style": "Failure",
+          "Transitions": []
+        }
+      ]
+    }
+  ]
+}
