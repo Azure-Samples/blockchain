@@ -28,29 +28,26 @@ humidity requirements were not met.   
 
 Application Roles 
 ------------------
-
-Initiating Counterparty 
-
-Counterparty 
-
-Device 
-
-Owner  
-
-Observer 
+| Name                   | Description                                       |
+|------------------------|---------------------------------------------------|
+| InitiatingCounterParty | The first participant in the supply chain.        |
+| Counterparty           | A party to whom responsibility for a product has been assigned, e.g. a shipper |
+| Device                 | A device used to monitor the temperature and humidity of the environment the good(s) are being shipped in.
+| Owner                  | The organization that owns the product being transported, e.g. a manufacturer |
+| Observer               | The individual or organization monitoring the supply chain, e.g. a government agency |
 
  
 
 States 
 -------
 
-Created 
 
-In Transit 
-
-Completed 
-
-Out of Compliance 
+| Name                   | Description                                       |
+|------------------------|---------------------------------------------------|
+|Created |Indicates thatthe contract has initiated and tracking is in progress. |
+|InTransit |Indicates that a Counterparty currently is in possesion and responsibile for goods being transported.|
+|Completed |Indicates the product has reached it's intended destination.| 
+|OutOfCompliance|Indicates that the agreed upon terms for temperature and humidity conditions were not met.|
 
  
 
