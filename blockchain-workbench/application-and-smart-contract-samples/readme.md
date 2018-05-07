@@ -5,25 +5,25 @@
 This section includes applications and smart contracts that can be deployed to Azure Blockchain Workbench in their current form or can be transformed to meet the needs of your scenario.
 
 ## Available Contracts
-* [Hello Blockchain](.\hello-blockchain\)
-* [Simple Marketplace](.\simple-marketplace\)
-* [Basic Provenance](.\basic-provenance\)
-* [Digital Locker](.\digital-locker\)
-* [Refrigerated Transportation](.\refrigerated-transportation\)
-* [Asset Transfer](.\asset-transfer\)
+* [Hello Blockchain](hello-blockchain/readme.md)
+* [Simple Marketplace](simple-marketplace/readme.md)
+* [Basic Provenance](basic-provenance/readme.md)
+* [Digital Locker](digital-locker/readme.md)
+* [Refrigerated Transportation](refrigerated-transportation/readme.md)
+* [Asset Transfer](asset-transfer/readme.md)
 
 ## Deploying Applications
 To deploy an application, navigate to the web applicaiton for Azure Blockchain Workbench
-[](.\deployapp1.PNG)
+[](media/deployapp1.PNG)
 
 Click on the New button to upload a new application.
-[](.\deployapp2.PNG)
+[](media/deployapp2.PNG)
 
 Specify your configuration file and your smart contract and click the "Deploy" button.
-[](.\deployapp3.PNG)
+[](media/deployapp3.PNG)
 A tile for your new application, will be displayed. Click it.
 
-[](.\deployapp4.PNG)
+[](media/deployapp4.PNG)
 You will have 0 members assigned to the contract. Click the 0 in upper right and add memebrs as appropriate.
 
 
