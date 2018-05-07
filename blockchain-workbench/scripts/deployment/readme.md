@@ -1,4 +1,4 @@
-# Azure Blockchain Worksheet Pre-Deployment Script
+# Azure Blockchain Workbench Pre-Deployment Script
 
 
 
