@@ -12,17 +12,21 @@ The generated code was augmented to include Microsoft's ADAL4J library to assist
 
 //ADAL specific
 ExecutorService service = Executors.newFixedThreadPool(1);
+
 AuthenticationContext ctx = new AuthenticationContext(authority, false, service);
+
 ClientCredential clientCred = new ClientCredential(client, key);
-AuthenticationResult authResult = ctx.acquireToken(client,
-               clientCred,null).get();
+
+AuthenticationResult authResult = ctx.acquireToken(client, clientCred,null).get();
+
 //Generated API
 UsersApi api = new UsersApi();
+
 api.getApiClient().setBasePath("http://HOST:PORT");
+
 api.getApiClient().addDefaultHeader("Authorization", "Bearer "+ authResult.getAccessToken());
 
 System.out.println(api.meGet());
-
 
 
 ## Requirements
