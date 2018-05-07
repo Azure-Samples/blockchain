@@ -36,9 +36,7 @@ This is the Cloud Shell Icon
 
 ![](media/cf60a0141d2459b59081e2e9b7c41ebb.png)
 
-Click on the Cloud Shell Icon in the upper right
 
-![](media/7bf771f6aa15cbe01ad9c8611b500af0.png)
 
 This will launch the Cloud Shell within the browser. You’ll be asked to select
 Bash (Linux) or PowerShell (Windows). Click the “PowerShell (Windows)” link.
