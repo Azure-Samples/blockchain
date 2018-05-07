@@ -15,7 +15,7 @@ have visibility into the state of the contract as it is updated. 
 
  
 
-![C:\\Users\\mmerc\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.MSO\\67E722BE.tmp](media/1b35fd81aa303d9030594e43d738a625.jpg)
+![](media/1b35fd81aa303d9030594e43d738a625.jpg)
 
  
 
@@ -60,7 +60,7 @@ Workflow Details
 
  
 
-![C:\\Users\\mmerc\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.MSO\\53BB9D7C.tmp](media/1a14a6336d8a8b1adfe5c3689ab954b2.png)
+![](media/1a14a6336d8a8b1adfe5c3689ab954b2.png)
 
  
 
