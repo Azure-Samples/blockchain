@@ -3,15 +3,15 @@
 # ![Microsoft Azure Blockchain Workbench](./blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
 
 This repository contains content and samples in number of areas, including:
-* [Applications and smart contracts for Azure Blockchain Workbench](./blockchain-workbench/application-and-smart-contract-samples/readme.md)
-* [REST API](./blockchain-workbench/rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
-* [Messaging Integration](./blockchain-workbench/messaging-integration-samples/readme.md)
-* [IoT Integration](./blockchain-workbench/iot-integration-samples/readme.md) 
-* [Office Integration](./blockchain-workbench/office-integration-samples/readme.md)
-* [Dynamics Integration](./blockchain-workbench/dynamics-integration-samples/readme.md) (including Common Data Service and PowerApps) 
-* [Technology Samples](./blockchain-workbench/technology-samples/readme.md)
-* [Data and Reporting](./data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
-* [Deployment and Management Scripts](./blockchain-workbench/scripts/readme.md)
+* [Applications and smart contracts for Azure Blockchain Workbench](blockchain-workbench/application-and-smart-contract-samples/readme.md)
+* [REST API](blockchain-workbench/rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
+* [Messaging Integration](blockchain-workbench/messaging-integration-samples/readme.md)
+* [IoT Integration](blockchain-workbench/iot-integration-samples/readme.md) 
+* [Office Integration](blockchain-workbench/office-integration-samples/readme.md)
+* [Dynamics Integration](blockchain-workbench/dynamics-integration-samples/readme.md) (including Common Data Service and PowerApps) 
+* [Technology Samples](blockchain-workbench/technology-samples/readme.md)
+* [Data and Reporting](blockchain-workbench/data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
+* [Deployment and Management Scripts](blockchain-workbench/scripts/readme.md)
 
 To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench/).
 
