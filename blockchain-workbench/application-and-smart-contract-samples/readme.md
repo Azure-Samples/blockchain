@@ -5,12 +5,12 @@
 This section includes applications and smart contracts that can be deployed to Azure Blockchain Workbench in their current form or can be transformed to meet the needs of your scenario.
 
 ## Available Contracts
-* [Hello Blockchain](.\hello-blockchain)
-* [Simple Marketplace](.\simple-marketplace)
-* [Basic Provenance](.\basic-provenance)
-* [Digital Locker](.\digital-locker)
-* [Refrigerated Transportation](.\refrigerated-transportation)
-* [Asset Transfer](.\asset-transfer)
+* [Hello Blockchain](.\hello-blockchain\)
+* [Simple Marketplace](.\simple-marketplace\)
+* [Basic Provenance](.\basic-provenance\)
+* [Digital Locker](.\digital-locker\)
+* [Refrigerated Transportation](.\refrigerated-transportation\)
+* [Asset Transfer](.\asset-transfer\)
 
 ## Deploying Applications
 To deploy an application, navigate to the web applicaiton for Azure Blockchain Workbench
