@@ -1,15 +1,26 @@
-# Microsoft Azure Blockchain Workbench Samples
+ 
+  
+# ![Microsoft Azure Blockchain Workbench](./blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
 
-## Introduction
+This repository contains content and samples in number of areas, including:
+* [Applications and smart contracts for Azure Blockchain Workbench](./blockchain-workbench/application-and-smart-contract-samples/readme.md)
+* [REST API](./blockchain-workbench/rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
+* [Messaging Integration](./blockchain-workbench/messaging-integration-samples/readme.md)
+* [IoT Integration](./blockchain-workbench/iot-integration-samples/readme.md) 
+* [Office Integration](./blockchain-workbench/office-integration-samples/readme.md)
+* [Dynamics Integration](./blockchain-workbench/dynamics-integration-samples/readme.md) (including Common Data Service and PowerApps) 
+* [Technology Samples](./blockchain-workbench/technology-samples/readme.md)
+* [Data and Reporting](./data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
+* [Deployment and Management Scripts](./blockchain-workbench/scripts/readme.md)
 
-This repo contains samples for Azure Blockchain using PowerShell. 
+To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench/).
 
-* [collectBlockchainWorkbenchTroubleshooting.ps1](https://github.com/Azure-Samples/blockchain-powershell/blob/master/collectBlockchainWorkbenchTroubleshooting.ps1) - generates a summary and detailed logs for troubleshooting Azure Blockchain Workbench. See [Azure Blockchain Workbench troubleshooting]() for more details.
+## How to provide feedback
 
-## Prerequisites
+To provide feedback on these samples, please see our [Contribution Guidelines](./.github/CONTRIBUTING.md).
 
-If needed, install the Azure PowerShell module using the instructions found in the [Azure PowerShell guide](https://docs.microsoft.com/powershell/azureps-cmdlets-docs/), and then run `Login-AzureRmAccount` to create a connection with Azure. Also, you need to have an SSH public key named `id_rsa.pub` in the .ssh directory of your user profile.
+For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain).
 
-## Contributing
+To request additional features or samples, visit our [UserVoice site](https://feedback.azure.com/forums/586780-blockchain).
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
