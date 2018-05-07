@@ -7,8 +7,8 @@
 To learn more about Azure Blockchain Workbench, please visit our [start page](https://azure.microsoft.com/services/service-bus/).
 
 This repository contains content and samples in number of areas, including:
-* [Applications and smart contracts for Azure Blockchain Workbench](./application-and-smart-contracts-samples/readme.md)
-* [REST API](./application-and-smart-contracts-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
+* [Applications and smart contracts for Azure Blockchain Workbench](./application-and-smart-contract-samples/readme.md)
+* [REST API](./rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
 * [Messaging Integration](./messaging-integration-samples/readme.md)
 * [IoT Integration](./iot-integration-samples/readme.md) 
 * [Office Integration](./office-integration-samples/readme.md)
