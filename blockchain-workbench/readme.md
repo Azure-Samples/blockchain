@@ -14,7 +14,7 @@ This repository contains content and samples in number of areas, including:
 * [Data and Reporting](./data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
 * [Deployment and Management Scripts](./scripts/readme.md)
 
-To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench/).
+To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://aks.ms/workbenchdocs).
 
 ## How to provide feedback
 
