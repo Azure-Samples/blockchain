@@ -7,9 +7,9 @@ This section includes scripts focused on deploying and managing your Azure Block
 
 The currently available scripts include
 
-* [collectBlockchainWorkbenchTroubleshooting.ps1](https://github.com/Azure-Samples/blockchain-powershell/blob/master/collectBlockchainWorkbenchTroubleshooting.ps1) - This generates a summary and detailed logs for troubleshooting Azure Blockchain Workbench. See [Azure Blockchain Workbench troubleshooting]() for more details.
+* [collectBlockchainWorkbenchTroubleshooting.ps1](./troubleshooting/) - This generates a summary and detailed logs for troubleshooting Azure Blockchain Workbench. See [Azure Blockchain Workbench troubleshooting]() for more details.
 
-* [cloudShellPreDeploy.ps1](./deployment/cloudShellPreDeploy.ps1) - This script can be used to automate some of Azure Active Directory configuration tasks for an Azure Blockchain Workbench deployment.
+* [cloudShellPreDeploy.ps1](./deployment/)- This script can be used to automate some of Azure Active Directory configuration tasks for an Azure Blockchain Workbench deployment.
 
 ## Prerequisites
 
