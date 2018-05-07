@@ -1,21 +1,36 @@
-Login to the Azure Portal
+# Azure Blockchain Worksheet Pre-Deployment Script
 
-Note – the deployment of the script will use Cloud Shell in the Azure Portal.
-Cloud Shell utilizes a storage account to run.
 
-If you have access to multiple Azure Active Directories, click your name in the
-upper right and select an Azure Directory associated with an account where you
-have permissions to create a storage.
 
-Once the deployment is complete, you can delete this storage account if you do
-not use Cloud Shell.
+Overview
+=================
+Azure Blockchain Workbench utilizes Azure Active Directory, which must be configured prior to deployment. 
+
+The [documentation](http://aka.ms/workbenchdocs/) provides details on the steps required to do this configuration via the Azure Portal.
+
+This script automates several of those steps and deliver the information necessary to complete the second tab of the Azure Blockchain Workbench template deployment.
+
+Note - This script is deployed using the Cloud Shell avialable via the Azure Portal. It must be run in the same subscription that you will be deploying Azure Blockchain Workbench to. Cloud Shell does require access to a storage account. If you do not have access to a storage account with the subscription you've chosen, you should follow the deployment instructions in the [documentation](http://aka.ms/workbenchdocs/)
+
+Execution Instructions
+=======================
+If you haven't already download the [script](.\cloudShellPreDeploy.ps1)
+
+Log in to the Azure Portal
+
+![](media/addomains.png)
+
+Navigate to your Azure Active Directory.
+
+Select Custom Domains and capture the domain you will use with Azure Blockchain Workbench.
+
+Now you're ready to run the script.
 
 ![](media/142ce1c9daec7fefec1b179c59449788.png)
 
 Click on the Cloud Shell Icon in the upper right of the screen.
 
 This is the Cloud Shell Icon  
-
 
 ![](media/7bf771f6aa15cbe01ad9c8611b500af0.png)
 
@@ -53,3 +68,10 @@ cd \$home\\clouddrive
 Next, run the script by typing the following –
 
 .\\cloudShellPreDeploy.ps1
+
+You will be prompted to enter the domain for your Azure Active Directory and confirming you wish to execute the script.
+
+The script will then create and configure the Azure Active Direcotry application.
+
+When the script completes, it will provide the Active Directory data needed to populate the Azure Active Direcotry tabof the Azure Blockchain Workbench Deployment.
+
