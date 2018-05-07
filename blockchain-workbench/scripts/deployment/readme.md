@@ -18,7 +18,7 @@ If you haven't already download the [script](.\cloudShellPreDeploy.ps1)
 
 Log in to the Azure Portal
 
-![](media/addomains.png)
+![](media/addomains.PNG)
 
 Navigate to your Azure Active Directory.
 
