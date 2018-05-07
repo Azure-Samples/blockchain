@@ -1,1 +1,39 @@
+# Applications and Smart Contract Samples
+
+## Introduction
+
+This section includes applications and smart contracts that can be deployed to Azure Blockchain Workbench in their current form or can be transformed to meet the needs of your scenario.
+
+## Available Contracts
+* [Hello Blockchain](.\hello-blockchain)
+* [Simple Marketplace](.\simple-marketplace)
+* [Basic Provenance](.\basic-provenance)
+* [Digital Locker](.\digital-locker)
+* [Refrigerated Transportation](.\refrigerated-transportation)
+* [Asset Transfer](.\asset-transfer)
+
+## Deploying Applications
+To deploy an application, navigate to the web applicaiton for Azure Blockchain Workbench
+[](.\deployapp1.PNG)
+
+Click on the New button to upload a new application.
+[](.\deployapp2.PNG)
+
+Specify your configuration file and your smart contract and click the "Deploy" button.
+[](.\deployapp3.PNG)
+A tile for your new application, will be displayed. Click it.
+
+[](.\deployapp4.PNG)
+You will have 0 members assigned to the contract. Click the 0 in upper right and add memebrs as appropriate.
+
+
+## Prerequisites
+
+Applications and contracts can be uplaoded to Azure Blockchain Workbench without modification.
+
+For Ethereum contract development, install [Visual Studio Code](https://code.visualstudio.com/) and the [Solidity plugin](https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity)
+
+## Contributing
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 .
