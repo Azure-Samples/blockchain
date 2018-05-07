@@ -1,0 +1,1 @@
+c:\program files (x86)\python36-32\lib\site-packages\swagger_client-1.0.0-py3.6.egg
