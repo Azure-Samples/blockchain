@@ -10,7 +10,7 @@ This repository contains content and samples in number of areas, including:
 * [Office Integration](blockchain-workbench/office-integration-samples/readme.md)
 * [Dynamics Integration](blockchain-workbench/dynamics-integration-samples/readme.md) (including Common Data Service and PowerApps) 
 * [Technology Samples](blockchain-workbench/technology-samples/readme.md)
-* [Data and Reporting](blockchain-workbench/data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
+* [Data and Reporting](blockchain-workbench/data-reporting-samples/readme.md) (including CosmosDB, SQL DB, Excel, and PowerBI)
 * [Deployment and Management Scripts](blockchain-workbench/scripts/readme.md)
 
 To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench/).
