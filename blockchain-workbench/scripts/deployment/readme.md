@@ -14,7 +14,7 @@ Note - This script is deployed using the Cloud Shell avialable via the Azure Por
 
 Execution Instructions
 =======================
-If you haven't already download the [script](.\cloudShellPreDeploy.ps1)
+If you haven't already download the [script](cloudShellPreDeploy.ps1)
 
 Log in to the Azure Portal
 
