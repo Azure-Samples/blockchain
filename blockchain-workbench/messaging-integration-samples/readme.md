@@ -1,7 +1,7 @@
 Messaging Integration Samples
 =============================
 
-Launching on 5/8 will be a set of messaging integration samples that 
+Launching on 5/9 will be a set of messaging integration samples that 
 communicate to the blockchain and react to event from the blockchain.
 
 These include - 
