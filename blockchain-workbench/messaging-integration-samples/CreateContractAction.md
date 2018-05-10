@@ -3,7 +3,7 @@ Create a Smart Contract Action Azure Blockchain Workbench via Messaging
 
 Overview
 --------
-This sample provides step by step instructions for using message to create a
+This sample provides step by step instructions for using a message to create a
 contract on the blockchain.
 
 This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer), specifically the Modify function that updates the description and price of an item that is being offered for sale.
