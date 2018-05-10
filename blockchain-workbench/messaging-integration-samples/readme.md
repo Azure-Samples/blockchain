@@ -1,11 +1,6 @@
 Messaging Integration Samples
 =============================
 
-Launching on 5/9 will be a set of messaging integration samples that 
-communicate to the blockchain and react to event from the blockchain.
+[CreateContract](CreateContract.md) - This sample provides a walkthrough of how to create a logic app that creates a new contract programmatically.
 
-These include - 
-
-* Integration with Logic Apps
-* Integration with REST Services
-* Integration with Event Grid
+[CreateContractAction](CreateContractAction.md) - This sample provides a walkthrough of how to create a logic app that executes a transaction on a specific contract instance.
