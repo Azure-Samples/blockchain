@@ -9,11 +9,11 @@ contract on the blockchain.
 Deploy the Stored Procedures
 ----------------------------
 
-Download the file with the stored procedures to support messaging integration.
+Download [the file with the stored procedures](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/messaging-integration-samples/SQL/LogicAppStoredProcedures.sql) to support messaging integration.
 They are in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -65,8 +65,6 @@ Select the SQL Connector and then select the “Execute Stored Procedure” acti
 ![](media/86d9cff5ef3e8f9a6b135777522e4dcb.png)
 
 Select the appropriate Azure Workbench SQL DB server from the list.
-
-![](media/964e7c061e4bfe77f60646f35ed52760.png)
 
 Next, select the database for your Azure Blockchain Workbench deployment and
 enter your database credentials.
