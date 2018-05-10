@@ -3,7 +3,7 @@ Create a Smart Contract in Azure Blockchain Workbench via Messaging
 
 Overview
 
-This sample provides step by step instructions for using message to create a
+This sample provides step by step instructions for using a message to create a
 contract on the blockchain.
 
 Deploy the Stored Procedures
