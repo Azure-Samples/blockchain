@@ -9,7 +9,7 @@ contract on the blockchain.
 Deploy the Stored Procedures
 ----------------------------
 
-Download the file with the stored procedures to support messaging integration.
+Download [the file with the stored procedures](sql\LogicAppStoredProcedures.sql) to support messaging integration.
 They are in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
