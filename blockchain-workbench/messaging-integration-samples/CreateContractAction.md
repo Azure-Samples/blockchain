@@ -6,6 +6,9 @@ Overview
 This sample provides step by step instructions for using message to create a
 contract on the blockchain.
 
+This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer), specifically the Modify function that updates the description and price of an item that is being offered for sale.
+
+
 Deploy the Stored Procedures
 ----------------------------
 
@@ -114,6 +117,11 @@ Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
 ![](media/dee0ee075a67cda7900fbe16a7489618.png)
+
+Note - This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer), specifically the Modify function that updates the description and price of an item that is being offered for sale.
+
+For other contracts or other functions within this smart contract, you would alter the parameters section to include the appropriate name and value values for each parameter to that function.
+
 
 Click Save
 
