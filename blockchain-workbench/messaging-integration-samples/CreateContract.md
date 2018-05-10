@@ -153,6 +153,11 @@ the stored procedures. The result should resemble the image below.
 
 ![](media/82d5931b3dbd9bb564985e900cabcf38.png)
 
+
+Note - This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer)whose constructor includes the description and price of an item that is being offered for sale.
+
+For other contracts, you would alter the parameters section to include the appropriate name and value values for each parameter to that constructor for that contract.
+
 Click Save
 
 Click Run
