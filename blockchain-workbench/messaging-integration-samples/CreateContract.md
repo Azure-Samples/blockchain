@@ -13,7 +13,7 @@ Download the file with the stored procedures to support messaging integration.
 They are in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -44,17 +44,17 @@ Click the + symbol in the upper left corner of the screen to add a new resource
 
 Search for and select Logic App and then click Create.
 
+![](media/7f9bfaaebcf5a38fa305e958b5bbb538.png)
+
 When asked to select a template, select blank template.
 
-![](media/7f9bfaaebcf5a38fa305e958b5bbb538.png)
 
 A logic app is initiated by a trigger. Depending on your scenario this trigger
 may be a message arriving via service bus, event grid, HTTP, or another
 mechanism.
 
 For this walk through, select Recurrence. Recurrence occurs at a regular
-interval. It’s selected because you can easily test the trigger without writing
-additional code.
+interval. It’s selected because you can easily test the trigger without outside dependencies.
 
 ![](media/e9eb985cbf4ef55ff95c1675f184cf15.png)
 
@@ -66,8 +66,6 @@ Select the SQL Connector and then select the “Execute Stored Procedure” acti
 
 Select the appropriate Azure Workbench SQL DB server from the list.
 
-![](media/964e7c061e4bfe77f60646f35ed52760.png)
-
 Next, select the database for your Azure Blockchain Workbench deployment and
 enter your database credentials.
 
@@ -75,7 +73,7 @@ enter your database credentials.
 
 Select the stored procedure named “LogicAppGetContractCreationDetails”
 
-Provide the name of the application and workflow to be created, for example
+Within the SQL connector, provide the name of the application and workflow to be created, for example
 “AssetTransfer”, “AssetTransfer.” Also provide the email address for the user on
 whose behalf this transaction will be sent.
 
