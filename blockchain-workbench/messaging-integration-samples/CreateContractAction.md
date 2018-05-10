@@ -2,7 +2,7 @@ Create a Smart Contract Action Azure Blockchain Workbench via Messaging
 ========================================================================
 
 Overview
-
+--------
 This sample provides step by step instructions for using message to create a
 contract on the blockchain.
 
