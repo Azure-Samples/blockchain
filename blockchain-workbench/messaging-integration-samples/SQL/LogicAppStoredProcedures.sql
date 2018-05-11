@@ -1,4 +1,3 @@
-/****** Object:  StoredProcedure [dbo].[LogicAppGetUserChainIdentifierFromEmailAddress]    Script Date: 5/9/2018 10:19:15 PM ******/
 SET ANSI_NULLS ON
 GO
 

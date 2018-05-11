@@ -3,17 +3,17 @@ Create a Smart Contract in Azure Blockchain Workbench via Messaging
 
 Overview
 
-This sample provides step by step instructions for using a message to create a
+This sample provides step by step instructions for using message to create a
 contract on the blockchain.
 
 Deploy the Stored Procedures
 ----------------------------
 
-Download [the file with the stored procedures](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/messaging-integration-samples/SQL/LogicAppStoredProcedures.sql) to support messaging integration.
+Download the file with the stored procedures to support messaging integration.
 They are in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.com>
+<http://portal.azure.come>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -44,17 +44,17 @@ Click the + symbol in the upper left corner of the screen to add a new resource
 
 Search for and select Logic App and then click Create.
 
-![](media/7f9bfaaebcf5a38fa305e958b5bbb538.png)
-
 When asked to select a template, select blank template.
 
+![](media/7f9bfaaebcf5a38fa305e958b5bbb538.png)
 
 A logic app is initiated by a trigger. Depending on your scenario this trigger
 may be a message arriving via service bus, event grid, HTTP, or another
 mechanism.
 
 For this walk through, select Recurrence. Recurrence occurs at a regular
-interval. It’s selected because you can easily test the trigger without outside dependencies.
+interval. It’s selected because you can easily test the trigger without writing
+additional code.
 
 ![](media/e9eb985cbf4ef55ff95c1675f184cf15.png)
 
@@ -66,6 +66,8 @@ Select the SQL Connector and then select the “Execute Stored Procedure” acti
 
 Select the appropriate Azure Workbench SQL DB server from the list.
 
+![](media/964e7c061e4bfe77f60646f35ed52760.png)
+
 Next, select the database for your Azure Blockchain Workbench deployment and
 enter your database credentials.
 
@@ -73,7 +75,7 @@ enter your database credentials.
 
 Select the stored procedure named “LogicAppGetContractCreationDetails”
 
-Within the SQL connector, provide the name of the application and workflow to be created, for example
+Provide the name of the application and workflow to be created, for example
 “AssetTransfer”, “AssetTransfer.” Also provide the email address for the user on
 whose behalf this transaction will be sent.
 
@@ -152,11 +154,6 @@ Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
 ![](media/82d5931b3dbd9bb564985e900cabcf38.png)
-
-
-Note - This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer)whose constructor includes the description and price of an item that is being offered for sale.
-
-For other contracts, you would alter the parameters section to include the appropriate name and value values for each parameter to that constructor for that contract.
 
 Click Save
 

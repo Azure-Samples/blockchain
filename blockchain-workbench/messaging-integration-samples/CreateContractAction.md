@@ -2,21 +2,18 @@ Create a Smart Contract Action Azure Blockchain Workbench via Messaging
 ========================================================================
 
 Overview
---------
-This sample provides step by step instructions for using a message to create a
+
+This sample provides step by step instructions for using message to create a
 contract on the blockchain.
-
-This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer), specifically the Modify function that updates the description and price of an item that is being offered for sale.
-
 
 Deploy the Stored Procedures
 ----------------------------
 
-Download [the file with the stored procedures](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/messaging-integration-samples/SQL/LogicAppStoredProcedures.sql) to support messaging integration.
+Download the file with the stored procedures to support messaging integration.
 They are in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.com>
+<http://portal.azure.come>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -69,6 +66,8 @@ Select the SQL Connector and then select the “Execute Stored Procedure” acti
 
 Select the appropriate Azure Workbench SQL DB server from the list.
 
+![](media/964e7c061e4bfe77f60646f35ed52760.png)
+
 Next, select the database for your Azure Blockchain Workbench deployment and
 enter your database credentials.
 
@@ -117,11 +116,6 @@ Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
 ![](media/dee0ee075a67cda7900fbe16a7489618.png)
-
-Note - This example is designed to work with a deployed version of [the Asset Transfer application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/asset-transfer), specifically the Modify function that updates the description and price of an item that is being offered for sale.
-
-For other contracts or other functions within this smart contract, you would alter the parameters section to include the appropriate name and value values for each parameter to that function.
-
 
 Click Save
 
