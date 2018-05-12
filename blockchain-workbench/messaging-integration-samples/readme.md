@@ -10,7 +10,7 @@ Integration with Logic Apps to send messages to the blockchain
 [Execution an action on a contract using
         messaging](CreateContractAction.md)
 
-Integration with Event Grid and Logic Apps to process messages delivered from Azure Blockchain Workbench
+Integration with Event Grid and Logic Apps to process messages published by Azure Blockchain Workbench
 --------------------------------------------------------------------------------------------------------
 [After a contract update, executing business logic based on the value of
         the contract
@@ -32,5 +32,6 @@ For example, after the execution of “IngestTelemetry”, if the state is
 
 For example, after the execution of the “IngestTelemetry”
 
-Integration with Azure Functions to process messages delivered from Azure Blockchain Workbench
+Integration with Azure Functions to process messages publishd by Azure Blockchain Workbench
+----------------------------------------------------------------------------------------------
 [Capture Azure Blockchain Workbench events in Azure Functions and take action based on message type](ProcessEventsWithAzureFunctions.md)
