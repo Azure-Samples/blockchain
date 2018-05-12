@@ -5,9 +5,9 @@ This section includes integration samples that showcase -
 
 Integration with Logic Apps to send messages to the blockchain
 --------------------------------------------------------------
-    -   [Creating a new contract using messaging](CreateContract.md)
+[Creating a new contract using messaging](CreateContract.md)
 
-    -   [Execution an action on a contract using
+[Execution an action on a contract using
         messaging](CreateContractAction.md)
 
 Integration with Event Grid and Logic Apps to process messages delivered from Azure Blockchain Workbench
