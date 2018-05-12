@@ -34,7 +34,7 @@ stored procedures, and a logic app connected to Azure Blockchain Workbench.
 
 The high level flow of the sample is below.
 
-[./media/image1.png](./media/image1.png)
+![](./media/IoTOverview.png)
 ----------------------------------------
 
 After delivery to the Azure Blockchain Workbench, it is often desirable to have
