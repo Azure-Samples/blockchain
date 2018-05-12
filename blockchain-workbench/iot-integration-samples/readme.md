@@ -1,4 +1,4 @@
 IoT integration samples
 ========================
 
-Launching on 5/9 this week will be a sample integrating IoT Hub
+[Sample that demonstrates how to connect devices to IoT Hub, transform the messages delivered, and deliver the transformed messages to Azure Blockchain Workbench.](ConfigureIoTDemo.md)
