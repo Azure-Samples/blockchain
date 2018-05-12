@@ -1,6 +1,10 @@
 Technology Samples
 ==================
 
-Launching on 5/9 will be a set of technology integration samples.
+This section includes a set of technology samples.
 
-These will include samples ranging from first party technology samples like Azure Functions to third party services like Twilio.
+Samples include –
+
+[Sending an SMS alert from Twilio based on the state of a contract after a
+contract action has taken place](Twilio\\
+TriggerTwilioSMSAlertBasedOnContractStateAfterASpecificContractAction.md)
