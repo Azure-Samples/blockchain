@@ -31,3 +31,6 @@ For example, after the execution of “IngestTelemetry”, if the state is
     ExecuteLogicBasedOnPropertyValueAfterASpecificContractAction.md)
 
 For example, after the execution of the “IngestTelemetry”
+
+Integration with Azure Functions to process messages delivered from Azure Blockchain Workbench
+[Capture Azure Blockchain Workbench events in Azure Functions and take action based on message type](ProcessEventsWithAzureFunctions.md)
