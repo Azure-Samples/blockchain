@@ -31,6 +31,6 @@ For example, after the execution of “IngestTelemetry”, if the state is
 
 For example, after the execution of the “IngestTelemetry”
 
-Integration with Azure Functions to process messages publishd by Azure Blockchain Workbench
+Integration with Azure Functions to process messages published by Azure Blockchain Workbench
 ----------------------------------------------------------------------------------------------
 [Capture Azure Blockchain Workbench events in Azure Functions and take action based on message type](ProcessEventsWithAzureFunctions.md)

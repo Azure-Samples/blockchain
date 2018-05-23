@@ -4,8 +4,7 @@ Trigger Twilio SMS Alert Based on Contract State After a Specific Contract Actio
 Overview
 --------
 
-This logic app performs the following analysis on an incoming message, evaluates
-the state of the contract and triggers an SMS alert using Twilio.
+This logic app performs the following analysis on an incoming message, evaluates the state of the contract, and triggers an SMS alert using Twilio.
 
 Specifically –
 
@@ -49,13 +48,12 @@ application](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-
 but can be easily adapted to other contracts by making changes to the name of
 the action (“IngestTelemetry”) or the logic related to identifying the states.
 
-Other samples will further extend this to send alerts via Outlook, SMS (Twilio)
-and voice (Twilio).
+Other samples will further extend this to send alerts via Outlook, SMS (Twilio), and voice (Twilio).
 
 Create the Logic App
 --------------------
 
-Navigate to the Azure Portal at <http://portal.azure.com>
+Navigate to the Azure portal at <http://portal.azure.com>
 
 Click the + symbol in the upper left corner of the screen to add a new resource.
 
@@ -76,18 +74,18 @@ A logic app is initiated by a trigger.
 In this scenario, the trigger will be an event from Azure Blockchain Workbench
 delivered via the Event Grid.
 
-Within the Logic App Designer select the trigger “When an Event Grid event
+Within the Logic App Designer, select the trigger “When an Event Grid event
 occurs”.
 
 ![](media/1be166636ff6c58073a0d31d7bd22ea2.png)
 
 Within the Logic App Designer, click the Sign In button for the action that was
-just added.
+added.
 
 ![](media/d8dab9c287a5e74b4fa98f60be4aa846.png)
 
 Select the Azure Active Directory Tenant that the Azure Blockchain Workbench was
-deployed to in the drop-down list and either sign in using your credentials or
+deployed to in the drop-down list and either sign-in using your credentials or
 connect using a Service Principal.
 
 For this basic sample, you will sign in using your credentials.
@@ -128,173 +126,94 @@ Rename the case to ContractInsertedOrUpdated.
 
 Add the action “Data Operations – Parse Json” to the case.
 
-In the Content field select Body.
+In the Content field, select Body.
 
 In the Schema field, enter the following –
 
+``` json
 {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"ActionName": {
-
-"type": "string"
-
-},
-
-"BlockId": {
-
-"type": "number"
-
-},
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"ContractAddress": {
-
-"type": "string"
-
-},
-
-"ContractId": {
-
-"type": "number"
-
-},
-
-"IsTopLevelUpdate": {
-
-"type": "boolean"
-
-},
-
-"IsUpdate": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
-
-"type": "string"
-
-},
-
-"OriginatingAddress": {
-
-"type": "string"
-
-},
-
-"Parameters": {
-
-"items": {
-
-"properties": {
-
-"Name": {
-
-"type": "string"
-
-},
-
-"Value": {
-
-"type": "string"
-
+    "properties": {
+        "data": {
+            "properties": {
+                "ActionName": {
+                    "type": "string"
+                },
+                "BlockId": {
+                    "type": "number"
+                },
+                "ChainId": {
+                    "type": "number"
+                },
+                "ContractAddress": {
+                    "type": "string"
+                },
+                "ContractId": {
+                    "type": "number"
+                },
+                "IsTopLevelUpdate": {
+                    "type": "boolean"
+                },
+                "IsUpdate": {
+                    "type": "boolean"
+                },
+                "OperationName": {
+                    "type": "string"
+                },
+                "OriginatingAddress": {
+                    "type": "string"
+                },
+                "Parameters": {
+                    "items": {
+                        "properties": {
+                            "Name": {
+                                "type": "string"
+                            },
+                            "Value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "Name",
+                            "Value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "TopLevelInputParams": {
+                    "type": "array"
+                },
+                "TransactionHash": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "dataVersion": {
+            "type": "string"
+        },
+        "eventTime": {
+            "type": "string"
+        },
+        "eventType": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "metadataVersion": {
+            "type": "string"
+        },
+        "subject": {
+            "type": "string"
+        },
+        "topic": {
+            "type": "string"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"required": [
-
-"Name",
-
-"Value"
-
-],
-
-"type": "object"
-
-},
-
-"type": "array"
-
-},
-
-"TopLevelInputParams": {
-
-"type": "array"
-
-},
-
-"TransactionHash": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
+```
 
 ![](media/3bf2658a688788436dd74b524744b07b.png)
 
@@ -340,7 +259,7 @@ field and select Parameters from the Dynamic Properties dialog.
 
 Next click on the “More” button and select “add a switch case”.
 
-Right click the three dots in the upper corner of the action and select Rename.
+Right-click the three dots in the upper corner of the action and select Rename.
 Rename this to “Determine what parameter this is”
 
 ![](media/3df8d7ffada6d4b0a1a66ccdd288fa4a.png)
@@ -367,7 +286,7 @@ Click the (+) in the center of the switch case to add a new case.
 For the new case, set the Equals property to InTransit
 
 Click on the three dots in the corner of this case and select Rename. Rename it
-to “In the Intransit state”
+to “In the InTransit state”
 
 Click the (+) in the center of the switch case to add a new case.
 
@@ -427,7 +346,7 @@ You can test this functionality by taking the following steps –
 
 6.  Log out of Workbench and log in as the account associated with the Device
 
-7.  Navigate to the contract you just created within Workbench.
+7.  Navigate to the contract you created within Workbench.
 
 8.  Take the action of “IngestTelemetry” and enter values of 50 for both
     temperature and humidity.
@@ -435,18 +354,18 @@ You can test this functionality by taking the following steps –
 9.  The logic app should now be triggered and the code will be executed.
     Receiving the alert indicates that the logic app has executed successfully.
     If you’d like to look at the execution of the logic app to send the alert,
-    navigate to the logic app in the portal. At the bottom of the screen you
+    navigate to the logic app in the portal. At the bottom of the screen, you
     will detail for Runs history
 
-![](media/72adb726484a524d15aefc72f914a1c7.png)
+    ![](media/72adb726484a524d15aefc72f914a1c7.png)
 
-1.  Click on the most recent execution of your logic app in the list.  
+10. Click on the most recent execution of your logic app in the list.  
     This will show details on the trigger and actions executing within the logic
     app and allow you to validate success or troubleshoot reasons for failure.
 
-![](media/1ff80b6294ee3520bea3a959dfe914c5.png)
+    ![](media/1ff80b6294ee3520bea3a959dfe914c5.png)
 
-1.  Once making changes in your logic app, you can navigate back to this same
+11. Once making changes in your logic app, you can navigate back to this same
     screen and click “Resubmit” and it will call the current version of your
     logic app with the values provided by the previous run.
 

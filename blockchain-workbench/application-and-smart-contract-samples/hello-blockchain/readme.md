@@ -1,5 +1,4 @@
-Hello Blockchain Sample Application 
-for Azure Blockchain Workbench
+Hello Blockchain Sample Application for Azure Blockchain Workbench
 ==================================================================
 
 Overview 
@@ -32,7 +31,6 @@ Workflow Details
 ----------------
 
 ![state diagram of workflow](media/5aba06dd9b98e017f7031946d0187fb7.png)
-
  
 An instance of the Hello Blockchain application's workflow starts in the Request
 state when a Requestor makes a request.  The instance transitions to the Respond

@@ -66,152 +66,81 @@ later in this sample.
 Note – in a future version of this sample, it will be adapted to IoT Hub’s
 simulated device.
 
+``` json
 {
-
-"properties": {
-
-"agent": {
-
-"type": "string"
-
-},
-
-"service": {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"acceleration": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
+    "properties": {
+        "agent": {
+            "type": "string"
+        },
+        "service": {
+            "properties": {
+                "data": {
+                    "properties": {
+                        "acceleration": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "ambientLight": {
+                            "type": "number"
+                        },
+                        "battery": {
+                            "type": "number"
+                        },
+                        "deviceId": {
+                            "type": "string"
+                        },
+                        "humidity": {
+                            "type": "number"
+                        },
+                        "orientation": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "temperature": {
+                            "type": "number"
+                        },
+                        "uvIndex": {
+                            "type": "number"
+                        },
+                        "ver": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ver": {
+            "type": "string"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"type": "object"
-
-},
-
-"ambientLight": {
-
-"type": "number"
-
-},
-
-"battery": {
-
-"type": "number"
-
-},
-
-"deviceId": {
-
-"type": "string"
-
-},
-
-"humidity": {
-
-"type": "number"
-
-},
-
-"orientation": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"temperature": {
-
-"type": "number"
-
-},
-
-"uvIndex": {
-
-"type": "number"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"name": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
+```
 Route messages to a queue in your IoT hub
 -----------------------------------------
 
@@ -229,15 +158,14 @@ In this section, you:
     The queue must be in the same subscription and region as your IoT hub. Make
     a note of the namespace and queue name.
 
->   Note
-
+>   Note:
 >   Service Bus queues and topics used as IoT Hub endpoints must not have
 >   **Sessions** or **Duplicate Detection** enabled. If either of those options
 >   are enabled, the endpoint appears as **Unreachable** in the Azure portal.
 
 1.  In the Azure portal, open your IoT hub and click **Endpoints**.
 
-![](media/b62d7c4c109b30e030bb323c2bfa064b.png)
+    ![](media/b62d7c4c109b30e030bb323c2bfa064b.png)
 
 >   Endpoints in IoT hub
 
@@ -247,7 +175,7 @@ In this section, you:
     resides, and the name of your queue. When you are done, click **Save** at
     the bottom.
 
-![](media/a5fd3269ec8d602b590b2bb0ab44758c.png)
+    ![](media/a5fd3269ec8d602b590b2bb0ab44758c.png)
 
 >   Adding an endpoint
 
