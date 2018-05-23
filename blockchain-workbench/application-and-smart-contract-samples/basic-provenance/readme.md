@@ -15,8 +15,8 @@ Application Roles 
 |------------------------|---------------------------------------------------|
 | InitiatingCounterParty | The first participant in the supply chain.        |
 | Counterparty           | A party to whom responsibility for a product has been assigned. For example, a shipper |
-| Owner                  | The organization that owns the product being transported, for example, a manufacturer |
-| Observer               | The individual or organization monitoring the supply chain, for example, a government agency |
+| Owner                  | The organization that owns the product being transported. For example, a manufacturer |
+| Observer               | The individual or organization monitoring the supply chain. For example, a government agency |
 
  
 
