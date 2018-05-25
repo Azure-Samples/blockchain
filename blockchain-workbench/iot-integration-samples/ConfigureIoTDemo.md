@@ -66,212 +66,139 @@ later in this sample.
 Note – in a future version of this sample, it will be adapted to IoT Hub’s
 simulated device.
 
+``` json
 {
-
-"properties": {
-
-"agent": {
-
-"type": "string"
-
-},
-
-"service": {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"acceleration": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
+    "properties": {
+        "agent": {
+            "type": "string"
+        },
+        "service": {
+            "properties": {
+                "data": {
+                    "properties": {
+                        "acceleration": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "ambientLight": {
+                            "type": "number"
+                        },
+                        "battery": {
+                            "type": "number"
+                        },
+                        "deviceId": {
+                            "type": "string"
+                        },
+                        "humidity": {
+                            "type": "number"
+                        },
+                        "orientation": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "temperature": {
+                            "type": "number"
+                        },
+                        "uvIndex": {
+                            "type": "number"
+                        },
+                        "ver": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ver": {
+            "type": "string"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"type": "object"
-
-},
-
-"ambientLight": {
-
-"type": "number"
-
-},
-
-"battery": {
-
-"type": "number"
-
-},
-
-"deviceId": {
-
-"type": "string"
-
-},
-
-"humidity": {
-
-"type": "number"
-
-},
-
-"orientation": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"temperature": {
-
-"type": "number"
-
-},
-
-"uvIndex": {
-
-"type": "number"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"name": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
+```
 Route messages to a queue in your IoT hub
 -----------------------------------------
 
 In this section, you:
 
 -   Create a Service Bus queue.
-
 -   Connect it to your IoT hub.
-
 -   Configure your IoT hub to send messages to the queue based on the presence
     of a property on the message.
 
-1.  Create a Service Bus queue as described in [Get started with
-    queues](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues).
-    The queue must be in the same subscription and region as your IoT hub. Make
-    a note of the namespace and queue name.
+Create a Service Bus queue as described in [Get started with
+queues](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dotnet-get-started-with-queues).
+The queue must be in the same subscription and region as your IoT hub. Make
+a note of the namespace and queue name.
 
->   Note
-
+>   **Note:**
 >   Service Bus queues and topics used as IoT Hub endpoints must not have
 >   **Sessions** or **Duplicate Detection** enabled. If either of those options
 >   are enabled, the endpoint appears as **Unreachable** in the Azure portal.
 
-1.  In the Azure portal, open your IoT hub and click **Endpoints**.
+In the Azure portal, open your IoT hub and click **Endpoints**.
 
 ![](media/b62d7c4c109b30e030bb323c2bfa064b.png)
 
->   Endpoints in IoT hub
+### Endpoints in IoT hub
 
-1.  In the **Endpoints** blade, click **Add** at the top to add your queue to
-    your IoT hub. Name the endpoint **iotingest** and use the drop-downs to
-    select **Service Bus queue**, the Service Bus namespace in which your queue
-    resides, and the name of your queue. When you are done, click **Save** at
-    the bottom.
+In the **Endpoints** blade, click **Add** at the top to add your queue to
+your IoT hub. Name the endpoint **iotingest** and use the drop-downs to
+select **Service Bus queue**, the Service Bus namespace in which your queue
+resides, and the name of your queue. When you are done, click **Save** at
+the bottom.
 
 ![](media/a5fd3269ec8d602b590b2bb0ab44758c.png)
 
->   Adding an endpoint
+### Adding an endpoint
 
-1.  Now click **Routes** in your IoT Hub. Click **Add** at the top of the blade
-    to create a routing rule that routes messages to the queue you just added.
-    Select **DeviceTelemetry** as the source of data. Enter the condition that
-    is relevant for your smart contract, and choose the queue you just added as
-    a custom endpoint as the routing rule endpoint. When you are done, click
-    **Save** at the bottom.
+Now click **Routes** in your IoT Hub. Click **Add** at the top of the blade
+to create a routing rule that routes messages to the queue you just added.
+Select **DeviceTelemetry** as the source of data. Enter the condition that
+is relevant for your smart contract, and choose the queue you just added as
+a custom endpoint as the routing rule endpoint. When you are done, click
+**Save** at the bottom.
 
->   Note – the wording of the condition will vary based on the schema that is
+>   **Note:**
+>   The wording of the condition will vary based on the schema that is
 >   used by your client. Ultimately, it should reflect the general rules for
 >   upper and lower boundaries of the values for temperature and humidity.
 
 ![](media/112d0bc615b3f56fa828da17667be19e.png)
 
->   Adding a route
+### Adding a route
 
->   Make sure the fallback route is set to **ON**. This value is the default
->   configuration for an IoT hub.
+Make sure the fallback route is set to **ON**. This value is the default
+configuration for an IoT hub.
 
 ![](media/92f6533e0520d03790b280105445e217.png)
 
->   Fallback route
+### Fallback route
 
 The IoT Hub is now configured to identify those device messages that meet the
 criteria relevant to your smart contract and deliver them to a Service Bus named
@@ -362,158 +289,88 @@ Creating the Logic App
 
 For the content, to be evaluated it must be converted from a Base64 string.
 Click in the content field, select Expression and enter the following -
-json(base64ToString(triggerBody()?['ContentData']))
+`json(base64ToString(triggerBody()?['ContentData']))`
 
 For the schema property, enter the schema created by your device code.
 
 The following text is the schema used by the client demonstrated at the //build
 conference and reflects sensor data available from a Thunderboard React device -
 
+``` json
 {
-
-"properties": {
-
-"agent": {
-
-"type": "string"
-
-},
-
-"service": {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"acceleration": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
+    "properties": {
+        "agent": {
+            "type": "string"
+        },
+        "service": {
+            "properties": {
+                "data": {
+                    "properties": {
+                        "acceleration": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "ambientLight": {
+                            "type": "number"
+                        },
+                        "battery": {
+                            "type": "number"
+                        },
+                        "deviceId": {
+                            "type": "string"
+                        },
+                        "humidity": {
+                            "type": "number"
+                        },
+                        "orientation": {
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "temperature": {
+                            "type": "number"
+                        },
+                        "uvIndex": {
+                            "type": "number"
+                        },
+                        "ver": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ver": {
+            "type": "string"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"type": "object"
-
-},
-
-"ambientLight": {
-
-"type": "number"
-
-},
-
-"battery": {
-
-"type": "number"
-
-},
-
-"deviceId": {
-
-"type": "string"
-
-},
-
-"humidity": {
-
-"type": "number"
-
-},
-
-"orientation": {
-
-"properties": {
-
-"x": {
-
-"type": "number"
-
-},
-
-"y": {
-
-"type": "number"
-
-},
-
-"z": {
-
-"type": "number"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"temperature": {
-
-"type": "number"
-
-},
-
-"uvIndex": {
-
-"type": "number"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"name": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"ver": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
+```
 
 Click “More” and add a new action.
 
@@ -531,135 +388,73 @@ Select the Parse JSON action.
 
 Click in the Content field and then select the ResultSets item for content.
 
+``` json
 {
-
-"properties": {
-
-"Table1": {
-
-"items": {
-
-"properties": {
-
-"ConnectionId": {
-
-"type": "number"
-
-},
-
-"ContractCodeBlobStorageUrl": {
-
-"type": "string"
-
-},
-
-"ContractId": {
-
-"type": "number"
-
-},
-
-"ContractLedgerIdentifier": {
-
-"type": "string"
-
-},
-
-"IngestTelemetry_ContractPersonaID": {},
-
-"IngestTelemetry_ContractWorkflowFunctionID": {
-
-"type": "number"
-
-},
-
-"IngestTelemetry_Humidity_WorkflowFunctionParameterID": {
-
-"type": "number"
-
-},
-
-"IngestTelemetry_Temperature_WorkflowFunctionParameterID": {
-
-"type": "number"
-
-},
-
-"IngestTelemetry_Timestamp_WorkflowFunctionParameterID": {
-
-"type": "number"
-
-},
-
-"UserChainIdentifier": {
-
-"type": "string"
-
-},
-
-"WorkflowFunctionId": {
-
-"type": "number"
-
-},
-
-"WorkflowFunctionName": {
-
-"type": "string"
-
-},
-
-"WorkflowName": {
-
-"type": "string"
-
+    "properties": {
+        "Table1": {
+            "items": {
+                "properties": {
+                    "ConnectionId": {
+                        "type": "number"
+                    },
+                    "ContractCodeBlobStorageUrl": {
+                        "type": "string"
+                    },
+                    "ContractId": {
+                        "type": "number"
+                    },
+                    "ContractLedgerIdentifier": {
+                        "type": "string"
+                    },
+                    "IngestTelemetry_ContractPersonaID": {},
+                    "IngestTelemetry_ContractWorkflowFunctionID": {
+                        "type": "number"
+                    },
+                    "IngestTelemetry_Humidity_WorkflowFunctionParameterID": {
+                        "type": "number"
+                    },
+                    "IngestTelemetry_Temperature_WorkflowFunctionParameterID": {
+                        "type": "number"
+                    },
+                    "IngestTelemetry_Timestamp_WorkflowFunctionParameterID": {
+                        "type": "number"
+                    },
+                    "UserChainIdentifier": {
+                        "type": "string"
+                    },
+                    "WorkflowFunctionId": {
+                        "type": "number"
+                    },
+                    "WorkflowFunctionName": {
+                        "type": "string"
+                    },
+                    "WorkflowName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "ContractId",
+                    "WorkflowFunctionId",
+                    "ConnectionId",
+                    "ContractLedgerIdentifier",
+                    "ContractCodeBlobStorageUrl",
+                    "UserChainIdentifier",
+                    "WorkflowFunctionName",
+                    "WorkflowName",
+                    "IngestTelemetry_ContractWorkflowFunctionID",
+                    "IngestTelemetry_ContractPersonaID",
+                    "IngestTelemetry_Humidity_WorkflowFunctionParameterID",
+                    "IngestTelemetry_Temperature_WorkflowFunctionParameterID",
+                    "IngestTelemetry_Timestamp_WorkflowFunctionParameterID"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"required": [
-
-"ContractId",
-
-"WorkflowFunctionId",
-
-"ConnectionId",
-
-"ContractLedgerIdentifier",
-
-"ContractCodeBlobStorageUrl",
-
-"UserChainIdentifier",
-
-"WorkflowFunctionName",
-
-"WorkflowName",
-
-"IngestTelemetry_ContractWorkflowFunctionID",
-
-"IngestTelemetry_ContractPersonaID",
-
-"IngestTelemetry_Humidity_WorkflowFunctionParameterID",
-
-"IngestTelemetry_Temperature_WorkflowFunctionParameterID",
-
-"IngestTelemetry_Timestamp_WorkflowFunctionParameterID"
-
-],
-
-"type": "object"
-
-},
-
-"type": "array"
-
-}
-
-},
-
-"type": "object"
-
-}
+```
 
 Click the “Add step” link and select the “Initialize Variable” action
 
@@ -671,7 +466,7 @@ Set the Name property to RequestId.
 Set the Type property to String.
 
 In the Value property, use the Dynamic Content window, select Expression and
-enter guid()
+enter `guid()`.
 
 ![](media/a327807fe4b91abddb7088c31fbd2f49.png)
 
@@ -685,7 +480,7 @@ Set the Name property to TicksNow.
 Set the Type property to Integer.
 
 Click on the Value property field and then in the Dynamic Content window enter
-the following in the Expression tab – ticks(utcNow())
+the following in the Expression tab – `ticks(utcNow())`
 
 ![](media/42110d6a5c1eeb7788a69ccbe29b069a.png)
 
@@ -696,7 +491,7 @@ Set the Name property to TicksNow.
 Set the Type property to Integer.
 
 Click on the Value property field and then in the Dynamic Content window enter
-the following in the Expression tab – ticks(‘1970-01-01’)
+the following in the Expression tab – `ticks(‘1970-01-01’)`
 
 ![](media/48cfc406ae9c1ebe227d7243ba33969c.png)
 
@@ -708,7 +503,7 @@ Set the Type property to Integer.
 
 Click on the Value property field and then in the Dynamic Content window enter
 the following in the Expression tab –
-div(sub(variables('TicksNow'),variables('TicksTo1970')),10000000)
+`div(sub(variables('TicksNow'),variables('TicksTo1970')),10000000)`
 
 ![](media/563e131f2ceba5fb94d306bd6021d2ec.png)
 
@@ -731,55 +526,33 @@ Set the SessionId property to RequestId
 
 The template of the message to be put in the Content property is below -
 
+``` json
 {
-
-"ContractActionId": null,
-
-"ConnectionId":,
-
-"UserChainIdentifier": "",
-
-"ContractCodeArtifactBlobStorageURL": "",
-
-"OperationName": "CreateContractAction",
-
-"ContractLedgerIdentifier": "",
-
-"WorkflowFunctionName": "IngestTelemetry",
-
-"WorkflowName": "RefrigeratedTransportation",
-
-"ContractActionParameters": [
-
-{
-
-"name": "humidity",
-
-"value": ""
-
-},
-
-{
-
-"name": "temperature",
-
-"value": ""
-
-},
-
-{
-
-"name": "timestamp",
-
-"value":
-
+    "ContractActionId": null,
+    "ConnectionId":,
+    "UserChainIdentifier": "",
+    "ContractCodeArtifactBlobStorageURL": "",
+    "OperationName": "CreateContractAction",
+    "ContractLedgerIdentifier": "",
+    "WorkflowFunctionName": "IngestTelemetry",
+    "WorkflowName": "RefrigeratedTransportation",
+    "ContractActionParameters": [
+        {
+            "name": "humidity",
+            "value": ""
+        },
+        {
+            "name": "temperature",
+            "value": ""
+        },
+        {
+            "name": "timestamp",
+            "value":
+        }
+    ],
+    "RequestId": ""
 }
-
-],
-
-"RequestId": ""
-
-}
+```
 
 Augment this with values from the Dynamic Content window to match the screenshot
 below -
@@ -794,11 +567,8 @@ Testing
 There are multiple places to perform testing –
 
 -   Testing delivery of messages from device to IoT Hub
-
 -   Testing delivery of messages from IoT Hub to Service Bus
-
 -   Testing receipt and usage of messages by the Logic App
-
 -   Testing delivery of the message to Azure Blockchain Workbench
 
 For the first three, the Azure portal can be used to monitor message delivery.

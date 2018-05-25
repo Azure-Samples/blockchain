@@ -1,6 +1,3 @@
-
- 
-  
 # ![Microsoft Azure Blockchain Workbench](./media/logo_small.png) Microsoft Azure Blockchain Workbench
 
 This repository contains content and samples in number of areas, including:
