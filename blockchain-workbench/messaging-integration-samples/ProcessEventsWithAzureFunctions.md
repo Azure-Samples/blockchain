@@ -59,9 +59,12 @@ Create and configure a new Function App
 
 >   }
 
-You can now add logic to case statements to process messages as appropriate.
 
-Full details on the message types and C\# classes for them can be found
+Each of the case statements identifies which type of message is being delivered from Workbench via the event grid.
+
+You can now add your own code to examine the data in the JSON message format for the specific message type. This may be taking action based on specific data in a message or taking action based on every message delivered.
+
+Full details on the data contained within the different message types and C\# representations of them can be found
 [here](https://docs.microsoft.com/en-us/azure/blockchain-workbench/blockchain-workbench-messages-overview).
 
 1.  Add the Event Grid subscription by clicking on the link next to the Run
