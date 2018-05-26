@@ -52,3 +52,7 @@ inner join ContractCode cc on vw.ApplicationId = cc.ApplicationId
 inner join Connection c on c.LedgerId = cc.LedgerId
 where vw.ApplicationName = @ApplicationName and vw.WorkflowName= @WorkflowName
 Order By vw.ApplicationUploadedDtTm
+
+END
+
+Go
