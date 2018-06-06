@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 
 Collects logs and metrics from an Azure Blockchain Workbench instance for
@@ -428,9 +428,16 @@ $LookbackHoursStr = "$LookbackHours" + "h"
 
 if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null)
 {
-    throw "Azure Powershell cmdlets were not detected. We recommend that you use the MSI installer to get the latest at
-    https://github.com/Azure/azure-powershell/releases. Or, run this script using
-    Azure Cloud shell at https://shell.azure.com."
+    throw "Azure Powershell cmdlets were not detected. We recommend that you follow the instructions on
+    https://www.powershellgallery.com/packages/AzureRM/6.0.1 to obtain the latest version. Or, you can run 
+    this script using Azure Cloud shell at https://shell.azure.com/powershell"
+}
+
+if ((Get-Command "Get-AzureRmWebApp").Version.Major -lt 5)
+{
+    throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the 
+    instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
+    you can run  this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
 $context = Get-AzureRmContext
@@ -468,7 +475,7 @@ if ($websites -eq $null)
     throw "Could not locate App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$apiWebsite = ($websites | Where-Object { $_.SiteName -like "*-api" })[0] # Select the Workbench API
+$apiWebsite = ($websites | Where-Object { $_.Name -like "*-api" })[0] # Select the Workbench API
 if ($apiWebsite -eq $null)
 {
     throw "Could not locate API App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
