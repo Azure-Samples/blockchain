@@ -1,0 +1,12 @@
+### YamlMime:Sample
+sample:
+- name: Hello Blockchain Sample Application for Azure Blockchain Workbench
+  description: The Hello Blockchain application expresses a workflow between a person sending a request and a person responding to the request.  The state transition diagram below shows the interactions between the states in this workflow. 
+  generateZip: true
+  author: PatAltimore
+  readme: readme.md
+  languages:
+  - javascript
+  technologies:
+  - azure-blockchain
+  - azure
