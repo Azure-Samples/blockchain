@@ -15,10 +15,7 @@ Collects logs and metrics from an Azure Blockchain Workbench instance for
 troubleshooting. This script will prompt for Azure authentication if you
 are not already logged in.
 
-NOTE: If you don't have the latest Azure Powershell installed on your machine,
-we recommend that you use the MSI installer to get the latest at
-https://github.com/Azure/azure-powershell/releases. Or, run this script using
-Azure Cloud shell at https://shell.azure.com.
+> NOTE: If you don't have the latest Azure Powershell installed on your machine, we recommend that you use the MSI installer to get the latest at https://github.com/Azure/azure-powershell/releases. Or, run this script using Azure Cloud shell at https://shell.azure.com.
 
 PARAMETER SubscriptionID
 ------------------------
@@ -69,4 +66,6 @@ troubleshooting.
 
 EXAMPLE
 --------
+``` powershell
 C:\tmp> .\collectBlockchainWorkbenchTroubleshooting.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+```
