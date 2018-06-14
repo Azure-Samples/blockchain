@@ -38,6 +38,8 @@ Item Listing Workflow States 
 Workflow Details
 ----------------
 
+![](media/bazaaritemlisting.png)
+
 An instance of the Bazaar - Item Listing application first creates a binding between two users (here Party A and Party B).  The two users are bound by a smart contract that tracks their balances (here Party A Balance and Party B Balance).  Once  the smart contract is created and deployed on the chain, the instance reaches the Party Provisioned state.
 
 Party A and Party B, bound by the smart contract, can now begin to buy and sell items between themselves.  A party can list the item by calling the transition function List Item in Workflow 1.  The List Item function takes in the item name and the item price and calls the Add Item function in Workflow 2 with the correct set of arguments.  The successful completion of List Item creates an instance of the second workflow and places that workflow instance in the Item Available state.  An item that is available can be bought using the Buy Item function.  The Buy Item function checks if the buyer has sufficient balance and proceeds to buy the item by way of updating the parties' balances.  Now, since the parent contract's address is known, a direct call can be made to the parent contract's Update Balance function.  The Update Balance function appropriately updates the balance of the two parties.  A successful execution puts the second workflow instance in the Item Sold state and the first workflow instance in the Current Sale Finalized state.
