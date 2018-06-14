@@ -1,0 +1,338 @@
+{
+  "ApplicationName": "BazaarItemListing",
+  "DisplayName": "Bazaar Item Listing",
+  "Description": "A simple bazaar application to show multiple workflows.",
+  "ApplicationRoles": [
+    {
+      "Name": "BazaarMaintainer",
+      "Description": "Maintainer of the bazaar."
+    },
+    {
+      "Name": "Party",
+      "Description": "Participating parties in the bazaar."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "Bazaar",
+      "DisplayName": "Bazaar",
+      "Description": "Contains a list of parties who can create item listings.",
+      "Initiators": [ "BazaarMaintainer" ],
+      "StartState":  "PartyProvisioned",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the current scope",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "InstancePartyA",
+          "DisplayName": "Party A",
+          "Description": "Party",
+          "Type": {
+            "Name": "Party"
+          }
+        },
+        {
+          "Name": "PartyABalance",
+          "DisplayName": "Party A Balance",
+          "Description": "Balance",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "InstancePartyB",
+          "DisplayName": "Party B",
+          "Description": "Party",
+          "Type": {
+            "Name": "Party"
+          }
+        },
+        {
+          "Name": "PartyBBalance",
+          "DisplayName": "Party B Balance",
+          "Description": "Balance",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "InstanceBazaarMaintainer",
+          "DisplayName": "Bazaar Maintainer",
+          "Description": "Bazaar Maintainer",
+          "Type": {
+            "Name": "BazaarMaintainer"
+          }
+        },
+        {
+          "Name": "CurrentSeller",
+          "DisplayName": "Current Seller",
+          "Description": "Party",
+          "Type": {
+            "Name": "Party"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "partyA",
+            "Description": "Party",
+            "DisplayName": "Party",
+            "Type": {
+              "Name": "Party"
+            }
+          },
+          {
+            "Name": "balanceA",
+            "Description": "Balance",
+            "DisplayName": "Balance",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "partyB",
+            "Description": "Party",
+            "DisplayName": "Party",
+            "Type": {
+              "Name": "Party"
+            }
+          },
+          {
+            "Name": "balanceB",
+            "Description": "Balance",
+            "DisplayName": "Balance",
+            "Type": {
+              "Name": "int"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "ListItem",
+          "DisplayName": "List Item to Sell",
+          "Description": "List item",
+          "Parameters": [
+            {
+              "Name": "itemName",
+              "Description": "Item Name",
+              "DisplayName": "Item Name",
+              "Type": {
+                "Name": "string"
+              }
+            },
+            {
+              "Name": "itemPrice",
+              "Description": "Item Price",
+              "DisplayName": "Item Price",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "UpdateBalance",
+          "DisplayName": "Update Balance",
+          "Description": "Update Balance",
+          "Parameters": [
+              {
+              "Name": "sellerParty",
+                "Description": "Seller Party",
+                "DisplayName": "Seller Party",
+                "Type": {
+                  "Name": "address"
+                }
+              },
+              {
+                "Name": "buyerParty",
+                "Description": "Buyer Party",
+                "DisplayName": "Buyer Party",
+                "Type": {
+                  "Name": "address"
+                }
+              },
+              {
+                "Name": "itemPrice",
+                "Description": "Item Price",
+                "DisplayName": "Item Price",
+                "Type": {
+                  "Name": "int"
+                }
+              }
+          ]
+        }
+      ],
+      "States": [
+        {
+          "Name": "PartyProvisioned",
+          "DisplayName": "Party Provisioned",
+          "Description": "Party Provisioned",
+          "PercentComplete": 10,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["InstancePartyA", "InstancePartyB"],
+              "Description": "List item",
+              "Function": "ListItem",
+              "NextStates": [ "ItemListed" ],
+              "DisplayName": "Item listed."
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [],
+              "Description": "Finalize Sale",
+              "Function": "UpdateBalance",
+              "NextStates": [ "CurrentSaleFinalized" ],
+              "DisplayName": "Current Sale Finalized."
+            }
+          ]
+        },
+        {
+          "Name": "ItemListed",
+          "DisplayName": "Item Listed",
+          "Description": "Item listed",
+          "PercentComplete": 40,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["InstancePartyA", "InstancePartyB"],
+              "Description": "List item",
+              "Function": "ListItem",
+              "NextStates": [ "ItemListed" ],
+              "DisplayName": "Item listed."
+            }
+          ]
+         },
+         {
+           "Name": "CurrentSaleFinalized",
+           "DisplayName": "Current Sale Finalized",
+           "Description": "Current Sale Finalized",
+           "PercentComplete": 60,
+           "Style": "Success",
+           "Transitions": [
+             {
+               "AllowedRoles": [],
+               "AllowedInstanceRoles": ["InstancePartyA", "InstancePartyB"],
+               "Description": "List item",
+               "Function": "ListItem",
+               "NextStates": [ "ItemListed" ],
+               "DisplayName": "Item listed."
+             }
+           ]
+          }
+      ]
+    },
+    {
+      "Name": "ItemListing",
+      "DisplayName": "Item Listing",
+      "Description": "Seller lists an item that can be bought by a buyer",
+      "Initiators": [],
+      "StartState":  "ItemAvailable",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the current scope",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "ItemName",
+          "DisplayName": "Item name",
+          "Description": "Item name",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "ItemPrice",
+          "DisplayName": "Item price",
+          "Description": "Item price",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "Seller",
+          "DisplayName": "Seller",
+          "Description": "Seller",
+          "Type": {
+            "Name": "Party"
+          }
+        },
+        {
+          "Name": "InstanceBuyer",
+          "DisplayName": "Buyer",
+          "Description": "Buyer",
+          "Type": {
+            "Name": "Party"
+          }
+        },
+        {
+          "Name": "PartyA",
+          "DisplayName": "Party A",
+          "Description": "Party A",
+          "Type": {
+            "Name": "Party"
+          }
+        },
+        {
+          "Name": "PartyB",
+          "DisplayName": "Party B",
+          "Description": "Party B",
+          "Type": {
+            "Name": "Party"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": []
+      },
+      "Functions": [
+        {
+          "Name": "BuyItem",
+          "DisplayName": "Buy Item",
+          "Description": "Buy Item",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "ItemAvailable",
+          "DisplayName": "Item Available",
+          "Description": "Item Available",
+          "PercentComplete": 40,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["PartyA", "PartyB"],
+              "Description": "Buy item",
+              "Function": "BuyItem",
+              "NextStates": [ "ItemSold" ],
+              "DisplayName": "Item sold"
+            }
+          ]
+        },
+        {
+          "Name": "ItemSold",
+          "DisplayName": "Item Sold",
+          "Description": "Item Sold",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": []
+        }
+      ]
+    }
+  ]
+}
