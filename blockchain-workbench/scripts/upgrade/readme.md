@@ -1,4 +1,4 @@
-# Azure Blockchain Workbench Upgrade Script
+# Azure Blockchain Workbench Upgrade
 
 
 
@@ -7,6 +7,8 @@ Overview
 An existing deployment of Azure Blockchain Workbench can be upgraded to the latest version. 
 
 This script automates the upgrade of your Azure Blockchain Workbench deployment. It can be easily invoked from Azure Cloud Shell.
+
+To learn what's new in this release, please check our [release notes](releasenotes.md).
 
 Execution Instructions
 =======================
@@ -49,9 +51,11 @@ cd \$home\\CloudDrive
 
 ![](media/cfe3892d0d0f2272f76304f4522c8a19.png)
 
+Locate your Azure subscription ID, and the resource group name where you deployed Azure Blockchain Workbench.
+
 Next, run the script by typing the following –
 
-.\\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+.\\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "subscription_id" -ResourceGroupName "workbench-resource-group-name"
 
 The script will then upgrade your Workbench deployment. It will show its progress along the way.
 

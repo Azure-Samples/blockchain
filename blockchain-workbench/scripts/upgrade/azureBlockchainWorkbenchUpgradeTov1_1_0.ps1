@@ -35,7 +35,7 @@ param(
 )
 
 $targetDockerTag = "1.1.0"
-$artifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.1.0/Artifacts"
+$artifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.2/Artifacts"
 
 
 #############################################
