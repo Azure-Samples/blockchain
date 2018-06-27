@@ -31,12 +31,10 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "<subscrip
 
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
-    [Parameter(Mandatory=$true)][string]$ResourceGroupName
+    [Parameter(Mandatory=$true)][string]$ResourceGroupName,
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.1.0",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.3/Artifacts"
 )
-
-$targetDockerTag = "1.1.0"
-$artifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.2/Artifacts"
-
 
 #############################################
 #  Script Initialization
@@ -163,15 +161,15 @@ function UpgradeInitBlob( $orig)
     {
         if($entry.environment.DOCKER_TAG)
         {
-            $entry.environment.DOCKER_TAG = $targetDockerTag
+            $entry.environment.DOCKER_TAG = $TargetDockerTag
         }     
     }
 
     $sqlComposeDownloadCommand = $json | Where-Object { $_.name -eq "Download SQL Compose" }
-    $sqlComposeDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-sql-compose.yaml `"$artifactsRoot/docker-compose.db.yaml`""
+    $sqlComposeDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-sql-compose.yaml `"$ArtifactsRoot/docker-compose.db.yaml`""
 
     $mainComposeDownloadCommand = $json | Where-Object { $_.name -eq "DownloadWorker" }
-    $mainComposeDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-compose.yaml `"$artifactsRoot/docker-compose.prod.yaml`""
+    $mainComposeDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-compose.yaml `"$ArtifactsRoot/docker-compose.prod.yaml`""
     
     $json = ApplyVersionSpecificChanges1_0_1($json)
 
@@ -214,8 +212,8 @@ $initBlob = UpgradeInitBlob($commandLineParts[4])
 
 # Create new deployment configuration
 $newExtensionConfig = @{
-    fileUris = @("$artifactsRoot/scripts/runScripts.sh");
-    commandToExecute = "sh runScripts.sh $artifactsRoot $keyVaultUri $initBlob"
+    fileUris = @("$ArtifactsRoot/scripts/runScripts.sh");
+    commandToExecute = "sh runScripts.sh $ArtifactsRoot $keyVaultUri $initBlob"
 }
 
 Write-Progress -Id $logId -Activity "Upgrade Worker" -Status "Applying VM Extension Configuration" -PercentComplete 60
@@ -244,11 +242,11 @@ ForEach($setting in $apiWebsite.SiteConfig.AppSettings)
 {
     if($setting.Name -eq 'DOCKER_CUSTOM_IMAGE_NAME')
     {
-        $setting.Value = "blockchainworkbenchprod.azurecr.io/appbuilder.api:$targetDockerTag"
+        $setting.Value = "blockchainworkbenchprod.azurecr.io/appbuilder.api:$TargetDockerTag"
     }
 }
 
-$apiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|blockchainworkbenchprod.azurecr.io/appbuilder.api:$targetDockerTag"
+$apiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|blockchainworkbenchprod.azurecr.io/appbuilder.api:$TargetDockerTag"
 
 $apiWebsite = Set-AzureRmWebApp $apiWebsite -ErrorAction Stop
 if($apiWebsite-eq $null)
@@ -277,16 +275,16 @@ ForEach($setting in $uiWebsite.SiteConfig.AppSettings)
 {
     if($setting.Name -eq 'DISPLAY_RELEASE_VERSION')
     {
-        $setting.Value = "$targetDockerTag"
+        $setting.Value = "$TargetDockerTag"
     }
 
     if($setting.Name -eq 'DOCKER_CUSTOM_IMAGE_NAME')
     {
-        $setting.Value = "blockchainworkbenchprod.azurecr.io/webapp:$targetDockerTag"
+        $setting.Value = "blockchainworkbenchprod.azurecr.io/webapp:$TargetDockerTag"
     }
 }
 
-$uiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|blockchainworkbenchprod.azurecr.io/webapp:$targetDockerTag"
+$uiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|blockchainworkbenchprod.azurecr.io/webapp:$TargetDockerTag"
 
 $uiWebsite = Set-AzureRmWebApp $uiWebsite -ErrorAction Stop
 if($uiWebsite -eq $null)
@@ -309,8 +307,3 @@ Write-Progress -Id $logId -Activity "Upgrade Workbench Website" -Status "Complet
 #############################################
 
 Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.1.0."
-
-
-
-
-
