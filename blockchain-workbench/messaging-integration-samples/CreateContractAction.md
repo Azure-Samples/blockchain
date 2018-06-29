@@ -116,7 +116,7 @@ In the content field, enter the below –
 Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
-![](media/dee0ee075a67cda7900fbe16a7489618.png)
+![](media/CreateContractAction.PNG)
 
 Click Save
 
