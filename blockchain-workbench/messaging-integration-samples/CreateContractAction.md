@@ -95,7 +95,7 @@ Name the field “RequestId”
 
 Select the type of “String”
 
-Provide a value of “guid()”
+Click in the textbox, select expression, and [provide a value of “guid()”
 
 ![](media/4ca67ffb0e784381e78cbb8bda26cdc2.png)
 
