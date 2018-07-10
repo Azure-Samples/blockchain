@@ -1,7 +1,7 @@
 ### YamlMime:Sample
 sample:
 - name: Basic Provenance Sample Application for Azure Blockchain Workbench
-  description: The Basic Provenance application expresses a workflow for a simple record of ownership or responsibility.  The state transition diagram below shows the interactions among the states in this workflow. 
+  description: The Basic Provenance application expresses a workflow for a simple record of ownership or responsibility.
   generateZip: true
   author: PatAltimore
   readme: readme.md
