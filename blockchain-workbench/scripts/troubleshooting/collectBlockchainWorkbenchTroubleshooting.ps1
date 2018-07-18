@@ -433,7 +433,8 @@ if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null
     this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
-if ((Get-Command "Get-AzureRmWebApp").Version.Major -lt 5)
+$rmWebApp = Get-Command "Get-AzureRmWebApp"
+if ($rmWebApp.Source -eq "AzureRM.Websites.Netcore" -or $rmWebApp.Version.Major -lt 5)
 {
     throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the 
     instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
