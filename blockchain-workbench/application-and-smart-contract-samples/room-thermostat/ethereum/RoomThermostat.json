@@ -1,0 +1,170 @@
+{
+  "ApplicationName": "RoomThermostat",
+  "DisplayName": "Room Thermostat",
+  "Description": "...",
+  "ApplicationRoles": [
+    {
+      "Name": "Installer",
+      "Description": "Contractor who install the thermostat."
+    },
+    {
+      "Name": "User",
+      "Description": "..."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "RoomThermostat",
+      "DisplayName": "Room Thermostat",
+      "Description": "...",
+      "Initiators": [ "Installer" ],
+      "StartState":  "Created",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "Installer",
+          "DisplayName": "Installer",
+          "Description": "...",
+          "Type": {
+            "Name": "Installer"
+          }
+        },
+        {
+          "Name": "User",
+          "DisplayName": "User",
+          "Description": "...",
+          "Type": {
+            "Name": "User"
+          }
+        },
+        {
+          "Name": "TargetTemperature",
+          "DisplayName": "Target temperature",
+          "Description": "...",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "Mode",
+          "DisplayName": "System Mode",
+          "Description": "...",
+          "Type": {
+            "Name": "enum",
+            "EnumValues": ["Off", "Cool", "Heat", "Auto"]
+          }
+        }
+      ],
+      "Constructor": {
+		  "Parameters": [
+			  {
+				"Name": "thermostatInstaller",
+				"Description": "...",
+				"DisplayName": "Installer",
+				"Type": {
+				  "Name": "Installer"
+				}
+			  },
+			  {
+				"Name": "thermostatUser",
+				"Description": "...",
+				"DisplayName": "User",
+				"Type": {
+				  "Name": "User"
+				}
+			  }
+			]
+      },
+	  "Functions": [
+        {
+          "Name": "StartThermostat",
+          "DisplayName": "Start Thermostat",
+          "Description": "...",
+          "Parameters": []
+        },
+        {
+          "Name": "SetTargetTemperature",
+          "DisplayName": "Set Target Temperature",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "targetTemperature",
+              "Description": "...",
+              "DisplayName": "TargetTemperature",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+		    {
+          "Name": "SetMode",
+          "DisplayName": "Set Mode",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "mode",
+              "Description": "...",
+              "DisplayName": "Mode",
+              "Type": {
+                "Name": "enum",
+                "EnumValues": ["Off", "Cool", "Heat", "Auto"]
+              }
+            }
+          ]
+        }
+	  ],
+	  "States": [
+		{
+          "Name": "Created",
+          "DisplayName": "Created",
+          "Description": "...",
+          "PercentComplete": 20,
+          "Style": "Success",
+          "Transitions": [
+			{
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["Installer"],
+              "Description": "...",
+              "Function": "StartThermostat",
+              "NextStates": [ "InUse" ],
+              "DisplayName": "StartThermostat"
+            }
+		  ]
+		},
+		{
+          "Name": "InUse",
+          "DisplayName": "In Use",
+          "Description": "...",
+          "PercentComplete": 70,
+          "Style": "Success",
+          "Transitions": [
+			{
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["User"],
+              "Description": "...",
+              "Function": "SetTargetTemperature",
+              "NextStates": ["InUse"],
+              "DisplayName": "Set TargetTemperature"
+            },
+			{
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["User"],
+              "Description": "...",
+              "Function": "SetMode",
+              "NextStates": ["InUse"],
+              "DisplayName": "Set Mode"
+            }
+		  ]
+		}
+	  ]  
+	}
+   ]
+}
