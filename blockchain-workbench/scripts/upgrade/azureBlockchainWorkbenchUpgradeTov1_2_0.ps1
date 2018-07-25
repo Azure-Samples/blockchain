@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.1.0.
+Upgrades Azure Blockchain Workbench to version 1.2.0.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.1.0.
+Upgrades Azure Blockchain Workbench to version 1.2.0.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_2_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.1.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.3/Artifacts",
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.2.0",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.4/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][bool]$TestApi = $false
 )
@@ -96,6 +96,8 @@ if ($workerVMSS -eq $null)
     throw "Could not locate Azure Blockchain Workbench Worker VMSS in $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
+$appServicePlan = Get-AzureRmAppServicePlan -ResourceGroupName $ResourceGroupName # Select the App Service Plan (assume there is only one in the resource group)
+
 $websites = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
 if ($websites -eq $null)
 {
@@ -153,6 +155,22 @@ function ApplyVersionSpecificChanges1_0_1($json)
     return $json
 }
 
+function LocateGethEndpoint($blob)
+{
+    $stringContents = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($blob))
+
+    $json = ConvertFrom-Json $stringContents
+
+    foreach ($entry in $json)
+    {
+        if($entry.environment.GETH_RPC_ENDPOINT)
+        {
+            return $entry.environment.GETH_RPC_ENDPOINT
+        }
+    }
+
+    return ""
+}
 
 function UpgradeInitBlob( $orig)
 {
@@ -210,18 +228,20 @@ if($commandLineParts.Length -lt 5)
     throw "VMSS command to execute was not in the expected format. Is this a valid Azure Blockchain Workbench deployment?"
 }
 
-$keyVaultUri = $commandLineParts[3]
-$initBlob = UpgradeInitBlob($commandLineParts[4])
+$initBlobOld = $commandLineParts[$commandLineParts.Length - 1]
+$keyVaultUri = $commandLineParts[$commandLineParts.Length - 2]
+$initBlob = UpgradeInitBlob($initBlobOld)
+$gethEndpoint = LocateGethEndpoint($initBlobOld)
 
 # Create new deployment configuration
 $newExtensionConfig = @{
     fileUris = @("$ArtifactsRoot/scripts/runScripts.sh");
-    commandToExecute = "sh runScripts.sh $ArtifactsRoot $keyVaultUri $initBlob"
+    commandToExecute = "sh runScripts.sh $gethEndpoint $ArtifactsRoot $keyVaultUri $initBlob"
 }
 
 Write-Progress -Id $logId -Activity "Upgrade Worker" -Status "Applying VM Extension Configuration" -PercentComplete 60
 
-# Change the Initialize-Machine extension to match the latest version
+# Change the Initialize-Machine extension to match the latest version (these two cmdlets only update the local $workerVMSS variable)
 $workerVMSS = Remove-AzureRmVmssExtension -VirtualMachineScaleSet $workerVMSS -Name Initialize-Machine
 $workerVMSS = Add-AzureRmVmssExtension -VirtualMachineScaleSet $workerVMSS -Name Initialize-Machine -Type CustomScript -Publisher Microsoft.Azure.Extensions -TypeHandlerVersion 2.0 -AutoUpgradeMinorVersion $True -Setting $newExtensionConfig
 
@@ -235,6 +255,17 @@ if($workerVMSS -eq $null)
 Write-Progress -Id $logId -Activity "Upgrade Worker" -Status "Completed Upgrade of Worker" -PercentComplete 100
 
 #############################################
+#  Upgrade the App Service Plan
+#############################################
+$logId++
+
+Write-Progress -Id $logId -Activity "Upgrade App Service Plan" -Status "Updating App Service plan's scale up pricing tier" -PercentComplete 0
+
+Set-AzureRmAppServicePlan -ResourceGroupName $appServicePlan.ResourceGroup -Name $appServicePlan.Name -Tier PremiumV2 -WorkerSize Small
+
+Write-Progress -Id $logId -Activity "Upgrade App Service Plan" -Status "Updated App Service plan's scale up pricing tier" -PercentComplete 100
+
+#############################################
 #  Upgrade the Workbench API
 #############################################
 $logId++
@@ -246,6 +277,7 @@ ForEach($setting in $apiWebsite.SiteConfig.AppSettings)
     if($setting.Name -eq 'DOCKER_CUSTOM_IMAGE_NAME')
     {
         $setting.Value = "$DockerRepository/appbuilder.api:$TargetDockerTag"
+        break
     }
 }
 
@@ -320,7 +352,7 @@ if ($TestApi -eq $true)
     
     While ($stop -eq $false) 
     {
-        $endPoint = Invoke-WebRequest $apiWebsite.EnabledHostNames[0] + "/api/health"
+        $endPoint = $apiWebsite.EnabledHostNames[0] + "/api/health"
         $response = Invoke-WebRequest $endPoint
         if ($response.StatusCode -eq 200) 
         {
@@ -329,7 +361,7 @@ if ($TestApi -eq $true)
         }
         if ($retryCount -gt $numberOfRetries) 
         {
-            throw "Workbench API not up after $numberOfRetries retrys. Upgrade failed."
+            throw "Workbench API not up after $numberOfRetries retries. Upgrade failed. Waited for $($sleepTime * $numOfRetries) seconds"
         }
         else 
         {
@@ -344,4 +376,4 @@ if ($TestApi -eq $true)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.1.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.2.0."

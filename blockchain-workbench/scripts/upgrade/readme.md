@@ -12,7 +12,7 @@ To learn what's new in this release, please check our [release notes](releasenot
 
 Execution Instructions
 =======================
-If you haven't already download the [script](azureBlockchainWorkbenchUpgradeTov1_1_0.ps1)
+If you haven't already download the [script](azureBlockchainWorkbenchUpgradeTov1_2_0.ps1)
 
 Log in to the Azure Portal
 
@@ -43,7 +43,7 @@ Click on the Upload button at the top of the PowerShell button
 
 ![](media/19b4b3fea6ffdd03c1d86af7e88921b4.png)
 
-Select the file azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 and click ok.
+Select the file azureBlockchainWorkbenchUpgradeTov1_2_0.ps1 and click ok.
 
 In the Cloud Shell, navigate to your cloud drive by typing the following -
 
@@ -55,7 +55,7 @@ Locate your Azure subscription ID, and the resource group name where you deploye
 
 Next, run the script by typing the following –
 
-.\\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "subscription_id" -ResourceGroupName "workbench-resource-group-name"
+.\\azureBlockchainWorkbenchUpgradeTov1_2_0.ps1 -SubscriptionID "subscription_id" -ResourceGroupName "workbench-resource-group-name"
 
 The script will then upgrade your Workbench deployment. It will show its progress along the way.
 
