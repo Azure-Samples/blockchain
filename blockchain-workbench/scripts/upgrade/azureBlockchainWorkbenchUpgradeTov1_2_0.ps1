@@ -74,7 +74,7 @@ if ($context -eq $null -or ($context.Name -eq "Default"))
 
 Write-Progress -Id $logId -Activity "Login & Setup" -Status "Loading Azure Resources" -PercentComplete 35
 
-Set-AzureRmContext -SubscriptionId $SubscriptionID -ErrorAction Stop
+$context = Set-AzureRmContext -SubscriptionId $SubscriptionID -ErrorAction Stop
 
 $rg = Get-AzureRmResourceGroup -Name $ResourceGroupName
 if ($rg -eq $null)
@@ -96,8 +96,6 @@ if ($workerVMSS -eq $null)
     throw "Could not locate Azure Blockchain Workbench Worker VMSS in $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$appServicePlan = Get-AzureRmAppServicePlan -ResourceGroupName $ResourceGroupName # Select the App Service Plan (assume there is only one in the resource group)
-
 $websites = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
 if ($websites -eq $null)
 {
@@ -113,6 +111,11 @@ if ($apiWebsite -eq $null)
 # Perform explicit get to obtain all properties not returned in `list` operation
 $apiWebsite = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -Name $apiWebsite.Name
 
+# Locate the underlying app service plan
+$spResource = Get-AzureRMResource -ResourceId $apiWebsite.ServerFarmId
+$appServicePlan = Get-AzureRmAppServicePlan -ResourceGroupName $spResource.ResourceGroupName -Name $spResource.Name
+
+# Select the Workbench GUI
 $uiWebsite = ($websites | Where-Object { $_.Name -notlike "*-api" })[0] # Select the Workbench GUI
 if ($uiWebsite -eq $null)
 {
@@ -261,7 +264,7 @@ $logId++
 
 Write-Progress -Id $logId -Activity "Upgrade App Service Plan" -Status "Updating App Service plan's scale up pricing tier" -PercentComplete 0
 
-Set-AzureRmAppServicePlan -ResourceGroupName $appServicePlan.ResourceGroup -Name $appServicePlan.Name -Tier PremiumV2 -WorkerSize Small
+$upgradedPlan = Set-AzureRmAppServicePlan -ResourceGroupName $appServicePlan.ResourceGroup -Name $appServicePlan.Name -Tier PremiumV2 -WorkerSize Small
 
 Write-Progress -Id $logId -Activity "Upgrade App Service Plan" -Status "Updated App Service plan's scale up pricing tier" -PercentComplete 100
 
