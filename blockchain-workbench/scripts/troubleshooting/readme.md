@@ -15,7 +15,7 @@ Collects logs and metrics from an Azure Blockchain Workbench instance for
 troubleshooting. This script will prompt for Azure authentication if you
 are not already logged in.
 
-> NOTE: If you don't have the latest Azure Powershell installed on your machine, we recommend that you use the MSI installer to get the latest at https://github.com/Azure/azure-powershell/releases. Or, run this script using Azure Cloud shell at https://shell.azure.com.
+> NOTE: If you don't have the latest Azure Powershell installed on your machine, we recommend that you use the MSI installer to get the latest at https://github.com/Azure/azure-powershell/releases. This script currently doest not work on Azure Cloud shell.
 
 PARAMETER SubscriptionID
 ------------------------

@@ -54,7 +54,7 @@ if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null
 
 # AzureRM.Websites v5.0 or greater is required for support for upgrading Docker containers
 $rmWebApp = Get-Command "Get-AzureRmWebApp"
-if ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -or ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -and $rmWebApp.Version.Major -lt 5))
+if ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -and $rmWebApp.Version.Major -lt 5)
 {
     throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the
     instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
