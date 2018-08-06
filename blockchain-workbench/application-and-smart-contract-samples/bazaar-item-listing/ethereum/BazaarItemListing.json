@@ -211,23 +211,23 @@
               "DisplayName": "Item listed."
             }
           ]
-         },
-         {
-           "Name": "CurrentSaleFinalized",
-           "DisplayName": "Current Sale Finalized",
-           "Description": "Current Sale Finalized",
-           "PercentComplete": 60,
-           "Style": "Success",
-           "Transitions": [
-             {
-               "AllowedRoles": [],
-               "AllowedInstanceRoles": ["InstancePartyA", "InstancePartyB"],
-               "Description": "List item",
-               "Function": "ListItem",
-               "NextStates": [ "ItemListed" ],
-               "DisplayName": "Item listed."
-             }
-           ]
+          },
+          {
+            "Name": "CurrentSaleFinalized",
+            "DisplayName": "Current Sale Finalized",
+            "Description": "Current Sale Finalized",
+            "PercentComplete": 60,
+            "Style": "Success",
+            "Transitions": [
+              {
+                "AllowedRoles": [],
+                "AllowedInstanceRoles": ["InstancePartyA", "InstancePartyB"],
+                "Description": "List item",
+                "Function": "ListItem",
+                "NextStates": [ "ItemListed" ],
+                "DisplayName": "Item listed."
+              }
+            ]
           }
       ]
     },
@@ -296,7 +296,56 @@
         }
       ],
       "Constructor": {
-        "Parameters": []
+        "Parameters": [
+          {
+            "Name": "itemName",
+            "Description": "Item Name",
+            "DisplayName": "Item Name",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "itemPrice",
+            "Description": "Item Price",
+            "DisplayName": "Item Price",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "seller",
+            "Description": "Party",
+            "DisplayName": "Party",
+            "Type": {
+              "Name": "Party"
+            }
+          },
+          {
+            "Name": "parentContractAddress",
+            "Description": "Parent Address",
+            "DisplayName": "Parent Address",
+            "Type": {
+              "Name": "address"
+            }
+          },
+          {
+            "Name": "partyA",
+            "Description": "Party A",
+            "DisplayName": "Party A",
+            "Type": {
+              "Name": "Party"
+            }
+          },
+          {
+            "Name": "partyB",
+            "Description": "Party B",
+            "DisplayName": "Party B",
+            "Type": {
+              "Name": "Party"
+            }
+          }
+        ]
       },
       "Functions": [
         {
