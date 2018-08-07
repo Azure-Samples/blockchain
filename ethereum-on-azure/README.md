@@ -25,7 +25,7 @@ To learn more about Ethereum on Azure, please visit our [documentation](https://
 
 ## How to provide feedback
 
-To provide feedback on these samples, please see our [Contribution Guidelines](../.github/CONTRIBUTING.md).
+To provide feedback on these samples, please see our [Contribution Guidelines](../CONTRIBUTING.md).
 
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain).
 
