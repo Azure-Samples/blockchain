@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+
+    <title>AAD Bearer Token Retrieval</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">AAD Bearer Token Retrieval</a>
+
+      <form class="form-inline my-2 my-lg-0">
+        <a class="navbar-brand" id="userName" href="#"></a>
+        <button type="button" id="logoutBtn" class="btn btn-danger" disabled>Logout</button>
+      </form>
+    </nav>
+    <div class="container">
+      <div class="area">
+        <h3 class="header" > Acquire Bearer (id_token) Token for your AppId</h3>
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="appIdTextBox" placeholder="App Id" value="">
+                  </div>
+                  <input type="text" class="form-control" id="tenantNameTextBox" placeholder="Tenant Domain Name (leave blank for 'common') ">
+                  <div class="input-group-append">
+                    <span class="input-group-text">.onmicrosoft.com</span>
+                  </div>
+                </div>
+                <p class="hint"> * Make sure <i id="replyUrl"></i> is added to your App's reply urls </p>
+                <button type="button" id="loginBtn" class="btn btn-primary" disabled>Login</button>
+                <button type="button" id="resetForm" class="btn btn-danger resetButtons" disabled>Reset</button>
+            </div>
+            <div class="col">
+                <textarea readonly class="form-control" id="bearerTokenTextArea" rows="3"></textarea>
+                <button class="btn btn-link" id="copyToClipboardBtn" data-clipboard-target="#bearerTokenTextArea">Copy to clipboard</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="adal.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>
