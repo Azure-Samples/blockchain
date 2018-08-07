@@ -1,0 +1,12 @@
+### YamlMime:Sample
+sample:
+- name: Digital Locker Sample Application for Azure Blockchain Marketplace
+  description: The Digital Locker application expresses a workflow of sharing digitally locked files where the owner of the files controls the access to these files. We illustrate Digital Locker using an example of an owner performing access control to their document held by a bank.
+  generateZip: true
+  author: PatAltimore
+  readme: readme.md
+  languages:
+  - javascript
+  technologies:
+  - azure-blockchain
+  - azure

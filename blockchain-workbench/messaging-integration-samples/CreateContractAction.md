@@ -11,10 +11,10 @@ Deploy the Stored Procedures
 ----------------------------
 
 Download the file with the stored procedures to support messaging integration.
-They are in a single file that can be downloaded from this location.
+They are in a single file that can be downloaded from [this location](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/messaging-integration-samples/SQL/LogicAppStoredProcedures.sql)
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -95,7 +95,7 @@ Name the field “RequestId”
 
 Select the type of “String”
 
-Provide a value of “guid()”
+Click in the textbox, select expression, and [provide a value of “guid()”
 
 ![](media/4ca67ffb0e784381e78cbb8bda26cdc2.png)
 
@@ -116,7 +116,7 @@ In the content field, enter the below –
 Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
-![](media/dee0ee075a67cda7900fbe16a7489618.png)
+![](media/CreateContractAction.PNG)
 
 Click Save
 

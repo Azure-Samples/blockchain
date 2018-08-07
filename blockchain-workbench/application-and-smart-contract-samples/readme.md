@@ -11,6 +11,8 @@ This section includes applications and smart contracts that can be deployed to A
 * [Digital Locker](digital-locker/readme.md)
 * [Refrigerated Transportation](refrigerated-transportation/readme.md)
 * [Asset Transfer](asset-transfer/readme.md)
+* [Bazaar Item Listing](bazaar-item-listing/readme.md)
+* [Room Thermostat](room-thermostat/readme.md)
 
 ## Deploying Applications
 To deploy an application, navigate to the web application for Azure Blockchain Workbench

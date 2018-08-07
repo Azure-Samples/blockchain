@@ -76,7 +76,7 @@ Write-Host "Please enter a password to use to generate the key used with the app
 #$PasswordForKey = Read-Host -Prompt "Password to Use for Key" 
 Write-Host ""
 Write-Host ""
-Write-Host "You provded a domain of " $AADDomain 
+Write-Host "You provided a domain of " $AADDomain 
 # " and a password of " $PasswordForKey
 Write-Host 
 Write-Host "Do you want to continue to run the script with this?"

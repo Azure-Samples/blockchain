@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 
 Collects logs and metrics from an Azure Blockchain Workbench instance for
@@ -428,9 +428,17 @@ $LookbackHoursStr = "$LookbackHours" + "h"
 
 if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null)
 {
-    throw "Azure Powershell cmdlets were not detected. We recommend that you use the MSI installer to get the latest at
-    https://github.com/Azure/azure-powershell/releases. Or, run this script using
-    Azure Cloud shell at https://shell.azure.com."
+    throw "Azure Powershell cmdlets were not detected. We recommend that you follow the instructions on
+    https://www.powershellgallery.com/packages/AzureRM/6.0.1 to obtain the latest version. Or, you can run 
+    this script using Azure Cloud shell at https://shell.azure.com/powershell"
+}
+
+$rmWebApp = Get-Command "Get-AzureRmWebApp"
+if ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -and $rmWebApp.Version.Major -lt 5)
+{
+    throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the 
+    instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
+    you can run  this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
 $context = Get-AzureRmContext
@@ -468,7 +476,7 @@ if ($websites -eq $null)
     throw "Could not locate App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$apiWebsite = ($websites | Where-Object { $_.SiteName -like "*-api" })[0] # Select the Workbench API
+$apiWebsite = ($websites | Where-Object { $_.Name -like "*-api" })[0] # Select the Workbench API
 if ($apiWebsite -eq $null)
 {
     throw "Could not locate API App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
@@ -481,7 +489,7 @@ if ($serviceBus -eq $null)
 }
 $serviceBus = $serviceBus[0]
 
-$logAnalytics = Find-AzureRmResource -ResourceGroupNameEquals $ResourceGroupName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
+$logAnalytics = Get-AzureRmResource -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
 if ($logAnalytics -ne $null)
 {
     $logAnalytics = $logAnalytics[0]
@@ -494,11 +502,13 @@ else
     # Fall back to manually specified OMS if it's not in the same resource group
     if ($OmsSubscriptionId -ne $null -and $OmsResourceGroup -ne $null -and $OmsWorkspaceName -ne $null)
     {
-        $logAnalytics = Find-AzureRmResource -ResourceGroupNameEquals $OmsResourceGroup -ResourceNameEquals $OmsWorkspaceName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
+        Set-Azurermcontext -SubscriptionId $OmsSubscriptionId
+        $logAnalytics = Get-AzureRmResource -ResourceGroupName $OmsResourceGroup -ResourceName $OmsWorkspaceName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
         if ($logAnalytics -ne $null)
         {
             $logAnalytics = $logAnalytics[0]
         }
+        Set-AzureRmContext -SubscriptionId $SubscriptionID
     }
 }
 
@@ -550,7 +560,7 @@ Add-Content $summaryFile "====================="
 Add-Content $summaryFile ""
 
 $runningServices = RestQueryResultsToObjectView($lastEvent) | select ServiceName | foreach { $_.ServiceName }
-$services = @("sql-consumer", "dlt-consumer", "appbuilder.api", "dlt-native-api", "key-service", "dlt-api", "dlt-watcher")
+$services = @("sql-consumer", "dlt-consumer", "appbuilder.api", "dlt-native-api", "key-service", "dlt-api", "dlt-watcher", "telemetry-collector" )
 
 Add-Content $summaryFile "[1] Recommended Actions"
 if($services.Count -ne $runningServices.Count)
@@ -575,7 +585,7 @@ Write-Progress -Id $logId -Activity "Summary reporting" -Status "Generated summa
 #  Collect Exceptions
 #############################################
 $logId++
-Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecing Exceptions" -PercentComplete 0
+Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecting Exceptions" -PercentComplete 0
 $exceptionsPath = Join-Path $outputPath "\details\workbench\exceptions.csv"
 
 $lastExceptions = Execute-InsightsQuery -subscription $SubscriptionID -resourceGroup $ResourceGroupName -aiName $appInsightsResource.Name -query "exceptions
@@ -691,7 +701,7 @@ if ($logAnalytics -ne $null)
     #############################################
     $networkMinedTxns = Join-Path $outputPath "\details\blockchain\network_mined_transaction.csv"
 
-    $networkMinedTxnsResult =  Invoke-LogAnalyticsQuery -SubscriptionId $logAnalytics.SubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.ResourceName -Query "MinedTransaction_CL
+    $networkMinedTxnsResult =  Invoke-LogAnalyticsQuery -SubscriptionId $OmsSubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.Name -Query "MinedTransaction_CL
     | take 500"
 
     $networkMinedTxnsResult.Results | ConvertTo-Csv | out-file $networkMinedTxns -Append utf8
@@ -703,7 +713,7 @@ if ($logAnalytics -ne $null)
     #############################################
     $networkPendingTxns = Join-Path $outputPath "\details\blockchain\blockchainnetwork_pending_transaction.csv"
 
-    $networkpendingTxnsResult = Invoke-LogAnalyticsQuery -SubscriptionId $logAnalytics.SubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.ResourceName -Query "PendingTransaction_CL
+    $networkpendingTxnsResult = Invoke-LogAnalyticsQuery -SubscriptionId $OmsSubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.Name -Query "PendingTransaction_CL
     | take 500"
 
     $networkpendingTxnsResult.Results | ConvertTo-Csv | out-file $networkPendingTxns -Append utf8
@@ -715,7 +725,7 @@ if ($logAnalytics -ne $null)
     #############################################
     $networkMinedBlocks = Join-Path $outputPath "\details\blockchain\blockchainnetwork_mined_blocks.csv"
 
-    $networkMinedblocksResult =  Invoke-LogAnalyticsQuery -SubscriptionId $logAnalytics.SubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.ResourceName -Query "MinedBlock_CL
+    $networkMinedblocksResult =  Invoke-LogAnalyticsQuery -SubscriptionId $OmsSubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.Name -Query "MinedBlock_CL
     | take 500"
 
     $networkMinedblocksResult.Results | ConvertTo-Csv | out-file $networkMinedBlocks -Append utf8
@@ -727,7 +737,7 @@ if ($logAnalytics -ne $null)
     #############################################
     $networkPerf = Join-Path $outputPath "\metrics\blockchain\network_perf_counters.csv"
 
-    $networkPerfResult =  Invoke-LogAnalyticsQuery -SubscriptionId $logAnalytics.SubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.ResourceName -Query "Perf
+    $networkPerfResult =  Invoke-LogAnalyticsQuery -SubscriptionId $OmsSubscriptionId -ResourceGroup $logAnalytics.ResourceGroupName -WorkspaceName $logAnalytics.Name -Query "Perf
     | where TimeGenerated  > ago($LookbackHoursStr)
     | summarize min(CounterValue), max(CounterValue), avg(CounterValue), percentiles_array(CounterValue, 50, 90, 95), stdev(CounterValue)  by Computer, CounterPath, bin(TimeGenerated, 5m)
     | order by Computer, CounterPath, TimeGenerated"
@@ -741,3 +751,5 @@ if ($logAnalytics -ne $null)
 $timestamp = Get-Date -Format o | foreach {$_ -replace ":", "."}
 $finalPath = Join-Path $OutputDirectory "\workbench-logs-$timestamp.zip"
 ZipFiles $finalPath $outputPath
+
+Write-Output "Troubleshooting logs succesfully written to: $finalPath"

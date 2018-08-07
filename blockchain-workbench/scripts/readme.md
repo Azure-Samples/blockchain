@@ -1,4 +1,3 @@
-.
 # Scripts
 
 ## Introduction
@@ -10,6 +9,8 @@ The currently available scripts include
 * [collectBlockchainWorkbenchTroubleshooting.ps1](./troubleshooting/) - This generates a summary and detailed logs for troubleshooting Azure Blockchain Workbench. See [Azure Blockchain Workbench troubleshooting]() for more details.
 
 * [cloudShellPreDeploy.ps1](./deployment/)- This script can be used to automate some of Azure Active Directory configuration tasks for an Azure Blockchain Workbench deployment.
+
+* [AzureBlockchainWorkbenchUpgrade](./upgrade/) - This script is used to upgrade to new releases of Workbench.
 
 ## Prerequisites
 
