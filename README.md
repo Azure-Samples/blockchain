@@ -1,14 +1,16 @@
 
-  
+
 # ![Microsoft Azure Blockchain Workbench](./blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
 
 *New!* Version 1.2.0 of Workbench has been released. Please see our [Release Notes](./blockchain-workbench/scripts/upgrade/releasenotes.md) and [Upgrade Instructions](./blockchain-workbench/scripts/upgrade/readme.md) if you're running an older version.
 
 This repository contains content and samples in number of areas, including:
+
 * [Applications and smart contracts for Azure Blockchain Workbench](blockchain-workbench/application-and-smart-contract-samples/readme.md)
+* [Auth Samples](blockchain-workbench/auth-samples/README.md)
 * [REST API](blockchain-workbench/rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
 * [Messaging Integration](blockchain-workbench/messaging-integration-samples/readme.md)
-* [IoT Integration](blockchain-workbench/iot-integration-samples/readme.md) 
+* [IoT Integration](blockchain-workbench/iot-integration-samples/readme.md)
 * [Office Integration](blockchain-workbench/office-integration-samples/readme.md)
 * [Technology Samples](blockchain-workbench/technology-samples/readme.md)
 * [Data and Reporting](blockchain-workbench/data-reporting-samples/readme.md)(including CosmosDB, SQL DB, Excel, and PowerBI)
