@@ -202,6 +202,7 @@ Write-Host "                  You can use the values bellow in your Azure Portal
 Write-Host "============================================================================================================"
 Write-Host
 Write-Host "Domain Name: $tenantName" -foregroundcolor green
+Write-Host "Application Name: $AADAppName" -foregroundcolor green
 Write-Host "Application Client: $($application.AppId)" -foregroundcolor green
 Write-Host "Application Key: $($appSecret.Value)" -foregroundcolor green
-Write-Host "WARNING: Please navigate to Azure portal and press the 'Grant Permission' on the AAD App. Make sure to add the Reply Url after the deployment is done (refer to the docs for more information)" -foregroundcolor red
+Write-Host "WARNING: Please navigate to Azure portal and press the 'Grant Permission' on the AAD App. Make sure to add the Reply Url after the deployment is done (refer to the docs http://aka.ms/workbenchAADPostDeployment for more information)" -foregroundcolor red
