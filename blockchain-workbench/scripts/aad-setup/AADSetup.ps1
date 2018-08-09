@@ -166,11 +166,12 @@ if ($matchedUsers -And $matchedUsers.length -gt 0) {
     $user = $matchedUsers[0]
     # Assign the current logged in user to be the owner of the Application. (this is nice to have)
     try {
+        # Note: There is a bug in method Add-AzureADApplicationOwner in AzureAD.Standard.Preview lib
         $null = Add-AzureADApplicationOwner `
-        -ObjectId $application.ObjectId `
-        -RefObjectId $user.ObjectId
+            -ObjectId $application.ObjectId `
+            -RefObjectId $user.ObjectId
     } catch {
-        Write-Host "'$($currentUser.Account.Id)' is already an owner of this application."
+        # Write-Host "'$($currentUser.Account.Id)' is already an owner of this application."
     }
 
     # Assign the current logged in user to be in the admin role
