@@ -7,7 +7,7 @@
 This repository contains content and samples in number of areas, including:
 
 * [Applications and smart contracts for Azure Blockchain Workbench](blockchain-workbench/application-and-smart-contract-samples/readme.md)
-* [Auth Samples](blockchain-workbench/auth-samples/README.md)
+* [Auth Samples](blockchain-workbench/auth-samples)
 * [REST API](blockchain-workbench/rest-api-samples/readme.md) (including the swagger file and clients for .NET, Java, and Python)
 * [Messaging Integration](blockchain-workbench/messaging-integration-samples/readme.md)
 * [IoT Integration](blockchain-workbench/iot-integration-samples/readme.md)
