@@ -31,10 +31,10 @@ Run the following commands to setup your AAD application
 
 ```powershell
 # Downloading the script
-Invoke-WebRequest -Uri aka.ms/AADSetup -OutFile AADSetup.ps1
+Invoke-WebRequest -Uri aka.ms/workbenchAADSetup -OutFile workbenchAADSetup.ps1
 
 # Running the script
-./AADSetup.ps1 -TenantName <domainName>.onmicrosoft.com -AADAppName "<Your app name [optional]>"
+./workbenchAADSetup.ps1 -TenantName <domainName>.onmicrosoft.com -AADAppName "<Your app name [optional]>"
 ```
 
 ![](./media/4.png)
