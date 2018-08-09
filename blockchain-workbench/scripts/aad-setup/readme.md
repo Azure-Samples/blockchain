@@ -29,6 +29,8 @@ Make sure to select the PowerShell option. (ignore the warnings)
 
 Run the following commands to setup your AAD application
 
+> Note: You need to have an existing Azure Ad Domain (tenant). This script does not create a new tenant.
+
 ```powershell
 # Navigate to your home directory
 cd
