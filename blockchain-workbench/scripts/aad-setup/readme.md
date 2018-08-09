@@ -59,7 +59,7 @@ After the deployment is finished you need to set the `replyUrl` of your applicat
 First we need to locate your App.
 
 1. Login to Azure and click on the list of Active Directories
-2. Select the directly you used for Workbench
+2. Select the directory you used for Workbench
 
 ![](./media/8.png)
 
