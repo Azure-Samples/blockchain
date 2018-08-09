@@ -30,6 +30,9 @@ Make sure to select the PowerShell option. (ignore the warnings)
 Run the following commands to setup your AAD application
 
 ```powershell
+# Navigate to your home directory
+cd
+
 # Downloading the script
 Invoke-WebRequest -Uri aka.ms/workbenchAADSetup -OutFile workbenchAADSetup.ps1
 
