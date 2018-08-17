@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.2.0.
+Upgrades Azure Blockchain Workbench to version 1.3.0.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.2.0.
+Upgrades Azure Blockchain Workbench to version 1.3.0.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_2_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_3_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_2_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.2.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.4/Artifacts",
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.3.0",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.5/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][bool]$TestApi = $false
 )
@@ -352,21 +352,21 @@ if ($TestApi -eq $true)
     $retryCount = 0
     $numberOfRetries = 10
     $sleepTime = 30
-    
-    While ($stop -eq $false) 
+
+    While ($stop -eq $false)
     {
         $endPoint = $apiWebsite.EnabledHostNames[0] + "/api/health"
         $response = Invoke-WebRequest $endPoint
-        if ($response.StatusCode -eq 200) 
+        if ($response.StatusCode -eq 200)
         {
             Write-Progress -Id $logId -Activity "Testing upgrade complete" -Status "Completed Testing of Upgrade of Workbench API" -PercentComplete 100
             $stop = $true
         }
-        if ($retryCount -gt $numberOfRetries) 
+        if ($retryCount -gt $numberOfRetries)
         {
             throw "Workbench API not up after $numberOfRetries retries. Upgrade failed. Waited for $($sleepTime * $numOfRetries) seconds"
         }
-        else 
+        else
         {
             Write-Host "Request to Workbench API returned $($response.StatusCode), retrying in $sleepTime seconds..."
             Start-Sleep -Seconds $sleepTime
@@ -379,4 +379,4 @@ if ($TestApi -eq $true)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.2.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.3.0."
