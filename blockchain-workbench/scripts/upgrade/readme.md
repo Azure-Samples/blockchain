@@ -41,7 +41,7 @@ Invoke-WebRequest -Uri aka.ms/workbenchUpgradeScript -OutFile workbenchUpgradeSc
 
 ![](./media/upgrade-3.png)
 
-You will be provided with a link and a code to Authenticate to Azure. Click on the link and copy the code
+You maybe asked to authenticate if you're not currently authenticated. In this case, you will be provided with a link and a code to Authenticate to Azure. Click on the link and copy the code
 
 ![](./media/upgrade-4.png)
 ![](./media/upgrade-5.png)
