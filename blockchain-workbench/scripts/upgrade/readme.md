@@ -33,10 +33,10 @@ Next, run the script by typing the following;
 cd
 
 # Downloading the script
-Invoke-WebRequest -Uri aka.ms/workbenchUpgradeScript -OutFile workbenchUpgradeScript.1.3.ps1
+Invoke-WebRequest -Uri aka.ms/workbenchUpgradeScript -OutFile workbenchUpgradeScript1.3.ps1
 
 # Running the script
-./workbenchUpgradeScript.1.3.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+./workbenchUpgradeScript1.3.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 ```
 
 ![](./media/upgrade-3.png)
