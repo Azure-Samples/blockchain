@@ -8,10 +8,14 @@ This is a simple tool that allows you to obtain a bearer token for your Workbenc
 
 ## Prerequisite
 * [NodeJS](https://nodejs.org/)
+* [Docker (Optional)](https://www.docker.com/products/docker-engine)
 * Azure Active Directory App Registration (You will need the App Id)
 * Please add `http://localhost:3000` to the reply urls of your AAD app
 
 ## Execution Instructions
+You can run the Node application directly on your machine or via Docker. 
+
+### Option 1 (Local Machine)
 
 Navigate to this directory and run the following commands:
 
@@ -19,8 +23,24 @@ Navigate to this directory and run the following commands:
 npm install
 npm start
 ```
-
 This should open the following browser tab on [http://localhost:3000](http://localhost:3000)
+
+### Option 2 (Docker)
+
+Navigate to this directory and run the following commands:
+
+### Build 
+
+```bash
+docker build -t awb-authsample:1.0 .
+```
+### Run 
+
+```bash
+docker run -d -p 3000:3000 awb-authsample:1.0
+```
+
+Open the browser and navigate to the URL: [http://localhost:3000](http://localhost:3000)
 
 ![Fresh login page](media/fresh-page.png)
 
