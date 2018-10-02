@@ -17,7 +17,7 @@ The only requirement is that you have already successfully deployed the Ethereum
 
 In order to deploy BlockScout, a separate Linux Virtual Machine must first be created. Either within the existing PoA Resource Group or within another Resource Group, select the "+ Add" button and search for "Ubuntu Server 16.04 LTS", then expand the resource and select "Create".
 
-![Ubuntu Server 16.04 LTS](./media/ubuntu_vm.png)
+![Ubuntu Server 16.04 LTS](./media/ubuntu_vm.PNG)
 
 1. On the first blade, either select the existing Resource Group or a new Resource Group if you prefer.
 2. Next, choose an appropriate size for the Virtual Machine (B2ms should suffice).
@@ -29,7 +29,7 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 
     See the following deployment settings example:
 
-    ![VM Settings](./media/vm_settings.png)
+    ![VM Settings](./media/vm_settings.PNG)
 
 4. Select the "Create" button to complete the Virtual Machine deployment.
 
@@ -39,7 +39,7 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 2. Select the "Inbound Security Rules" blade and then select the "+ Add" button.
 3. Add a new Inbound Security Rule for Port 80 as follows:
 
-![NSG Rules](./media/nsg_rule.png)
+![NSG Rules](./media/nsg_rule.PNG)
 
 #### Deployment Script
 
@@ -56,7 +56,7 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 	| Database Password                                              | This will be the password to use when generating the BlockScout PostgreSQL database.                             |
 	| RPC Port  (*Optional - Will use default if not supplied)       | The Parity PoA Template JSON RPC Port (default: 8540)                                                                         |
 	| WebSocket Port  (*Optional - Will use default if not supplied) | The Parity PoA Template WebSocket Port (default: 8547)                                                                        |
-     
+
 	*The WebSocket IP Address is the Private IP Address of a specific node when deploying behind a VPN with a VNet Gateway.
 
      Example:
@@ -66,19 +66,19 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
     ![Deployment Script](./media/deployment_script.png)
 
 4. Wait approximately 5-10 minutes for the script to complete execution.
-             
+
 #### (Optional) Add Custom DNS Name
 
 1. You can optionally add a Custom DNS for the BlockScout site by navigating to the IP Address for the newly created VM.
 2. Navigate to the "Configuration" blade and under "DNS name label", choose an appropriate DNS name.
 
-![Custom DNS](./media/custom_dns.png)
+![Custom DNS](./media/custom_dns.PNG)
 
 ## BlockScout UI
 
 Once the deployment script has successfully completed, you should be able to navigate to either the Public IP Address or Custom DNS name to view the BlockScout user interface.
 
-![BlockScout UI](./media/blockscout_ui.png)
+![BlockScout UI](./media/blockscout_ui.PNG)
 
 #### (Optional) Customize Theme Colors
 
@@ -92,4 +92,4 @@ If you would like to customize the theme, follow these steps after a successful 
 
 The BlockScout application will now be running with the designated theme changes.
 
-![Themed BlockScout UI](./media/blockscout_ui_blue.png)
+![Themed BlockScout UI](./media/blockscout_ui_blue.PNG)
