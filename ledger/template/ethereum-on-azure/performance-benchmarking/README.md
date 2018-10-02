@@ -23,7 +23,7 @@ node mockTransactions.js [RPC_ENDPOINT] [REQUESTS_PER_BATCH]
 
 node perfGauge.js [RPC_ENDPOINT]
 
-![perfGauge results](./media/poa-perf.png)
+![perfGauge results](./media/poa-perf.PNG)
 
 #### Hardware Benchmarking Results
 ##### Methodology
@@ -39,4 +39,4 @@ node perfGauge.js [RPC_ENDPOINT]
 - Query latency was measured from the East US instance via my dev machine
 
 ##### Results
-![benchmark results](./media/benchmark-results.png)
+![benchmark results](./media/benchmark-results.PNG)
