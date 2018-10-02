@@ -1,4 +1,5 @@
-pragma solidity ^0.4.20;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
@@ -7,17 +8,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -46,7 +47,7 @@ contract RefrigeratedTransportation is WorkbenchBase('RefrigeratedTransportation
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
 
-    function RefrigeratedTransportation(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;

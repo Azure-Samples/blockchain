@@ -1,4 +1,5 @@
-pragma solidity ^0.4.20;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
@@ -6,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -34,7 +35,7 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 	address public  SupplyChainOwner;
 	address public  SupplyChainObserver;
 	
-	function BasicProvenance(address supplyChainOwner, address supplyChainObserver) public
+	constructor(address supplyChainOwner, address supplyChainObserver) public
 	{
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;

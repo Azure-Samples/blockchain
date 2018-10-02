@@ -1,4 +1,5 @@
-pragma solidity 0.4.21;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 import "./Utils.sol";
 
 // Consortium member that can vote to add/remove new members
@@ -13,7 +14,7 @@ contract Admin {
     // Ensures that only the AdminValidatorSet or AdminSet can make changes
     mapping(address=>bool) owners;
 
-    function Admin(address id, address owner) public {
+    constructor(address id, address owner) public {
         owners[msg.sender] = true;
         owners[owner] = true;
         identity = id;
@@ -30,7 +31,7 @@ contract Admin {
         return ++votesForAdding;
     }
 
-    function countOfVotesFor() public callerIsOwner returns (uint) {
+    function countOfVotesFor() public callerIsOwner view returns (uint) {
         return votesForAdding;
     }
 
@@ -51,7 +52,7 @@ contract Admin {
         return ++votesForRemoving;
     }
 
-    function countOfVotesAgainst() public callerIsOwner returns (uint) {
+    function countOfVotesAgainst() public callerIsOwner view returns (uint) {
         return votesForRemoving;
     }
 
@@ -98,7 +99,7 @@ contract AdminSet {
     address owner;
     uint MAXADMINS = 200;
     
-    function AdminSet() public {
+    constructor() public {
         owner = msg.sender;
     }
 

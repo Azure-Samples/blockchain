@@ -1,4 +1,5 @@
-pragma solidity 0.4.21;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 import "./SafeMath.sol";
 import "./SimpleValidatorSet.sol";
 import "./Admin.sol";
@@ -19,7 +20,7 @@ contract AdminValidatorSet is SimpleValidatorSet {
     event AdminAdded(address admin);
     event AdminRemoved(address admin);
 
-    function AdminValidatorSet() SimpleValidatorSet() public {
+    constructor() SimpleValidatorSet() public {
         // Truffle dev account
 	    // testHooksEnabled allows us to call finalize from non-system account
         if (msg.sender == TRUFFLEADDRESS) {

@@ -1,4 +1,5 @@
-pragma solidity 0.4.21;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 
 import "./SafeMath.sol";
 import "./Utils.sol";
@@ -59,7 +60,7 @@ contract SimpleValidatorSet is ValidatorSet {
     bool testHooksEnabled = false;
     address internal TRUFFLEADDRESS = 0x627306090abaB3A6e1400e9345bC60c78a8BEf57;
     
-    function SimpleValidatorSet () public {
+    constructor () public {
         // Truffle dev account
 	    // testHooksEnabled allows us to call finalize from non-system account
         if (msg.sender == TRUFFLEADDRESS) {

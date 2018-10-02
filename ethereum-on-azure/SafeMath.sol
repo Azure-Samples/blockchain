@@ -1,4 +1,5 @@
-pragma solidity 0.4.21;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 
 library SafeMath {
   /**

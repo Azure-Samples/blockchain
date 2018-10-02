@@ -1,4 +1,5 @@
-pragma solidity ^0.4.20;
+// Current Compiler version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
@@ -7,17 +8,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal  {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
-    function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+    function ContractCreated() internal  {
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+    function ContractUpdated(string action) internal  {
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -37,7 +38,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
     string public RejectionReason;
     StateType public State;
 
-    function DigitalLocker(string lockerFriendlyName, address bankAgent)
+    constructor(string lockerFriendlyName, address bankAgent) public
     {
         Owner = msg.sender;
         LockerFriendlyName = lockerFriendlyName;
@@ -49,7 +50,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ContractCreated();
     }
 
-    function BeginReviewProcess()
+    function BeginReviewProcess() public
     {
         /* Need to update, likely with registry to confirm sender is agent
         Also need to add a function to re-assign the agent.
@@ -65,7 +66,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ContractUpdated("BeginReviewProcess");
     }
 
-    function RejectApplication(string rejectionReason)
+    function RejectApplication(string rejectionReason) public
     {
      if (BankAgent != msg.sender)
         {
@@ -78,7 +79,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ContractUpdated("RejectApplication");
     }
 
-    function UploadDocuments(string lockerIdentifier, string image)
+    function UploadDocuments(string lockerIdentifier, string image) public
     {
          if (BankAgent != msg.sender)
         {
@@ -91,7 +92,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             ContractUpdated("UploadDocments");
     }
 
-    function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose)
+    function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose) public
     {
         if (Owner != msg.sender)
         {
@@ -108,7 +109,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ContractUpdated("ShareWithThirdParty");
     }
 
-    function AcceptSharingRequest()
+    function AcceptSharingRequest() public
     {
         if (Owner != msg.sender)
         {
@@ -120,7 +121,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ContractUpdated("AcceptSharingRequest");
     }
 
-    function RejectSharingRequest()
+    function RejectSharingRequest() public
     {
         if (Owner != msg.sender)
         {
@@ -132,7 +133,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             ContractUpdated("RejectSharingRequest");
     }
 
-    function RequestLockerAccess(string intendedPurpose)
+    function RequestLockerAccess(string intendedPurpose) public
     {
         if (Owner == msg.sender)
         {
@@ -145,7 +146,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
                 ContractUpdated("RequestLockerAccess");
     }
 
-    function ReleaseLockerAccess()
+    function ReleaseLockerAccess() public
     {
 
         if (CurrentAuthorizedUser != msg.sender)
@@ -159,7 +160,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         State = StateType.AvailableToShare;
         ContractUpdated("AvailableToShare");
     }
-    function RevokeAccessFromThirdParty()
+    function RevokeAccessFromThirdParty() public
     {
         if (Owner != msg.sender)
         {
@@ -170,7 +171,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             State = StateType.AvailableToShare;
             ContractUpdated("RevokeAccessFromThirdParty");
     }
-    function Terminate()
+    function Terminate() public
     {
         if (Owner != msg.sender)
         {
