@@ -1,4 +1,5 @@
-pragma solidity ^0.4.20;
+// Compiler: Current version:0.4.25+commit.59dbf8f1.Emscripten.clang
+pragma solidity ^0.4.25;
 
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
@@ -7,17 +8,18 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    // constructor
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -34,8 +36,8 @@ contract HelloBlockchain is WorkbenchBase('HelloBlockchain', 'HelloBlockchain') 
     string public RequestMessage;
     string public ResponseMessage;
 
-    // constructor function
-    function HelloBlockchain(string message) public
+    // constructor
+    constructor(string message) public
     {
         Requestor = msg.sender;
         RequestMessage = message;
