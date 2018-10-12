@@ -21,7 +21,7 @@ States 
 
 Workflow Details
 ----------------
-![](media/FrequentFlyerRewardsCalculator.png)
+![](media/FrequentFlyerRewardsCalculator.PNG)
 
 An instance of Frequent Flyer Rewards Calculator is created when an airline representative creates a contract by specifying a flyer and the rewards per mile.  The flyer associated with the contract can add miles after the contract is created.  The miles can be added as an array of integers and the size of this array need not have to be specified in the contract.  The miles are all stored as a part of a monotonically growing dynamic array.  The value for the total rewards accrued is computed as and when miles are added.
 
