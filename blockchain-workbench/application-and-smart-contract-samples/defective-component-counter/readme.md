@@ -23,7 +23,7 @@ States 
 Workflow Details
 ----------------
 
-![](media/DefectiveComponentCounter.png)
+![](media/DefectiveComponentCounter.PNG)
 
 
 An instance of the Defective Component Counter application's workflow starts when a Manufacturer creates a contract by specifying the number of defective components for the last twelve months.  The manufacturer calls the function 'ComputeTotal' to compute the total number of defective components after the contract is created.  The total number of defective components is tracked as a property in the contract and is updated when the ComputeTotal function executes. 
