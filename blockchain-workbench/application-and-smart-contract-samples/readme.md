@@ -14,6 +14,7 @@ This section includes applications and smart contracts that can be deployed to A
 * [Bazaar Item Listing](bazaar-item-listing/readme.md)
 * [Room Thermostat](room-thermostat/readme.md)
 * [Defective Component Counter](defective-component-counter/readme.md)
+* [Frequent Flyer Rewards Calculator](frequent-flyer-rewards-calculator/readme.md)
 
 ## Deploying Applications
 To deploy an application, navigate to the web application for Azure Blockchain Workbench
