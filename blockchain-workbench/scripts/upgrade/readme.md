@@ -6,48 +6,69 @@ Overview
 =================
 An existing deployment of Azure Blockchain Workbench can be upgraded to the latest version.
 
-This script automates the upgrade of your Azure Blockchain Workbench deployment. It can be easily invoked from Azure Cloud Shell.
+This script automates the upgrade of your Azure Blockchain Workbench deployment. It can be easily invoked from latest Powershell.
 
 To learn what's new in this release, please check our [release notes](releasenotes.md).
 
 Execution Instructions
 =======================
-Log in to the Azure Portal.
+1. Install PowerShell 6 for your operating system from https://github.com/PowerShell/PowerShell
 
-Click on the `>_` icon on the top right corner to open Cloud Shell.
-
-![](./media/upgrade-1.png)
-
-This will launch the Cloud Shell within the browser. You’ll be asked to select
-Bash (Linux) or PowerShell (Windows). Click the “PowerShell” link. (ignore the warnings)
+![](./media/release140-1.png)
 
 
-![](./media/upgrade-2.png)
+2. Run PowerShell 6 as administrator:
 
-Locate your Azure subscription ID, and the resource group name where you deployed Azure Blockchain Workbench.
+![](./media/release-140-2.png)
 
-Next, run the script by typing the following;
+
+3. Enable running unsigned scripts in PowerShell:
 
 ```powershell
-# Navigate to your home directory
-cd
-
-# Downloading the script
-Invoke-WebRequest -Uri aka.ms/workbenchUpgradeScript -OutFile workbenchUpgradeScript1.3.ps1
-
-# Running the script
-./workbenchUpgradeScript1.3.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
 ```
+(Note: command above needs to be run each time before running upgrade script.)
+For more information about running scripts and setting execution policy, see about_Execution_Policies at https://go.microsoft.com/fwlink/?LinkID=135170
 
-![](./media/upgrade-3.png)
+4. Install Azure PowerShell module:
+```powershell
+Install-Module -Name AzureRM.NetCore -AllowClobber
+```
+Select A (Yes to All) in the next prompt:
 
-You maybe asked to authenticate if you're not currently authenticated. In this case, you will be provided with a link and a code to Authenticate to Azure. Click on the link and copy the code
+![](./media/release-140-3.png)
 
-![](./media/upgrade-4.png)
+
+5. Next, please go to https://aka.ms/workbenchUpgradeScript and download the upgrade script “azureBlockchainWorkbenchUpgradeTov1_4_0.ps1” to local directory.
+
+
+6. Sign in to your azure account:
+
+```powershell
+Login-AzureRmAccount
+```
+![](./media/release-140-4.png)
+
+You may be asked to authenticate if you're not currently authenticated. In this case, you will be provided with a link and a code to Authenticate to Azure. Follow the instructions shows after running this command.
+
 ![](./media/upgrade-5.png)
 
-When the script completes, it will provide a message informing you of the operation status.
 
-![](./media/upgrade-6.png)
+7. Locate your Azure subscription ID, and the resource group name where you deployed Azure Blockchain Workbench.
 
 
+8. Next, run the downloaded upgrade script by typing the following;
+
+```powershell
+# Navigate to the directory which contains the downloaded script
+cd 
+
+# Running the script
+./ azureBlockchainWorkbenchUpgradeTov1_4_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+
+```
+
+When the upgrade completes, you will see the following message:
+```powershell
+Azure Blockchain Workbench in Resource Group <ResourceGroupName> was succesfully updated to version 1.4.0.
+```

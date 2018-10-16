@@ -1,12 +1,12 @@
-﻿<#
+<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.3.0.
+Upgrades Azure Blockchain Workbench to version 1.4.0.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.3.0.
+Upgrades Azure Blockchain Workbench to version 1.4.0.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_3_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_4_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,11 +32,16 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_3_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.3.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.5/Artifacts",
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.4.0",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.8/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][bool]$TestApi = $false
 )
+
+#############################################
+#  Constants
+#############################################
+$MIN_TLS_VERSION = 1.2
 
 #############################################
 #  Script Initialization
@@ -48,17 +53,16 @@ Write-Progress -Id $logId -Activity "Login & Setup" -Status "Login to Azure" -Pe
 if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null)
 {
     throw "Azure Powershell cmdlets were not detected. We recommend that you follow the instructions on
-    https://www.powershellgallery.com/packages/AzureRM/6.0.1 to obtain the latest version. Or, you can run
+    https://docs.microsoft.com/en-us/powershell/azure/overview?view=azurermps-6.8.1 to obtain the latest version. Or, you can run
     this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
-# AzureRM.Websites v5.0 or greater is required for support for upgrading Docker containers
+# AzureRM.Websites.Netcore v5.0 or greater is required for support for upgrading Docker containers
 $rmWebApp = Get-Command "Get-AzureRmWebApp"
 if ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -and $rmWebApp.Version.Major -lt 5)
 {
     throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the
-    instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
-    you can run  this script using Azure Cloud shell at https://shell.azure.com/powershell"
+    instructions on https://docs.microsoft.com/en-us/powershell/azure/overview?view=azurermps-6.8.1 to update to a compatible version."
 }
 
 $context = Get-AzureRmContext
@@ -127,37 +131,62 @@ $uiWebsite = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -Name $uiWe
 
 Write-Progress -Id $logId -Activity "Login & Setup" -Status "Login to Azure" -PercentComplete 100
 
-function ApplyVersionSpecificChanges1_0_1($json)
+function GetEnvironmentSetting($json, $settingName)
 {
-    ## v1.0.1 Deployment Changes
+    # Locate the setting from another task
+    foreach ($entry in $json)
+    {
+        if($entry.environment.$settingName)
+        {
+            return $entry.environment.$settingName
+        }
+    }
+}
+
+function ApplyVersionSpecificChanges1_4_0($json)
+{
+    ## v1.4.0 Deployment Changes
     ## =========================
-    ## 1) New Environment variables added to Compose Worker task, for heartbeat functionality
-    ## 2) Cron job added to monitor dlt-watcher
+    ## 1) Configuration manager is added to the system
+    ## 2) Cron job for dlt-watcher monitoring is removed, as dlt-watcher is replaced by eth-watcher
 
-    $composeInvokeCommand = $json | Where-Object { $_.name -eq "Compose Worker" }
-    if($composeInvokeCommand.environment.DLT_WATCHER_HEARTBEAT_DIR_PATH -eq $null)
+    # Removes the cron job for dlt-watcher monitoring if found
+    if ($json[0].name.Contains("Setup cron job"))
     {
-        $composeInvokeCommand.environment | Add-Member -NotePropertyName DLT_WATCHER_HEARTBEAT_DIR_PATH -NotePropertyValue "/dlt-watcher-heartbeat"
+        $json = $json | Select-Object -Skip 1
     }
 
-    if($composeInvokeCommand.environment.DLT_WATCHER_HEARTBEAT_FILE -eq $null)
+    $dlConfigManagerCommand = $json | Where-Object { $_.name -eq "Download Config Manager Compose" }
+    if($dlConfigManagerCommand -eq $null)
     {
-        $composeInvokeCommand.environment | Add-Member -NotePropertyName DLT_WATCHER_HEARTBEAT_FILE -NotePropertyValue ".dlt-watcher-heartbeat"
-    }
-
-    if ( $json[0].name.Contains("Setup cron job") -eq $false)
-    {
-        $cronEntry = @{
-            name = "Setup cron job to restart dlt-watcher when no activity is detected";
-            command = "echo '*/5 * * * * root if [  ``find ~/.dlt-watcher-heartbeat -mmin +5`` ]; then docker restart root_dlt-watcher_1; fi' > /etc/cron.d/workbench-dlt-watcher";
+        $dlConfigManager = @{
+            name = "Download Config Manager Compose";
+            command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-config-manager-compose.yaml `"$ArtifactsRoot/docker-compose.config-manager.yaml`"";
         }
 
-        $json = ,$cronEntry + $json
+        $env = @{} 
+        $env.APPLICATION_INSIGHTS_KEY = GetEnvironmentSetting $json  "APPLICATION_INSIGHTS_KEY"
+        $env.DOCKER_REPOSITORY = GetEnvironmentSetting $json  "DOCKER_REPOSITORY" 
+        $env.DOCKER_TAG = GetEnvironmentSetting $json  "DOCKER_TAG"
+        $env.KEY_VAULT_URI = GetEnvironmentSetting $json  "KEY_VAULT_URI"
+        $env.GETH_RPC_ENDPOINT = GetEnvironmentSetting $json  "GETH_RPC_ENDPOINT"
+        $env.EVENT_GRID_TOPIC_ENDPOINT = GetEnvironmentSetting $json  "EVENT_GRID_TOPIC_ENDPOINT"
+        $envObject = New-Object –TypeName PSObject –Prop $env
+
+        $createConfigManager = @{
+            name = "Create Config Manager";
+            command = "docker-compose -f /root/docker-config-manager-compose.yaml up --force-recreate";
+            environment = $envObject;
+        }
+
+        $firstEntry = $json[0]
+        $rest = $json | Select-Object -Skip 1
+
+        $json = ,$firstEntry + $dlConfigManager + $createConfigManager + $rest
     }
 
     return $json
 }
-
 function LocateGethEndpoint($blob)
 {
     $stringContents = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($blob))
@@ -195,7 +224,14 @@ function UpgradeInitBlob( $orig)
     $mainComposeDownloadCommand = $json | Where-Object { $_.name -eq "DownloadWorker" }
     $mainComposeDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-compose.yaml `"$ArtifactsRoot/docker-compose.prod.yaml`""
 
-    $json = ApplyVersionSpecificChanges1_0_1($json)
+    # Stop and remove docker containers that are no longer a part of this version via the "--remove-orphans" flag
+    $composeWorkerCommand = $json | Where-Object { $_.name -eq "Compose Worker" }
+    $composeWorkerCommand.command = "docker-compose -f /root/docker-compose.yaml up -d --force-recreate --remove-orphans"
+
+    $json = ApplyVersionSpecificChanges1_4_0($json)
+    
+    $configManagerDownloadCommand = $json | Where-Object { $_.name -eq "Download Config Manager Compose" }
+    $configManagerDownloadCommand.command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-config-manager-compose.yaml `"$ArtifactsRoot/docker-compose.config-manager.yaml`""
 
     $jsonString = ConvertTo-Json $json -Compress
 
@@ -286,8 +322,19 @@ ForEach($setting in $apiWebsite.SiteConfig.AppSettings)
 
 $apiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|$DockerRepository/appbuilder.api:$TargetDockerTag"
 
-$apiWebsite = Set-AzureRmWebApp $apiWebsite -ErrorAction Stop
-if($apiWebsite-eq $null)
+$apiWebsite = Set-AzureRmWebApp -WebApp $apiWebsite -ErrorAction Stop
+$apiWebsite = Set-AzureRmWebApp -ResourceGroupName $apiWebsite.ResourceGroup -Name $apiWebsite.Name -HttpsOnly $true -ErrorAction Stop
+
+# Set min TLS version
+$apiWebsiteConfig = Set-AzureRmResource -ApiVersion '2018-02-01' `
+    -ResourceName $('{0}/web' -f $apiWebsite.Name) `
+    -ResourceGroupName $apiWebsite.ResourceGroup `
+    -ResourceType 'Microsoft.Web/sites/config' `
+    -Force `
+    -PropertyObject @{ minTlsVersion = $MIN_TLS_VERSION } `
+    -ErrorAction Stop
+
+if($apiWebsite -eq $null -or $apiWebsiteConfig -eq $null)
 {
     throw "Unable to update the Workbench API. More information is contained above. Please try again in a few minutes."
 }
@@ -324,8 +371,20 @@ ForEach($setting in $uiWebsite.SiteConfig.AppSettings)
 
 $uiWebsite.SiteConfig.LinuxFxVersion = "DOCKER|$DockerRepository/webapp:$TargetDockerTag"
 
-$uiWebsite = Set-AzureRmWebApp $uiWebsite -ErrorAction Stop
-if($uiWebsite -eq $null)
+$uiWebsite = Set-AzureRmWebApp -WebApp $uiWebsite -ErrorAction Stop
+# Set https only
+$uiWebsite = Set-AzureRmWebApp -ResourceGroupName $uiWebsite.ResourceGroup -Name $uiWebsite.Name -HttpsOnly $true -ErrorAction Stop
+
+# Set min TLS version
+$uiWebsiteConfig = Set-AzureRmResource -ApiVersion '2018-02-01' `
+    -ResourceName $('{0}/web' -f $uiWebsite.Name) `
+    -ResourceGroupName $uiWebsite.ResourceGroup `
+    -ResourceType 'Microsoft.Web/sites/config' `
+    -Force `
+    -PropertyObject @{ minTlsVersion = $MIN_TLS_VERSION } `
+    -ErrorAction Stop
+
+if($uiWebsite -eq $null -or $uiWebsiteConfig -eq $null)
 {
     throw "Unable to update the Workbench Website. More information is contained above. Please try again in a few minutes."
 }
@@ -379,4 +438,4 @@ if ($TestApi -eq $true)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.3.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.4.0."
