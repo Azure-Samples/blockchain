@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.4.0.
+Upgrades Azure Blockchain Workbench to version 1.4.1.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.4.0.
+Upgrades Azure Blockchain Workbench to version 1.4.1.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_4_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_4_1.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,7 +32,7 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_4_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.4.0",
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.4.1",
     [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.8/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][bool]$TestApi = $false
@@ -438,4 +438,4 @@ if ($TestApi -eq $true)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.4.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was succesfully updated to version 1.4.1."
