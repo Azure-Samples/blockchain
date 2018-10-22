@@ -141,6 +141,7 @@ function GetEnvironmentSetting($json, $settingName)
             return $entry.environment.$settingName
         }
     }
+    throw "Couldn't set environment variable correctly, please try again later."
 }
 
 function ApplyVersionSpecificChanges1_4_0($json)
@@ -173,6 +174,11 @@ function ApplyVersionSpecificChanges1_4_0($json)
         $env.EVENT_GRID_TOPIC_ENDPOINT = GetEnvironmentSetting $json  "EVENT_GRID_TOPIC_ENDPOINT"
         $envObject = New-Object –TypeName PSObject –Prop $env
 
+        if ($envObject -eq $null)
+        {
+            throw "Couldn't set environment correctly, please try again later."
+        }
+        
         $createConfigManager = @{
             name = "Create Config Manager";
             command = "docker-compose -f /root/docker-config-manager-compose.yaml up --force-recreate";
