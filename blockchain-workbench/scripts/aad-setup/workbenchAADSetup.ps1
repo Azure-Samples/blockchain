@@ -120,7 +120,8 @@ try {
         -PasswordCredentials $appSecret
     Write-Host 'Successfully created AAD application with appId: ' $application.AppId
 } catch {
-    Write-Host 'FAILURE: Failed to create Azure AD application. Exiting...' -foregroundcolor red
+    Write-Host 'FAILURE: Failed to create Azure AD application.' $_ -foregroundcolor red
+    Write-Host 'Exiting...' -foregroundcolor red
     exit 1
 }
 
