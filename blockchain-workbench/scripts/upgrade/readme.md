@@ -64,7 +64,7 @@ You may be asked to authenticate if you're not currently authenticated. In this 
 cd 
 
 # Running the script
-./ azureBlockchainWorkbenchUpgradeTov1_4_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+./ azureBlockchainWorkbenchUpgradeTov1_4_1.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 
 ```
 
