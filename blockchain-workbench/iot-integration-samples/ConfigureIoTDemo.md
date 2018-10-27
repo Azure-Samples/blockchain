@@ -239,6 +239,7 @@ Deploy the Stored Procedures
 
 Download the file with the stored procedures to support the IoT sample. They are
 in a single file that can be downloaded from this location.
+<https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/iot-integration-samples/SQL/IoTSprocs.sql>
 
 Open a web browser and navigate to the Azure portal at
 <http://portal.azure.com>
