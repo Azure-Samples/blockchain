@@ -241,7 +241,7 @@ Download the file with the stored procedures to support the IoT sample. They are
 in a single file that can be downloaded from this location.
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -274,7 +274,7 @@ message.
 
 In the query window, enter and execute the following SQL
 
-Update User Set External Id = ‘\<your device id here\>’ where EmailAddress =
+Update [User] Set External Id = ‘\<your device id here\>’ where EmailAddress =
 ‘\<insert email address here\>’
 
 Note – when provisioning a user in AAD, an email address will be assigned, e.g.
