@@ -1,4 +1,4 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
