@@ -61,7 +61,7 @@ contract RoomThermostat is WorkbenchBase('RoomThermostat', 'RoomThermostat')
         }
         TargetTemperature = targetTemperature;
 
-        ContractUpdated('SetTemperature');
+        ContractUpdated('SetTargetTemperature');
     }
 
 	function SetMode(ModeEnum mode) public

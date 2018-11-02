@@ -144,16 +144,16 @@
           "Style": "Success",
           "Transitions": [
             {
-              "AllowedRoles": [ "Owner" ],
-              "AllowedInstanceRoles": [ ],
+              "AllowedRoles": [ ],
+              "AllowedInstanceRoles": [ "InstanceOwner" ],
               "Description": "Accept the proposed offer for the item",
               "Function": "AcceptOffer",
               "NextStates": [ "Accepted" ],
               "DisplayName": "Accept Offer"
             },
             {
-              "AllowedRoles": [ "Owner" ],
-              "AllowedInstanceRoles": [],
+              "AllowedRoles": [ ],
+              "AllowedInstanceRoles": [ "InstanceOwner" ],
               "Description": "Reject the proposed offer for the item",
               "Function": "Reject",
               "NextStates": [ "ItemAvailable" ],
