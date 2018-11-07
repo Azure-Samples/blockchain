@@ -11,14 +11,21 @@ We will be adding code samples for authenticating into Workbench using Azure Act
 Instruction for Creating a Service Principle on the Azure Portal:
 
 Go to Azure Active Directory --> App Registrations
+<br>
 <img src="media/auth_samples_1.png" width="500">
+<br>
 
 Create a New Application Registration
+<br>
 <img src="media/auth_samples_2.png" width="500">
+<br>
 <img src="media/auth_samples_3.png" width="500">
+<br>
 
 To get the Client Id: Go to the Application you have just created --> Settings --> Keys
+<br>
 <img src="media/auth_samples_4.png" width="500">
+<br>
 Generate a New Key and be sure to save this. This is your Client App Secret.
 
 2. Get the latest version of the ADAL Package (Instructions Provided Below)
