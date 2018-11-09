@@ -44,13 +44,24 @@ The table below shows recommended scale up and out settings based on expected lo
 Scale up/out via Azure Portal
 =================
 You can increase the number of App Services instances (scale out) as follows:
+
 1. In the Azure portal, navigate to the resource group where you deployed Workbench into.
+
 2. Select the API service as shown below:
+![](media/perf-1.PNG)
+
 3. Navigate to the "Scale out (App Service plan)" section and change the instance count as shown below.
+
 4. Note that you can change this setting by modifying either of the App Services or the App Service plan itself as this setting.
+![](media/perf-2.PNG)
+
 5. Enable autoscale is another option if you expect load to go change slowly.  Note that Azure SQL DB does not autoscale and must be scaled up based on your expected peak load.
 
 You can scale up the Azure SQL DB instance as follows:
 1. In the Azure portal, navigate to the resource group where you deployed Workbench into.
+
 2. Select the SQL DB as shown below:
+![](media/perf-3.PNG)
+
 3. Navigate to the "Configure" section and change the "DTUs" as shown below:
+![](media/perf-4.PNG)
