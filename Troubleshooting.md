@@ -30,3 +30,10 @@ Sometimes the error messages give you a RequestId to look at the logs. We have a
 
 4. If you do decide to save the Workbook, you will find in the Workbook list page that your saved 'Workbench Troubleshooting' Workbook instance is in green at the top, for easy access.
 ![Alt text](/Screenshots/Instructions_Application_Insights_Workbooks_Saved.png?raw=true "Instructions Workbooks Instance Saved")
+
+### Common errors seen in logs
+##### "Error constructing transaction"
+This is a pretty generic error that happens if there is something incorrect with the transaction. For example, the parameter input type may be mismatched (ex. array instead of an int). Please view the exception column for the specific error.
+
+##### "Error while estimating gas. Exception Transaction execution error"
+This usually happens when there is something wrong with the solidity code. Generally with the given state and parameters, the user has hit a revert/assert.
