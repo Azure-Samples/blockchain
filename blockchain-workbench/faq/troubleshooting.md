@@ -15,7 +15,7 @@ A: This error generally means that some component is taking a long time to proce
 
 ##### Q: I'm seeing the following message: <i>"There are no events identified from this action. Please update your code to add an event for this action and try again."</i> What could be wrong?
 
-A: <INSERT HERE>
+A: This error is shown when the transaction was submitted to the blockchain but hit an exception (such as a revert/assert). This occurs when the state of the world had changed in between the time gas was estimated and when the transaction was actually mined on the blockchain. The recommendation is to submit again, understanding the possibility that one may not be able to submit the same contract action again due to a different world state.
 
 ## <a name="logs"> Looking at logs </a>
 Sometimes the error messages give you a RequestId to look at the logs. We have a new setup called [Workbooks](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-usage-workbooks) that can show you the necessary logs given the RequestId, among other potential bugs. Following the instructions below to get to our Workbook.
