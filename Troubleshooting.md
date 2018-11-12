@@ -5,11 +5,13 @@ This guide will give you a starting point for how to troubleshoot your issues. T
 ## Common Questions
 ##### Q: I'm seeing the following message: <i>"The action failed. Please check your input or code and try again. Your administrator can use RequestId <request id> to look up details in Application Insights."</i> What could be wrong?
 
-A: <INSERT HERE>
+A: This error indicates a failure to submit the contract to the blockchain, including both the creation of the contract or taking an action on a contract. One common cause is an invalid input to the solidity function, such as supplying an int when the parameter specifies an array. Another could be that the function is hitting a revert or an assert, causing a gas estimation failure. In this case, please check the logic of your solidity contract file. 
+
+In any case, please follow the instructions [here](#logs) to take a look at the logs to understand what's going on.
 
 ##### Q: I'm seeing the following message: <i>"This may take some time. Your administrator can use RequestId <request id> to look up details in Application Insights."</i> What could be wrong?
 
-A: Follow the instructions [here](#logs) to take a look at the logs to understand what could be going on.
+A: This error generally means that some component is taking a long time to process, whether that is the underlying blockchain or a processing failure. Causes can vary - please follow the instructions [here](#logs) to take a look at the logs to understand what's going on.
 
 ##### Q: I'm seeing the following message: <i>"There are no events identified from this action. Please update your code to add an event for this action and try again."</i> What could be wrong?
 
@@ -33,7 +35,7 @@ Sometimes the error messages give you a RequestId to look at the logs. We have a
 
 ### Common errors seen in logs
 ##### "Error constructing transaction"
-This is a pretty generic error that happens if there is something incorrect with the transaction. For example, the parameter input type may be mismatched (ex. array instead of an int). Please view the exception column for the specific error.
+This error is seen if there is something incorrect with the transaction. For example, the parameter input type may be mismatched (ex. array instead of an int). Please view the exception column for the specific error.
 
 ##### "Error while estimating gas. Exception Transaction execution error"
-This usually happens when there is something wrong with the solidity code. Generally with the given state and parameters, the user has hit a revert/assert.
+This error is usually seen when the function has hit a revert/assert given the current state and input parameters. Please check your contract logic.
