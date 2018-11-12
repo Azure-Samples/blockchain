@@ -8,6 +8,7 @@ This release contains changes in the following areas:
 Breaking changes in this release: 
 - Existing integration with ingress messaging API will need to be rewritten
 - Existing smart contract code will have warnings at upload time if not aligned with latest version of Solidity
+- AAD Application registration needs to be updated
 
 Simplified deployment and setup
 =================
@@ -30,6 +31,8 @@ The AAD setup experience has also been simplified dramatically by allowing you t
 If you already have your AAD and application setup, you still have the option to set that up during deployment time. Note that we have simplified the AAD setup and you no longer need to provide an application key.
 
 ![](media/release150-4.png)
+
+Note: If you are using an old AAD Application Registration, you will need to update your AAD Application by following these [instructions](https://aka.ms/workbenchaadsteps). 
 
 After Workbench is deployed, you will see a new setup page after navigating to the web app. Here, you’ll be able to run a script our team provides to do automated setup for you.
 
