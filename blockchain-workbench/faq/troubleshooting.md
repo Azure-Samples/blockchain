@@ -33,7 +33,25 @@ Sometimes the error messages give you a RequestId to look at the logs. We have a
 4. If you do decide to save the Workbook, you will find in the Workbook list page that your saved 'Workbench Troubleshooting' Workbook instance is in green at the top, for easy access.
 ![Alt text](media/Instructions_Application_Insights_Workbooks_Saved.png?raw=true "Instructions Workbooks Instance Saved")
 
-### Common errors seen in logs
+### How to read the logs
+Logs are in chronological order, where the latest logs are at the top. Here are what the columns mean:
+
+| Column Name   | Meaning                                                                           |
+|---------------|-----------------------------------------------------------------------------------|
+| LogLevel      | This refers to the level of the log. For now we display 'Information' and 'Error' |
+| created       | The time when the log was created                                                 |
+| Message       | The log message                                                                   |
+| ServiceName   | Which service/component in the system fired the log                               |
+| SourceContext | The context in which the action occurred (ex. Host refers to the Workbench code)  |
+| Method        | The method that was being executed                                                |
+| Exception     | Exception, if there was any                                                       |
+
+If there are any errors, you'll see a log with the LogLevel 'Error', like below:
+![Alt text](media/Instructions_Application_Insights_Error_Example.png?raw=true "Instructions Workbooks Error Log")
+
+You can view the [list of common errors](#errors) to understand the error message better.
+
+### <a name="errors"> Common errors seen in logs </a>
 ##### "Error constructing transaction"
 This error is seen if there is something incorrect with the transaction. For example, the parameter input type may be mismatched (ex. array instead of an int). Please view the exception column for the specific error.
 
