@@ -19,7 +19,7 @@ A: <INSERT HERE>
 Sometimes the error messages give you a RequestId to look at the logs. Here's what you can do to look through the logs to understand the   situation a little better.
 
 ### Instructions 
-![Alt text](/Screenshots/Instructions_Resource_Group_List.png?raw=true "Instructions Resource Group List")
-![Alt text](/Screenshots/Instructions_Application_Insights_Workbooks.png?raw=true "Instructions Workbooks list")
-![Alt text](/Screenshots/Instructions_Application_Insights_Blockchain_Workbook_Instance.png?raw=true "Instructions Blockchain Workbook Instance")
-![Alt text](/Screenshots/Instructions_Application_Insights_Workbooks_Saved.png?raw=true "Instructions Workbooks Instance Saved")
+![Alt text](/media/Instructions_Resource_Group_List.png?raw=true "Instructions Resource Group List")
+![Alt text](/media/Instructions_Application_Insights_Workbooks.png?raw=true "Instructions Workbooks list")
+![Alt text](/media/Instructions_Application_Insights_Blockchain_Workbook_Instance.png?raw=true "Instructions Blockchain Workbook Instance")
+![Alt text](/media/Instructions_Application_Insights_Workbooks_Saved.png?raw=true "Instructions Workbooks Instance Saved")
