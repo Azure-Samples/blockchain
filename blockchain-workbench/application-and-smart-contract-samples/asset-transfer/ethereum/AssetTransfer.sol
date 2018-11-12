@@ -1,4 +1,4 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
 contract WorkbenchBase {
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
@@ -7,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -34,7 +34,7 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
     address public InstanceInspector;
     address public InstanceAppraiser;
 
-    function AssetTransfer(string description, uint256 price) public
+    constructor(string description, uint256 price) public
     {
         InstanceOwner = msg.sender;
         AskingPrice = price;

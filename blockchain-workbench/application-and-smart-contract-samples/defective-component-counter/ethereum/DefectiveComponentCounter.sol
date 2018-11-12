@@ -7,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -33,7 +33,7 @@ contract DefectiveComponentCounter is WorkbenchBase('DefectiveComponentCounter',
     int public Total;
 
     // constructor function
-    function DefectiveComponentCounter(int[12] defectiveComponentsCount) public
+    constructor(int[12] defectiveComponentsCount) public
     {
         Manufacturer = msg.sender;
         DefectiveComponentsCount = defectiveComponentsCount;
