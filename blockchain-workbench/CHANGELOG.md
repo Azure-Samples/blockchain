@@ -1,6 +1,140 @@
-# Azure Blockchain Workbench Release Notes - Version 1.4.0
+# Azure Blockchain Workbench Release Notes - Version 1.5.0
+This release contains changes in the following areas: 
+- Simplified deployment experience – one required setup section with optional advanced settings
+- Semi automated post deployment Azure Active Directory setup option
+- New and improved ingress messaging API
+- More detailed logging and error handling
 
+Breaking changes in this release: 
+- Existing integration with ingress messaging API will need to be rewritten
+- Existing smart contract code will have warnings at upload time if not aligned with latest version of Solidity
+- AAD Application registration needs to be updated
+
+Simplified deployment and setup
+=================
+We have made it easier to get started with Workbench. In previous versions of Workbench, there were many prerequisite steps that you need to take before deploying Workbench to properly set up integration with your Azure Active Directory (AAD) tenant. You also had to step through other setup blades in the Azure Portal to set up your Blockchain Network and Monitoring options. 
+
+With version 1.5.0, only the Basic Settings blade is required for you to fill out to setup Workbench. The Advanced Settings is now optional, so you can get started with your deployment even faster. If you want to do more advanced setup like connecting to an existing blockchain network, setting up your AAD tenant, and selecting a specialized VM size, those options are still available to you in the Advanced Settings blade. 
  
+![](media/release150-1.png)
+
+![](media/release150-2.png)
+
+More flexibility and easier AAD integration
+=================
+We’ve also done a lot around the AAD integration to give you more options when choosing which tenant to connect to Workbench with. Before, there were a handful of administrator permissions that you had to have in order to set up the integration properly. We have updated the integration to reduce these requirements – you can now connect Workbench with a tenant where you are not an admin, so you no longer need to setup an entirely new tenant for Workbench. 
+
+The AAD setup experience has also been simplified dramatically by allowing you to set up your AAD integration after Workbench has successfully deployed. Simply select the “Add Later” option in the Advanced Settings tab. 
+
+![](media/release150-3.png)
+
+If you already have your AAD and application setup, you still have the option to set that up during deployment time. Note that we have simplified the AAD setup and you no longer need to provide an application key.
+
+![](media/release150-4.png)
+
+Note: If you are using an old AAD Application Registration, you will need to update your AAD Application by following these [instructions](https://aka.ms/workbenchaadsteps). 
+
+After Workbench is deployed, you will see a new setup page after navigating to the web app. Here, you’ll be able to run a script our team provides to do automated setup for you.
+
+![](media/release150-5.png)
+
+The script does all the prerequisite AAD related setup steps for you (guide on manual steps [here](https://aka.ms/workbenchAADsteps)):
+
+	1. Creates and registers a new application registration.
+	2. Modifies the application manifest to include the Workbench Administrator application role.
+	3. Adds the required Graph API permissions to read basic user profiles. 
+	
+New input messaging API 
+=================
+Workbench provides a number of integration points out of the box, including via a REST API and a messaging API. The REST API provides developers a way to integrate to blockchain applications. For example, you can use the REST API and Power BI to create visualizations based on blockchain data. 
+
+The messaging API is designed for system to system integrations. Currently, Workbench publishes blockchain events via Azure Event Grid and Azure Service Bus, which enables downstream consumers to take action based on these events and messages. 
+
+Based on your feedback, we have improved and expanded to accommodate more scenarios with a newly designed input messaging API. This allows external systems to initiate transactions to create users, create contracts, and update contracts on a ledger.  Developers have continued to express interest in sending input via the Workbench messaging API to accomplish the scenarios above. With 1.5.0, we have designed an input messaging API to unlock even more system to system integration scenarios. 
+
+Here is an example of a contract creation request with the new input messaging API. You need to provide details of the contract that you’d like to create, including the application, workflow, and parameter details, as well as information about the blockchain and other metadata such as the schema version and the type of message that is being sent.
+
+			```
+			
+			{
+			    "requestId": "ce3c429b-a091-4baa-b29b-5b576162b211",
+			    "userChainIdentifier": "0x9a8DDaCa9B7488683A4d62d0817E965E8f248398",
+			    "applicationName": "AssetTransfer",
+			    "workflowName": "AssetTransfer",
+			    "parameters": [
+			        {
+			            "name": "description",
+			            "value": "a 1969 dodge charger"
+			        },
+			        {
+			            "name": "price",
+			            "value": "12345"
+			        }
+			    ],
+			    "connectionId": 1,
+			    "messageSchemaVersion": "1.0.0",
+			    "messageName": "CreateContractRequest"
+			}
+			
+			```
+ 
+You will get an update message based on the status of the request. Here’s a corresponding example of a contract creation update for the above contract creation request.
+
+			```
+			
+			{
+			    "requestId": "ce3c429b-a091-4baa-b29b-5b576162b211",
+			    "contractId": 55,
+			    "contractLedgerIdentifier": null,
+			    "connectionId": 1,
+			    "messageSchemaVersion": "1.0.0",
+			    "messageName": "CreateContractUpdate",
+			    "status": "Failure"
+			    "additionalInformation": {
+			        "errorCode": 4000,
+			        "errorMessage": "Contract cannot be provisioned on connection."
+			    }
+			}
+			 
+			```
+ 
+You get the contract ID of the contract that was just created, metadata around the blockchain and message, as well as some additional information based on the status of the request update.
+
+In the upcoming months, we will also be redesigning and enhancing the output messaging model, which may impact some of the existing work you have done. You can read more about the newly designed messaging API  [here](https://docs.microsoft.com/en-us/azure/blockchain/workbench/messages-overview).
+
+More robust transaction submission pipeline
+=================
+One of the biggest improvements we’ve made in 1.5.0 is a new and improved submission pipeline. Many of you have told us that you’ve wanted better telemetry and more precise error handling in the web app to quickly troubleshoot issues. 
+
+#### Error handling in the UX ####
+Based on our rewrite of the submission pipeline, you will notice a significant improvement in stability and get more detailed error messages when transactions fail. You will now see two additional types of error messages surfaced. 
+![](media/release150-6.png)
+
+- *The action failed. Please check your input or code and try again. Your administrator can use RequestId to look up details in Application Insights.* One of the additions you will see is that we now provide a request ID with a failed action. This allows you to look up the failure details in Application Insights, enabling a better troubleshooting experience. 
+	 
+- *There are no events identified from this action. Please update your code to add an event for this action and try again.* You may see this error when you are expecting to see some update in the Workbench UI but nothing shows up. This is because there are no Workbench events identified from the action that was taken, and you will be prompted to update your contract code. To mitigate this issue, double check that you have called the ContractUpdated() or ContractCreated() function properly. You can read more about writing blockchain apps for Workbench [here](https://docs.microsoft.com/en-us/azure/blockchain/workbench/create-app). 
+
+#### Logging and Telemetry ####
+We have included better logging and telemetry to help with troubleshooting. Each Workbench instance has a corresponding Application Insights instance, where you can find logs to trace each request through the different Workbench components and services. You can find a step by step guide on how to do this on our [FAQ](https://aka.ms/workbenchFAQ) page.
+
+Breaking Changes in 1.5.0
+=================
+1. **Updated ingress messaging API:** Due to the new and improved design for the ingress messaging API, you will need to update your existing integration code. We have renamed the service bus queues and topics.
+	* ingressQueue - the input queue on which request messages arrive
+	* egressTopic     - the output queue on which update and information messages are sent
+2. **Workbench application sample updates:** Since we have updated the solidity compiler to the latest version, all Workbench application samples code will be updated as well. So, if you are on an older version of Workbench and want to use samples, you will see warnings or errors when the samples that we have on Github are uploaded. Upgrade to the latest version of Workbench if you want to use samples. 
+3. **Workbench application checker:** There have been additional verifications introduced which may surface additional errors or warnings to your existing contract code. 
+	* ContractUpdated verification: If the ContractUpdated call has a parameter that is either (a) not a workflow function, or (b) is different from the caller workflow function, you will get an error. 
+	* Configuration and smart contract function verification: If the function in smart contract doesn’t exist or function signature is different (parameter names do not match), you will get a more descriptive error.
+
+Upcoming Breaking Changes
+=================
+We appreciate your continued interest in Workbench. We have a few upcoming features which may impact you. 
+1. **WorkbenchBase code generation:** The WorkbenchBase class is required for writing Blockchain Workbench specific apps, as it enables Blockchain Workbench to create and update contracts. With this upcoming change, you no longer need to include it in your contract code file, as Workbench will automatically generate the code for you. If you continue to include WorkbenchBase in your smart contracts, it will not upload successfully after 1.6.0. 
+2. **Updated outbound messaging API:** Workbench has a messaging API for system to system integrations. We have had an outbound messaging API which we will be redesigning. The new schema will impact the existing integration work you have done with the current messaging API. If you want to use the new messaging API you will need to update your integration specific code. 
+
+
+# Azure Blockchain Workbench Release Notes - Version 1.4.0
 To use 1.4, you can either deploy a new instance of Workbench through the Azure Portal or upgrade your existing deployment to 1.3.0 using our upgrade script. This update includes the following improvements:
 
 Better accessibility for screen readers and keyboard navigation
