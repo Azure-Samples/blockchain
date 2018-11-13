@@ -33,7 +33,7 @@ param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
     [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.5.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbench-previewazure-blockchain-workbench.1.0.58/Artifacts",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.10/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][string]$DockerLogin = $null,
     [Parameter(Mandatory=$false)][string]$DockerPw = $null,
