@@ -4,18 +4,15 @@
 
 Overview
 =================
-Azure Blockchain Workbench utilizes Azure Active Directory, which must be configured prior to deployment.
+Azure Blockchain Workbench utilizes Azure Active Directory for authentication and authorization purposes. This script automates the necessary steps for creating the AAD application Registration.
 
-The [documentation](http://aka.ms/workbenchdocs/) provides details on the steps required to do this configuration via the Azure Portal.
+The [documentation](https://aka.ms/workbenchAADSteps) provides details on the steps required to do this configuration via the Azure Portal.
 
-This script automates most of those steps and deliver the information necessary to complete the second tab of the Azure Blockchain Workbench template deployment.
-
-> Note - If you are using Cloud Shell to run this script it must be run in the same subscription that you will be deploying Azure Blockchain Workbench to. If you do not have access to a storage account with the subscription you've chosen, you should follow the deployment instructions in the [documentation](http://aka.ms/workbenchdocs/).
+> Note - If you are using Cloud Shell to run this script it must be run in the same subscription that you will be deploying Azure Blockchain Workbench to. If you do not have access to a storage account with the subscription you've chosen, you should follow the deployment instructions in the [documentation](https://aka.ms/workbenchAADSteps).
 
 Execution Instructions
 =======================
-
-This script is made to be run prior or upon getting to the second step of deploying Azure Blockchain Workbench through the portal.
+This script can be run pre or post deployment to setup the AAD Application. The instructions provided in this document guides you through the **pre deployment** steps.
 
 ![](./media/1.png)
 
@@ -23,7 +20,7 @@ Click on the `>_` icon on the top right corner to open Cloud Shell.
 
 ![](./media/2.png)
 
-Make sure to select the PowerShell option. (ignore the warnings)
+Make sure to select the PowerShell option. (ignore the warnings if any)
 
 ![](./media/3.png)
 
@@ -32,14 +29,11 @@ Run the following commands to setup your AAD application
 > Note: You need to have an existing Azure Ad Domain (tenant). This script does not create a new tenant.
 
 ```powershell
-# Navigate to your home directory
-cd
-
-# Downloading the script
-Invoke-WebRequest -Uri aka.ms/workbenchAADSetup -OutFile workbenchAADSetup.ps1
+# Navigate to your home directory and downloading the script
+cd; Invoke-WebRequest -Uri https://aka.ms/workbenchAADSetupScript -OutFile workbenchAADSetupScript.ps1
 
 # Running the script
-./workbenchAADSetup.ps1 -TenantName <domainName>.onmicrosoft.com -AADAppName "<Your app name [optional]>"
+./workbenchAADSetupScript.ps1 -TenantName <domainName>.onmicrosoft.com -AADAppName "<Your app name [optional]>"
 ```
 
 ![](./media/4.png)
