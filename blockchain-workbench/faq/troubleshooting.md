@@ -57,3 +57,6 @@ This error is seen if there is something incorrect with the transaction. For exa
 
 ##### "Error while estimating gas. Exception Transaction execution error"
 This error is usually seen when the function has hit a revert/assert given the current state and input parameters. Please check your contract logic.
+
+##### "Error while estimating gas. Exception Invalid params: Invalid hex: Invalid character '_' at position ..."
+This error comes from the usage of [libraries](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#libraries). We do not support libraries in the current version of Workbench. Please move the functions from the library into your contract. 
