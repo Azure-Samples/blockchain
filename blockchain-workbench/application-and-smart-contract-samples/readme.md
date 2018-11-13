@@ -30,6 +30,7 @@ A tile for your new application, will be displayed. Click it.
 [](media/deployapp4.PNG)
 You will have 0 members assigned to the contract. Click the 0 in upper right and add members as appropriate.
 
+Note: We do not support [libraries](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#libraries) in the current version of Workbench. Please move the functions from the library into your contract. 
 
 ## Prerequisites
 
