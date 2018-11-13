@@ -6,13 +6,15 @@ Overview
 =================
 Azure Blockchain Workbench utilizes Azure Active Directory for authentication and authorization purposes. This script automates the necessary steps for creating the AAD application Registration.
 
-The [documentation](https://aka.ms/workbenchAADSteps) provides details on the steps required to do this configuration via the Azure Portal.
+This [documentation](https://aka.ms/workbenchAADSteps) provides details on the steps required to do this configuration via the Azure Portal.
 
 > Note - If you are using Cloud Shell to run this script it must be run in the same subscription that you will be deploying Azure Blockchain Workbench to. If you do not have access to a storage account with the subscription you've chosen, you should follow the deployment instructions in the [documentation](https://aka.ms/workbenchAADSteps).
 
 Execution Instructions
 =======================
 This script can be run pre or post deployment to setup the AAD Application. The instructions provided in this document guides you through the **pre deployment** steps.
+
+If you chose to select the "Add Now" option under the Azure Active Directory section of Workbench deployment, you will see the two required fields `Domain Name` and `Application Id`. These instructions will guide you through using our automated script to generate the AAD application.
 
 ![](./media/1.png)
 
