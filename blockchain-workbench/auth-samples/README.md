@@ -1,9 +1,6 @@
 # Auth Samples and Code Snippets for Workbench
 
 ## Overview
-We will be adding code samples for authenticating into Workbench using Azure Active Directory.
-
-## Samples
 ### Steps for Workbench Authentication
 
 1. Create a Service Principle
