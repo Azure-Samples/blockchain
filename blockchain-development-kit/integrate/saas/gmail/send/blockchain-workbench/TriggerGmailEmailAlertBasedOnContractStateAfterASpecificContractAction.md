@@ -1,4 +1,4 @@
-Execute Logic Based on Contract State After a Specific Contract Action
+Sending an Email from Gmail Based on Contract State After a Specific Contract Action
 ======================================================================
 
 Overview
