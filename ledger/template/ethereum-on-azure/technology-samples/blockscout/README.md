@@ -45,7 +45,7 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 
 1. Make an [SSH connection](https://docs.microsoft.com/en-us/azure/blockchain-workbench/ethereum-poa-deployment#ssh-access) to the newly created VM and ensure you are in the following directory: **"home/{$USER}"**
 2. Download a copy of the deployment shell script `install_blockscout.sh`.
-	- `curl -O http://www.github.com/azure-samples/blockchain/ledger/template/ethereum-on-azure/block-explorers/blockscout/install_blockscout.sh`
+	- `curl -O https://raw.githubusercontent.com/Azure-Samples/blockchain/master/ledger/template/ethereum-on-azure/technology-samples/blockscout/install_blockscout.sh`
 	- Ensure you have the appropriate permissions to run the script: `chmod +x install_blockscout.sh`
 3. Execute the script using the following parameters:
 

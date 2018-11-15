@@ -1,0 +1,10 @@
+{
+  "messageName": "CreateContractUpdate",
+  "additionalInformation": {},
+  "contractLedgerIdentifier": "{{linearId}}",
+  "requestId": "{{requestId}}",
+  "messageSchemaVersion": "1.0.0",
+  "contractId": 1,
+  "connectionId": 1,
+  "status": "Committed"
+}
