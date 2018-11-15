@@ -6,4 +6,4 @@ A: When there are many users interacting with Workbench, pages load/refresh slow
 
 ##### Q: I'm getting error messages when taking actions such as creating a contract or taking action on a contract. How can I troubleshoot the problem? 
 
-A: We leverage Application Insights to give you detailed troubleshooting information. Refer to our [troubleshooting guide](./troubleshooting.md) for instructions and more information.
+A: We leverage Application Insights to give you detailed troubleshooting information. Refer to our [troubleshooting guide](https://aka.ms/workbenchtroubleshooting) for instructions and more information.
