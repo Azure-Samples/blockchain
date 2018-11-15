@@ -1,17 +1,14 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
-namespace WorkbenchAuthSample_WebApp.Controllers
+namespace WorkbenchAuthSample_ConsoleApp
 {
-    public class ValuesController : ApiController
+    class Program
     {
-        // GET api/values
-        public async System.Threading.Tasks.Task GetAsync()
+        static async Task Main(string[] args)
         {
             AuthenticationResult result = null;
             AuthenticationContext authenticationContext = new AuthenticationContext("https://login.microsoftonline.com/{Tenant-ID}");
@@ -25,6 +22,21 @@ namespace WorkbenchAuthSample_WebApp.Controllers
                 Console.WriteLine("{0}", e);
             }
             var token = result.AccessToken; // Use this token to make API calls to workbench
+
+            // Sample API Call
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = null;
+            try
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                response = await client.GetAsync("{workbench-api-url}/api/v1/users");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0}", e);
+            }
+
+            Console.WriteLine("{0}", response.Content);
         }
     }
 }

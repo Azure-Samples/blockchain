@@ -5,7 +5,7 @@ from adal import AuthenticationContext
 # The first argument is the name of the application module or package,
 # typically __name__ when using a single module.
 app = Flask(__name__)
-auth_context = AuthenticationContext("https://login.microsoftonline.com/adc6333e-b19b-441f-8c61-449b78e50253")
+auth_context = AuthenticationContext("https://login.microsoftonline.com/{Tenant-ID}")
 
 # Flask route decorators map / and /hello to the hello function.
 # To add other resources, create functions that generate the page contents
