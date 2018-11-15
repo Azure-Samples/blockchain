@@ -21,7 +21,7 @@ param(
     [Parameter(Mandatory=$false)][string]$TenantName,
     [Parameter(Mandatory=$false)][string]$AppId,
     [Parameter(Mandatory=$false)][string]$SubscriptionId,
-    [Parameter(Mandatory=$false)][string]$ResourceGroupName,
+    [Parameter(Mandatory=$false)][string]$ResourceGroupName
 )
 
 #################################################################################
