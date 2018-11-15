@@ -271,14 +271,14 @@ try {
     Log-Info "Logging in to AAD"
     $currentUser = Connect-AzureAD -TenantId $TenantName -ErrorAction SilentlyContinue
 } catch {
-    Log-Error "There was a problem with login. Please try again." -Exception $_ $Exit
+    Log-Error "There was a problem with login. Please try again." -Exception $_ -Exit
 }
 
 try {
     $application = Get-AzureADApplication -Filter "AppId eq '$AppId'"
     Log-Debug $application
 } catch {
-    Log-Error "Could not find an application with Id $AppId in directory $TenantName" -Exception $_ $Exit
+    Log-Error "Could not find an application with Id $AppId in directory $TenantName" -Exception $_ -Exit
 }
 
 try {
