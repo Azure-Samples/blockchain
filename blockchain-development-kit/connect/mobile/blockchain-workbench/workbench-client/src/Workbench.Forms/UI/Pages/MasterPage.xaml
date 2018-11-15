@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewcells="clr-namespace:Workbench.Forms.UI.ViewCells"
+             xmlns:views="clr-namespace:Workbench.Forms.UI.Views"
+             xmlns:local="clr-namespace:Workbench.Forms.UI.Pages"
+             x:Class="Workbench.Forms.UI.Pages.MasterPage"
+             Title = "Menu">
+    <local:BasePage.RootContent>
+        <Grid x:Name="mainGrid" RowSpacing="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="userName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    Text="{Binding UserName}"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    VerticalOptions="Center"
+                    Margin="15,10,10,0"/>
+      
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    Text="Current Environment:"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    IsVisible="false" 
+                    Margin="15,30,0,0"/>
+            
+            <Label x:Name="nickname" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Text="{Binding Nickname}"
+                    FontAttributes="Bold"
+                    Margin="15,10,10,0"/>
+
+
+            <views:SvgImage Grid.Row="5" Grid.Column="0"
+                    Source="delete_outline_24px.svg"
+                    Color="Gray"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="36" 
+                    HeightRequest="36"
+                    Margin = "4,0,0,0"
+                    Clicked="ChangeURLEndpoint"/>
+            
+            <views:SvgImage Grid.Row="6" Grid.Column="0"
+                    Source="ic_settings_black_36px.svg"
+                    Color="Gray"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="30" 
+                    HeightRequest="30"
+                    Margin = "5,0,0,0"
+                    Clicked="SettingsClicked"/>
+
+            
+            <views:SvgImage Grid.Row="7" Grid.Column="0"
+                    Source="logout.svg"
+                    Color="Gray"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    WidthRequest="30" 
+                    HeightRequest="30"
+                    Clicked="LogoutClicked"/>
+
+            <Label x:Name="debugMode" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                    VerticalOptions = "Center"
+                    IsVisible = "{Binding DebugModeEnabled}"
+                    FormattedText = "{Binding EnvironmentString}"
+                    Margin="15,0,0,0"
+                    FontSize="Micro"/>
+
+
+            <Label x:Name="removeEnvLabel" Grid.Row="5" Grid.Column="1" 
+                    Text="Change Environment"
+                    VerticalOptions = "Center"
+                    FontSize="Medium"/>
+            
+            <Label x:Name="settingsLabel" Grid.Row="6" Grid.Column="1" 
+                    Text="Settings"
+                    VerticalOptions = "Center"
+                    FontSize="Medium"/>
+            
+            <Label x:Name="logoutLabel" Grid.Row="7" Grid.Column="1" 
+                    Text="Logout"
+                    VerticalOptions = "Center"
+                    FontSize="Medium" />
+            
+        </Grid>
+    </local:BasePage.RootContent>
+</local:BasePage>
