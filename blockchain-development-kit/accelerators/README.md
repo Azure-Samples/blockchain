@@ -10,7 +10,7 @@ Today, we are making the first set of these available as solution accelerators. 
 ===========================================
 Lots of customers love the Corda blockchain and would like to be able to easily connect to all of the items released today as part of the Azure Blockchain Development Kit.  Working closely with Corda, we're happy to announce a new accelerator that enables Corda to listen to and send messages that map to the same format used by Workbench.  This initially ships with a Corda-specific version of our refrigerated transportation contract and can demonstrate integration with IoT, SMS, and Office.
 
-[Attestable Documents and Media Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media)
+[Attestable Documents and Media Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench)
 ===========================================
 There are multiple scenarios where having attestable documents and media is valuable. 
 Media doesn’t belong on the blockchain, but hashes of the media plus the media + metadata should be.  
