@@ -1,0 +1,23 @@
+{
+  "requestId": "{{requestId}}",
+  "userChainIdentifier": "device01",
+  "applicationName": "RefrigeratedTransportation",
+  "workflowName": "WorkbenchTelemetryFlow",
+  "parameters": [
+    {
+      "name": "linearId",
+      "value": "{{linearId}}"
+    },
+    {
+      "name": "temperature",
+      "value": -10
+    },
+    {
+      "name": "humidity",
+      "value": 40
+    }
+  ],
+  "connectionId": 1,
+  "messageSchemaVersion": "1.0.0",
+  "messageName": "CreateContractActionRequest"
+}
