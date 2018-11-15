@@ -1,4 +1,3 @@
-.
 [Attestable Documents and Media Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench)
 ===========================================
 There are multiple scenarios where having attestable documents and media is valuable. 
