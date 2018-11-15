@@ -31,25 +31,25 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Function App and then click Create.
 
-![Create Function App](.\media\functionapp1.png)
+![](./media/functionapp1.png)
 
 Choose a name for the Function App, make sure .NET is chosen for the Runtime Stack and then click Create. This Function App will be used during the setup of the Logic App.
 
-![Configure Function App](.\media\functionapp2.png)
+![](./media/functionapp2.png)
 
 ## Create the Twilio Azure Function
 
 Once the app has been created, open it in the portal and click the + symbol next to Functions to add a new function.
 
-![Add new function](.\media\functionapp3.png)
+![](./media/functionapp3.png)
 
 Select "HTTP trigger" as the type of function to add.
 
-![Choose HTTP trigger](.\media\functionapp4.png)
+![](./media/functionapp4.png)
 
 Name the new function "TwilioVoiceFunction".
 
-![Name new function](.\media\functionapp5.png)
+![](./media/functionapp5.png)
 
 Add the following code to the function. This function will walk the user through collecting data to be used for a contract in the market place. First it will ask for a description of the item to sell, the price, and finally will report the results of adding the item to the market place. In the function we will replace "[LOGIC_APP_URI]" with a Uri from the logic app created later in this sample.
 
@@ -146,7 +146,7 @@ public static string BuildHangupResponse(string message) {
 
 ```
 
-![Add Code](.\media\functionapp6.png)
+![](./media/functionapp6.png)
 
 Save the function. This will be used in our logic app.
 
@@ -156,13 +156,13 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Logic App and then click Create.
 
-![Create Logic App](./media/logicapp1.png)
+![](./media/logicapp1.png)
 
 Name the logic app "TwilioVoiceLogicApp".
 
 Click the Create button.
 
-![Configure Logic App](./media/logicapp2.png)
+![](./media/logicapp2.png)
 
 A logic app is initiated by a trigger.
 
@@ -170,11 +170,11 @@ In this scenario, the trigger will be a HTTP request from the Azure Function onc
 
 Within the Logic App Designer, select "Blank Logic App".
 
-![Blank Logic App](.\media\logicapp3.png)
+![](./media/logicapp3.png)
 
 Search for Request and then select the "When a HTTP request is received" trigger.
 
-![Add HTTP received trigger](.\media\logicapp4.png)
+![](./media/logicapp4.png)
 
 The HTTP Post URL will be available after the logic app is saved and will be used later for testing. In the "Request Body JSON Schema" section add the following JSON. This will allow the logic app to parse out the required data.
 
@@ -191,17 +191,17 @@ The HTTP Post URL will be available after the logic app is saved and will be use
     "type": "object"
 }
 ```
-![Configure HTTP receiver](.\media\logicapp5.png)
+![](./media/logicapp5.png)
 
 ## Retrieve User Chain Id
 
 The logic app will need a chain to attach the contract to. This sample will pull the most recent chain for a given user. Search for SQL Server and select "Execute a SQL query".
 
-![Add SQL Connector](.\media\sqlserver1.png)
+![](./media/sqlserver1.png)
 
 The first step will be to connect to the SQL database created with the workbench.
 
-![Connect to SQL](.\media\sqlserver2.png)
+![](./media/sqlserver2.png)
 
 Enter the following SQL query in the query window. Replace [USER_EMAIL] with an email address that has access to the Simple Marketplace
 
@@ -211,11 +211,11 @@ SELECT TOP 1 ChainIdentifier FROM [UserChainMapping] WHERE UserID = (SELECT Id F
 
 Rename this action to "Get User Chain Id".
 
-![Set SQL Query](.\media\sqlserver3.png)
+![](./media/sqlserver3.png)
 
 Once we have the SQL data, we need to parse the returned JSON so that the information can be used later in the sample. Search for Data Operations and select "Parse JSON".
 
-![Add JSON Parse](.\media\parse1.png)
+![](./media/parse1.png)
 
 The content will be an expression that pulls the first value from the first row. Add the following in the Express field.
 
@@ -236,27 +236,27 @@ The Schema for the JSON is provided below.
 }
 ```
 
-![Configure JSON Parse](.\media\parse2.png)
+![Configure JSON Parse](./media/parse2.png)
 
 ## Initializing a Variable
 
 The contract that we will be using requires a request Id that is a unique guid. This will be created using a variable action. Search for "Variable" and select "Initialize variable"
 
-![Set Variable](.\media\variable1.png)
+![](./media/variable1.png)
 
 The name of the variable is "RequestId" and the type will be "String". When you click on the Value field, the expression editor will appear. Select "Expression" and enter "guid()". This will generate a unique guid for our call to use.
 
-![Request Id variable](.\media\variable2.png)
+![](./media/variable2.png)
 
 ## Sending the Service Bus Message
 
 The logic app will create and send a message to the Service Bus Queue for the Azure Blockchain Workbench. Search "Service Bus" and then select "Send Message".
 
-![Select Send Message](.\media\servicebus1.png)
+![](./media/servicebus1.png)
 
 Select the service bus you wish to connect to, either by selecting one from your current subscription or adding the connection string if it exists in a different location.
 
-![Configure Service Bus](.\media\servicebus2.png)
+![](./media/servicebus2.png)
 
 The Send Message dialog will allow you to configure the message. For the "Queue/Topic name" select the queue associated with your Azure Blockchain Workbench. The Content will contain dynamic data that we have created along the process of the logic app. Enter the following JSON into the field:
 
@@ -280,7 +280,7 @@ The Send Message dialog will allow you to configure the message. For the "Queue/
 
 Add the dynamic fields from the previous steps and Variable sections as show here. 
 
-![Configure the message](.\media\servicebus3.png)
+![](./media/servicebus3.png)
 
 ## HTTP Response
 
@@ -288,7 +288,7 @@ The last section is to return a HTTP response to the Azure Function. The respons
 
 Search Request and select "Response". The default settings for this response do not need to be altered for this sample.
 
-![Add Response](.\media\response1.png)
+![](./media/response1.png)
 
 Once this is complete. Click Save and your logic app is ready to be tested.
 
@@ -300,7 +300,7 @@ With the Azure function and the Logic App complete, the final step for the sampl
 
 Open the Twilio portal and navigate to the phone number you will be testing. In the Messaging section add the Uri for the Azure Function you created in the "A Message Comes In" section. Make sure to change the method to "HTTP POST". Any messages received by this number will now be routed to the Azure Function.
 
-![Configure Twilio](.\media\twilio1.png)
+![](./media/twilio1.png)
 
 ## Testing the logic app
 
@@ -318,13 +318,13 @@ You can test this functionality by taking the following steps –
    navigate to the logic app in the portal. At the bottom of the screen, you
    will detail for Runs history
 
-![a3ae47edda794d93a60f5e6235df0282](./media/a3ae47edda794d93a60f5e6235df0282.png)
+![](./media/a3ae47edda794d93a60f5e6235df0282.png)
 
 5. Click on the most recent execution of your logic app in the list.  
    This will show details on the trigger and actions executing within the logic
    app and allow you to validate success or troubleshoot reasons for failure.
 
-![3385af2235e54ab6a14d4bfa5a85d0fb](./media/runOutput.png)
+![](./media/runOutput.png)
 
 ### In Review
 
