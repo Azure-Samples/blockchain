@@ -1,4 +1,4 @@
-[Ethereum Blockchain Connector for Logic Apps]
+Ethereum Blockchain Connector for Logic Apps
 ==============================================
 The Ethereum blockchain connector is rolling out to 25 Azure regions today and enables users to deploy contracts, call contract actions, read contract state and trigger other Logic Apps based on events from smart contracts.
 
