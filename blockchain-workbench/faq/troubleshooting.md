@@ -60,3 +60,6 @@ This error is usually seen when the function has hit a revert/assert given the c
 
 ##### "Error while estimating gas. Exception Invalid params: Invalid hex: Invalid character '_' at position ..."
 This error comes from the usage of [libraries](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#libraries). We do not support libraries in the current version of Workbench. Please move the functions from the library into your contract. 
+
+##### "Input string was not in a correct format."
+This error is usually due to a parsing error of the messaging input. Most commonly, this occurs when the parameter is a string that represents a float (ex. "1.55"). We do not support floats. Please convert your input to an integer value (ex. "2").
