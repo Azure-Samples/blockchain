@@ -16,7 +16,7 @@ There are multiple scenarios where having attestable documents and media is valu
 Media doesn’t belong on the blockchain, but hashes of the media plus the media + metadata should be.  
 This accelerator use logic app connectors to identify when media has been added to Azure Storage, One Drive, One Drive For Business, GDrive, Sharepoint, FTP, etc.   It will then hash the file, hash the metadata and the hash of the file and deliver it to a set of smart contracts in a smart contract hosted registry.
 
-[Blockchain Based Registry Accelerator] (https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/registry-generator)
+[Blockchain Based Registry Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/registry-generator)
 =====================================
 Registries are used in every industry and in multiple scenarios, and smart contracts can enable blockchain-based registries that are shared, immutable and cryptographically secure. Examples of registries include land, vehicle, equity, bond, music/audio, video/film, diploma, documents, luxury goods, lab certifications, licenses, entitlements, in game purchase ownership, etc.
 
