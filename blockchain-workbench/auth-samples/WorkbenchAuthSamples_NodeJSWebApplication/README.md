@@ -1,12 +1,12 @@
 # Auth Samples and Code Snippets for Workbench
 
-### Node.JS Sample
+## Node.JS Sample
 
-Getting the ADAL Node Package:
+### Getting the ADAL Node Package:
 1. Go to Node Package Manager
 2. Install the latest version of 'adal-node'
  
-Code Sample:
+### Code Sample:
 ```
 var AuthenticationContext = require('adal-node').AuthenticationContext;
 var authorityHostUrl = 'https://login.windows.net';
