@@ -1,4 +1,4 @@
-Execute Logic Based on Contract State After a Specific Contract Action
+Send Outlook Alert After a Specific Contract Action
 ======================================================================
 
 Overview
