@@ -19,7 +19,7 @@ Step 1 is to identify which of the views is appropriate for your search scenario
 
 Step 2 is to create an Azure Search Service via the Azure Portal.
 
-Step 3 is to go to the database in your Azure Blockchain Workbench Deployment and click the "Add Azure Search Button"
+Step 3 is to go to the database in your Azure Blockchain Workbench Deployment and click the "Add Azure Search" button
 
 Simply follow the prompts where you'll select your view, the fields you want searchable and retrievable, and the index will be created.
 
