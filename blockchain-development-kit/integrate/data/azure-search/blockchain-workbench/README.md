@@ -23,8 +23,8 @@ Step 3 is to go to the database in your Azure Blockchain Workbench Deployment an
 
 Simply follow the prompts where you'll select your view, the fields you want searchable and retrievable, and the index will be created.
 
-Of Note - 
-When defining your index, be thoughtful about what key is appropriate. This should provide a unique ID for the document. Because the views in Azure Blockchain Workbench are "wide", they have multiple IDs. For example, for vwContractAction the default key selected in ApplicationId where it should be ContractActionId.
+Of note - 
+When defining your index, be thoughtful about what key is appropriate. This should provide a unique ID for the document. Because the views in Azure Blockchain Workbench are "wide", they have multiple IDs. Azure Search will try to infer the right key, but in a wide table it is hard for it to know which ID provides uniqueness. For example, for vwContractAction the default key selected in ApplicationId where it should be ContractActionId.
 
 Additional information on data types can be found [here](https://docs.microsoft.com/en-us/azure/search/search-what-is-an-index).
 
