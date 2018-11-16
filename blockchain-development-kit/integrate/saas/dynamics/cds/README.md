@@ -1,1 +1,1 @@
-Dynamics content will be posting by mid-day on 11/15/2018.
+Dynamics content will be posting by mid-day on 11/16/2018.
