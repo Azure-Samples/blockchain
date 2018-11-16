@@ -3,11 +3,11 @@ Using Azure Search with Azure Blockchain Workbench
 
 Overview
 --------
-A common pattern we've seen from customers is an interest to utilize search with blockchain data.  We're seeing it used to power some pretty innovative user experiences that require flexible searching over fast growing data sets.  The use of facets specifically is of keen interest. If unfamilair with facets, addition detail with UX samples can be found [here](https://docs.microsoft.com/en-us/azure/search/search-faceted-navigation)
+A common pattern we've seen from customers is an interest to utilize search with blockchain data. Because a blockchain is immutable, data such as PII is not appropriate to place in it. The pattern has search being used on a mix of data from a blockchain and "off chain" data that augments it. 
 
-Because a blockchain is immutable, data such as PII is not appropriate to place in it. The pattern has search being used on a mix of data from a blockchain and "off chain" data that augments it. 
+Azure Blockchain Workbench already provides a database that merges "on chain" data with an "off chain" model, so it's only a simple matter of getting the data from the SQL DB provided by workbench and into Azure Search.
 
-Azure Blockchain Workbench already provides an database that merges "on chain" data with an "off chain" model, so it's only a simple matter of getting the data from the SQL DB provided by workbench and into Azure Search.
+We're seeing it used to power some pretty innovative user experiences that require flexible searching over fast growing data sets.  The use of facets specifically is of keen interest. If unfamilair with facets, addition detail with UX samples can be found [here](https://docs.microsoft.com/en-us/azure/search/search-faceted-navigation)
 
 The good news is that this capability is already built into SQL DB and in just a few minutes you can add this search capability.
 
