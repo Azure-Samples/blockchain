@@ -15,7 +15,7 @@ This repository contains content and samples in number of areas, including:
 * [Deployment and Management Scripts and Upgrade Scripts](./scripts/readme.md)
 * [Frequently Asked Questions](./faq/readme.md)
 
-To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://aks.ms/workbenchdocs).
+To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://aka.ms/workbenchdocs).
 
 ## How to provide feedback
 

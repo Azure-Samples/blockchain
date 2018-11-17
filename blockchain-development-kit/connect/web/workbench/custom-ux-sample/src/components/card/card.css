@@ -1,0 +1,36 @@
+.card{
+  min-width: 23%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: auto;
+  background-color: white;
+  justify-content: center;
+}
+
+.timeline-date {
+  color: #767676;
+  font-size: 11px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin: 0 5% 16px 7%;
+}
+
+.timeline-date span {
+  background: #fff;
+  padding: 0 15px;
+}
+
+.timeline-date:before{
+  border-top: 1px solid rgba(0, 0, 0, 0.16);
+  content: '';
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}

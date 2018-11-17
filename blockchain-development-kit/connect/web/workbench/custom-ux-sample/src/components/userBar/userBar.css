@@ -1,0 +1,18 @@
+.userBar {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  border-left: 1px solid white;
+}
+
+.signOutButton {
+  background-color: transparent;
+  color: #eee;
+  border: none;
+  font-weight: 100;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+.signOutButton:hover {
+  cursor: pointer;
+}

@@ -262,7 +262,7 @@ try {
 
 Log-Info "Looking for your user '$($currentUser.Account.Id)' in '$TenantName' tenant"
 try {
-    $matchedUsers = Get-AzureADUser -Filter "mail eq '$($currentUser.Account.Id)' or userPrincipalName eq '$($currentUser.Account.Id)'"
+    $matchedUsers = Get-AzureADUser -Filter "mail eq '$($currentUser.Account.Id)' or userPrincipalName eq '$($currentUser.Account.Id)' or OtherMails eq '$($currentUser.Account.Id)'"
     Log-Debug $matchedUsers
 } catch {
     Log-Warning "Failed to retrieve your user information. Please refer to the docs to manually add yourself as an admin. https://aka.ms/workbenchAADSteps" -Exception $_

@@ -21,7 +21,7 @@ param(
     [Parameter(Mandatory=$false)][string]$TenantName,
     [Parameter(Mandatory=$false)][string]$AppId,
     [Parameter(Mandatory=$false)][string]$SubscriptionId,
-    [Parameter(Mandatory=$false)][string]$ResourceGroupName,
+    [Parameter(Mandatory=$false)][string]$ResourceGroupName
 )
 
 #################################################################################
@@ -253,20 +253,32 @@ if (-Not ($TenantName -Or $AppId)) {
             $TenantName = $setting.Value
         }
     }
+
+    if (-Not ($AppId -Or $TenantName)) {
+        Log-Error "Could not get the AppId and TenantName from $ResourceGroupName in subscription $subscriptionId" -Exit
+    }
+
+    Log-Info "Found AppId: $AppId"
+    Log-Info "Found TenantName: $TenantName"
+}
+
+if (-Not ($AppId -And $TenantName)) {
+    Log-Error "No AppId and/or TenantName was passed." -Exit
 }
 
 try {
     Log-Debug "Trying to login to $TenantName"
+    Log-Info "Logging in to AAD"
     $currentUser = Connect-AzureAD -TenantId $TenantName -ErrorAction SilentlyContinue
 } catch {
-    Log-Error "There was a problem with login. Please try again." -Exception $_ $Exit
+    Log-Error "There was a problem with login. Please try again." -Exception $_ -Exit
 }
 
 try {
     $application = Get-AzureADApplication -Filter "AppId eq '$AppId'"
     Log-Debug $application
 } catch {
-    Log-Error "Could not find an application with Id $AppId in directory $TenantName" -Exception $_ $Exit
+    Log-Error "Could not find an application with Id $AppId in directory $TenantName" -Exception $_ -Exit
 }
 
 try {
@@ -275,7 +287,7 @@ try {
         -Oauth2AllowImplicitFlow $true `
         -RequiredResourceAccess $requiredResourceAccessList
 
-    Log-Debug "Updated the AAD application"
+    Log-Info "Updated the AAD application"
 } catch {
     Log-Error "Could not update the AAD application. Please try again."  -Exception $_ -Exit
 }
@@ -287,7 +299,5 @@ Write-Host
 Write-Host
 Write-Host
 
-Log-Success "Your Workbench instance was successfully provisioned. Navigate to https://$replyUrl to use your instance."
-Write-Host "============================================================================================================================"
-
-
+Log-Success "Your AAD Application $AppId was successfully upgraded."
+Write-Host "=============================================================================================="
