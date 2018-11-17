@@ -206,6 +206,7 @@ namespace Workbench.Forms.ViewModels
                         }
                         else if (!item.EqualsWorkflowInstance(itemCurrentlyDisplayed))
                         {
+                            UpdateContractInstancePage();
                             ContractInstances.Remove(itemCurrentlyDisplayed);
                             ContractInstances.Insert(iIndex, item);
                         }
