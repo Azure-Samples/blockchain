@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.5.0" />
     <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
     <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
-    <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="TemplatedApp.xaml" />
