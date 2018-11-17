@@ -17,7 +17,7 @@ namespace Workbench.Forms.UI.ViewCells
 			{
 				Text = " ", 
                 FontAttributes = FontAttributes.Bold,
-				HorizontalOptions = LayoutOptions.StartAndExpand
+				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 			
             dynamicContent = new Label
