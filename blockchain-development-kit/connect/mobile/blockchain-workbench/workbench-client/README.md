@@ -12,6 +12,15 @@ Assuming you have all the Xamarin pre-requisites installed, you will be able to 
 
 This app is built with Xamarin.Forms, a cross platform UI toolkit for building Xamarin Apps from a single codebase. If you are new to Xamarin or Xamarin.Forms, Please read and follow the documentation for a primer: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/
 
+
+Alternatively, you can also download the latest stable builds for iOS and Android from these public AppCenter links: 
+
+*![Build status](https://build.appcenter.ms/v0.1/apps/8e9aa481-392e-4b58-b913-27abcba922ab/branches/master/badge) [Blockchain Workbench iOS App](https://install.appcenter.ms/orgs/azure-blockchain-workbench-mobile-samples/apps/workbench-ios/distribution_groups/public_ios) 
+
+*![Build status](https://build.appcenter.ms/v0.1/apps/b16cea13-bd9d-42dc-a2c8-374d83b63cf2/branches/master/badge) [Blockchain Workbench Android App](https://install.appcenter.ms/orgs/azure-blockchain-workbench-mobile-samples/apps/workbench-droid/distribution_groups/public_droid)
+
+**Note** - on your iOS device make sure to go to Settings > General > Device Management and accept the certificate from Xamarin
+
 ## Colors and Theming
 This app can be easily themed to colors of your liking. 
 
