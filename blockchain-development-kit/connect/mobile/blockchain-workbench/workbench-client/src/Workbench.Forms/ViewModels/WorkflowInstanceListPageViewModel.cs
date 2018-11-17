@@ -144,6 +144,10 @@ namespace Workbench.Forms.ViewModels
                         iIndex++;
                     }
                 }
+                else
+                {
+                    ContractInstances.Clear();
+                }
             }
             catch (Exception e)
             {
