@@ -19,7 +19,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Workbench.Forms
 {
-    public class App : Application
+    public class App : Xamarin.Forms.Application
     {
         public static double ScreenWidth;
         public static double ScreenHeight;
