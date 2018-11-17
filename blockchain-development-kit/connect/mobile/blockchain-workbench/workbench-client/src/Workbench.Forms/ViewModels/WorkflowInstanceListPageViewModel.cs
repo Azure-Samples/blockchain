@@ -126,6 +126,16 @@ namespace Workbench.Forms.ViewModels
 
                     var currentlyDisplayedItems = ContractInstances.ToList();
 
+                    //remove items if not there anymore
+                    foreach (var currentlyDisplayedItem in currentlyDisplayedItems)
+                    {
+                        var itemInBothLists = tempList.FirstOrDefault(ci => ci.Id == currentlyDisplayedItem.Id);
+                        if (itemInBothLists is null)
+                        {
+                              ContractInstances.Remove(currentlyDisplayedItem);
+                        }
+                    }
+
                     int iIndex = 0;
                     foreach (var item in tempList)
                     {
