@@ -1,5 +1,5 @@
 DevOps for Blockchain Smart Contracts – Implementation Guide
-
+=============================================================
 Ben Burns, Head of Blockchain Development, Truffle  
 David Burela, Sr. Software Engineer, CSE, Microsoft  
 Marc Mercuri, Principal Program Manager, Blockchain Engineering, Microsoft
