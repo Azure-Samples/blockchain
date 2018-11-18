@@ -5,10 +5,12 @@ This project contains a native iOS and Android application built with Xamarin.Fo
 
 The application is fully dynamic and will work with any Azure Blockchain Workbench instance. It is designed to work with the Blockchain Workbench REST API through the .NET SDK located here: https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/rest-api-samples/dotnet
 
+![](images/screenshots/login.png)    ![](images/screenshots/applications.png)    ![](images/screenshots/contractinstance.png)    
 ## Getting Started 
 Assuming you have all the Xamarin pre-requisites installed, you will be able to build the project after cloning. 
 
 This app is built with Xamarin.Forms, a cross platform UI toolkit for building Xamarin Apps from a single codebase. If you are new to Xamarin or Xamarin.Forms, Please read and follow the documentation for a primer: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/
+
 
 ## Colors and Theming
 This app can be easily themed to colors of your liking. 

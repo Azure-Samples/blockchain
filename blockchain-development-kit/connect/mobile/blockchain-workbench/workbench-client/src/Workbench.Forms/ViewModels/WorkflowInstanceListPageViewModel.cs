@@ -107,24 +107,16 @@ namespace Workbench.Forms.ViewModels
 			}
 		}
 
-		async Task getContractInstancesAsync()
-		{
-			try
-			{
-				IsUserInitiator = await GatewayApi.Instance.CanCurrentUserCreateContractsForWorkflow(App.ViewModel.Contract.Id.ToString());
+        async Task getContractInstancesAsync()
+        {
+            try
+            {
+                IsUserInitiator = await GatewayApi.Instance.CanCurrentUserCreateContractsForWorkflow(App.ViewModel.Contract.Id.ToString());
 
-				var tempList = await GatewayApi.Instance.GetWorkflowInstancesAsync(App.ViewModel.Contract?.Id.ToString());
+                var tempList = await GatewayApi.Instance.GetWorkflowInstancesAsync(App.ViewModel.Contract?.Id.ToString());
 
                 if (tempList != null)
                 {
-
-                    var contractsWithoutTimestamps = tempList.Where(x => x.ContractActions.Count == 0).Count();
-
-                    //Only order by descending if every contract instance has a timestamp. For those that fail the creation process there won't be a timestamp
-                    //if (contractsWithoutTimestamps == 0)
-                    //{
-                    //    tempList = tempList.OrderByDescending(x => x.ContractActions.LastOrDefault().Timestamp);
-                    //}
 
                     if (tempList?.Count() == 0)
                     {
@@ -134,48 +126,44 @@ namespace Workbench.Forms.ViewModels
 
                     var currentlyDisplayedItems = ContractInstances.ToList();
 
+                    //remove items if not there anymore
                     foreach (var currentlyDisplayedItem in currentlyDisplayedItems)
                     {
                         var itemInBothLists = tempList.FirstOrDefault(ci => ci.Id == currentlyDisplayedItem.Id);
                         if (itemInBothLists is null)
                         {
-                            ContractInstances.Remove(currentlyDisplayedItem);
+                              ContractInstances.Remove(currentlyDisplayedItem);
                         }
                     }
 
+                    int iIndex = 0;
                     foreach (var item in tempList)
                     {
                         var itemCurrentlyDisplayed = ContractInstances.FirstOrDefault(ci => ci.Id == item.Id);
                         if (itemCurrentlyDisplayed is null)
                         {
-                            ContractInstances.Add(item);
+                            ContractInstances.Insert(iIndex, item);
                         }
                         else if (!item.EqualsWorkflowInstance(itemCurrentlyDisplayed))
                         {
-                            // THIS SECTION IS TO UPDATE THE WORKFLOW INSTANCE PAGE
                             UpdateContractInstancePage();
-
-                            var index = ContractInstances.IndexOf(itemCurrentlyDisplayed);
-
                             ContractInstances.Remove(itemCurrentlyDisplayed);
-
-                            if (index >= ContractInstances.Count)
-                                ContractInstances.Add(item);
-                            else
-                                ContractInstances.Insert(index, item);
+                            ContractInstances.Insert(iIndex, item);
                         }
+
+                        iIndex++;
                     }
                 }
                 else
                 {
                     ContractInstances.Clear();
                 }
-			}
-			catch (Exception e)
-			{
-				System.Diagnostics.Debug.WriteLine(e.Message);
-			}
-		}
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+        }
 
 		public void UpdateContractInstancePage()
 		{
