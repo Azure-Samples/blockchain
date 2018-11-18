@@ -16,7 +16,7 @@ Ethereum Blockchain Connector for Logic Apps Sample (Coming Soon)
 Corda Ledger Connector for Logic Apps Sample (Coming Soon)
 
 Outbound SMS
--------------
+============
 [Azure Blockchain Workbench Sample](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/connect/sms/outbound/README.md)
 Ethereum Blockchain Connector for Logic Apps Sample (Coming Soon)
 Corda Ledger Connector for Logic Apps Sample (Coming Soon)
