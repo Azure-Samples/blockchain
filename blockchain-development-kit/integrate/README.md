@@ -75,6 +75,6 @@ Ethereum Blockchain Connector for Logic Apps Samples
 -----------------------------------------------------
 (Coming Soon)
 
-Corda Ledger Connector for Logic Apps Sample (Coming Soon)
+Corda Ledger Connector for Logic Apps Sample
 -----------------------------------------------------------
 (Coming Soon)
