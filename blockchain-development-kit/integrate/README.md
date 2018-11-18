@@ -15,13 +15,23 @@ Microsoft brings our decades of experience in this area to blockchain. Our work 
 Azure Blockchain Workbench Samples
 ----------------------------------
 
-__Legacy applications and protocols__ – Sending and receiving files via FTP, processing comma separated files and email delivery of data.
+__Legacy applications and protocols__ 
+[Recieving files via FTP](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/ftp/inbound/blockchain-workbench)
 
-__Data__ – SQL, Azure Search, Excel, and PowerBI.
+[Processing comma separated files](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/files/csv/blockchain-workbench/README.md)
 
-__SaaS__ –  [SharePoint](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint/README.md), [Dynamics](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/dynamics/cds), [Outlook](), and [Gmail](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/saas/gmail/send/blockchain-workbench/README.md).
+[Email delivery of data]()
 
-__Registries__ – [An accelerator that generates a custom registry and registry item smart contracts to accommodate any scenario.](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/registry-generator)
+__Data__ 
+[SQL](https://docs.microsoft.com/en-us/azure/blockchain/workbench/data-sql-management-studio),
+[CosmosDB](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/cosmosdb/blockchain-workbench),[Azure Search](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/azure-search/blockchain-workbench),[Excel](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/excel/blockchain-workbench), and [PowerBI](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/powerbi/blockchain-workbench).
+
+__SaaS__ –  
+[SharePoint](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint/README.md),[Dynamics](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/dynamics/cds), [Outlook](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/outlook/send/blockchain-workbench), and [Gmail](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/saas/gmail/send/blockchain-workbench/README.md).
+
+__Registries__ 
+
+[An accelerator that generates a custom registry and registry item smart contracts to accommodate any scenario.](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/registry-generator)
 
 Ethereum Blockchain Connector for Logic Apps Samples
 -----------------------------------------------------
@@ -43,4 +53,10 @@ Logic Apps have been created to deliver this functionality for files added to th
 
 Azure Blockchain Workbench Samples
 ----------------------------------
-
+[Azure Storage](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/azure-blob-storage)
+[OneDrive](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/onedrive/README.md)
+[One Drive for Business](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/onedrive-for-business/README.md)
+[SharePoint](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint)
+[Box](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/box)
+[Adobe Creative Cloud](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/AdobeCreativeCloud/README.md)
+[FTP](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/ftp)
