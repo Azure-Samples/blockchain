@@ -68,3 +68,11 @@ Azure Blockchain Workbench Samples
 [One Drive for Business](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/onedrive-for-business/README.md)
 
 [SharePoint](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint)
+
+Ethereum Blockchain Connector for Logic Apps Samples
+-----------------------------------------------------
+(Coming Soon)
+
+Corda Ledger Connector for Logic Apps Sample (Coming Soon)
+-----------------------------------------------------------
+(Coming Soon)
