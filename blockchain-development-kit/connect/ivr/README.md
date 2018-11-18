@@ -11,6 +11,8 @@ Samples
 =======
 This sample uses voice to interact with the simple marketplace sample application.
 
-[Azure Blockchain Workbench Sample](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/connect/ivr/README.md)
+[Azure Blockchain Workbench Sample](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/connect/ivr/WorkbenchVoiceSample.md)
+
 Ethereum Blockchain Connector for Logic Apps Sample (Coming Soon)
+
 Corda Ledger Connector for Logic Apps Sample (Coming Soon)
