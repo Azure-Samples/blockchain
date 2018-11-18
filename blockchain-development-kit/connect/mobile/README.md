@@ -7,4 +7,4 @@ For example, in a supply chain scenario mobile enable logistics providers to acc
 
 Samples
 =======
-[Azure Blockchain Workbench Mobile Client for iOS]https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect/mobile/blockchain-workbench/workbench-client)
+[Azure Blockchain Workbench Mobile Client for iOS and Android](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect/mobile/blockchain-workbench/workbench-client)
