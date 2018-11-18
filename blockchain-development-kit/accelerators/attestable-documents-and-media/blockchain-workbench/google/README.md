@@ -33,23 +33,23 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Function App and then click Create.
 
-![Create Function App](.\media\functionapp1.png)
+![Create Function App](./media/functionapp1.png)
 
 Choose a name for the Function App, make sure .NET is chosen for the Runtime Stack and then click Create. This Function App will be used during the setup of the Logic App.
 
-![Configure Function App](.\media\functionapp2.png)
+![Configure Function App](./media/functionapp2.png)
 
 Once the app has been created, open it in the portal and click the + symbol next to Functions to add a new function.
 
-![Add new function](.\media\functionapp3.png)
+![Add new function](./media/functionapp3.png)
 
 Select "HTTP trigger" as the type of function to add.
 
-![Choose HTTP trigger](.\media\functionapp4.png)
+![Choose HTTP trigger](./media/functionapp4.png)
 
 Name the new function "GenericHashFunction".
 
-![Name new function](.\media\functionapp5.png)
+![Name new function](./media/functionapp5.png)
 
 Add the following code to the function. This function will return a SHA256 hash of the content that is passed to it.
 
@@ -96,7 +96,7 @@ public static string ComputeSha256Hash(string rawData)
 } 
 ```
 
-![Add Code](.\media\functionapp6.png)
+![Add Code](./media/functionapp6.png)
 
 Save the function. This will be used in our logic app.
 
@@ -120,11 +120,11 @@ In this scenario, the trigger will be when a HTTP request is made containing the
 
 Within the Logic App Designer, select "Blank Logic App".
 
-![Blank Logic App](.\media\logicapp3.png)
+![Blank Logic App](./media/logicapp3.png)
 
 Search for Request and then select the "When a HTTP request is received" trigger.
 
-![Add HTTP received trigger](.\media\logicapp4.png)
+![Add HTTP received trigger](./media/logicapp4.png)
 
 The HTTP Post URL will be available after the logic app is saved and will be used later for testing. In the "Request Body JSON Schema" section add the following JSON. This will allow the logic app to parse out the required data.
 
@@ -138,7 +138,7 @@ The HTTP Post URL will be available after the logic app is saved and will be use
     "type": "object"
 }
 ```
-![Configure HTTP receiver](.\media\logicapp5.png)
+![Configure HTTP receiver](./media/logicapp5.png)
 
 ## Add Google Drive Connectors
 
@@ -146,23 +146,23 @@ This sample will connect to Google Drive to obtain the content and metadata of t
 
 Add a new step and search for Google Drive. Then select "Get file content using path".
 
-![Add Google Drive connector](.\media\logicapp6.png)
+![Add Google Drive connector](./media/logicapp6.png)
 
 When prompted sign into the Google Drive account to be used in this exampe.
 
-![Sign in to Google Drive](.\media\logicapp7.png)
+![Sign in to Google Drive](./media/logicapp7.png)
 
 The File path will be a dynamic property returned from the previous step. Clicking the field will open the dynamic property window. Select "filepath".
 
-![Configure path](.\media\logicapp8a.png)
+![Configure path](./media/logicapp8a.png)
 
 Next, add a new step and once again search Google Drive. This time select "Get file metadata using path". 
 
-![Select folder and frequency](.\media\logicapp9.png)
+![Select folder and frequency](./media/logicapp9.png)
 
 The File path property for this step will be the same as the previous one.
 
-![Configure path](.\media\logicapp10.png)
+![Configure path](./media/logicapp10.png)
 
 ## Add Hashing Functions
 
@@ -170,47 +170,47 @@ This next step will create hash values for the shared file's metadata and conten
 
 Search for Azure Function and then click "Choose an Azure function".
 
-![Add Azure Function](.\media\hashmetadata1.png)
+![Add Azure Function](./media/hashmetadata1.png)
 
 Pick the Azure Function App you created at the start of this sample and then select "GenericHashFunction" that you created earlier.
 
-![Create Azure Function](.\media\hashmetadata2.png)
+![Create Azure Function](./media/hashmetadata2.png)
 
 Once you select the function you will be prompted to add the request body that will be passed into the function. This will be a JSON object and should look like the following image. Click the three dots at the top, select "Rename" and name this function "Hash File Metadata".
 
-![Function Request Body](.\media\hashmetadata3.png)
+![Function Request Body](./media/hashmetadata3.png)
 
 Like in the previous steps, this data contains properties that are dynamic content that Azure determines based on the apps and connectors used upstream.  You can see an example of the dynamic content available from the Google Drive connector below.
 
-![Dynamic Google Drive Connector Values](.\media\hashmetadata4.png)
+![Dynamic Google Drive Connector Values](./media/hashmetadata4.png)
 
 Repeat the steps above to add a second call to the Azure Function.  This time we will hash the content of the file. The Google Drive connector that retrieves content returns an object that includes extra metadata so we'll need to strip out the content. In the Request Body type "@body('Get_file_content_using_path')['$content']". Click the three dots at the top, select "Rename" and name this function "Hash File Content".
 
-![hashContent](.\media\hashContent.png)
+![hashContent](./media/hashContent.png)
 
 ## Initializing the Variables
 
 The contract that we will be using requires two pieces of generated data: a request Id and a process time. This will be created using a variable action. Search for "Variable" and select "Initialize variable"
 
-![Set Variable](.\media\variable1.png)
+![Set Variable](./media/variable1.png)
 
 The name of the first variable is "RequestId" and the type will be "String". When you click on the Value field, the expression editor will appear. Select "Expression" and enter "guid()". This will generate a unique guid for our call to use.
 
-![Request Id variable](.\media\variable2.png)
+![Request Id variable](./media/variable2.png)
 
 Add a second variable whose name is "ProcessDateTime" and the type is "String". The expression for this variable is "utcNow()".
 
-![Process Date Time variable](.\media\variable3.png)
+![Process Date Time variable](./media/variable3.png)
 
 ## Sending the Service Bus Message
 
 The last portion of the logic app will be to create and send a message to the Service Bus Queue for the Azure Blockchain Workbench. Search "Service Bus" and then select "Send Message".
 
-![Select Send Message](.\media\servicebus1.png)
+![Select Send Message](./media/servicebus1.png)
 
 Select the service bus you wish to connect to, either by selecting one from your current subscription or adding the connection string if it exists in a different location.
 
-![Configure Service Bus](.\media\servicebus2.png)
+![Configure Service Bus](./media/servicebus2.png)
 
 The Send Message dialog will allow you to configure the message. The Content will contain dynamic data that we have created along the process of the logic app. Enter the following Json into the field:
 
@@ -241,7 +241,7 @@ The Send Message dialog will allow you to configure the message. The Content wil
 
 In the Send Message action, search for and select the queue that is in you Azure Blockchain Workbench resource group. Set the SessionId field to be the "RequestId" variable created above. Select the Content field and build the following structure using the dynamic content fields from the steps above. It should look similar to this when completed.  Remember, the metadata hash is the result for the first Azure Function call (the Body object) and the content hash is the result of the second Azure Function call.
 
-![Configure the message](.\media\servicebus3.png)
+![Configure the message](./media/servicebus3.png)
 
 Once this is complete. Click Save and your logic app is ready to be tested. After saving, make sure to return to the receive HTTP request step and copy the "HTTP Post Url". 
 
