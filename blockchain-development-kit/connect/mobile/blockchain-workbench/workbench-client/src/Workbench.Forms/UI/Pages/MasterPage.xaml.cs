@@ -11,6 +11,7 @@ using Workbench.Forms.UI.Views;
 using System.Linq;
 
 using Workbench.Client;
+using Workbench.Forms.ViewModels;
 
 namespace Workbench.Forms.UI.Pages
 {
@@ -132,6 +133,7 @@ namespace Workbench.Forms.UI.Pages
 				{
 					var prevEnv = App.ViewModel.WorkbenchEnvironments[0];
 					App.ViewModel.WorkbenchEnvironments[0].SiteUrl = newSiteUrl;
+                    App.ViewModel.AllUsersList.Clear();
 					await LocalDbHelper.Instance.PurgeEnvironments();
 					var environment = new BlockchainEnvironment
 					{
@@ -144,6 +146,7 @@ namespace Workbench.Forms.UI.Pages
 					};
 					await LocalDbHelper.Instance.SaveEnvironmentAsync(environment);
 					GatewayApi.SiteUrl = newSiteUrl;
+
 				}
 				else
 				{
