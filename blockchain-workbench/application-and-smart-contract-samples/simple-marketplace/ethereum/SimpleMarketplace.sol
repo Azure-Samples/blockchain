@@ -1,27 +1,6 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    constructor(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract SimpleMarketplace is WorkbenchBase('SimpleMarketplace', 'SimpleMarketplace')
+contract SimpleMarketplace
 {
     enum StateType { 
       ItemAvailable,
@@ -43,7 +22,6 @@ contract SimpleMarketplace is WorkbenchBase('SimpleMarketplace', 'SimpleMarketpl
         AskingPrice = price;
         Description = description;
         State = StateType.ItemAvailable;
-        ContractCreated();
     }
 
     function MakeOffer(int offerPrice) public
@@ -66,7 +44,6 @@ contract SimpleMarketplace is WorkbenchBase('SimpleMarketplace', 'SimpleMarketpl
         InstanceBuyer = msg.sender;
         OfferPrice = offerPrice;
         State = StateType.OfferPlaced;
-        ContractUpdated('MakeOffer');
     }
 
     function Reject() public
@@ -83,7 +60,6 @@ contract SimpleMarketplace is WorkbenchBase('SimpleMarketplace', 'SimpleMarketpl
 
         InstanceBuyer = 0x0;
         State = StateType.ItemAvailable;
-        ContractUpdated('Reject');
     }
 
     function AcceptOffer() public
@@ -94,6 +70,5 @@ contract SimpleMarketplace is WorkbenchBase('SimpleMarketplace', 'SimpleMarketpl
         }
 
         State = StateType.Accepted;
-        ContractUpdated('AcceptOffer');
     }
 }

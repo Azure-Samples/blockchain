@@ -1,27 +1,6 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    constructor(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
+contract DigitalLocker
 {
     enum StateType { Requested, DocumentReview, AvailableToShare, SharingRequestPending, SharingWithThirdParty, Terminated }
     address public Owner;
@@ -45,8 +24,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         State = StateType.DocumentReview; //////////////// should be StateType.Requested?
 
         BankAgent = bankAgent;
-
-        ContractCreated();
     }
 
     function BeginReviewProcess()
@@ -62,7 +39,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
 
         LockerStatus = "Pending";
         State = StateType.DocumentReview;
-        ContractUpdated("BeginReviewProcess");
     }
 
     function RejectApplication(string rejectionReason)
@@ -75,7 +51,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         RejectionReason = rejectionReason;
         LockerStatus = "Rejected";
         State = StateType.DocumentReview;
-        ContractUpdated("RejectApplication");
     }
 
     function UploadDocuments(string lockerIdentifier, string image)
@@ -88,7 +63,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             Image = image;
             LockerIdentifier = lockerIdentifier;
             State = StateType.AvailableToShare;
-            ContractUpdated("UploadDocments");
     }
 
     function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose)
@@ -105,7 +79,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         IntendedPurpose = intendedPurpose;
         ExpirationDate = expirationDate;
         State = StateType.SharingWithThirdParty;
-        ContractUpdated("ShareWithThirdParty");
     }
 
     function AcceptSharingRequest()
@@ -117,7 +90,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
 
         CurrentAuthorizedUser = ThirdPartyRequestor;
         State = StateType.SharingWithThirdParty;
-        ContractUpdated("AcceptSharingRequest");
     }
 
     function RejectSharingRequest()
@@ -126,10 +98,9 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         {
             revert();
         }
-            LockerStatus ="Available";
-            CurrentAuthorizedUser=0x0;
-            State = StateType.AvailableToShare;
-            ContractUpdated("RejectSharingRequest");
+        LockerStatus ="Available";
+        CurrentAuthorizedUser=0x0;
+        State = StateType.AvailableToShare;
     }
 
     function RequestLockerAccess(string intendedPurpose)
@@ -142,7 +113,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         ThirdPartyRequestor = msg.sender;
         IntendedPurpose=intendedPurpose;
         State = StateType.SharingRequestPending;
-                ContractUpdated("RequestLockerAccess");
     }
 
     function ReleaseLockerAccess()
@@ -157,7 +127,6 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         CurrentAuthorizedUser = 0x0;
         IntendedPurpose="";
         State = StateType.AvailableToShare;
-        ContractUpdated("AvailableToShare");
     }
     function RevokeAccessFromThirdParty()
     {
@@ -165,10 +134,9 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         {
             revert();
         }
-            LockerStatus ="Available";
-            CurrentAuthorizedUser=0x0;
-            State = StateType.AvailableToShare;
-            ContractUpdated("RevokeAccessFromThirdParty");
+        LockerStatus ="Available";
+        CurrentAuthorizedUser=0x0;
+        State = StateType.AvailableToShare;
     }
     function Terminate()
     {
@@ -178,9 +146,5 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         }
         CurrentAuthorizedUser=0x0;
         State = StateType.Terminated;
-         ContractUpdated("Terminate");
     }
-
-
-
 }
