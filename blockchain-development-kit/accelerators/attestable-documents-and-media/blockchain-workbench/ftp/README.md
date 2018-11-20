@@ -105,13 +105,13 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Logic App and then click Create.
 
-![Create Logic App](./media/logicapp1.png)
+![Create Logic App](.\media\logicapp1.png)
 
 Name the logic app "FTPFileHashLogicApp".
 
 Click the Create button.
 
-![Configure Logic App](./media/logicapp2.png)
+![Configure Logic App](.\media\logicapp2.png)
 
 A logic app is initiated by a trigger.
 
@@ -234,13 +234,13 @@ You can test this functionality by taking the following steps –
    navigate to the logic app in the portal. At the bottom of the screen, you
    will detail for Runs history
 
-![a3ae47edda794d93a60f5e6235df0282](./media/a3ae47edda794d93a60f5e6235df0282.png)
+![a3ae47edda794d93a60f5e6235df0282](.\media\a3ae47edda794d93a60f5e6235df0282.png)
 
 7. Click on the most recent execution of your logic app in the list.  
    This will show details on the trigger and actions executing within the logic
    app and allow you to validate success or troubleshoot reasons for failure.
 
-![3385af2235e54ab6a14d4bfa5a85d0fb](./media/runOutput.png)
+![3385af2235e54ab6a14d4bfa5a85d0fb](.\media\runOutput.png)
 
 8. Once making changes in your logic app, you can navigate back to this same
    screen and click “Resubmit” and it will call the current version of your
