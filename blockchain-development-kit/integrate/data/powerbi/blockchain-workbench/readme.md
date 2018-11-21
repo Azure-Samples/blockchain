@@ -19,7 +19,7 @@ Download PowerBI desktop by clicking on the “Get” button at
 Configuring Firewall Rules
 --------------------------
 In the Azure Portal (https://portal.azure.com), navigate to the resource group for your Azure Blockchain Workbench deployment.
-Follow the instructions located ![here](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure) to configure the firewall rules to enable the ability to access the database from your current IP address.
+Follow the instructions located at https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure to configure the firewall rules to enable the ability to access the database from your current IP address.
 
 Note - not doing this will result in an error when attempting to connect your client PC to the ABW SQL instance from PowerBI
 
