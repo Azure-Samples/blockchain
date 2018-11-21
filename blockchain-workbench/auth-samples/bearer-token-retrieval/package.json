@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server static -o -p 3000 -a localhost"
+    "start": "http-server static -p 3000"
   },
   "keywords": [
     "Azure",
