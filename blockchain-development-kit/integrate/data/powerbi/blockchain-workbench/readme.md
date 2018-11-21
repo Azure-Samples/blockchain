@@ -9,11 +9,19 @@ This section contains a step by step walkthrough of how to connect to Azure
 Blockchain Workbench’s SQL Database from within PowerBI desktop, create a report
 and deploy that report to <http://www.powerbi.com>.
 
+
 Downloading PowerBI Desktop
 ---------------------------
 
 Download PowerBI desktop by clicking on the “Get” button at
 <https://aka.ms/pbidesktopstore>
+
+Configuring Firewall Rules
+--------------------------
+In the Azure Portal (https://portal.azure.com), navigate to the resource group for your Azure Blockchain Workbench deployment.
+Follow the instructions located ![here](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure) to configure the firewall rules to enable the ability to access the database from your current IP address.
+
+Note - not doing this will result in an error when attempting to connect your client PC to the ABW SQL instance from PowerBI
 
 Connecting PowerBI to data in Azure Blockchain Workbench
 --------------------------------------------------------
