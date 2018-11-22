@@ -1,11 +1,5 @@
----
-title: Connecting Devices in IoT Central to Azure Blockchain Workbench
----
-
-Version 1.0
-
-Overview
-========
+Connecting Devices in IoT Central to Azure Blockchain Workbench
+================================================================
 
 This sample focuses on the receipt, transformation, and delivery of messages
 from associated devices with [Azure IoT
