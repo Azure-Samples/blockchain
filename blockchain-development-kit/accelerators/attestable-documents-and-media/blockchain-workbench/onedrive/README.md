@@ -30,31 +30,31 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Function App and then click Create.
 
-![000f1dfb113749838ab1ddb9f152576a](.\media\000f1dfb113749838ab1ddb9f152576a.png)
+![000f1dfb113749838ab1ddb9f152576a](./media/000f1dfb113749838ab1ddb9f152576a.png)
 
 Choose a name for the Function App, make sure .NET is chosen for the Runtime Stack and then click Create.
 
-![7c8b389f6aba40ecb4c77c6bce46bbe6](.\media\7c8b389f6aba40ecb4c77c6bce46bbe6.png)
+![7c8b389f6aba40ecb4c77c6bce46bbe6](./media/7c8b389f6aba40ecb4c77c6bce46bbe6.png)
 
 Once your Function app is deployed, navigate to the resource.  In the Function App, click the + button next to the Functions entry to create a new Function.
 
-![4fd0e3eee7ec4784a3fd07f172750204](.\media\4fd0e3eee7ec4784a3fd07f172750204.png)
+![4fd0e3eee7ec4784a3fd07f172750204](./media/4fd0e3eee7ec4784a3fd07f172750204.png)
 
 Select "In Portal" when asked to choose your development environment and then click Continue.
 
-![3204085649a64677b6a8a1ccf9ed29f9](.\media\3204085649a64677b6a8a1ccf9ed29f9.png)
+![3204085649a64677b6a8a1ccf9ed29f9](./media/3204085649a64677b6a8a1ccf9ed29f9.png)
 
 Select "More Templates" and click Finish and view templates.
 
-![5639787939cc44bd8420a3f0626890bf](.\media\5639787939cc44bd8420a3f0626890bf.png)
+![5639787939cc44bd8420a3f0626890bf](./media/5639787939cc44bd8420a3f0626890bf.png)
 
 Select "HTTP Trigger" or search for it if necessary.
 
-![d4fd330c1fdd498a998221345c2cec9c](.\media\d4fd330c1fdd498a998221345c2cec9c.png)
+![d4fd330c1fdd498a998221345c2cec9c](./media/d4fd330c1fdd498a998221345c2cec9c.png)
 
 Name your function "GenericHashFunction" and then click Create.
 
-![7784372871e44f31bb3db25ce6d29a08](.\media\7784372871e44f31bb3db25ce6d29a08.png)
+![7784372871e44f31bb3db25ce6d29a08](./media/7784372871e44f31bb3db25ce6d29a08.png)
 
 In the Function editor, replace the default code with the code below and then click Save.
 
@@ -101,7 +101,7 @@ public static string ComputeSha256Hash(string rawData)
 } 
 ```
 
-![a1d9ea5e7f6d418bb7ce93f26033f09e](.\media\a1d9ea5e7f6d418bb7ce93f26033f09e.png)
+![a1d9ea5e7f6d418bb7ce93f26033f09e](./media/a1d9ea5e7f6d418bb7ce93f26033f09e.png)
 
 ## Create the Logic App
 
@@ -125,31 +125,31 @@ In this scenario, the trigger will be when a file is uploaded to OneDrive.
 
 Within the Logic App Designer, select "Blank Logic App".
 
-![8d34d6b6667a4a8caa4600319a20c1ab](.\media\8d34d6b6667a4a8caa4600319a20c1ab.png)
+![8d34d6b6667a4a8caa4600319a20c1ab](./media/8d34d6b6667a4a8caa4600319a20c1ab.png)
 
 Search for OneDrive and then select the "When a file is created" trigger.
 
-![536d5b15ccb041be9d470ca89edb25eb](.\media\536d5b15ccb041be9d470ca89edb25eb.png)
+![536d5b15ccb041be9d470ca89edb25eb](./media/536d5b15ccb041be9d470ca89edb25eb.png)
 
 Within the Logic App Designer, click the Sign In button for the trigger that was added and sign in to your OneDrive account.
 
-![1346524cf86f49af92d9c66c54d5d985](.\media\1346524cf86f49af92d9c66c54d5d985.png)
+![1346524cf86f49af92d9c66c54d5d985](./media/1346524cf86f49af92d9c66c54d5d985.png)
 
 Once connected successfully, the trigger will prompt you for some details such as which folder to watch and how often to check for changes.  When you are done configuring your settings, click + New Step.
 
-![7bd22a92979843c2bc8ef551f0344799](.\media\7bd22a92979843c2bc8ef551f0344799.png)
+![7bd22a92979843c2bc8ef551f0344799](./media/7bd22a92979843c2bc8ef551f0344799.png)
 
 Search for Azure Function and select "Choose an Azure function".  Then, select the "GenericHashFunction" that you created above.
 
-![chooseAzureFunction](.\media\chooseAzureFunction.png)
+![chooseAzureFunction](./media/chooseAzureFunction.png)
 
 We will call this function twice, once for the content and again for the metadata.  File content is returned as an object containing the properties "\$content-type" and "\$content" so we'll need to pull out just the content value. For the first call, click the Request Body field and enter "@triggerBody().\$content". Click the three dots at the top, select "Rename" and name this function "Hash File Content".
 
-![hashContent](.\media\hashContent.png)
+![hashContent](./media/hashContent.png)
 
 Repeat the steps above to add a second call to the Azure Function.  This time we will hash the metadata about the file.  The Request Body can be either a singular value or any custom JSON object.  For this second call, we will be using a custom JSON object.  Design the Request Body using the dynamic content popup so that it looks like the  following image. Click the three dots at the top, select "Rename" and name this function "Hash File Metadata".
 
-![hashMetadata](.\media\hashMetadata.png)
+![hashMetadata](./media/hashMetadata.png)
 
 Click "+ New Step" and then search for "Variables" and select the "Initialize Variable" action.
 
@@ -221,7 +221,7 @@ Paste this message structure in the Content field and then fill in the blank fie
 
 It should look similar to this when completed
 
-![serviceBusMessage](.\media\serviceBusMessage.png)
+![serviceBusMessage](./media/serviceBusMessage.png)
 
 Save your Logic App
 
@@ -244,13 +244,13 @@ You can test this functionality by taking the following steps –
    navigate to the logic app in the portal. At the bottom of the screen, you
    will detail for Runs history
 
-![a3ae47edda794d93a60f5e6235df0282](.\media\a3ae47edda794d93a60f5e6235df0282.png)
+![a3ae47edda794d93a60f5e6235df0282](./media/a3ae47edda794d93a60f5e6235df0282.png)
 
 7. Click on the most recent execution of your logic app in the list.  
    This will show details on the trigger and actions executing within the logic
    app and allow you to validate success or troubleshoot reasons for failure.
 
-![3385af2235e54ab6a14d4bfa5a85d0fb](.\media\3385af2235e54ab6a14d4bfa5a85d0fb.png)
+![3385af2235e54ab6a14d4bfa5a85d0fb](./media/3385af2235e54ab6a14d4bfa5a85d0fb.png)
 
 8. Once making changes in your logic app, you can navigate back to this same
    screen and click “Resubmit” and it will call the current version of your

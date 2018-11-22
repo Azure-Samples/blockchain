@@ -30,31 +30,31 @@ Click the + symbol in the upper left corner of the screen to add a new resource.
 
 Search for and select Function App and then click Create.
 
-![000f1dfb113749838ab1ddb9f152576a](.\media\000f1dfb113749838ab1ddb9f152576a.png)
+![000f1dfb113749838ab1ddb9f152576a](./media/000f1dfb113749838ab1ddb9f152576a.png)
 
 Choose a name for the Function App, make sure .NET is chosen for the Runtime Stack and then click Create.
 
-![7c8b389f6aba40ecb4c77c6bce46bbe6](.\media\7c8b389f6aba40ecb4c77c6bce46bbe6.png)
+![7c8b389f6aba40ecb4c77c6bce46bbe6](./media/7c8b389f6aba40ecb4c77c6bce46bbe6.png)
 
 Once your Function app is deployed, navigate to the resource.  In the Function App, click the + button next to the Functions entry to create a new Function.
 
-![4fd0e3eee7ec4784a3fd07f172750204](.\media\4fd0e3eee7ec4784a3fd07f172750204.png)
+![4fd0e3eee7ec4784a3fd07f172750204](./media/4fd0e3eee7ec4784a3fd07f172750204.png)
 
 Select "In Portal" when asked to choose your development environment and then click Continue.
 
-![3204085649a64677b6a8a1ccf9ed29f9](.\media\3204085649a64677b6a8a1ccf9ed29f9.png)
+![3204085649a64677b6a8a1ccf9ed29f9](./media/3204085649a64677b6a8a1ccf9ed29f9.png)
 
 Select "More Templates" and click Finish and view templates.
 
-![5639787939cc44bd8420a3f0626890bf](.\media\5639787939cc44bd8420a3f0626890bf.png)
+![5639787939cc44bd8420a3f0626890bf](./media/5639787939cc44bd8420a3f0626890bf.png)
 
 Select "HTTP Trigger" or search for it if necessary.
 
-![d4fd330c1fdd498a998221345c2cec9c](.\media\d4fd330c1fdd498a998221345c2cec9c.png)
+![d4fd330c1fdd498a998221345c2cec9c](./media/d4fd330c1fdd498a998221345c2cec9c.png)
 
 Name your function "GenericHashFunction" and then click Create.
 
-![7784372871e44f31bb3db25ce6d29a08](.\media\7784372871e44f31bb3db25ce6d29a08.png)
+![7784372871e44f31bb3db25ce6d29a08](./media/7784372871e44f31bb3db25ce6d29a08.png)
 
 In the Function editor, replace the default code with the code below and then click Save.
 
@@ -101,7 +101,7 @@ public static string ComputeSha256Hash(string rawData)
 } 
 ```
 
-![a1d9ea5e7f6d418bb7ce93f26033f09e](.\media\a1d9ea5e7f6d418bb7ce93f26033f09e.png)
+![a1d9ea5e7f6d418bb7ce93f26033f09e](./media/a1d9ea5e7f6d418bb7ce93f26033f09e.png)
 
 ## Create the Logic App
 
@@ -125,15 +125,15 @@ In this scenario, the trigger will be when a file is uploaded to OneDrive for Bu
 
 Within the Logic App Designer, select "When a new file is created on OneDrive".
 
-![97fbe8a46b5242edb2339440d52de3e3](.\media\97fbe8a46b5242edb2339440d52de3e3.png)
+![97fbe8a46b5242edb2339440d52de3e3](./media/97fbe8a46b5242edb2339440d52de3e3.png)
 
 Within the Logic App Designer, click the Sign In button for the trigger that was added and sign in to your OneDrive for Business account.
 
-![e957e11ec3044c68908c13baaa8ce2f1](.\media\e957e11ec3044c68908c13baaa8ce2f1.png)
+![e957e11ec3044c68908c13baaa8ce2f1](./media/e957e11ec3044c68908c13baaa8ce2f1.png)
 
 Once connected successfully, the trigger will prompt you for some details such as which folder to watch and how often to check for changes.  When you are done configuring your settings, click + New Step.
 
-![2534af099bff4d698fb29198a9bd724b](.\media\2534af099bff4d698fb29198a9bd724b.png)
+![2534af099bff4d698fb29198a9bd724b](./media/2534af099bff4d698fb29198a9bd724b.png)
 
 Search for Azure Function and select "Choose an Azure function".  Then, select the "GenericHashFunction" that you created above.
 
