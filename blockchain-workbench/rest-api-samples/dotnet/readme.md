@@ -1,12 +1,8 @@
-# Workbench.Client
+# Azure Blockchain Workbench .NET SDK
 
-Azure Blockchain Workbench REST API
-- API version: v1
+This project contains a .NET stanard Client SDK for Azure Blockchain Workbench. 
 
-The Azure Blockchain Workbench REST API is a Workbench extensibility point, which allows developers to create and manage blockchain applications, manage users and organizations within a consortium, integrate blockchain applications into services and platforms, perform transactions on a blockchain, and retrieve transactional and contract data from a blockchain.
-
-Unlike clients for other languages, this client was not auto-generated, it was developed specifically for a mobile sample written by the Xamarin.  It incorporates Microsoft's ADAL library for authentication and additional resiliency with the Polly library. 
-
+You can interact with a Workbench instance via this SDK 
 
 ## Features
 1. Polly.NET (https://github.com/App-vNext/Polly) a .NET resiliency library with exponential retry backing 
