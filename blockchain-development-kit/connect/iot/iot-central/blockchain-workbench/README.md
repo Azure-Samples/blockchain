@@ -405,12 +405,12 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 
 1.  Confirm the creation of a new Microsoft Flow by choosing **Continue**.
 
-    ![](media/e9ba94b280a4050ab4f198c46d54eb03.png)
+    ![](media\e9ba94b280a4050ab4f198c46d54eb03.png)
 
 2.  For the **When a rule is fired** step, specify the Azure IoT Central
     application and the device alert rule you are using:
 
-![](media/8a3579b2346513bc5ec1478e0f78324e.png)
+![](media\8a3579b2346513bc5ec1478e0f78324e.png)
 
 1.  Choose **Add an action** to add a new step.
 
@@ -420,7 +420,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 3.  For **Name,** specify “TimestampInt.” For **Type**, specify **Integer**. For
     **Value**, specify “ticks(triggerBody()['timestamp'])” under **Expression**.
 
-    ![](media/05b2f798fc3e5c27a41887be60563ccd.png)
+    ![](media\05b2f798fc3e5c27a41887be60563ccd.png)
 
 4.  Choose **Add an action** to add a new step.
 
@@ -435,7 +435,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 8.  For DeviceID, use **DeviceID** found in the **When a rule is fired** section
     of **Dynamic content**.
 
-    ![](media/c01c338c686644b3e93c42a92e55ee80.png)
+    ![](media\c01c338c686644b3e93c42a92e55ee80.png)
 
 9.  Choose **Add an action** to add a new step.
 
@@ -444,7 +444,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 11. For **Content**, select **ResultSets** found in **Variables** section of
     **Dynamic content**.
 
-    ![](media/91575376c5ba5257036e1115510cdcd2.png)
+    ![](media\91575376c5ba5257036e1115510cdcd2.png)
 
 12. For **Schema**, copy and paste the following JSON:
 
@@ -586,7 +586,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 3.  For **Name,** specify “RequestId.” For **Type**, specify **String**. For
     **Value**, specify “guid()” under **Expression**.
 
-    ![](media/57e1601e93a8c27f67d2d85ed064e95f.png)
+    ![](media\57e1601e93a8c27f67d2d85ed064e95f.png)
 
 4.  Choose **Add an action** to add a new step.
 
@@ -612,7 +612,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 11. For **Session Id**, specify **RequestId** under **Variables** in **Dynamic
     content**.
 
-    ![](media/f524ff688d4262bb7743ef7e6b793c25.png)
+    ![](media\f524ff688d4262bb7743ef7e6b793c25.png)
 
 12. For **Content**, copy and paste the following JSON:
 
@@ -669,7 +669,7 @@ which is able to connect Azure IoT Central to Azure Blockchain Workbench:
 1.  Augment **Content** with values from the **Dynamic content** window to match
     the screenshot below:
 
-    ![](media/aaecb2ab4abad1d880792ca269f69daa.png)
+    ![](media\aaecb2ab4abad1d880792ca269f69daa.png)
 
 2.  Choose **Save** to save your completed Microsoft Flow.
 
@@ -698,13 +698,13 @@ documentation. At a high-level, you need to do the following:
 1.  Add the device user as a member of the refrigerated transportation Workbench
     application. Ensure the device is specified with a **Device** role.
 
-    ![](media/90e82c7920ac9359e6b245c116c193de.png)
+    ![](media\90e82c7920ac9359e6b245c116c193de.png)
 
 2.  Create a contract with the device user and ensure the minimum and maximum
     temperature and humidity values are within the nominal ranges you specified
     when creating your simulated device.
 
-    ![](media/188a829b8a593736143876e92af9b0f3.png)
+    ![](media\188a829b8a593736143876e92af9b0f3.png)
 
 The following steps show you how to fire a device alert rule for the device:
 
@@ -730,7 +730,7 @@ The following steps show you how to fire a device alert rule for the device:
 Check your contract in Azure Blockchain Workbench. You should now see it an
 **Out of Compliance** state.
 
-![](media/ab892c6a6edb20de3390bac9323df2b7.png)
+![](media\ab892c6a6edb20de3390bac9323df2b7.png)
 
 Review
 ======
