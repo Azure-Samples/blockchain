@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 namespace Workbench.Client.Models
 {
-    public partial class ConnectionsReturnType
+	public partial class ConnectionsReturnType
     {
         [JsonProperty("nextLink")]
         public string NextLink { get; set; }
 
-        [JsonProperty("connection")]
-        public List<Connection> Connections = new List<Connection>();
+		[JsonProperty("connection")]
+		public List<Connection> Connections = new List<Connection>();
     }
 
     public partial class Connection
@@ -18,7 +18,7 @@ namespace Workbench.Client.Models
         public long ChainInstanceId { get; set; }
 
         [JsonProperty("ledgerID")]
-        public long? ChainTypeId { get; set; }
+        public long ChainTypeId { get; set; }
 
         [JsonProperty("endpointURL")]
         public string EndpointUrl { get; set; }
@@ -27,13 +27,13 @@ namespace Workbench.Client.Models
         public string FundingAccount { get; set; }
     }
 
-    public class BlockReturnType
+	public class BlockReturnType
     {
         [JsonProperty("nextLink")]
         public string NextLink { get; set; }
 
-        [JsonProperty("blocks")]
-        public List<Block> Blocks = new List<Block>();
+		[JsonProperty("blocks")]
+		public List<Block> Blocks = new List<Block>();
     }
 
     public class Block
@@ -42,40 +42,31 @@ namespace Workbench.Client.Models
         public long Id { get; set; }
 
         [JsonProperty("connectionId")]
-        public long? ConnectionID { get; set; }
+        public long ConnectionID { get; set; }
 
         [JsonProperty("timestamp")]
         public System.DateTimeOffset Timestamp { get; set; }
 
         [JsonProperty("blockNumber")]
-        public long? BlockNumber { get; set; }
+        public long BlockNumber { get; set; }
 
         [JsonProperty("blockHash")]
         public string BlockHash { get; set; }
     }
 
-    public class TransactionReturnType
-    {
-        [JsonProperty("nextLink")]
-        public string NextLink { get; set; }
-
-        [JsonProperty("transactions")]
-        public List<Transaction> Transactions = new List<Transaction>();
-    }
-
-    public class Transaction
-    {
-        [JsonProperty("id")]
+	public class Transaction
+	{
+		[JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("connectionId")]
-        public long? ConnectionId { get; set; }
+        public long ConnectionId { get; set; }
 
         [JsonProperty("transactionHash")]
         public string TransactionHash { get; set; }
 
         [JsonProperty("blockID")]
-        public long? BlockId { get; set; }
+        public long BlockId { get; set; }
 
         [JsonProperty("from")]
         public string From { get; set; }
@@ -84,9 +75,9 @@ namespace Workbench.Client.Models
         public string To { get; set; }
 
         [JsonProperty("value")]
-        public long? Value { get; set; }
+        public long Value { get; set; }
 
         [JsonProperty("isAppBuilderTx")]
         public bool IsAppBuilderTx { get; set; }
-    }
+	}
 }

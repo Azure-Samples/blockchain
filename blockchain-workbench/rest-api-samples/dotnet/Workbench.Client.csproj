@@ -16,7 +16,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Polly" Version="5.8.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Models\Environment.cs" />
-  </ItemGroup>
 </Project>
