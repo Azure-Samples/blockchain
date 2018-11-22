@@ -638,70 +638,50 @@ Workbench:
 
 12. For **Content**, copy and paste the following JSON:
 
+``` json
 {
-
-"ContractActionId": null,
-
-"ConnectionId":,
-
-"UserChainIdentifier": "",
-
-"ContractCodeArtifactBlobStorageURL": "",
-
-"OperationName": "CreateContractAction",
-
-"ContractLedgerIdentifier": "",
-
-"WorkflowFunctionName": "IngestTelemetry",
-
-"WorkflowName": "RefrigeratedTransportation",
-
-"ContractActionParameters": \[
-
-{
-
-"name": "humidity",
-
-"value": ""
-
-},
-
-{
-
-"name": "temperature",
-
-"value": ""
-
-},
-
-{
-
-"name": "timestamp",
-
-"value":
-
+    "requestId": "",
+    "userChainIdentifier": "",
+    "contractLedgerIdentifier": "",
+    "workflowFunctionName": "modify",
+    "Parameters": [
+        {
+            "name": "humidity",
+            "value": ""
+        },
+        {
+            "name": "temperature",
+            "value": ""
+        },
+        {
+            "name": "timestamp",
+            "value":
+        }
+    ],
+    "connectionId": 1,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractActionRequest"
 }
 
-\],
+```
 
-"RequestId": ""
-
-}
 
 1.  Augment **Content** this with values from the Dynamic Content window.
 
 The specific dynamic content to use for dynamic parts of the JSON can be found below - 
 
 requestId - RequestId
+
 userChainIdentifier - UserChainIdentifier
+
 contractLedgerIdentifier- ContractLedgerIdentifier
+
 humidity - device.measurements.telemetry.Humidity
+
 temperature- device.measurements.telemetry.Temperature
+
 timestamp - TimstampInt
 
-![](media/4bae35957565e503a9203cd37a120d42.png)
-
-![](media/d6d5433a02ec09048e5e584c19201907.png)
 
     
 2.  Choose **Save** to save your completed Microsoft Flow.
