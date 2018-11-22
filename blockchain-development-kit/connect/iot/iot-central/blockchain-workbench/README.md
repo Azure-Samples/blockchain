@@ -76,7 +76,7 @@ The following steps outline how to deploy Azure IoT Central:
 3.  In the left pane, select **Create a resource**. Search for “IoT
     Central” in the **Search the Marketplace** search bar.
 
-    ![](./media/image1.png){width="6.5in" height="2.0854166666666667in"}
+    ![](./media/image1.png)
 
 4.  Select **IoT Central Application**.
 
@@ -84,7 +84,7 @@ The following steps outline how to deploy Azure IoT Central:
 
 6.  Complete the fields in the creation form.
 
-    ![](./media/image2.png){width="3.2743055555555554in" height="9.0in"}
+    ![](./media/image2.png)
 
 7.  Select **Create** to deploy your Azure IoT Central application.
 
@@ -151,9 +151,8 @@ telemetry to your application:
     nominal range for your scenario. Click **Save** when done. Here is
     an example of filled out telemetry for temperature:
 
-    ![](./media/image3.png){width="3.9166666666666665in"
-    height="6.916666666666667in"}
-
+    ![](./media/image3.png)
+    
 9.  To add humidity telemetry measurement, choose **New Measurement**.
 
 10. Choose **Telemetry**.
@@ -163,8 +162,7 @@ telemetry to your application:
     range for your scenario. Click **Save** when done. Here is an
     example of filled out telemetry for humidity:
 
-    ![](./media/image4.png){width="3.90625in"
-    height="7.479166666666667in"}
+    ![](./media/image4.png)
 
 12. At this point your simulated device has all the necessary telemetry
     needed to work with the refrigerated transportation Workbench
@@ -210,7 +208,7 @@ connecting devices to Azure Blockchain Workbench:
 
 4.  Choose **Query editor**.
 
-    ![](./media/image5.png){width="6.5in" height="5.695138888888889in"}
+    ![](./media/image5.png)
 
 5.  Enter your login and password information and choose **OK**. Note,
     login is set to “dbadmin” and password was specified at Azure
@@ -245,8 +243,7 @@ accounts, which can be used within Azure Blockchain Workbench:
 
 4.  Choose **New user** to add a new user to the directory.
 
-    ![New user](./media/image6.png){width="5.333333333333333in"
-    height="2.9166666666666665in"}
+    ![New user](./media/image6.png)
 
 5.  Complete the required fields for the new user. This new user will
     represent the device you want to use with Azure Blockchain
@@ -297,7 +294,7 @@ provisioned user:
 
 4.  **Copy** the Device ID of the applicable device.
 
-    ![](./media/image7.png){width="6.5in" height="5.540972222222222in"}
+    ![](./media/image7.png)
 
 5.  Navigate to the [Azure portal](http://portal.azure.com).
 
@@ -371,8 +368,7 @@ the device ID with the provisioned user:
 19. Click **Save** when done. Here is an example of filled out telemetry
     rule for temperature above **6**:
 
-    ![](./media/image8.png){width="4.208333333333333in"
-    height="7.635416666666667in"}
+    ![](./media/image8.png)
 
 Create Device Alert Action
 ==========================
@@ -426,13 +422,12 @@ Workbench:
 1.  Confirm the creation of a new Microsoft Flow by choosing
     **Continue**.
 
-    ![](./media/image9.png){width="6.5in" height="6.509027777777778in"}
-
+    ![](./media/image9.png)
+    
 2.  For the **When a rule is fired** step, specify the Azure IoT Central
     application and the device alert rule you are using:
 
-![](./media/image10.png){width="6.322916666666667in"
-height="1.7395833333333333in"}
+![](./media/image10.png)
 
 1.  Choose **Add an action** to add a new step.
 
@@ -459,8 +454,7 @@ height="1.7395833333333333in"}
 8.  For DeviceID, use **DeviceID** found in the **When a rule is fired**
     section of **Dynamic content**.
 
-    ![](./media/image12.png){width="6.5in"
-    height="3.6805555555555554in"}
+    ![](./media/image12.png)
 
 9.  Choose **Add an action** to add a new step.
 
@@ -612,8 +606,7 @@ height="1.7395833333333333in"}
 3.  For **Name,** specify “RequestId.” For **Type**, specify **String**.
     For **Value**, specify “guid()” under **Expression**.
 
-    ![](./media/image14.png){width="6.270833333333333in"
-    height="1.78125in"}
+    ![](./media/image14.png)
 
 4.  Choose **Add an action** to add a new step.
 
@@ -641,8 +634,7 @@ height="1.7395833333333333in"}
 11. For **Session Id**, specify **RequestId** under **Variables** in
     **Dynamic content**.
 
-    ![](./media/image15.png){width="3.8333333333333335in"
-    height="3.53125in"}
+    ![](./media/image15.png)
 
 12. For **Content**, copy and paste the following JSON:
 
@@ -699,8 +691,8 @@ height="1.7395833333333333in"}
 1.  Augment **Content** with values from the **Dynamic content** window
     to match the screenshot below:
 
-    ![](./media/image16.png){width="4.53125in" height="7.0in"}
-
+    ![](./media/image16.png)
+    
 2.  Choose **Save** to save your completed Microsoft Flow.
 
 3.  Make sure you **Save** your configured device rule within Azure IoT
@@ -729,15 +721,14 @@ documentation. At a high-level, you need to do the following:
     Workbench application. Ensure the device is specified with a
     **Device** role.
 
-    ![](./media/image17.png){width="6.5in"
-    height="1.3368055555555556in"}
+    ![](./media/image17.png)
 
 2.  Create a contract with the device user and ensure the minimum and
     maximum temperature and humidity values are within the nominal
     ranges you specified when creating your simulated device.
 
-    ![](./media/image18.png){width="6.15625in" height="5.1875in"}
-
+    ![](./media/image18.png)
+    
 The following steps show you how to fire a device alert rule for the
 device:
 
@@ -763,8 +754,7 @@ device:
     saved.
 
 Check your contract in Azure Blockchain Workbench. You should now see it
-an **Out of Compliance** state. ![](./media/image19.png){width="6.5in"
-height="4.999305555555556in"}
+an **Out of Compliance** state. ![](./media/image19.png)
 
 Review
 ======
