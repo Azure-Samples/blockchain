@@ -4,6 +4,9 @@
 This sets a network to run the [refrigerated transport](../../../cordapps/refrigerated-transportation/README.md)
 example. A prebuilt CorDapp is included here, so there is no need to build this project. 
 
+These steps assume that you have Unix bash terminal open and the current directory is the 
+project's the root folder, 'corda-local-network'.
+
 ## Building 
 
 These assume a working Java dev environment with at a minimum Java 8. 
@@ -21,7 +24,7 @@ java -jar build/libs/corda-local-network.jar
 ## Local DNS 
 
 All services are configured to communicate using known host names (which match 
-the service name). Under unix, set the following in <code>/etc/hosts</code>:
+the service name). Under Unix, set the following in <code>/etc/hosts</code>:
 
 <pre>
 127.0.0.1       corda-local-network

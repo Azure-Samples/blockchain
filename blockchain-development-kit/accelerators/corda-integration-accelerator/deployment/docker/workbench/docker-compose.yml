@@ -6,12 +6,12 @@ services:
     - "1114:1114"
     - "10000-10200:10000-10200"
   corda-transaction-builder:
-      image: corda-transaction-builder:alpha
-      ports:
-      - "1112:1112"
+    image: corda-transaction-builder
+    ports:
+    - "1112:1112"
   service-bus-listener:
-    image: service-bus-listener:alpha
+    image: service-bus-listener
     ports:
     - "1113:1113"
-
-
+    volumes:
+    - ./.config:/home/config

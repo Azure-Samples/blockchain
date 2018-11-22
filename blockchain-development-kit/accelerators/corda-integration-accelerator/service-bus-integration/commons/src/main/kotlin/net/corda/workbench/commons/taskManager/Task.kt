@@ -25,7 +25,7 @@ abstract class BaseTask : Task {
  * A task that runs over all the nodes
  * TODO - need to make the
  */
-abstract class NodesTask(private val ctx: TaskContext) : BaseTask() {
+abstract class NodesTask(protected val ctx: TaskContext) : BaseTask() {
     fun nodesIter(): Sequence<File> {
         return File(ctx.workingDir).walk()
                 .maxDepth(1)

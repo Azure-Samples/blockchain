@@ -1,7 +1,8 @@
 # Quick Start 
 [Index](Index.md)
 
-Still in early stages of development, but the following should work
+These steps assume that you have Unix bash terminal open and the current directory is the 
+project's the root folder, 'corda-transaction-builder'.
 
 ### 1.
 
@@ -9,7 +10,7 @@ Follow the [Quick Start](../corda-local-network/docs/QuickStart.md) guide
 in 'corda-local-network' to get a local dev network running with the 
 'refrigerated transport' example.
 
-Ensure that a local DNS entry is setup to resolve to this service, e.g. under unix
+Ensure that a local DNS entry is setup to resolve to this service, e.g. under Unix
 add the following to <code>/etc/hosts</code>:
 
 <pre>
@@ -41,7 +42,7 @@ For now the process is copy of that used to deploy to the corda-local-network.
  
  
 ```bash
-curl -X POST  http://corda-transaction-builder:1112/1/apps/refrigeration/deploy \
+curl -X POST  http://corda-transaction-builder:1112/1/apps/refrigerated-transportation/deploy \
  --data-binary  @../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar 
 ```
 
@@ -64,7 +65,7 @@ curl http://corda-transaction-builder:1112/1/ContosoLtd/query/shipment
 Find the meta data, which describes the params needed
 
 ```bash
-curl http://localhost:1112/1/ContosoLtd/refrigeration/flows/NewShipmentFlow/metadata
+curl http://localhost:1112/1/ContosoLtd/refrigerated-transportation/flows/CreateFlow/metadata
 ```
 
 This will return something like that below
@@ -133,8 +134,8 @@ in the previous step.
 
                                                                                                                  
 ```bash
-curl -X POST -H "Content-Type: application/json"  http://localhost:1112/1/ContosoLtd/refrigeration/flows/NewShipmentFlow/run --data \
- '{"newShipment" : {"owner" : "ContosoLtd", "device" : "Device01", "supplyChainOwner" : "WorldWideImporters","supplyChainObserver" : "WoodgroveBank", "minHumidity" : 20, "maxHumidity" : 50, "minTemperature" : -10,"maxTemperature" : 0 }}'
+curl -X POST -H "Content-Type: application/json"  http://localhost:1112/1/ContosoLtd/refrigeration/flows/CreateFlow/run --data \
+ '{"state" : {"owner" : "ContosoLtd", "device" : "Device01", "supplyChainOwner" : "WorldWideImporters","supplyChainObserver" : "WoodgroveBank", "minHumidity" : 20, "maxHumidity" : 50, "minTemperature" : -10,"maxTemperature" : 0 }}'
 ``` 
 
 Or, specifying our own linearId (**make sure to change this on each run!**)

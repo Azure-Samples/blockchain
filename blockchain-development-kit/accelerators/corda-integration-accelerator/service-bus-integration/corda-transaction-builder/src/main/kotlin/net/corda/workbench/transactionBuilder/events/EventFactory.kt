@@ -1,6 +1,7 @@
 package net.corda.workbench.transactionBuilder.events
 
 import net.corda.workbench.commons.event.Event
+import java.util.*
 
 /**
  * Build events for storage. TODO it would
@@ -9,10 +10,11 @@ import net.corda.workbench.commons.event.Event
  */
 object EventFactory {
 
-    fun CORDA_APP_DEPLOYED(appname: String, network: String): Event {
+    fun CORDA_APP_DEPLOYED(appname: String, network: String, appId: UUID): Event {
         return Event(type = "CordaAppDeployed",
                 aggregateId = network,
                 payload = mapOf<String, Any>("appname" to appname,
+                        "appId" to appId.toString(),
                         "network" to network))
 
     }

@@ -4,7 +4,9 @@
 The steps below outline how to set up an environment and run it locally. They assume a unix based
 dev environment. 
 
-For an example of a complete transaction once all is running, see [End to End Example](EndToEndExample.md)
+For a description a complete transaction see [End to End Processing](EndToEndProcessing.md).
+
+For some worked scenarios see [here](../../scenarios).
 
 For server deployments there is an example [Docker](../../deployment/docker/workbench/README.md) script.
  
@@ -54,7 +56,7 @@ The services assume known host names. Make sure this is your '/etc/hosts'
 
 ### Azure Service Bus
 
-There will need to two queue, one for ingress and egress for replies. This is needed 
+There will need to two queues, one for ingress and egress for replies. This is needed 
 for the full end to end integration via the 'service-bus-listener'.
 
 ### Docker
@@ -70,7 +72,7 @@ with 8 nodes. 16GB will be fine. 8GB will probably work. The services use a lot 
 ports (the Dockerfile are a good reference for the exact rules), so you may 
 experience problems if other dev tools are running. 
 
-### Corda Local Network 
+## Corda Local Network 
 
 Follow the [Quick Start](../corda-local-network/docs/QuickStart.md). This will get you a 
 running local network with the example [Refrigerated Transport](../../cordapps/refrigerated-transportation/README.md)
@@ -78,7 +80,7 @@ installed.
 
 There is no need to change the default configurations.
 
-### Corda Transaction Builder
+## Corda Transaction Builder
 
 Follow the [Quick Start](../corda-transaction-builder/docs/QuickStart.md). This will get you 
 a working transaction builder with the example app deployed. You can create transactions and 
@@ -86,9 +88,9 @@ run simple queries to any node in network using simple REST like commands.
 
 There is no need to change the default configurations.
 
-### Service Bus Listener 
+## Service Bus Listener 
 
-Update the config with you service bus connection and queue names. For simplicity 
+Update the config with your service bus connection and queue names. For simplicity 
 just edit the [reference config](../service-bus-listener/src/main/resources/reference.conf), but
 please follow the proper rules documented in the file for server deploys.
 

@@ -48,7 +48,6 @@ class StartAgentTask(registry: Registry) : BaseTask() {
 
         executionContext.messageStream.invoke("Agent process started on $port, with pid: $pid")
 
-
         // record this in the event store
         val ev = EventFactory.AGENT_STARTED(ctx.networkName, port, pid)
         es.storeEvents(listOf(ev))

@@ -34,15 +34,15 @@ class FlowApi(private val registry: Registry) {
                         ApiBuilder.post("run") { ctx ->
                             val nodeConfig = lookupNodeConfig(ctx)
 
-                            // todo should return a nice message if app not found
-                            val appConfig = lookupAppConfig(ctx)!!
+                            //val appConfig = lookupAppConfig(ctx) ?: throw RuntimeException("Couldn't locate a config. Does your CordApp have a 'META-INF/services/net/corda/workbench/Registry.json file?")
 
                             val helper = RPCHelper("corda-local-network:${nodeConfig.port}")
                             helper.connect()
                             val client = helper.cordaRPCOps()!!
                             val resolver = RpcPartyResolver(helper)
 
-                            val runner = FlowRunner(appConfig.scannablePackages[0],
+
+                            val runner = FlowRunner("net.corda",
                                     resolver,
                                     LiveRpcCaller(client),
                                     Reporter(ctx.response()))

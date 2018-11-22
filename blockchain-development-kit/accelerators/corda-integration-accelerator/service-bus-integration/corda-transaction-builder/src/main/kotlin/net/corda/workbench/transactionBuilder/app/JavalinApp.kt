@@ -39,8 +39,7 @@ class JavalinApp(private val port: Int) {
 
         PingApi(registry).register()
         QueryProxyApi(registry).register()
-        FlowApi(registry).register()
-        //StateApi().register(app)
+        FlowProxyApi(registry).register()
         ApiController(registry).register()
         WebController(registry).register()
         app.start()

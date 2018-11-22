@@ -82,7 +82,7 @@ dependencies {
 
 
     // some example local cordapps for now
-    compile files('../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar')
+    //compile files('../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar')
 
 
 

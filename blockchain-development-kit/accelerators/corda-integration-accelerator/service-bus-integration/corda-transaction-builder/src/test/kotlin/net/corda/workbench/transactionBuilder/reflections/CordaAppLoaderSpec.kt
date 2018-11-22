@@ -12,6 +12,9 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.xit
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
+import java.io.File
+import java.net.URL
+import java.net.URLClassLoader
 
 
 @RunWith(JUnitPlatform::class)
@@ -19,15 +22,19 @@ object CordaAppLoaderSpec : Spek({
 
     describe("It should dynamically scan and load Corda Apps") {
 
+        val jarFile = File("../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar")
+        val cordaURL = URL("file://" + jarFile.absolutePath)
+        val classLoader = URLClassLoader(arrayOf(cordaURL))
+
         it("should scan loaded cordapp jars for configs") {
             val loader = CordaAppLoader()
 
-            loader.scan()
+            loader.scan(classLoader)
             assert.that(loader.allApps().size, equalTo(1))
         }
 
-        xit("should find config by slug or id") {
-            val loader = CordaAppLoader().scan()
+        it("should find config by slug or id") {
+            val loader = CordaAppLoader().scan(classLoader)
 
             assert.that(loader.findApp("19D3B4FA-FBB1-4FB3-9435-A9B32D9C4486")!!.name, equalTo("Refrigerated Transportation"))
             assert.that(loader.findApp("refrigeration")!!.name, equalTo("Refrigerated Transportation"))

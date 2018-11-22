@@ -14,8 +14,8 @@ class NodeStatusTask(val ctx: TaskContext,
     override fun exec(executionContext: ExecutionContext): Map<String, Any> {
         val config = NodeConfigTask(ctx, nodeName).exec()
 
-        val socketTest = isSocketAlive("localhost", config.port)
-        val sshTest = isSocketAlive("localhost", config.sshPort)
+        val socketTest = isSocketAlive("corda-local-network", config.port)
+        val sshTest = isSocketAlive("corda-local-network", config.sshPort)
 
         val results = HashMap<String, Any>()
         results["socket test"] = resultOf(socketTest)

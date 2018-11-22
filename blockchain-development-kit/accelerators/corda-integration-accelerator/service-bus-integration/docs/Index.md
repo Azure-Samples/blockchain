@@ -3,7 +3,7 @@
 ## Index 
 
 * [Components](Components.md)
-* [End to End Example](EndToEndExample.md)
+* [End to End Processing](EndToEndProcessing.md)
 * [Quick Start](QuickStart.md)
 
 
