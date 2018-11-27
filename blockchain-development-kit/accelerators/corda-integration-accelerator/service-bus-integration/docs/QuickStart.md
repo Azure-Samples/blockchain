@@ -1,5 +1,5 @@
 # Quick Start 
-
+[Index](Index.md)
 
 The steps below outline how to set up an environment and run it locally. They assume a unix based
 dev environment. 
@@ -7,6 +7,8 @@ dev environment.
 For a description a complete transaction see [End to End Processing](EndToEndProcessing.md).
 
 For some worked scenarios see [here](../../scenarios).
+
+For building locally see [here](../../deployment/local/README.md)
 
 For server deployments there is an example [Docker](../../deployment/docker/workbench/README.md) script.
  

@@ -9,6 +9,8 @@ import net.corda.reflections.reflections.FlowMetaDataExtractor
 import net.corda.reflections.reflections.FlowRunner
 import net.corda.reflections.reflections.LiveRpcCaller
 import net.corda.reflections.resolvers.RpcPartyResolver
+import net.corda.workbench.commons.event.EventStore
+import net.corda.workbench.commons.event.Filter
 import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.transactionBuilder.CordaAppConfig
 import net.corda.workbench.transactionBuilder.CordaAppLoader
@@ -34,7 +36,11 @@ class FlowApi(private val registry: Registry) {
                         ApiBuilder.post("run") { ctx ->
                             val nodeConfig = lookupNodeConfig(ctx)
 
-                            //val appConfig = lookupAppConfig(ctx) ?: throw RuntimeException("Couldn't locate a config. Does your CordApp have a 'META-INF/services/net/corda/workbench/Registry.json file?")
+
+                            val scannablePackages = scannablePackages(ctx)
+                            if (scannablePackages.isEmpty()){
+                                throw RuntimeException("cannot locate the scannablePackages for ${ctx.param("app")}")
+                            }
 
                             val helper = RPCHelper("corda-local-network:${nodeConfig.port}")
                             helper.connect()
@@ -42,7 +48,8 @@ class FlowApi(private val registry: Registry) {
                             val resolver = RpcPartyResolver(helper)
 
 
-                            val runner = FlowRunner("net.corda",
+                            // todo - fix to pass multiple packages
+                            val runner = FlowRunner(scannablePackages.single(),
                                     resolver,
                                     LiveRpcCaller(client),
                                     Reporter(ctx.response()))
@@ -53,12 +60,11 @@ class FlowApi(private val registry: Registry) {
                             println("running $flowName with ${ctx.body()}")
 
                             val result = runner.run<Any>(ctx.param("name")!!, data)
-                            if (result != null){
+                            if (result != null) {
                                 println(result)
                                 ctx.json(result)
 
-                            }
-                            else {
+                            } else {
                                 ctx.json(mapOf("message" to "failed or timed out making call to flow class"))
                             }
                         }
@@ -104,7 +110,19 @@ class FlowApi(private val registry: Registry) {
 
     }
 
-    data class NodeConfig(val legalName: String, val port: Int)
+    private fun scannablePackages(ctx: Context): List<String> {
+        val network = ctx.param("network")!!
+        val app = ctx.param("app")!!
+        return registry.retrieve(EventStore::class.java)
+                .retrieve(Filter(aggregateId = network))
+                .filter { it.type == "CordaAppDeployed" && app == it.payload["appname"] }
+                .fold(emptyList()) { _, event ->
+                    event.payload["scannablePackages"] as List<String>
+                }
+    }
+}
+
+data class NodeConfig(val legalName: String, val port: Int) {
 
 
 }

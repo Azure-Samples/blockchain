@@ -22,7 +22,7 @@ object CordaAppLoaderSpec : Spek({
 
     describe("It should dynamically scan and load Corda Apps") {
 
-        val jarFile = File("../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar")
+        val jarFile = File("../../cordapps/chat/lib/chat.jar")
         val cordaURL = URL("file://" + jarFile.absolutePath)
         val classLoader = URLClassLoader(arrayOf(cordaURL))
 
@@ -35,9 +35,9 @@ object CordaAppLoaderSpec : Spek({
 
         it("should find config by slug or id") {
             val loader = CordaAppLoader().scan(classLoader)
-
-            assert.that(loader.findApp("19D3B4FA-FBB1-4FB3-9435-A9B32D9C4486")!!.name, equalTo("Refrigerated Transportation"))
-            assert.that(loader.findApp("refrigeration")!!.name, equalTo("Refrigerated Transportation"))
+//19D3B4FA-FBB1-4FB3-9435-A9B32D9C4486
+            assert.that(loader.findApp("312651FE-90EE-4F10-B6BF-CD9FF62AE5C8")!!.name, equalTo("Chat App"))
+            assert.that(loader.findApp("chat")!!.name, equalTo("Chat App"))
             assert.that(loader.findApp("unknown"), equalTo(null as CordaAppConfig?))
         }
 

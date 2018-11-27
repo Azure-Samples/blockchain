@@ -5,6 +5,7 @@ import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.commons.taskManager.BaseTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
 import net.corda.workbench.commons.taskManager.TaskContext
+import net.corda.workbench.transactionBuilder.CordaAppConfig
 import net.corda.workbench.transactionBuilder.CordaAppLoader
 import net.corda.workbench.transactionBuilder.events.EventFactory
 import java.io.File
@@ -23,18 +24,19 @@ class DeployCordaAppTask(registry: Registry, private val cordapp: File, private 
         executionContext.messageStream.invoke("Deploying cordapp ${cordapp.name}")
         val target = "${ctx.workingDir}/cordapps/$registeredName.jar"
         cordapp.copyTo(File(target), true)
-        val id = readId(cordapp)
-        es.storeEvents(listOf(EventFactory.CORDA_APP_DEPLOYED(registeredName, ctx.networkName, id)))
+        val config = readConfig(cordapp)
+
+        es.storeEvents(listOf(EventFactory.CORDA_APP_DEPLOYED(registeredName, ctx.networkName, config.id, config.scannablePackages)))
     }
 
 
-    private fun readId(jarFile: File): UUID {
+    private fun readConfig(jarFile: File): CordaAppConfig {
         try {
             val cordaURL = URL("file://" + jarFile.absolutePath)
             val classLoader = URLClassLoader(arrayOf(cordaURL))
             val loader = CordaAppLoader()
             loader.scan(classLoader)
-            return loader.allApps().single().id
+            return loader.allApps().single()
         } catch (ex: Exception) {
             throw RuntimeException("Couldn't find a valid registry file at " +
                     "'src/main/resources/META-INF/services/net.corda.workbench.Registry.json' for ${jarFile.name}")

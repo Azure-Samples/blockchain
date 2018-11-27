@@ -27,6 +27,20 @@ rm -r ~/.corda-local-network
 rm -r ~/.corda-transaction-builder
 ```
 
+## Set environment variables 
+
+Update these as necessary if connecting to a remote server 
+
+```bash
+cordalocalnetwork=http://corda-local-network:1114
+cordatxnbuilder=http://corda-local-network:1112
+
+#cordalocalnetwork=http://workbench-dev01.uksouth.cloudapp.azure.com:1114
+cordatxnbuilder=http://workbench-dev01.uksouth.cloudapp.azure.com:1112
+
+
+```
+
 ## Start the Services 
 
 Run the commands below in new terminal windows and leave in the background. They 
@@ -51,15 +65,15 @@ deployed. They will probably take a few minutes to complete
 
 ```bash
 # create the network
-curl -X POST -H "Content-Type: application/json" http://corda-local-network:1114/1/nodes/create \
+curl -X POST -H "Content-Type: application/json" $cordalocalnetwork/1/nodes/create \
 --data '["O=Notary,L=London,C=GB","O=ContosoLtd,L=Seatle,C=US","O=WorldWideImporters,L=Memphhsis,C=US","O=NorthwindTraders,L=Copenhagen,C=DK","O=WoodgroveBank,L=london,C=GB","O=Device01,L=london,C=GB","O=Device02,L=Shanghai,C=CN","O=TasmanianTraders,L=Bentonville,C=US"]'
 
 # deploy the app
-curl -X POST  http://corda-local-network:1114/1/apps/refrigerated-transportation/deploy \
+curl -X POST  $cordalocalnetwork/1/apps/refrigerated-transportation/deploy \
  --data-binary  @../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar 
 
 # start the network 
-curl -X POST  http://corda-local-network:1114/1/start 
+curl -X POST  $cordalocalnetwork/1/start 
 ```
 
 ## Check the nodes (optional)
@@ -68,10 +82,10 @@ If you want to test
 
 ```bash
 # all nodes
-curl http://corda-local-network:1114/1/nodes
+curl $cordalocalnetwork/1/nodes
 
 # status for a node 
-curl http://corda-local-network:1114/1/nodes/ContosoLtd/status
+curl $cordalocalnetwork/1/nodes/ContosoLtd/status
 
 # connect to a node (password = test)
 ssh -p 10014 localhost -l user1 -o UserKnownHostsFile=/dev/null 
@@ -94,25 +108,25 @@ to build Corda RPC calls.
 
 ```bash
 # deploy the app
-curl -X POST  http://corda-transaction-builder:1112/1/apps/refrigerated-transportation/deploy \
+curl -X POST  $cordatxnbuilder/1/apps/refrigerated-transportation/deploy \
  --data-binary  @../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar 
 
 # start an "agent" that will communicate with the network
-curl -X POST  http://corda-transaction-builder:1112/1/start
+curl -X POST  $cordatxnbuilder/1/start
 ```
 
 ## Check the agent (optional)
 
 ```bash
 # is the agent running (note check the 'corda-transaction-builder' console as it 
-# may have allocated an alternative port)
+# may have allocated an alternative port). 
 curl http://corda-transaction-builder:10200/ping
 ```
 
 ## run a query using the corda-transaction-builder
 
 ```bash
-curl http://corda-transaction-builder:1112/1/ContosoLtd/refrigerated-transportation/query/Shipment
+curl $cordatxnbuilder/1/ContosoLtd/refrigerated-transportation/query/Shipment
 ```
 
 This will return an empty array as there is no data
@@ -121,11 +135,11 @@ This will return an empty array as there is no data
 
 ```bash
 # submit txn
-curl -X POST -H "Content-Type: application/json"  http://corda-transaction-builder:1112/1/ContosoLtd/refrigerated-transportation/flows/CreateFlow/run --data \
+curl -X POST -H "Content-Type: application/json"  $cordatxnbuilder/1/ContosoLtd/refrigerated-transportation/flows/CreateFlow/run --data \
  '{"state" : {"owner" : "ContosoLtd", "device" : "Device01", "supplyChainOwner" : "WorldWideImporters","supplyChainObserver" : "WoodgroveBank", "minHumidity" : 20, "maxHumidity" : 50, "minTemperature" : -10,"maxTemperature" : 0 }}'
 
 # see it using the query 
-curl http://corda-transaction-builder:1112/1/ContosoLtd/refrigerated-transportation/query/Shipment
+curl $cordatxnbuilder/1/ContosoLtd/refrigerated-transportation/query/Shipment
 ``` 
 
 Congratulations! You now created a new transaction!

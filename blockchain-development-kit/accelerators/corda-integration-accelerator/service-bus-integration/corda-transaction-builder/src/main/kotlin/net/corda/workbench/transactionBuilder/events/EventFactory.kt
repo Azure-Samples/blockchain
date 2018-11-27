@@ -10,12 +10,13 @@ import java.util.*
  */
 object EventFactory {
 
-    fun CORDA_APP_DEPLOYED(appname: String, network: String, appId: UUID): Event {
+    fun CORDA_APP_DEPLOYED(appname: String, network: String, appId: UUID, scannablePackages : List<String>): Event {
         return Event(type = "CordaAppDeployed",
                 aggregateId = network,
                 payload = mapOf<String, Any>("appname" to appname,
                         "appId" to appId.toString(),
-                        "network" to network))
+                        "network" to network,
+                        "scannablePackages" to scannablePackages))
 
     }
 
