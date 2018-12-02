@@ -47,7 +47,7 @@ You can then add the local development environment as a reply URL for the [Azure
 AD application created during workbench
 deployment.](https://docs.microsoft.com/en-us/azure/blockchain/workbench/deploy#azure-ad-configuration-script)
 
-![](./media/3fe11282c9393a7fd534c41ff4fa29d7.png)
+![](media/3fe11282c9393a7fd534c41ff4fa29d7.png)
 
 You are now ready to run a local instance of the web app:
 
@@ -59,4 +59,4 @@ Workbench UX.
 It will start with a new rendering of the applications page, as can be seen
 below.
 
-![](./media/83cdfd3ea4c4b5bfb3cf5bd90855fa76.png)
+![](media/83cdfd3ea4c4b5bfb3cf5bd90855fa76.png)
