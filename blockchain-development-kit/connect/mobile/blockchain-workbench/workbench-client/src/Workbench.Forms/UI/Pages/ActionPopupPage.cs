@@ -320,7 +320,8 @@ namespace Workbench.Forms.UI.Pages
         /// <returns>Returns 0 if action submission is successful. Returns 1 if a parameters is missing. Returns 2 if Post fails</returns>
         async Task<int> submitAction()
         {
-            string postSuccess = string.Empty;
+            bool postSuccess = false;
+            string msg = string.Empty;
 
 			// CREATE A NEW CONTRACT
 			if (string.IsNullOrEmpty(contractId))
@@ -337,7 +338,7 @@ namespace Workbench.Forms.UI.Pages
 
                     if (contractAction.Parameters == null) return 1;
 
-                    postSuccess = await GatewayApi.Instance.CreateNewContractAsync(newContractAction, workflowId, App.ViewModel.CurrentApplication.Id.ToString(), connectionId);
+                    (postSuccess,msg) = await GatewayApi.Instance.CreateNewContractAsync(newContractAction, workflowId, App.ViewModel.CurrentApplication.Id.ToString(), connectionId);
                 }
                 else
                 {
@@ -352,14 +353,14 @@ namespace Workbench.Forms.UI.Pages
 
 				if (newContractAction.WorkflowActionParameters == null) return 1;
 
-				postSuccess = await GatewayApi.Instance.PostWorkflowActionAsync(newContractAction, contractId);
+                (postSuccess,msg) = await GatewayApi.Instance.PostWorkflowActionAsync(newContractAction, contractId);
 			}
 
-            if (!string.IsNullOrEmpty(postSuccess))
+            if (!postSuccess)
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await DisplayAlert("Action Submit Failed", postSuccess, "OK");
+                    await DisplayAlert("Action Submit Failed", msg, "OK");
                 });
                 return 2;
             }
