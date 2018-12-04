@@ -1,0 +1,19 @@
+textarea {
+    height: 500px;
+}
+
+.area {
+    margin-top: 100px;
+}
+
+.hint {
+    font-size: 10pt;
+}
+
+.resetButtons {
+    margin-left: 10px;
+}
+
+.header {
+    padding-bottom: 40px;
+}

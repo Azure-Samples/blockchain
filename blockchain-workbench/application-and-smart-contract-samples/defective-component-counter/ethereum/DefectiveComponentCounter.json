@@ -1,0 +1,100 @@
+{
+  "ApplicationName": "DefectiveComponentCounter",
+  "DisplayName": "Defective Component Counter",
+  "Description": "A simple application to total the number of defective components over 12 months.",
+  "ApplicationRoles": [{
+      "Name": "Manufacturer",
+      "Description": "A person manufacturing components."
+    }
+  ],
+  "Workflows": [{
+    "Name": "DefectiveComponentCounter",
+    "DisplayName": "Defective Component Counter",
+    "Description": "A simple workflow to total the number of defective components over 12 months.",
+    "Initiators": ["Manufacturer"],
+    "StartState": "Create",
+    "Properties": [{
+        "Name": "State",
+        "DisplayName": "State",
+        "Description": "Holds the state of the contract.",
+        "Type": {
+          "Name": "state"
+        }
+      },
+      {
+        "Name": "Manufacturer",
+        "DisplayName": "Manufacturer",
+        "Description": "A person manufacturing components.",
+        "Type": {
+          "Name": "Manufacturer"
+        }
+      },
+      {
+        "Name": "DefectiveComponentsCount",
+        "DisplayName": "Monthly count of defective components",
+        "Description": "...",
+        "Type": {
+          "Name": "array",
+          "ElementType": {
+            "Name": "int"
+          }
+        }
+      },
+      {
+        "Name": "Total",
+        "DisplayName": "Total number of defective components",
+        "Description": "...",
+        "Type": {
+          "Name": "int"
+        }
+      }
+    ],
+    "Constructor": {
+      "Parameters": [{
+          "Name": "defectiveComponentsCount",
+          "Description": "...",
+          "DisplayName": "Enter number of defective components for 12 months.",
+          "Type": {
+            "Name": "array",
+            "ElementType": {
+              "Name": "int"
+            }
+          }
+        }
+      ]
+    },
+    "Functions": [{
+        "Name": "ComputeTotal",
+        "DisplayName": "Compute Total",
+        "Description": "...",
+        "Parameters": []
+      }
+    ],
+    "States": [{
+        "Name": "Create",
+        "DisplayName": "Create",
+        "Description": "...",
+        "PercentComplete": 50,
+        "Value": 0,
+        "Style": "Success",
+        "Transitions": [{
+          "AllowedRoles": [],
+          "AllowedInstanceRoles": ["Manufacturer"],
+          "Description": "...",
+          "Function": "ComputeTotal",
+          "NextStates": ["ComputeTotal"],
+          "DisplayName": "Compute Total"
+        }]
+      },
+      {
+        "Name": "ComputeTotal",
+        "DisplayName": "Compute Total",
+        "Description": "...",
+        "PercentComplete": 100,
+        "Value": 1,
+        "Style": "Success",
+        "Transitions": []
+      }
+    ]
+  }]
+}

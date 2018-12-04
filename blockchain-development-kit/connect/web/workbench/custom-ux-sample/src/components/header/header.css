@@ -1,0 +1,22 @@
+.header{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2%;
+  margin-top: 1%;
+}
+
+.headerText,
+.defaultImage {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.defaultImage {
+  margin-right: 10px;
+  height: 150px;
+  width: 150px;
+}
+
+.headerText{
+  margin: 0;
+}

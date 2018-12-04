@@ -1,0 +1,140 @@
+{
+  "ApplicationName": "FrequentFlyerRewardsCalculator",
+  "DisplayName": "Frequent Flyer Rewards Calculator",
+  "Description": "A simple application to calculate frequent flyer rewards.",
+  "ApplicationRoles": [{
+      "Name": "AirlineRepresentative",
+      "Description": "A person representing an airline."
+    },
+    {
+      "Name": "Flyer",
+      "Description": "A customer of an airline."
+    }
+  ],
+  "Workflows": [{
+    "Name": "FrequentFlyerRewardsCalculator",
+    "DisplayName": "Frequent Flyer Rewards Calculator",
+    "Description": "A simple application to show dynamic array usage.",
+    "Initiators": ["AirlineRepresentative"],
+    "StartState": "SetFlyerAndReward",
+    "Properties": [{
+        "Name": "State",
+        "DisplayName": "State",
+        "Description": "Holds the state of the contract.",
+        "Type": {
+          "Name": "state"
+        }
+      },
+      {
+        "Name": "AirlineRepresentative",
+        "DisplayName": "Airline Representative",
+        "Description": "A person representing an airline.",
+        "Type": {
+          "Name": "AirlineRepresentative"
+        }
+      },
+      {
+        "Name": "Flyer",
+        "DisplayName": "Flyer",
+        "Description": "A customer of an airline.",
+        "Type": {
+          "Name": "Flyer"
+        }
+      },
+      {
+        "Name": "RewardsPerMile",
+        "DisplayName": "Rewards per mile",
+        "Description": "Rewards per mile",
+        "Type": {
+          "Name": "int"
+        }
+      },
+      {
+        "Name": "Miles",
+        "DisplayName": "Miles",
+        "Description": "Miles traveled",
+        "Type": {
+          "Name": "array",
+          "ElementType": {
+            "Name": "int"
+          }
+        }
+      },
+      {
+        "Name": "TotalRewards",
+        "DisplayName": "Total Rewards",
+        "Description": "...",
+        "Type": {
+          "Name": "int"
+        }
+      }
+    ],
+    "Constructor": {
+      "Parameters": [{
+          "Name": "flyer",
+          "Description": "...",
+          "DisplayName": "Flyer",
+          "Type": {
+            "Name": "Flyer"
+          }
+        },
+        {
+          "Name": "rewardsPerMile",
+          "Description": "...",
+          "DisplayName": "Rewards Per Mile",
+          "Type": {
+            "Name": "int"
+          }
+        }
+      ]
+    },
+    "Functions": [{
+        "Name": "AddMiles",
+        "DisplayName": "Add Miles",
+        "Description": "...",
+        "Parameters": [{
+          "Name": "miles",
+          "Description": "...",
+          "DisplayName": "Miles",
+          "Type": {
+            "Name": "array",
+            "ElementType": {
+              "Name": "int"
+            }
+          }
+        }]
+      }
+    ],
+    "States": [{
+        "Name": "SetFlyerAndReward",
+        "DisplayName": "Set Flyer and Reward Per Mile",
+        "Description": "...",
+        "PercentComplete": 30,
+        "Style": "Success",
+        "Transitions": [{
+          "AllowedRoles": [],
+          "AllowedInstanceRoles": ["Flyer"],
+          "Description": "...",
+          "Function": "AddMiles",
+          "NextStates": ["MilesAdded"],
+          "DisplayName": "Add Miles"
+        }]
+      },
+      {
+        "Name": "MilesAdded",
+        "DisplayName": "Add Miles",
+        "Description": "...",
+        "PercentComplete": 60,
+        "Style": "Success",
+        "Transitions": [{
+          "AllowedRoles": [],
+          "AllowedInstanceRoles": ["Flyer"],
+          "Description": "...",
+          "Function": "AddMiles",
+          "NextStates": ["MilesAdded"],
+          "DisplayName": "Add Miles"
+        }]
+      }
+    ]
+  }]
+}

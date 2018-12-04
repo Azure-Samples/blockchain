@@ -11,10 +11,10 @@ Deploy the Stored Procedures
 ----------------------------
 
 Download the file with the stored procedures to support messaging integration.
-They are in a single file that can be downloaded from this location.
+They are in a single file that can be downloaded from [this location](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/messaging-integration-samples/SQL/LogicAppStoredProcedures.sql)
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -95,7 +95,7 @@ Name the field “RequestId”
 
 Select the type of “String”
 
-Provide a value of “guid()”
+Click in the textbox, select expression, and provide a value of “guid()”
 
 ![](media/4ca67ffb0e784381e78cbb8bda26cdc2.png)
 
@@ -107,16 +107,38 @@ Select the Service Bus connector and then select the “Send Message” action.
 
 ![](media/f4679f0e5391e5792fd4f790645c0f82.png)
 
-Select “activityhub”
+Select “ingressqueue”
 
 In the Session Id field, select RequestId from the Dynamic content dialog
 
 In the content field, enter the below –
 
+```
+{
+    "requestId": "",
+    "userChainIdentifier": "",
+    "contractLedgerIdentifier": "",
+    "workflowFunctionName": "modify",
+    "Parameters": [
+        {
+            "name": "description",
+            "value": "a 1969 dodge charger"
+        },
+        {
+            "name": "price",
+            "value": "12345"
+        }
+    ],
+    "connectionId": ,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractActionRequest"
+}
+```
+
 Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
-![](media/dee0ee075a67cda7900fbe16a7489618.png)
+![](media/servicebus-createcontractaction.PNG)
 
 Click Save
 

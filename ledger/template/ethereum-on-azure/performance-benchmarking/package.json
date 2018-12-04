@@ -1,0 +1,22 @@
+{
+  "name": "poa-perf",
+  "version": "1.0.0",
+  "description": "Performance testing tool for PoA network",
+  "repository": {
+    "type": "git",
+    "url": "https://msazure.visualstudio.com/DefaultCollection/Blockchain/_git/Blockchain-Template-EthereumPoA"
+  },
+  "keywords": [
+    "PoA",
+    "Performance"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "web3": "0.20.2",
+    "ethereumjs-tx": "1.3.4",
+    "ethereumjs-wallet": "0.6.1",
+    "node-stopwatch": "0.0.1",
+    "solc": "0.4.25",
+    "clui": "0.3.6"
+  }
+}
