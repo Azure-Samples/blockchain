@@ -1,26 +1,5 @@
-pragma solidity ^0.4.25;
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    constructor(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
+pragma solidity ^0.4.20;
+contract BasicProvenance
 {
 
     //Set of States
@@ -34,14 +13,13 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 	address public  SupplyChainOwner;
 	address public  SupplyChainObserver;
 	
-	constructor(address supplyChainOwner, address supplyChainObserver) public
+	function BasicProvenance(address supplyChainOwner, address supplyChainObserver) public
 	{
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;
         SupplyChainOwner = supplyChainOwner;
         SupplyChainObserver = supplyChainObserver;
-        State = StateType.Created;  
-        ContractCreated();
+        State = StateType.Created;
     }
 
 	function TransferResponsibility(address newCounterparty) public
@@ -58,7 +36,6 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
 
         PreviousCounterparty = Counterparty;
         Counterparty = newCounterparty;
-        ContractUpdated('TransferResponsibility');
     }
 
 	function Complete() public
@@ -71,7 +48,6 @@ contract BasicProvenance is WorkbenchBase('BasicProvenance', 'BasicProvenance')
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
-        ContractUpdated('Complete');
     }
 
 }

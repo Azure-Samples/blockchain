@@ -1,27 +1,6 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.4.20;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    constructor(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
+contract AssetTransfer
 {
     enum StateType { Active, OfferPlaced, PendingInspection, Inspected, Appraised, NotionalAcceptance, BuyerAccepted, SellerAccepted, Accepted, Terminated }
     address public InstanceOwner;
@@ -34,13 +13,12 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
     address public InstanceInspector;
     address public InstanceAppraiser;
 
-    constructor(string description, uint256 price) public
+    function AssetTransfer(string description, uint256 price) public
     {
         InstanceOwner = msg.sender;
         AskingPrice = price;
         Description = description;
         State = StateType.Active;
-        ContractCreated();
     }
 
     function Terminate() public
@@ -51,7 +29,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         }
 
         State = StateType.Terminated;
-        ContractUpdated('Terminate');
     }
 
     function Modify(string description, uint256 price) public
@@ -67,7 +44,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
 
         Description = description;
         AskingPrice = price;
-        ContractUpdated('Modify');
     }
 
     function MakeOffer(address inspector, address appraiser, uint256 offerPrice) public
@@ -91,7 +67,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         InstanceAppraiser = appraiser;
         OfferPrice = offerPrice;
         State = StateType.OfferPlaced;
-        ContractUpdated('MakeOffer');
     }
 
     function AcceptOffer() public
@@ -106,7 +81,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         }
 
         State = StateType.PendingInspection;
-        ContractUpdated('AcceptOffer');
     }
 
     function Reject() public
@@ -122,7 +96,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
 
         InstanceBuyer = 0x0;
         State = StateType.Active;
-        ContractUpdated('Reject');
     }
 
     function Accept() public
@@ -168,7 +141,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
                 State = StateType.Accepted;
             }
         }
-        ContractUpdated('Accept');
     }
 
     function ModifyOffer(uint256 offerPrice) public
@@ -183,7 +155,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         }
 
         OfferPrice = offerPrice;
-        ContractUpdated('ModifyOffer');
     }
 
     function RescindOffer() public
@@ -200,7 +171,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         InstanceBuyer = 0x0;
         OfferPrice = 0;
         State = StateType.Active;
-        ContractUpdated('RescindOffer');
     }
 
     function MarkAppraised() public
@@ -222,7 +192,6 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         {
             revert();
         }
-        ContractUpdated('MarkAppraised');
     }
 
     function MarkInspected() public
@@ -244,6 +213,5 @@ contract AssetTransfer is WorkbenchBase('AssetTransfer', 'AssetTransfer')
         {
             revert();
         }
-        ContractUpdated('MarkInspected');
     }
 }
