@@ -12,7 +12,7 @@ contract DefectiveComponentCounter
     int public Total;
 
     // constructor function
-    function DefectiveComponentCounter(int[12] defectiveComponentsCount) public
+    constructor(int[12] defectiveComponentsCount) public
     {
         Manufacturer = msg.sender;
         DefectiveComponentsCount = defectiveComponentsCount;

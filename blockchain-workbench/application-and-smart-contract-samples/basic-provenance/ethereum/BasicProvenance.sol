@@ -13,7 +13,7 @@ contract BasicProvenance
 	address public  SupplyChainOwner;
 	address public  SupplyChainObserver;
 	
-	function BasicProvenance(address supplyChainOwner, address supplyChainObserver) public
+	constructor(address supplyChainOwner, address supplyChainObserver) public
 	{
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;

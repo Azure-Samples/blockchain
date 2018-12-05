@@ -16,7 +16,7 @@ contract DigitalLocker
     string public RejectionReason;
     StateType public State;
 
-    function DigitalLocker(string lockerFriendlyName, address bankAgent)
+    constructor(string lockerFriendlyName, address bankAgent)
     {
         Owner = msg.sender;
         LockerFriendlyName = lockerFriendlyName;

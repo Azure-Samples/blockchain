@@ -16,7 +16,7 @@ contract FrequentFlyerRewardsCalculator
     uint public TotalRewards;
 
     // constructor function
-    function FrequentFlyerRewardsCalculator(address flyer, int rewardsPerMile) public
+    constructor(address flyer, int rewardsPerMile) public
     {
         AirlineRepresentative = msg.sender;
         Flyer = flyer;

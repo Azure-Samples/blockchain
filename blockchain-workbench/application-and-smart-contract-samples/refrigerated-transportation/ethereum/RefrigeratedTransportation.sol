@@ -25,7 +25,7 @@ contract RefrigeratedTransportation
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
 
-    function RefrigeratedTransportation(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;

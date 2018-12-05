@@ -13,7 +13,7 @@ contract AssetTransfer
     address public InstanceInspector;
     address public InstanceAppraiser;
 
-    function AssetTransfer(string description, uint256 price) public
+    constructor(string description, uint256 price) public
     {
         InstanceOwner = msg.sender;
         AskingPrice = price;
