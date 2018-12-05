@@ -93,16 +93,19 @@ namespace Workbench.Forms.ViewModels
 
                 GatewayApi.Instance.SetAuthToken(loginResponse.AccessToken);
 
-                App.LOGGED_OUT = false;
+                if (App.LOGGED_OUT)
+                {
+                    App.LOGGED_OUT = false;
 
-				Device.BeginInvokeOnMainThread(async () =>
-				{
-					if (App.Current.MainPage.Navigation.ModalStack.Count == 0)
-						await App.Current.MainPage.Navigation.PushModalAsync(App.Master);
-               
-					App.ViewModel.WorkbenchEnvironments = localEnvironments;
-					App.ViewModel.SelectedEnvironment = environment;
-				});
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        if (App.Current.MainPage.Navigation.ModalStack.Count == 0)
+                            await App.Current.MainPage.Navigation.PushModalAsync(App.Master);
+
+                        App.ViewModel.WorkbenchEnvironments = localEnvironments;
+                        App.ViewModel.SelectedEnvironment = environment;
+                    });
+                }
 
 				return true;
 			}
