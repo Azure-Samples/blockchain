@@ -1,20 +1,21 @@
 pragma solidity ^0.4.25;
+
 contract BasicProvenance
 {
 
     //Set of States
-	enum StateType { Created, InTransit, Completed}
-	
-	//List of properties
-	StateType public  State;
-	address public  InitiatingCounterparty;
-	address public  Counterparty;
-	address public  PreviousCounterparty;
-	address public  SupplyChainOwner;
-	address public  SupplyChainObserver;
-	
-	constructor(address supplyChainOwner, address supplyChainObserver) public
-	{
+    enum StateType { Created, InTransit, Completed}
+    
+    //List of properties
+    StateType public  State;
+    address public  InitiatingCounterparty;
+    address public  Counterparty;
+    address public  PreviousCounterparty;
+    address public  SupplyChainOwner;
+    address public  SupplyChainObserver;
+    
+    constructor(address supplyChainOwner, address supplyChainObserver) public
+    {
         InitiatingCounterparty = msg.sender;
         Counterparty = InitiatingCounterparty;
         SupplyChainOwner = supplyChainOwner;
@@ -22,8 +23,8 @@ contract BasicProvenance
         State = StateType.Created;
     }
 
-	function TransferResponsibility(address newCounterparty) public
-	{
+    function TransferResponsibility(address newCounterparty) public
+    {
         if (Counterparty != msg.sender || State == StateType.Completed)
         {
             revert();
@@ -38,9 +39,9 @@ contract BasicProvenance
         Counterparty = newCounterparty;
     }
 
-	function Complete() public
-	{
-	    if (SupplyChainOwner != msg.sender || State == StateType.Completed)
+    function Complete() public
+    {
+        if (SupplyChainOwner != msg.sender || State == StateType.Completed)
         {
             revert();
         }
@@ -49,5 +50,4 @@ contract BasicProvenance
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
     }
-
 }

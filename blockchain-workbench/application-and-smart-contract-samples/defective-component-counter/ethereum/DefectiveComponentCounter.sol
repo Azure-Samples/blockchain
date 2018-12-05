@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
-contract DefectiveComponentCounter
-{
+contract DefectiveComponentCounter is WorkbenchBase('DefectiveComponentCounter', 'DefectiveComponentCounter') {
+
      //Set of States
     enum StateType {Create, ComputeTotal}
 
@@ -18,6 +18,9 @@ contract DefectiveComponentCounter
         DefectiveComponentsCount = defectiveComponentsCount;
         Total = 0;
         State = StateType.Create;
+
+        // call ContractCreated() to create an instance of this workflow
+        ContractCreated();
     }
 
     // call this function to send a request
@@ -35,6 +38,8 @@ contract DefectiveComponentCounter
         }
 
         State = StateType.ComputeTotal;
+
+        ContractUpdated('ComputeTotal');
     }
 
     // add the required getter function for array DefectiveComponentsCount

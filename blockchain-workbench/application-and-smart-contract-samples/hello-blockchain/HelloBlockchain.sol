@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 
 contract HelloBlockchain
 {
-    //Set of States
+     //Set of States
     enum StateType { Request, Respond}
 
     //List of properties

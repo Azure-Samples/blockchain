@@ -25,7 +25,7 @@ contract RefrigeratedTransportationWithTime
     string public  ComplianceDetail;
     uint public  LastSensorUpdateTimestamp;
 
-    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
+    function RefrigeratedTransportationWithTime(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
@@ -107,5 +107,4 @@ contract RefrigeratedTransportationWithTime
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
     }
-
 }

@@ -2,7 +2,6 @@ pragma solidity ^0.4.25;
 
 contract FrequentFlyerRewardsCalculator
 {
-
      //Set of States
     enum StateType {SetFlyerAndReward, MilesAdded}
 

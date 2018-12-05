@@ -24,9 +24,9 @@ contract SimpleMarketplace
         State = StateType.ItemAvailable;
     }
 
-    function MakeOffer(int offerPrice, bool test) public
+    function MakeOffer(int offerPrice) public
     {
-        if (offerPrice == 0 && test)
+        if (offerPrice == 0)
         {
             revert();
         }

@@ -55,14 +55,14 @@ contract DigitalLocker
 
     function UploadDocuments(string lockerIdentifier, string image)
     {
-        if (BankAgent != msg.sender)
+         if (BankAgent != msg.sender)
         {
             revert();
         }
-        LockerStatus = "Approved";
-        Image = image;
-        LockerIdentifier = lockerIdentifier;
-        State = StateType.AvailableToShare;
+            LockerStatus = "Approved";
+            Image = image;
+            LockerIdentifier = lockerIdentifier;
+            State = StateType.AvailableToShare;
     }
 
     function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose)
@@ -128,7 +128,6 @@ contract DigitalLocker
         IntendedPurpose="";
         State = StateType.AvailableToShare;
     }
-
     function RevokeAccessFromThirdParty()
     {
         if (Owner != msg.sender)
@@ -139,7 +138,6 @@ contract DigitalLocker
         CurrentAuthorizedUser=0x0;
         State = StateType.AvailableToShare;
     }
-
     function Terminate()
     {
         if (Owner != msg.sender)
