@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.5.0.
+Upgrades Azure Blockchain Workbench to version 1.5.1.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.5.0.
+Upgrades Azure Blockchain Workbench to version 1.5.1.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_5_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.5.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20151001/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.10/Artifacts",
+    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.5.1",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://gallery.azure.com/artifact/20161101/microsoft-azure-blockchain.azure-blockchain-workbenchazure-blockchain-workbench.1.0.11/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][string]$DockerLogin = $null,
     [Parameter(Mandatory=$false)][string]$DockerPw = $null,
@@ -574,5 +574,5 @@ if ($TestApi -eq $true)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.5.0."
-Write-Warning "Important: There are new AAD application registration requirements with 1.5.0 that are not performed by this upgrade process. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updated."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.5.1."
+Write-Warning "Important: There are new AAD application registration requirements with 1.5.1 that are not performed by this upgrade process. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updated."
