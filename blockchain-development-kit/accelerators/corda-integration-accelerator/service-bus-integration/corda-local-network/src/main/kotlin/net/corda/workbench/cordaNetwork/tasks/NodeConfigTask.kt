@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory
 import net.corda.workbench.commons.taskManager.DataTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
 import net.corda.workbench.commons.taskManager.TaskContext
+import java.nio.file.Paths
 
 /**
  * A Data task which reads values from the node config
@@ -14,7 +15,9 @@ class NodeConfigTask(val ctx: TaskContext,
     override fun exec(executionContext: ExecutionContext): Config {
         synchronized("NodeConfigTask") {
             ConfigFactory.invalidateCaches()
-            System.setProperty("config.file", ctx.workingDir + "/" + standardiseNodeName(nodeName) + "/node.conf")
+
+            val nodeConfFile = Paths.get(ctx.workingDir, standardiseNodeName(nodeName), "node.conf").normalize().toFile()
+            System.setProperty("config.file", nodeConfFile.absolutePath)
             val config = ConfigFactory.load()
 
             val port = config.getString("rpcSettings.address").split(":")[1].toInt()

@@ -4,6 +4,7 @@ import net.corda.workbench.commons.taskManager.DataTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
 import net.corda.workbench.commons.taskManager.TaskContext
 import java.io.FileInputStream
+import java.nio.file.Paths
 import java.security.KeyStore
 import java.security.PrivateKey
 import java.util.Base64
@@ -18,7 +19,9 @@ class NodeCertificateTask(val ctx: TaskContext,
 
     override fun exec(executionContext: ExecutionContext): String {
 
-        val fis = FileInputStream(ctx.workingDir + "/" + standardiseNodeName(nodeName) + "/certificates/nodekeystore.jks")
+        val keystorePath = Paths.get(ctx.workingDir , standardiseNodeName(nodeName) , "certificates" , "nodekeystore.jks")
+
+        val fis = FileInputStream(keystorePath.toFile())
 
         val keystore = KeyStore.getInstance(KeyStore.getDefaultType())
         val password = "cordacadevpass"
