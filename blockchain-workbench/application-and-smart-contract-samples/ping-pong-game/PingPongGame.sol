@@ -7,20 +7,20 @@ contract Starter
     StateType public State;
 
     string public PingPongGameName;
-    address public Starter;
+    address public StartingPlayer;
     address public GamePlayer;
     int public PingPongTimes;
 
-    constructor (string gameName) {
+    constructor (string gameName) public {
         PingPongGameName = gameName;
-        Starter = msg.sender;
+        StartingPlayer = msg.sender;
 
         GamePlayer = new Player(PingPongGameName);
 
         State = StateType.GameProvisioned;
     }
 
-    function StartPingPong(int pingPongTimes)
+    function StartPingPong(int pingPongTimes) public
     {
         PingPongTimes = pingPongTimes;
 
@@ -30,7 +30,7 @@ contract Starter
         player.Ping(pingPongTimes);
     }
 
-    function Pong(int currentPingPongTimes)
+    function Pong(int currentPingPongTimes) public
     {
         currentPingPongTimes = currentPingPongTimes - 1;
 
@@ -47,7 +47,7 @@ contract Starter
         }
     }
 
-    function FinishGame()
+    function FinishGame() public
     {
         State = StateType.GameFinished;
     }
@@ -62,14 +62,14 @@ contract Player
     address public GameStarter;
     string public PingPongGameName;
 
-    constructor (string pingPongGameName) {
+    constructor (string pingPongGameName) public {
         GameStarter = msg.sender;
         PingPongGameName = pingPongGameName;
 
         State = StateType.PingpongPlayerCreated;
     }
 
-    function Ping(int currentPingPongTimes)
+    function Ping(int currentPingPongTimes) public
     {
         currentPingPongTimes = currentPingPongTimes - 1;
 
@@ -86,7 +86,7 @@ contract Player
         }
     }
 
-    function FinishGame()
+    function FinishGame() public
     {
         State = StateType.GameFinished;
     }
