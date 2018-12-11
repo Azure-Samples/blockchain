@@ -521,7 +521,7 @@ Send a message”
 Configure the Service Bus action to use the connection pointed at the Service
 Bus in the Blockchain Workshop deployment.
 
-Set the “Queue/Topic” property to activityhub
+Set the “Queue/Topic” property to ingressQueue
 
 Set the SessionId property to RequestId
 
@@ -529,15 +529,11 @@ The template of the message to be put in the Content property is below -
 
 ``` json
 {
-    "ContractActionId": null,
-    "ConnectionId":,
-    "UserChainIdentifier": "",
-    "ContractCodeArtifactBlobStorageURL": "",
-    "OperationName": "CreateContractAction",
-    "ContractLedgerIdentifier": "",
-    "WorkflowFunctionName": "IngestTelemetry",
-    "WorkflowName": "RefrigeratedTransportation",
-    "ContractActionParameters": [
+    "requestId": "",
+    "userChainIdentifier": "",
+    "contractLedgerIdentifier": "",
+    "workflowFunctionName": "IngestTelemetry",
+    "Parameters": [
         {
             "name": "humidity",
             "value": ""
@@ -545,13 +541,15 @@ The template of the message to be put in the Content property is below -
         {
             "name": "temperature",
             "value": ""
-        },
+        }
         {
             "name": "timestamp",
-            "value":
+            "value": ""
         }
     ],
-    "RequestId": ""
+    "connectionId": ,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractActionRequest"
 }
 ```
 
