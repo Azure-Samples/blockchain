@@ -4,7 +4,7 @@
   "Description": "Sample for testing multievent",
   "ApplicationRoles": [
     {
-      "Name": "Starter",
+      "Name": "GameStarter",
       "Description": "Starter of the game."
     }
   ],
@@ -13,7 +13,7 @@
       "Name": "Starter",
       "DisplayName": "Starter",
       "Description": "",
-      "Initiators": [ "Starter" ],
+      "Initiators": [ "GameStarter" ],
       "StartState":  "GameProvisioned",
       "Properties": [
         {
@@ -49,11 +49,11 @@
           }
         },
         {
-          "Name": "Starter",
-          "DisplayName": "Starter",
-          "Description": "Starter",
+          "Name": "GameStarter",
+          "DisplayName": "Game Starter",
+          "Description": "Game Starter",
           "Type": {
-            "Name": "Starter"
+            "Name": "GameStarter"
           }
         }
       ],
@@ -117,7 +117,7 @@
           "Transitions": [
             {
               "AllowedRoles": [],
-              "AllowedInstanceRoles": ["Starter"],
+              "AllowedInstanceRoles": ["GameStarter"],
               "Description": "StartPingPong",
               "Function": "StartPingPong",
               "NextStates": [ "Pingponging" ],
@@ -160,10 +160,10 @@
         },
         {
           "Name": "GameStarter",
-          "DisplayName": "Starter",
-          "Description": "Starter",
+          "DisplayName": "Game Starter",
+          "Description": "Game Starter",
           "Type": {
-            "Name": "Starter"
+            "Name": "GameStarter"
           }
         },
         {
