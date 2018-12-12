@@ -9,6 +9,8 @@ import org.jetbrains.spek.api.dsl.it
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.io.File
+import net.corda.workbench.commons.registry.Registry
+
 
 @RunWith(JUnitPlatform::class)
 object ConfigBuilderTaskSpec : Spek({
@@ -17,7 +19,8 @@ object ConfigBuilderTaskSpec : Spek({
 
         it("should build a simple Alice & Bob network") {
             val ctx = TestContext()
-            val task = ConfigBuilderTask(ctx, listOf("O=Notary,L=London,C=GB",
+            val registry = Registry().store(ctx)
+            val task = ConfigBuilderTask(registry, listOf("O=Notary,L=London,C=GB",
                     "O=Alice,L=New York,C=US",
                     "O=Bob,L=Paris,C=FR"))
             task.exec()

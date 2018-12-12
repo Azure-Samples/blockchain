@@ -10,22 +10,27 @@ import java.util.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
+import kotlin.collections.HashMap
 
 class CordaAppLoader {
     private val configs = ArrayList<CordaAppConfig>()
-
+    private val lookup = HashMap<String, CordaAppConfig?>()
 
     companion object {
         private val logger: Logger = loggerFor<CordaAppLoader>()
     }
 
-
     /**
      * Scan CordApps for config files
      */
-    fun scan(): CordaAppLoader {
+    fun scan(customerLoader: ClassLoader? = null): CordaAppLoader {
         configs.clear()
-        ClassGraph().whitelistPathsNonRecursive("META-INF/services")
+
+        val classGraph = ClassGraph()
+        if (customerLoader != null) {
+            classGraph.addClassLoader(customerLoader)
+        }
+        classGraph.whitelistPathsNonRecursive("META-INF/services")
                 .scan()
                 .use { scanResult ->
                     scanResult.getResourcesWithExtension("json")
@@ -48,14 +53,31 @@ class CordaAppLoader {
      * Find a matching app by id or slug or null not found
      */
     fun findApp(path: String): CordaAppConfig? {
-        var result: CordaAppConfig?
+        if (lookup.containsKey(path)) {
+            return lookup.get(path)
+        } else {
 
-        result = configs.firstOrNull { it.id.toString().equals(path,true) }
-        if (result == null) {
-            result = configs.firstOrNull { it.slug == path }
-
+            var result: CordaAppConfig?
+            result = configs.firstOrNull { it.id.toString().equals(path, true) }
+            if (result == null) {
+                result = configs.firstOrNull { path.equals(it.slug, ignoreCase = true) }
+            }
+            if (result == null) {
+                result = configs.firstOrNull { checkSlugs(path, it.slugs) }
+            }
+            lookup.put(path, result)
+            return result
         }
-        return result
+
+    }
+
+    private fun checkSlugs(path: String, slugs: List<String>?): Boolean {
+        if (slugs != null) {
+            for (slug in slugs) {
+                if (path.equals(slug, ignoreCase = true)) return true
+            }
+        }
+        return false
     }
 
     private fun processJson(fileName: String, json: String, sourceFile: File) {
@@ -87,6 +109,7 @@ data class CordaAppConfig(val id: UUID,
                           val summary: String? = null,
                           val version: String? = null,
                           val slug: String? = null,
+                          val slugs: List<String>? = null,
                           val authors: List<String> = emptyList(),
                           val url: String? = null)
 

@@ -27,7 +27,9 @@ object StartAgentSpec : Spek({
             File("${ctx.workingDir}").deleteRecursively()
             es.truncate()
 
-            val task = DeployCordaAppTask(registry,  File("src/test/resources/cordapps/refrigerated-transportation.jar"))
+            val task = DeployCordaAppTask(registry,
+                    File("src/test/resources/cordapps/refrigerated-transportation.jar"),
+                    "refrigerated-transportation")
             task.exec()
             assert.that(es.retrieve().last().type, equalTo("CordaAppDeployed"))
         }

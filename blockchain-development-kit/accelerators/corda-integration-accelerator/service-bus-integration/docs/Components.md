@@ -56,19 +56,6 @@ Native cloud storage could be added later but does include additional complexity
 * the potential need to run migrations when upgrading workflows 
 * proving access to these stores to developers
 
-## Corda DLT Watcher 
-
-_To discuss with Marc - the more I think about this, the more 
-I think its better to make this part of the flow logic_ 
-
-An observer node that will forward the committed transaction stream (i.e. 
-those that have been Notarised) to the WB service bus.
-
-I propose that we simply build a custom Notary for this purpose (it would be part of the "Azure Corda Network" 
-config). This means that any flow will automatically be forwarded on completion.
-
-_presumably there is a standard WB message format to use here?_ 
-
 ## Corda Transaction Builder 
 
 [Docs](../corda-transaction-builder/docs/Index.md)

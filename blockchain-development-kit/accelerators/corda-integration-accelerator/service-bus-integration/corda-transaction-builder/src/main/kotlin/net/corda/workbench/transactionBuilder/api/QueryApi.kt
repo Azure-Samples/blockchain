@@ -4,13 +4,12 @@ import io.javalin.ApiBuilder
 import io.javalin.Context
 import io.javalin.Javalin
 import net.corda.core.contracts.ContractState
-import net.corda.core.messaging.vaultQueryBy
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.reflections.app.RPCHelper
-import net.corda.workbench.transactionBuilder.lookupClass
 import net.corda.reflections.reflections.LiveRpcCaller
 import net.corda.reflections.resolvers.UniqueIdentifierResolver
 import net.corda.workbench.commons.registry.Registry
+import net.corda.workbench.transactionBuilder.CordaClassLoader
 
 
 class QueryApi (private val registry: Registry){
@@ -22,10 +21,10 @@ class QueryApi (private val registry: Registry){
         val app = registry.retrieve(Javalin::class.java)
 
 
-        ApiBuilder.path(":network") {
+        ApiBuilder.path(":network/:node/:app") {
 
             app.routes {
-                ApiBuilder.path(":node/query") {
+                ApiBuilder.path("query") {
                     app.routes {
                         ApiBuilder.get(":state") { ctx ->
                             val config = lookupNodeConfig(ctx)
@@ -92,6 +91,12 @@ class QueryApi (private val registry: Registry){
             throw RuntimeException("Cannot read node config for node:'$node' on network:'$network'")
         }
     }
+
+    private inline fun <reified T> lookupClass(name: String): Class<T> {
+
+        return CordaClassLoader().lookupClass(name)
+    }
+
 
     data class NodeConfig(val legalName: String, val port: Int)
 

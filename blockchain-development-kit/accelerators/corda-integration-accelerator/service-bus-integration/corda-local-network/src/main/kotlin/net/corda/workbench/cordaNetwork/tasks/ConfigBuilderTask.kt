@@ -1,17 +1,22 @@
 package net.corda.workbench.cordaNetwork.tasks
 
+import net.corda.workbench.commons.event.EventStore
 import net.corda.workbench.commons.taskManager.BaseTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
 import net.corda.workbench.commons.taskManager.TaskContext
 import sun.security.x509.X500Name
 import java.io.File
+import net.corda.workbench.commons.registry.Registry
+
 
 /**
  * Takes a simple list of parties names in standard certificate format, e.g.
  *   'O=ContosoLtd,L=Seatle,C=US' and builds a full set of node configs using the
  *   conventions passed in the context.
  */
-class ConfigBuilderTask(val ctx: TaskContext, private val parties: List<String>) : BaseTask() {
+class ConfigBuilderTask(registry: Registry, private val parties: List<String>) : BaseTask() {
+    val ctx = registry.retrieve(TaskContext::class.java)
+    val es = registry.retrieve(EventStore::class.java)
 
     override fun exec(executionContext: ExecutionContext) {
         File(ctx.workingDir).mkdirs()

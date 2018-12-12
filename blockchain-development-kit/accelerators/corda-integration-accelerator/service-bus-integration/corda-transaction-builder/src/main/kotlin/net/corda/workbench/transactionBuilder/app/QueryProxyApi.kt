@@ -29,15 +29,16 @@ class QueryProxyApi(private val registry: Registry) {
                     ctx.result(port.toString())
                 }
 
-                ApiBuilder.path(":node/query") {
+                ApiBuilder.path(":node/:app/query") {
                     app.routes {
                         ApiBuilder.get(":state") { ctx ->
 
                             val network = ctx.param("network")!!
                             val node = ctx.param("node")!!
                             val state = ctx.param("state")!!
+                            val appName = ctx.param("app")!!
                             val port = agentRepo.agentPort(network)
-                            val url = "http://localhost:$port/$network/$node/query/$state"
+                            val url = "http://localhost:$port/$network/$node/$appName/query/$state"
 
                             logger.info("proxing to agent at: $url")
                             val r = khttp.get(url = url, headers = ctx.headerMap())

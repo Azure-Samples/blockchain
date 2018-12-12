@@ -6,14 +6,14 @@ EXPOSE 1113
 
 
 RUN mkdir -p /home/app/src/main/bin
-RUN mkdir -p /home/app
+RUN mkdir /home/config
 WORKDIR /home/app
 
 # Build a shell script to run java
 RUN echo "#!/bin/bash" > /home/app/runIt.sh
 RUN echo "ls -ltr" >> /home/app/runIt.sh
 RUN echo "ls -ltr config" >> /home/app/runIt.sh
-RUN echo "java -cp config:service-bus-listener.jar -Xmx256m -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGC net.corda.workbench.serviceBus.AppKt" >> /home/app/runIt.sh
+RUN echo "java -cp /home/config:config:service-bus-listener.jar -Xmx256m -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGC net.corda.workbench.serviceBus.AppKt" >> /home/app/runIt.sh
 RUN chmod +x /home/app/runIt.sh
 
 # These are the jars we need

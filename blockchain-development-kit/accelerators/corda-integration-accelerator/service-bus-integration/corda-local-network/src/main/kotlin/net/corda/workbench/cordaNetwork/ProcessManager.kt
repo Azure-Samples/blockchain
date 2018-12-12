@@ -12,7 +12,9 @@ object ProcessManager {
     private val processes = HashMap<Key, Process>()
 
     fun register(network: String, task: String, process: Process) {
-        processes[Key(network, task)] = process
+        val key = Key(network, task)
+        println("Process $key registered ")
+        processes[key] = process
     }
 
     fun monitor() {
@@ -23,7 +25,7 @@ object ProcessManager {
                 while (monitoring) {
                     println("Process monitor checking ${processes.size} processes...")
                     processes.forEach {
-                        println("  process: ${it.key.processName}, isAlive? ${it.value.isAlive}")
+                        println("  process: ${it.key}, isAlive? ${it.value.isAlive}")
                     }
                     println("Process monitor sleeping for $sleepTime...")
                     Thread.sleep(sleepTime * 1000L)
@@ -49,6 +51,17 @@ object ProcessManager {
 
     fun queryForNodeOnNetwork(network: String, processName: String): Process? {
         return processes[Key(network, processName)]
+    }
+
+    fun removeProcess(process: Process) {
+        // not the nicest code :(
+        processes.entries.forEach {
+            if (it.value == process) {
+                processes.remove(it.key)
+                println("Process ${it.key} removed")
+                return
+            }
+        }
     }
 
     data class Key(val network: String, val processName: String)

@@ -1,6 +1,8 @@
 package net.corda.workbench.cordaNetwork
 
 import io.javalin.Javalin
+import net.corda.workbench.commons.event.FileEventStore
+import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.cordaNetwork.api.ApiController
 import net.corda.workbench.cordaNetwork.api.PingApi
 
@@ -29,8 +31,14 @@ class Javalin(private val port: Int) {
         }
 
 
+        val registry = Registry()
+        val dataDir = System.getProperty("user.home") + "/.corda-local-network/events"
+        val es = FileEventStore().load(dataDir)
+        registry.store(es)
+
         PingApi().register(app)
-        ApiController().register(app)
+        ApiController(registry).register(app)
+
         app.start()
         println("Ready :)")
 

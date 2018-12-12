@@ -3,27 +3,21 @@ package net.corda.workbench.cordaNetwork.api
 import io.javalin.ApiBuilder
 import io.javalin.Context
 import io.javalin.Javalin
+import net.corda.workbench.commons.event.EventStore
+import net.corda.workbench.commons.event.Filter
 import net.corda.workbench.commons.taskManager.BlockingTasksExecutor
 import net.corda.workbench.commons.taskManager.SimpleTaskRepo
 import net.corda.workbench.commons.taskManager.TaskContext
 import net.corda.workbench.commons.taskManager.TaskLogMessage
 import net.corda.workbench.commons.taskManager.TaskRepo
 import net.corda.workbench.cordaNetwork.ProcessManager
-import net.corda.workbench.cordaNetwork.tasks.ConfigBuilderTask
-import net.corda.workbench.cordaNetwork.tasks.DeleteNetworkTask
-import net.corda.workbench.cordaNetwork.tasks.DeployCordaAppTask
-import net.corda.workbench.cordaNetwork.tasks.NetworkBootstrapperTask
-import net.corda.workbench.cordaNetwork.tasks.NodeCertificateTask
-import net.corda.workbench.cordaNetwork.tasks.NodeConfigTask
-import net.corda.workbench.cordaNetwork.tasks.NodeListTask
-import net.corda.workbench.cordaNetwork.tasks.NodeStatusTask
-import net.corda.workbench.cordaNetwork.tasks.RealContext
-import net.corda.workbench.cordaNetwork.tasks.StartCordaNodesTask
-import net.corda.workbench.cordaNetwork.tasks.StopCordaNodesTask
 import org.json.JSONArray
 import java.io.File
+import net.corda.workbench.commons.registry.Registry
+import net.corda.workbench.cordaNetwork.tasks.*
 
-class ApiController {
+
+class ApiController(private val registry: Registry) {
 
     // simple file log of tasks message
     private val taskRepos = HashMap<String, TaskRepo>()
@@ -39,8 +33,7 @@ class ApiController {
                     @Suppress("UNCHECKED_CAST")
                     val nodes = JSONArray(ctx.body()).toList() as List<String>
 
-                    executor.exec(ConfigBuilderTask(taskContext, nodes))
-                    executor.exec(NetworkBootstrapperTask(taskContext))
+                    executor.exec(CreateNodesTask(registry.overide(taskContext), nodes))
 
                     ctx.json(successMessage("successfully created network $networkName"))
                 }
@@ -61,15 +54,21 @@ class ApiController {
                 ApiBuilder.post("start") { ctx ->
                     val (networkName, taskContext, executor) = standardUnpacking(ctx)
 
-                    executor.exec(StartCordaNodesTask(taskContext))
+                    if (!isNetworkRunning(networkName)) {
+                        val overrideRegistry = registry.overide(taskContext)
+                        val tasks = listOf(StopCordaNodesTask(overrideRegistry), StartCordaNodesTask(overrideRegistry))
+                        executor.exec(tasks)
 
-                    ctx.json(successMessage("successfully started $networkName - please wait for nodes to start"))
+                        ctx.json(successMessage("successfully started $networkName - please wait for nodes to start"))
+                    } else {
+                        throw RuntimeException("network $networkName is already running")
+                    }
                 }
 
                 ApiBuilder.post("stop") { ctx ->
                     val (networkName, taskContext, executor) = standardUnpacking(ctx)
 
-                    executor.exec(StopCordaNodesTask(taskContext))
+                    executor.exec(StopCordaNodesTask(registry.overide(taskContext)))
 
                     ctx.json(successMessage("successfully stopped $networkName"))
                 }
@@ -77,7 +76,7 @@ class ApiController {
                 ApiBuilder.post("delete") { ctx ->
                     val (networkName, taskContext, executor) = standardUnpacking(ctx)
 
-                    val tasks = listOf(StopCordaNodesTask(taskContext), DeleteNetworkTask(taskContext))
+                    val tasks = listOf(StopCordaNodesTask(registry.overide(taskContext)), DeleteNetworkTask(taskContext))
                     executor.exec(tasks)
 
                     ctx.json(successMessage("successfully deleted $networkName"))
@@ -133,11 +132,18 @@ class ApiController {
                     val processes = ProcessManager.queryForNetwork(networkName)
                     ctx.json(processes)
                 }
+
+                ApiBuilder.get("events") { ctx ->
+                    val networkName = ctx.param("networkName")!!
+                    val events = registry.retrieve(EventStore::class.java).retrieve(Filter(aggregateId = networkName))
+                    ctx.json(events.reversed())
+                }
+
             }
         }
     }
 
-    fun buildMessageSink(context: TaskContext): ((TaskLogMessage) -> Unit) {
+    private fun buildMessageSink(context: TaskContext): ((TaskLogMessage) -> Unit) {
         val repo = taskRepos.getOrPut(context.networkName) {
             SimpleTaskRepo("${context.workingDir}/tasks")
         }
@@ -151,26 +157,38 @@ class ApiController {
 
     }
 
-    fun buildExecutor(context: TaskContext): BlockingTasksExecutor {
+    private fun buildExecutor(context: TaskContext): BlockingTasksExecutor {
         val messageSink = buildMessageSink(context)
         return BlockingTasksExecutor(messageSink)
     }
 
-    fun tempDir(ctx: TaskContext): String {
+    private fun tempDir(ctx: TaskContext): String {
         val tmpDir = "${ctx.workingDir}/tmp"
         File(tmpDir).mkdirs()
         return tmpDir
     }
 
-    fun standardUnpacking(ctx: Context): Triple<String, RealContext, BlockingTasksExecutor> {
+    private fun standardUnpacking(ctx: Context): Triple<String, RealContext, BlockingTasksExecutor> {
         val networkName = ctx.param("networkName")!!
         val context = RealContext(networkName)
         val executor = buildExecutor(context)
         return Triple(networkName, context, executor)
     }
 
-    fun successMessage(msg: String): MutableMap<String, Any> {
+    private fun successMessage(msg: String): MutableMap<String, Any> {
         return mutableMapOf("message" to msg)
+    }
+
+
+    private fun isNetworkRunning(network: String): Boolean {
+        return registry.retrieve(EventStore::class.java).retrieve(Filter(aggregateId = network))
+                .fold(false) { status, event ->
+                    when {
+                        event.type == "NetworkStarted" -> true
+                        event.type == "NetworkStopped" -> false
+                        else -> status
+                    }
+                }
     }
 
 }
