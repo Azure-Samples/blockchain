@@ -6,7 +6,7 @@ In our discussions, workshops, and projects with hundreds of customers over the 
 Today, we are making the first set of these available as solution accelerators.  Each of these is delivered as a set of documentation and assets that will enable you to have solutions for these scenarios up and running for your consortium quickly.
 
 
-[Corda Integration Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/corda-integration-accelerator)
+[Corda Integration Accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/corda)
 ===========================================
 Lots of customers love the Corda blockchain and would like to be able to easily connect to all of the items released today as part of the Azure Blockchain Development Kit.  Working closely with Corda, we're happy to announce a new accelerator that enables Corda to listen to and send messages that map to the same format used by Workbench.  This initially ships with a Corda-specific version of our refrigerated transportation contract and can demonstrate integration with IoT, SMS, and Office.
 
