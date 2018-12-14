@@ -2,6 +2,7 @@ package net.corda.workbench.cordaNetwork.tasks
 
 import com.natpryce.hamkrest.assertion.assert
 import com.natpryce.hamkrest.equalTo
+import net.corda.workbench.commons.event.FileEventStore
 import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.commons.taskManager.TestContext
 import org.jetbrains.spek.api.Spek
@@ -21,7 +22,7 @@ object NodeConfigTaskSpec : Spek({
 
         beforeGroup {
             File(ctx.workingDir).deleteRecursively()
-            val registry = Registry().store(ctx)
+            val registry = Registry().store(ctx).store(FileEventStore())
 
 
             // comment this out to speed up local tests.
