@@ -520,7 +520,7 @@
             },
             {
               "name": "Project",
-              "value": "functions/legacy"
+              "value": "blockchain-development-kit/_supporting-functions/storage"
             }
           ]
         }

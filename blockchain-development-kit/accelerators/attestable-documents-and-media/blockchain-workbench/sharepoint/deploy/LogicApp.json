@@ -402,7 +402,7 @@
             },
             {
               "name": "Project",
-              "value": "functions/storage"
+              "value": "blockchain-development-kit/_supporting-functions/storage"
             }
           ]
         }
