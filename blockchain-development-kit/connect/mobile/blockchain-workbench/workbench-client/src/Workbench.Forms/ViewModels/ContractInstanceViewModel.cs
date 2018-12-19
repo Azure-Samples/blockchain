@@ -135,6 +135,11 @@ namespace Workbench.Forms.ViewModels
 					function = App.ViewModel.Contract.Functions.FirstOrDefault(f => f.Id == action.WorkflowFunctionId);
 				}
 
+                if (action.TransactionId == null)
+                {
+                    function.DisplayName = "Unsuccessful Transaction";
+                }
+
                 _blocks.Add(new BlockModel(action, transaction,new BlockFunction {Name = function.DisplayName, Description = function.Description, Parameters = function.Parameters }));
 			}
 
