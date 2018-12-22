@@ -60,7 +60,7 @@ delivers to IoT Hub.
 The only properties leveraged from the payload are the deviceId, temperature,
 and humidity. You can have your clients (real or simulated) deliver the same
 schema or deliver a different schema that includes these values. For the latter,
-past that schema in the “Parse JSON” action the Logic App that will be created
+paste that schema in the “Parse JSON” action the Logic App that will be created
 later in this sample.
 
 Note – in a future version of this sample, it will be adapted to IoT Hub’s
