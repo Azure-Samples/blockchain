@@ -11,6 +11,8 @@ Specifically –
 - Parses the CSV contents of the file
 - Adds a Recall Event for each record to the Recall Events Registry contract
 
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Fintegrate%2Ffiles%2Fcsv%2Fblockchain-workbench%2Fdeploy%2FLogicApp.json" target="_blank">    <img src="http://azuredeploy.net/deploybutton.png"/></a> <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Fintegrate%2Ffiles%2Fcsv%2Fblockchain-workbench%2Fdeploy%2FLogicApp.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
+
 ## Pre-Requisites
 
 The pre-requisites for this sample include -

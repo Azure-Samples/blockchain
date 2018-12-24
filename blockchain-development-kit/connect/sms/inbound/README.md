@@ -10,6 +10,8 @@ Specifically –
 - Pass that information to an Azure Logic App
 - Creates a new contract containing the data and then adds it to the Simple Marketplace
 
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Fconnect%2Fsms%2Finbound%2Fdeploy%2FLogicApp.json" target="_blank">    <img src="http://azuredeploy.net/deploybutton.png"/></a> <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Fconnect%2Fsms%2Finbound%2Fdeploy%2FLogicApp.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
+
 ## Pre-Requisites
 
 The pre-requisites for this sample include -
