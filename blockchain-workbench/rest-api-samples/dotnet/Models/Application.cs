@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Workbench.Client.Models
 {
-	public class ApplicationReturnType
+    public class ApplicationReturnType
     {
         [JsonProperty("nextLink")]
         public string NextLink { get; set; }
 
-		[JsonProperty("applications")]
-		public List<Application> Applications = new List<Application>();
+        [JsonProperty("applications")]
+        public List<Application> Applications = new List<Application>();
     }
 
     public class Application
@@ -31,7 +31,7 @@ namespace Workbench.Client.Models
         //public string ApplicationType { get; set; }
 
         [JsonProperty("createdByUserId")]
-        public long CreatedByUserId { get; set; }
+        public long? CreatedByUserId { get; set; }
 
         [JsonProperty("createdDtTm")]
         public System.DateTimeOffset CreatedDtTm { get; set; }
@@ -39,11 +39,11 @@ namespace Workbench.Client.Models
         [JsonProperty("enabled")]
         public bool Enabled { get; set; }
 
-		[JsonProperty("applicationRoles")]
-		public List<ApplicationRole> ApplicationRoles = new List<ApplicationRole>();
+        [JsonProperty("applicationRoles")]
+        public List<ApplicationRole> ApplicationRoles = new List<ApplicationRole>();
 
-		//[JsonProperty("workflows")]
-		//public List<Workflow> Workflows = new List<Workflow>();
+        //[JsonProperty("workflows")]
+        //public List<Workflow> Workflows = new List<Workflow>();
     }
 
     public class ApplicationRole
@@ -58,7 +58,7 @@ namespace Workbench.Client.Models
         public string Description { get; set; }
 
         [JsonProperty("applicationId")]
-        public long ApplicationId { get; set; }
+        public long? ApplicationId { get; set; }
     }
-         
+
 }

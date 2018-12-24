@@ -19,6 +19,8 @@ namespace Workbench.Forms.iOS
         {
             Constants.NavBarBackgroundColor = UIColor.FromRGB(0, 120, 215).ToColor();
 
+            Rg.Plugins.Popup.Popup.Init();
+      
             global::Xamarin.Forms.Forms.Init();
 
             ServiceContainer.Register<IAuthentication>(new Authentication_iOS());
