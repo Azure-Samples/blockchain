@@ -88,7 +88,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             Image = image;
             LockerIdentifier = lockerIdentifier;
             State = StateType.AvailableToShare;
-            ContractUpdated("UploadDocments");
+            ContractUpdated("UploadDocuments");
     }
 
     function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose)
@@ -157,7 +157,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         CurrentAuthorizedUser = 0x0;
         IntendedPurpose="";
         State = StateType.AvailableToShare;
-        ContractUpdated("AvailableToShare");
+        ContractUpdated("ReleaseLockerAccess");
     }
     function RevokeAccessFromThirdParty()
     {
