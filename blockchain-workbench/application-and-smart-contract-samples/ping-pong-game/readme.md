@@ -31,9 +31,9 @@ Player Workflow States 
 	
 Workflow Details
 ---------------
-![](media/FrequentFlyerRewardsCalculator.PNG)
+![](media/PingPongGame.PNG)
 	
-An instance of Frequent Flyer Rewards Calculator is created when an airline representative creates a contract by specifying a flyer and the rewards per mile.  The flyer associated with the contract can add miles after the contract is created.  The miles can be added as an array of integers and the size of this array need not have to be specified in the contract.  The miles are all stored as a part of a monotonically growing dynamic array.  The value for the total rewards accrued is computed as and when miles are added.
+The ping pong game starts when the Starter workflow is created. This instantiates a Player workflow and the player is created as well. To start the game, the Starter role takes the action to start ping pong and enters the number of times to ping pong between the starter and player. Once the number specified is reached, the game is finished. 
 	
 	
 Application Files
