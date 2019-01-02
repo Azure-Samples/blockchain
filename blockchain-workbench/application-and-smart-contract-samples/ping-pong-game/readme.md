@@ -39,4 +39,5 @@ An instance of Frequent Flyer Rewards Calculator is created when an airline repr
 Application Files
 -----------------
 [PingPongGame.json](./ethereum/PingPongGame.json)
+
 [PingPongGame.sol](./ethereum/PingPongGame.sol)
