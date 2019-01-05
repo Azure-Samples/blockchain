@@ -242,8 +242,8 @@
               "DisplayName": "Terminate Offer"
             },
             {
-              "AllowedRoles": [ "Buyer" ],
-              "AllowedInstanceRoles": [],
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Buyer" ],
               "Description": "Make an offer for this asset",
               "Function": "MakeOffer",
               "NextStates": [ "OfferPlaced" ],
