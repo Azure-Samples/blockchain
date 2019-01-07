@@ -358,7 +358,7 @@ may occur after a specific action is taken on a smart contract.
 
 The logic app created in this sample facilitates this need by –
 
--   Identifying if the message is of type ContractInsertedOrUpdated
+-   Identifying if the message is of type ContractMessage
 
 -   If true, it identifies if this is an update to an existing contract or a new
     contract
