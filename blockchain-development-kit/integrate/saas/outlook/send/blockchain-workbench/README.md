@@ -116,86 +116,85 @@ In the Schema field, enter the following –
 
 ```
 {
-"properties": {
-    "data": {
-        "properties": {
-            "BlockId": {
-                "type": "number"
-            }, 
-            "BlockHash": {
-                "type": "string"
-            },
-            "ModifyingTransactions": {
-                "items": {
-                    "properties": {
-                        "TransactionId": {
-                            "type": "number"
-                         }, 
-                        "TransactionHash": {
-                            "type": "string"
-                         }, 
-                         "From": {
-                            "type": "string"
-                         }, 
-                         "To": {
-                            "type": "string"
-                         },
+    "type": "object",
+    "properties": {
+        "blockId": {
+            "type": "integer"
+        },
+        "blockhash": {
+            "type": "string"
+        },
+        "modifyingTransactions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "transactionId": {
+                        "type": "integer"
                     },
-                    "required": [
-                        "TransactionId",
-                        "TransactionHash",
-                        "From",
-                        "To"
-                    ],
-                    "type": "object"
-                },
-                "type": "array"
-           },
-           "ContractId": {
-                "type": "number"
-           },
-           "ContractLedgerIdentifier": {
-                "type": "string"
-            },
-            "ContractProperties": {
-                "items": {
-                    "properties": {
-                        "WorkflowPropertuId": {
-                            "type": "number"
-                        }, 
-                        "Name": {
-                            "type": "string"
-                        }, 
-                        "Value": {
-                            "type": "string"
-                        }
+                    "transactionHash": {
+                        "type": "string"
                     },
-                    "required": [
-                        "WorkflowPropertyId",
-                        "Name",
-                        "Value"
-                    ],
-                    "type": "object"
+                    "from": {
+                        "type": "string"
+                    },
+                    "to": {
+                        "type": "string"
+                    }
                 },
-                "type": "array"
-            },
-        "IsNewContract": {
+                "required": [
+                    "transactionId",
+                    "transactionHash",
+                    "from",
+                    "to"
+                ]
+            }
+        },
+        "contractId": {
+            "type": "integer"
+        },
+        "contractLedgerIdentifier": {
+            "type": "string"
+        },
+        "contractProperties": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "workflowPropertyId": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "workflowPropertyId",
+                    "name",
+                    "value"
+                ]
+            }
+        },
+        "isNewContract": {
             "type": "boolean"
-         },
-        "ConnectionId": {
-            "type": "number"
         },
-        "MessageSchemaVersion": {
+        "connectionId": {
+            "type": "integer"
+        },
+        "messageSchemaVersion": {
             "type": "string"
         },
-        "MessageName": {
+        "messageName": {
             "type": "string"
+        },
+        "additionalInformation": {
+            "type": "object",
+            "properties": {}
         }
-    },
-    "type": "object"
-    },
-},
-"type": "object"
+    }
 }
 ```
 
