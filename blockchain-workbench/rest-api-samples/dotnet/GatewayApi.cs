@@ -17,9 +17,10 @@ namespace Workbench.Client
 	public sealed class GatewayApi
 	{
 
-		static int CLIENT_API_TIMEOUT = 10;
+		static int CLIENT_API_TIMEOUT = 15;
 		static int POLLY_RETRY_COUNT = 5;
-        
+        const int TOP_QUERY_PARAM = 50;
+
 		#region Singleton Implementation
 
         static GatewayApi instance = null;
@@ -57,7 +58,11 @@ namespace Workbench.Client
 		}
 
 		// Static HTTPClient
-		public static string AuthToken { get; set; }
+        bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken)
+                                         && (!AccessTokenExpiration.HasValue || (AccessTokenExpiration.HasValue && AccessTokenExpiration.Value >= DateTimeOffset.UtcNow)));
+
+        public DateTimeOffset? AccessTokenExpiration { get; set; }
+		static string AuthToken { get; set; }
 		static HttpClient _httpClient;
         static HttpClient HttpClient
         {
@@ -124,10 +129,19 @@ namespace Workbench.Client
 #endregion
 
 		#region APPLICATIONS
-		public async Task<IEnumerable<Application>> GetApplicationsAsync(bool GetDemoContract = true,bool Enabled = true)
+		public async Task<IEnumerable<Application>> GetApplicationsAsync(bool Enabled = false, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-            var result = await getDataObjectFromAPI<ApplicationReturnType>($"{BaseUrl}applications");
-			return result?.Applications;
+            if (Enabled)
+            {
+                var result = await getDataObjectFromAPI<ApplicationReturnType>($"{BaseUrl}applications?enabled=true&top={top}&skip={skip}");
+                return result?.Applications;
+            }
+            else
+            {
+                var result = await getDataObjectFromAPI<ApplicationReturnType>($"{BaseUrl}applications?top={top}&skip={skip}");
+                return result?.Applications;
+            }
+                    
         }
 
 		public async Task<string> PostApplicationAsync(FileStream appFile, string appFileName)
@@ -182,9 +196,9 @@ namespace Workbench.Client
 			}
         }
 
-		public async Task<IEnumerable<RoleAssignment>> GetUserRoleAssignmentsAsync(string applicationID)
+        public async Task<IEnumerable<RoleAssignment>> GetUserRoleAssignmentsAsync(string applicationID, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<RoleAssignmentReturnType>($"{BaseUrl}applications/{applicationID}/roleAssignments");
+            var result = await getDataObjectFromAPI<RoleAssignmentReturnType>($"{BaseUrl}applications/{applicationID}/roleAssignments?top={top}&skip={skip}");
 			return result?.RoleAssignments;
 		}
 
@@ -228,9 +242,9 @@ namespace Workbench.Client
             return error;
         }
 
-		public async Task<IEnumerable<Workflow>> GetWorkflowsByApplicationIdAsync(string applicationID)
+		public async Task<IEnumerable<Workflow>> GetWorkflowsByApplicationIdAsync(string applicationID, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<WorkflowReturnType>($"{BaseUrl}applications/{applicationID}/workflows");
+            var result = await getDataObjectFromAPI<WorkflowReturnType>($"{BaseUrl}applications/{applicationID}/workflows?top={top}&skip={skip}");
 			return result?.Workflows;
         }
 
@@ -239,9 +253,9 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<Workflow>($"{BaseUrl}applications/workflows/{workflowID}");
         }
 
-		public async Task<IEnumerable<ContractCodes>> GetContractCodesByApplicationAsync(string applicationID, int ledgerID)
+		public async Task<IEnumerable<ContractCodes>> GetContractCodesByApplicationAsync(string applicationID, int ledgerID, int top = TOP_QUERY_PARAM, int skip = 0)
 		{
-			var result = await getDataObjectFromAPI<ContractCodesReturnType>($"{BaseUrl}applications/{applicationID}/contractCode?ledgerId={ledgerID}");
+            var result = await getDataObjectFromAPI<ContractCodesReturnType>($"{BaseUrl}applications/{applicationID}/contractCode?ledgerId={ledgerID}&top={top}&skip={skip}");
 			return result?.ContractCodes;
         }
         
@@ -278,9 +292,9 @@ namespace Workbench.Client
 
 #region CONNECTIONS
 
-		public async Task<IEnumerable<Connection>> GetConnectionsAsync()
+		public async Task<IEnumerable<Connection>> GetConnectionsAsync(int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<ConnectionsReturnType>($"{BaseUrl}ledgers/connections");
+            var result = await getDataObjectFromAPI<ConnectionsReturnType>($"{BaseUrl}ledgers/connections?top={top}&skip={skip}");
 			return result?.Connections;
         }
         
@@ -289,9 +303,9 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<Connection>($"{BaseUrl}ledgers/connections/{connectionID}");
 		}
 
-		public async Task<IEnumerable<Block>> GetBlocksByConnectionIdAsync(string connectionID)
+		public async Task<IEnumerable<Block>> GetBlocksByConnectionIdAsync(string connectionID, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<BlockReturnType>($"{BaseUrl}ledgers/connections/{connectionID}/blocks");
+            var result = await getDataObjectFromAPI<BlockReturnType>($"{BaseUrl}ledgers/connections/{connectionID}/blocks?top={top}&skip={skip}");
             return result?.Blocks;
         }
 
@@ -300,9 +314,10 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<Block>($"{BaseUrl}ledgers/connections/{connectionID}/blocks/{blockID}");
 		}
 
-		public async Task<IEnumerable<Transaction>> GetTransactionsByChainInstanceIdAsync(string connectionID)
+		public async Task<IEnumerable<Transaction>> GetTransactionsByChainInstanceIdAsync(string connectionID, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			return await getDataObjectFromAPI<IEnumerable<Transaction>>($"{BaseUrl}ledgers/connections/{connectionID}/transactions");
+            var result = await getDataObjectFromAPI<TransactionReturnType>($"{BaseUrl}ledgers/connections/{connectionID}/transactions?top={top}&skip={skip}");
+            return result?.Transactions;
         }
         
 		public async Task<Transaction> GetTransactionByIdAsync(string connectionID, string transactionID)
@@ -310,9 +325,9 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<Transaction>($"{BaseUrl}ledgers/connections/{connectionID}/transactions/{transactionID}");
         }
         
-		public async Task<IEnumerable<Ledger>> GetLedgersAsync()
+		public async Task<IEnumerable<Ledger>> GetLedgersAsync(int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<LedgersReturnType>($"{BaseUrl}ledgers");
+            var result = await getDataObjectFromAPI<LedgersReturnType>($"{BaseUrl}ledgers?top={top}&skip={skip}");
 			return result?.Ledgers;
         }
        
@@ -332,9 +347,9 @@ namespace Workbench.Client
 #endregion
 
 #region USERS & CAPABILITIES
-		public async Task<IEnumerable<User>> GetAllUsersAsync()
+		public async Task<IEnumerable<User>> GetAllUsersAsync(int top = TOP_QUERY_PARAM, int skip = 0,string sortBy = "FirstName")
         {
-            var result = await getDataObjectFromAPI<UsersReturnType>($"{BaseUrl}users");
+            var result = await getDataObjectFromAPI<UsersReturnType>($"{BaseUrl}users?sortBy={sortBy}&top={top}&skip={skip}");
             return result?.Users;
         }
       
@@ -390,25 +405,21 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<Contract>($"{BaseUrl}contracts/{contractId}");         
         }
 
-		public async Task<IEnumerable<Contract>> GetWorkflowInstancesAsync(string workflowInstanceID)
+        public async Task<IEnumerable<Contract>> GetWorkflowInstancesAsync(string workflowInstanceID, int top = TOP_QUERY_PARAM, int skip = 0, string sortBy = "Timestamp")
         {
-			var result = await getDataObjectFromAPI<WorkflowInstancesReturnType>($"{BaseUrl}contracts?workflowid={workflowInstanceID}");
+            var result = await getDataObjectFromAPI<WorkflowInstancesReturnType>($"{BaseUrl}contracts?workflowid={workflowInstanceID}&top={top}&skip={skip}&sortBy={sortBy}");
 			return result?.Contracts;
         }
 
-		public async Task<string> CreateNewContractAsync(ActionInformation action, string workflowID, string contractCodeID, string connectionID)
+		public async Task<(bool,string)> CreateNewContractAsync(ActionInformation action, string workflowID, string contractCodeID, string connectionID)
         {
 			var url = $"{BaseUrl}contracts?workflowId={workflowID}&contractCodeId={contractCodeID}&connectionId={connectionID}";
-            var (success, error) = await postDataObjectAsync(action, url);
-
-            if (success)
-                return string.Empty;
-            return error;
+            return await postDataObjectAsync(action, url);
         }
         
-		public async Task<IEnumerable<WorkflowFunction>> GetWorkflowActionsAsync(string workflowInstanceID)
+		public async Task<IEnumerable<WorkflowFunction>> GetWorkflowActionsAsync(string workflowInstanceID, int top = TOP_QUERY_PARAM, int skip = 0)
         {
-			var result = await getDataObjectFromAPI<Actions>($"{BaseUrl}contracts/{workflowInstanceID}/actions");
+            var result = await getDataObjectFromAPI<Actions>($"{BaseUrl}contracts/{workflowInstanceID}/actions?top={top}&skip={skip}");
 			return result?.WorkflowFunctions;
         }
 
@@ -417,14 +428,10 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<WorkflowFunction>($"{BaseUrl}contracts/{workflowInstanceID}/actions/{actionID}");
         }
         
-		public async Task<string> PostWorkflowActionAsync(ActionInformation action, string contractID)
+		public async Task<(bool,string)> PostWorkflowActionAsync(ActionInformation action, string contractID)
         {
 			var url = $"{BaseUrl}contracts/{contractID}/actions";
-            var (success, error) = await postDataObjectAsync(action, url);
-
-            if (success)
-                return string.Empty;
-            return error;
+            return await postDataObjectAsync(action, url);
         }
 
       
@@ -440,6 +447,10 @@ namespace Workbench.Client
 
 		async Task<(bool, string)> postDataObjectAsync<T>(T objectToPost, string url)
         {
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
             try
             {
                 var json = JsonConvert.SerializeObject(objectToPost);
@@ -457,7 +468,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -483,6 +494,10 @@ namespace Workbench.Client
 
 		async Task<(bool, string)> postFormAsync(string url, MultipartFormDataContent formDataContent)
         {
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
             try
             {            
                 var msg = await Policy
@@ -497,7 +512,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -523,6 +538,10 @@ namespace Workbench.Client
 
 		async Task<T> getDataObjectFromAPI<T>(string url)
 		{
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
 			try
 			{
 				var json = await Policy
@@ -602,6 +621,10 @@ namespace Workbench.Client
 
 		async Task<(bool,string)> deleteDataObjectFromAPI(string url)
         {
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
             try
             {
                 var msg = await Policy
@@ -616,7 +639,7 @@ namespace Workbench.Client
 				if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -641,6 +664,10 @@ namespace Workbench.Client
 
 		async Task<(bool, string)> patchDataObjectToAPI(string url)
 		{
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
 			try
 			{
 				var msg = await Policy
@@ -655,7 +682,7 @@ namespace Workbench.Client
 				if (msg.IsSuccessStatusCode)
 				{
 					numberOfFailedTries = 0;
-					return (true, string.Empty);
+					return (true, await msg.Content.ReadAsStringAsync());
 				}
 
 				return (false, await msg.Content.ReadAsStringAsync());
@@ -683,6 +710,10 @@ namespace Workbench.Client
 
 		async Task<(bool, string)> putDataObjectAsync<T>(T objectToPut, string url)
         {
+            if (!IsLoggedIn)
+            {
+                ExpiredAccessToken.Invoke(Instance, EventArgs.Empty);
+            }
             try
             {
                 var json = JsonConvert.SerializeObject(objectToPut);
@@ -700,7 +731,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());

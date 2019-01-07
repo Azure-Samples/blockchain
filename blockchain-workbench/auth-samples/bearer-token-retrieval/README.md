@@ -8,6 +8,7 @@ This is a simple tool that allows you to obtain a bearer token for your Workbenc
 
 ## Prerequisite
 * [NodeJS](https://nodejs.org/)
+* http-server NodeJS package
 * [Docker (Optional)](https://www.docker.com/products/docker-engine)
 * Azure Active Directory App Registration (You will need the App Id)
 * Please add `http://localhost:3000` to the reply urls of your AAD app
@@ -16,6 +17,12 @@ This is a simple tool that allows you to obtain a bearer token for your Workbenc
 You can run the Node application directly on your machine or via Docker. 
 
 ### Option 1 (Local Machine)
+
+If not already installed, install http-server:
+
+```
+npm install http-server
+```
 
 Navigate to this directory and run the following commands:
 

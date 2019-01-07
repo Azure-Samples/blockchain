@@ -1,3 +1,14 @@
+---
+urlFragment: azure-blockchain-auth-samples
+topic: sample
+products:
+  - azure
+languages:
+  - python
+  - csharp
+  - javascript
+---
+
 # Auth Samples and Code Snippets for Workbench
 
 ## Overview

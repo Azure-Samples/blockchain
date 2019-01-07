@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Workbench.Client.Models
 {
-	public class WorkflowReturnType
+    public class WorkflowReturnType
     {
 
         [JsonProperty("nextLink")]
@@ -29,13 +29,13 @@ namespace Workbench.Client.Models
         public string DisplayName { get; set; }
 
         [JsonProperty("applicationId")]
-        public long ApplicationId { get; set; }
+        public long? ApplicationId { get; set; }
 
         [JsonProperty("constructorId")]
-        public long ConstructorId { get; set; }
+        public long? ConstructorId { get; set; }
 
         [JsonProperty("startStateId")]
-        public long StartStateId { get; set; }
+        public long? StartStateId { get; set; }
 
         [JsonProperty("initiators")]
         public List<string> Initiators = new List<string>();
@@ -44,19 +44,19 @@ namespace Workbench.Client.Models
         public List<Property> Properties = new List<Property>();
 
         [JsonProperty("constructor")]
-		public WorkflowFunction Constructor { get; set; }
+        public WorkflowFunction Constructor { get; set; }
 
         [JsonProperty("functions")]
-		public List<WorkflowFunction> Functions = new List<WorkflowFunction>();
+        public List<WorkflowFunction> Functions = new List<WorkflowFunction>();
 
         [JsonProperty("startState")]
-		public State StartState { get; set; }
+        public State StartState { get; set; }
 
         [JsonProperty("states")]
         public List<State> States = new List<State>();
     }
 
-	public class WorkflowFunction
+    public class WorkflowFunction
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -74,8 +74,8 @@ namespace Workbench.Client.Models
         public List<Parameter> Parameters = new List<Parameter>();
 
         [JsonProperty("workflowId")]
-        public long WorkflowId { get; set; }
-             
+        public long? WorkflowId { get; set; }
+
         [JsonProperty("preconditions")]
         public List<Condition> Preconditions = new List<Condition>();
 
@@ -91,9 +91,9 @@ namespace Workbench.Client.Models
         [JsonProperty("description")]
         public string Description { get; set; }
 
-		[JsonProperty("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
-      
+
         [JsonProperty("displayName")]
         public string DisplayName { get; set; }
 
@@ -126,7 +126,7 @@ namespace Workbench.Client.Models
         public TypeClass Type { get; set; }
     }
 
-	public class TypeClass
+    public class TypeClass
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -135,10 +135,20 @@ namespace Workbench.Client.Models
         public string Name { get; set; }
 
         [JsonProperty("elementType")]
-        public object ElementType { get; set; }
+        public ElementType ElementType { get; set; }
 
         [JsonProperty("elementTypeId")]
-        public long ElementTypeId { get; set; }
+        public long? ElementTypeId { get; set; }
+
+        [JsonProperty("EnumValues")]
+        public List<string> EnumValues = new List<string>();
+
+    }
+
+    public class ElementType
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 
 	public static class ContractParameterType
@@ -154,6 +164,13 @@ namespace Workbench.Client.Models
 		public const string Int = "int";
         public const string User = "user";
 		public const string Device = "device";
+        public const string Enum = "enum";
+        public const string Bool = "bool";
+        public const string Contract = "contract";
+        public const string Time = "time";
+        public const string Address = "address";
+        public const string State = "state";
+        public const string Array = "array";
     }
 
     public class State
@@ -171,34 +188,34 @@ namespace Workbench.Client.Models
         public string DisplayName { get; set; }
 
         [JsonProperty("percentComplete")]
-        public long PercentComplete { get; set; }
+        public long? PercentComplete { get; set; }
 
         [JsonProperty("value")]
-        public long Value { get; set; }
+        public long? Value { get; set; }
 
         [JsonProperty("style")]
         public string Style { get; set; }
 
         [JsonProperty("workflowStateTransitions")]
-		public List<WorkflowStateTransition> WorkflowStateTransitions = new List<WorkflowStateTransition>();
+        public List<WorkflowStateTransition> WorkflowStateTransitions = new List<WorkflowStateTransition>();
     }
 
-	public class WorkflowStateTransition
-	{
-		[JsonProperty("id")]
+    public class WorkflowStateTransition
+    {
+        [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("workflowFunctionId")]
-        public long WorkflowFunctionId { get; set; }
+        public long? WorkflowFunctionId { get; set; }
 
         [JsonProperty("currStateId")]
-        public long CurrStateId { get; set; }
+        public long? CurrStateId { get; set; }
 
-		[JsonProperty("allowedRoles")]
-		public List<string> AllowedRoles = new List<string>();
+        [JsonProperty("allowedRoles")]
+        public List<string> AllowedRoles = new List<string>();
 
-		[JsonProperty("allowedInstanceRoles")]
-		public List<string> AllowedInstanceRoles = new List<string>();
+        [JsonProperty("allowedInstanceRoles")]
+        public List<string> AllowedInstanceRoles = new List<string>();
 
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -212,5 +229,5 @@ namespace Workbench.Client.Models
         [JsonProperty("displayName")]
         public string DisplayName { get; set; }
     }
-    
+
 }

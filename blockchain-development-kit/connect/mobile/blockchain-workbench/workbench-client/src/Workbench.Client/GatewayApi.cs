@@ -193,7 +193,6 @@ namespace Workbench.Client
 			{
 				var(success,error) = await patchDataObjectToAPI($"{BaseUrl}applications/{applicationID}/disable");
 				if (success)
-				if (success)
                     return string.Empty;
 				
                 return error;
@@ -427,14 +426,10 @@ namespace Workbench.Client
             return result?.Contracts;
         }
 
-		public async Task<string> CreateNewContractAsync(ActionInformation action, string workflowID, string contractCodeID, string connectionID)
+        public async Task<(bool,string)> CreateNewContractAsync(ActionInformation action, string workflowID, string contractCodeID, string connectionID)
         {
 			var url = $"{BaseUrl}contracts?workflowId={workflowID}&contractCodeId={contractCodeID}&connectionId={connectionID}";
-            var (success, error) = await postDataObjectAsync(action, url);
-
-            if (success)
-                return string.Empty;
-            return error;
+            return await postDataObjectAsync(action, url);
         }
         
 		public async Task<IEnumerable<WorkflowFunction>> GetWorkflowActionsAsync(string workflowInstanceID, int top = TOP_QUERY_PARAM, int skip = 0)
@@ -448,14 +443,10 @@ namespace Workbench.Client
 			return await getDataObjectFromAPI<WorkflowFunction>($"{BaseUrl}contracts/{workflowInstanceID}/actions/{actionID}");
         }
         
-		public async Task<string> PostWorkflowActionAsync(ActionInformation action, string contractID)
+        public async Task<(bool,string)> PostWorkflowActionAsync(ActionInformation action, string contractID)
         {
 			var url = $"{BaseUrl}contracts/{contractID}/actions";
-            var (success, error) = await postDataObjectAsync(action, url);
-
-            if (success)
-                return string.Empty;
-            return error;
+            return await postDataObjectAsync(action, url);
         }
 
       
@@ -492,7 +483,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -536,7 +527,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -663,7 +654,7 @@ namespace Workbench.Client
 				if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());
@@ -706,7 +697,7 @@ namespace Workbench.Client
 				if (msg.IsSuccessStatusCode)
 				{
 					numberOfFailedTries = 0;
-					return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
 				}
 
 				return (false, await msg.Content.ReadAsStringAsync());
@@ -755,7 +746,7 @@ namespace Workbench.Client
                 if (msg.IsSuccessStatusCode)
                 {
                     numberOfFailedTries = 0;
-                    return (true, string.Empty);
+                    return (true, await msg.Content.ReadAsStringAsync());
                 }
 
                 return (false, await msg.Content.ReadAsStringAsync());

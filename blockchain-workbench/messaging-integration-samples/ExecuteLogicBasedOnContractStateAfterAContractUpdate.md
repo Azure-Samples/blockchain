@@ -9,7 +9,7 @@ the state of the contract and allows you to take appropriate action.
 
 Specifically –
 
--   It identifies if the message is of type ContractInsertedOrUpdated
+-   It identifies if the message is of type ContractMessage
 
 -   If true, it identifies if this is an update to an existing contract or a new
     contract
@@ -107,11 +107,11 @@ will be evaluated.
 Click the text box and then select “Subject” from the Dynamic Content window.
 This contains the name of the message type being delivered.
 
-In the Case message on the right, enter the value of ContractInsertedOrUpdated
+In the Case message on the right, enter the value of ContractMessage
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to ContractInsertedOrUpdated.
+Rename the case to ContractMessage.
 
 For the action, select “Data Operations – Parse Json”
 
@@ -129,27 +129,63 @@ In the Schema field, enter the following –
 
 "properties": {
 
-"ActionName": {
-
-"type": "string"
-
-},
-
 "BlockId": {
 
 "type": "number"
 
 },
+"BlockHash": {
 
-"ChainId": {
+"type": "string"
+
+},
+
+"ModifyingTransactions": {
+
+"items": {
+
+"properties": {
+
+"TransactionId": {
 
 "type": "number"
 
 },
-
-"ContractAddress": {
+"TransactionHash": {
 
 "type": "string"
+
+},
+"From": {
+
+"type": "string"
+
+},
+"To": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"TransactionId",
+
+"TransactionHash",
+
+"From",
+
+"To"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
 
 },
 
@@ -159,42 +195,28 @@ In the Schema field, enter the following –
 
 },
 
-"IsTopLevelUpdate": {
-
-"type": "boolean"
-
-},
-
-"IsUpdate": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
+"ContractLedgerIdentifier": {
 
 "type": "string"
 
 },
 
-"OriginatingAddress": {
-
-"type": "string"
-
-},
-
-"Parameters": {
+"ContractProperties": {
 
 "items": {
 
 "properties": {
 
+"WorkflowPropertuId": {
+
+"type": "number"
+
+},
 "Name": {
 
 "type": "string"
 
 },
-
 "Value": {
 
 "type": "string"
@@ -204,6 +226,8 @@ In the Schema field, enter the following –
 },
 
 "required": [
+
+"WorkflowPropertyId",
 
 "Name",
 
@@ -219,13 +243,25 @@ In the Schema field, enter the following –
 
 },
 
-"TopLevelInputParams": {
+"IsNewContract": {
 
-"type": "array"
+"type": "boolean"
 
 },
 
-"TransactionHash": {
+"ConnectionId": {
+
+"type": "number"
+
+},
+
+"MessageSchemaVersion": {
+
+"type": "string"
+
+},
+
+"MessageName": {
 
 "type": "string"
 
@@ -236,48 +272,6 @@ In the Schema field, enter the following –
 "type": "object"
 
 },
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
 
 },
 

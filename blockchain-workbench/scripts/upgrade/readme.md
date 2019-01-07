@@ -58,20 +58,20 @@ You may be asked to authenticate if you're not currently authenticated. In this 
 
 ```powershell
 # Download the upgrade script automatically. (Or you can download it from this repository manually)
-cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureBlockchainWorkbenchUpgradeTov1_5_0.ps1
+cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureBlockchainWorkbenchUpgradeTov1_5_1.ps1
 
 
 # Running the script
-./azureBlockchainWorkbenchUpgradeTov1_5_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+./azureBlockchainWorkbenchUpgradeTov1_5_1.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 
 ```
 
 When the upgrade completes, you will see the following message:
 
 ```powershell
-Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.5.0.
+Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.5.1.
 
-Important: There are new AAD application registration requirements with 1.5.0 that are not performed by this upgrade process. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updated.
+Important: There are new AAD application registration requirements with 1.5.1 that are not performed by this upgrade process. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updated.
 
 ```
 
