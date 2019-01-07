@@ -1,28 +1,7 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    function WorkbenchBase(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransportationWithTime', 'RefrigeratedTransportationWithTime') {
-
+contract RefrigeratedTransportationWithTime
+{
     //Set of States
     enum StateType { Created, InTransit, Completed, OutOfCompliance}
     enum SensorType { None, Humidity, Temperature }
@@ -46,7 +25,7 @@ contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransp
     string public  ComplianceDetail;
     uint public  LastSensorUpdateTimestamp;
 
-    function RefrigeratedTransportationWithTime(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
@@ -62,7 +41,6 @@ contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransp
         MaxTemperature = maxTemperature;
         State = StateType.Created;
         ComplianceDetail = 'N/A';
-        ContractCreated();
     }
 
     function IngestTelemetry(int humidity, int temperature, uint timestamp) public
@@ -95,8 +73,6 @@ contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransp
         {
             State = StateType.OutOfCompliance;
         }
-
-        ContractUpdated('IngestTelemetry');
     }
 
     function TransferResponsibility(address newCounterparty) public
@@ -116,7 +92,6 @@ contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransp
 
         PreviousCounterparty = Counterparty;
         Counterparty = newCounterparty;
-        ContractUpdated('TransferResponsibility');
     }
 
     function Complete() public
@@ -131,7 +106,5 @@ contract RefrigeratedTransportationWithTime is WorkbenchBase('RefrigeratedTransp
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
-        ContractUpdated('Complete');
     }
-
 }
