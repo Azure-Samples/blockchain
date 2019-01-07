@@ -39,7 +39,7 @@ Select A (Yes to All) in the next prompt:
 ![](./media/release-140-3.png)
 
 
-5. Next, please go to https://aka.ms/workbenchUpgradeScript and download the upgrade script “azureBlockchainWorkbenchUpgradeTov1_4_1.ps1” to local directory.
+5. Next, please go to https://aka.ms/workbenchUpgradeScript and download the upgrade script “azureBlockchainWorkbenchUpgradeTov1_6_0.ps1” to local directory.
 
 
 6. Sign in to your azure account:
@@ -64,11 +64,11 @@ You may be asked to authenticate if you're not currently authenticated. In this 
 cd 
 
 # Running the script
-./ azureBlockchainWorkbenchUpgradeTov1_4_1.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+./ azureBlockchainWorkbenchUpgradeTov1_6_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 
 ```
 
 When the upgrade completes, you will see the following message:
 ```powershell
-Azure Blockchain Workbench in Resource Group <ResourceGroupName> was succesfully updated to version 1.4.1.
+Azure Blockchain Workbench in Resource Group <ResourceGroupName> was succesfully updated to version 1.6.0.
 ```
