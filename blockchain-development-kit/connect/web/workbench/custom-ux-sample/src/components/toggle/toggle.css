@@ -1,0 +1,9 @@
+.toggle{
+  position: absolute;
+  top: 22px;
+  right: 70px;
+}
+
+.toggle .ms-Toggle-stateText{
+  color: white;
+}

@@ -1,0 +1,103 @@
+buildscript {
+    ext.kotlin_version = '1.2.51'
+
+    ext.corda_release_version = '3.2-corda'
+    ext.corda_release_distribution = 'net.corda'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+        mavenLocal()
+
+    }
+    dependencies {
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+         // for Spec - http://spekframework.org/docs/latest/
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+
+    }
+
+}
+plugins {
+    id 'java'
+    id "org.jetbrains.kotlin.jvm" version "1.2.51"
+    id "application"
+    id "kr.motd.sphinx" version "2.2.3"
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+
+
+group 'net.corda.workbench'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    compile ("net.corda:corda-rpc:$corda_release_version") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    compile group: 'org.json', name: 'json', version: '20180130'
+
+
+    compile "org.slf4j:jcl-over-slf4j:1.7.25"
+    compile group: 'io.github.classgraph', name: 'classgraph', version: '4.4.7'
+
+
+    testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+    testCompile ('org.jetbrains.spek:spek-api:1.1.5') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntime ('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile ('org.junit.platform:junit-platform-runner:1.0.0')
+
+    // some example local cordapps for now
+    testCompile files('../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar')
+
+
+
+}
+
+
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+
+jar {
+    archiveName = "corda-reflections.jar"
+}
+
+task copyJarToLib(type: Copy) {
+    from 'build/libs/corda-reflections.jar'
+    into "lib"
+}

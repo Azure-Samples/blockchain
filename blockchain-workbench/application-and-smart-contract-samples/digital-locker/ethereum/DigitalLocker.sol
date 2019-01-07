@@ -7,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -37,7 +37,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
     string public RejectionReason;
     StateType public State;
 
-    function DigitalLocker(string lockerFriendlyName, address bankAgent)
+    constructor(string lockerFriendlyName, address bankAgent)
     {
         Owner = msg.sender;
         LockerFriendlyName = lockerFriendlyName;
@@ -88,7 +88,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
             Image = image;
             LockerIdentifier = lockerIdentifier;
             State = StateType.AvailableToShare;
-            ContractUpdated("UploadDocments");
+            ContractUpdated("UploadDocuments");
     }
 
     function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose)
@@ -157,7 +157,7 @@ contract DigitalLocker is WorkbenchBase('DigitalLocker', 'DigitalLocker')
         CurrentAuthorizedUser = 0x0;
         IntendedPurpose="";
         State = StateType.AvailableToShare;
-        ContractUpdated("AvailableToShare");
+        ContractUpdated("ReleaseLockerAccess");
     }
     function RevokeAccessFromThirdParty()
     {

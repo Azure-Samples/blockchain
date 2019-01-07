@@ -7,17 +7,17 @@ contract WorkbenchBase {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function WorkbenchBase(string applicationName, string workflowName) internal {
+    constructor(string applicationName, string workflowName) internal {
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }
 
     function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
+        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }
 
     function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
+        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 }
 
@@ -36,7 +36,7 @@ contract FrequentFlyerRewardsCalculator is WorkbenchBase('FrequentFlyerRewardsCa
     uint public TotalRewards;
 
     // constructor function
-    function FrequentFlyerRewardsCalculator(address flyer, int rewardsPerMile) public
+    constructor(address flyer, int rewardsPerMile) public
     {
         AirlineRepresentative = msg.sender;
         Flyer = flyer;

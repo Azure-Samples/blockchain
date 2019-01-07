@@ -1,0 +1,46 @@
+.Tile{
+  margin-right: 16px;
+  margin-top: 16px;
+}
+
+.custom-tile{
+  max-width: 200px;
+  min-width: 200px;
+  max-height: 200px;
+  min-height: 200px;
+  background-color: white;
+}
+
+.tileContent-container{
+  color: white;
+  background-color: rgba(38, 38, 38, 1);
+  min-width: 200px;
+  max-width: 200px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.tileContent{
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tileContent-name{
+  display: inline;
+}
+
+.custom-tile:hover,
+.tileContent:hover {
+  cursor: pointer;
+}
+
+.tileImage{
+  background-color: white;
+  width: 90%;
+  margin-left: 5%;
+}

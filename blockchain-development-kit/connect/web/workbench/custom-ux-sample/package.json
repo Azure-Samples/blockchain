@@ -1,0 +1,73 @@
+{
+  "name": "supply-chain-visualization",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^1.0.0",
+    "adal-angular": "^1.0.17",
+    "axios": "^0.18.0",
+    "bingmaps": "^2.0.3",
+    "classnames": "^2.2.6",
+    "history": "^4.7.2",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "office-ui-fabric-react": "5.83.0",
+    "promise": "^8.0.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-bingmaps": "^3.5.0",
+    "react-dev-utils": "^5.0.1",
+    "react-dom": "^16.4.1",
+    "react-google-maps": "^9.4.5",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "1.1.4",
+    "recompose": "^0.27.1",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx ."
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "no-console": 0,
+      "import/no-unresolved": 1,
+      "no-unused-vars": [
+        "error",
+        {
+          "args": "none"
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "**/node_modules/*",
+    "**/config/*",
+    "**/scripts/*",
+    "**/build/*"
+  ]
+}

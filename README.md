@@ -2,7 +2,7 @@
 
 # ![Microsoft Azure Blockchain Workbench](./blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
 
-*New!* Version 1.3.0 of Workbench has been released. Please see our [Release Notes](./blockchain-workbench/scripts/upgrade/releasenotes.md) and [Upgrade Instructions](./blockchain-workbench/scripts/upgrade/readme.md) if you're running an older version.
+*New!* Version 1.5.0 of Workbench has been released. Please see our [Release Notes](./blockchain-workbench/CHANGELOG.md) and [Upgrade Instructions](./blockchain-workbench/scripts/upgrade/readme.md) if you're running an older version.
 
 This repository contains content and samples in number of areas, including:
 
@@ -15,6 +15,7 @@ This repository contains content and samples in number of areas, including:
 * [Technology Samples](blockchain-workbench/technology-samples/readme.md)
 * [Data and Reporting](blockchain-workbench/data-reporting-samples/readme.md) (including CosmosDB, SQL DB, Excel, and PowerBI)
 * [Deployment and Management Scripts and Upgrade Scripts](blockchain-workbench/scripts/readme.md)
+* [Frequently Asked Questions](blockchain-workbench/faq/readme.md)
 
 To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench/).
 
