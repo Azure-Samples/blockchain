@@ -149,6 +149,329 @@ In the Schema field, enter the following –
 
 },
 
+"ContractCodes": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+"LedgerId": {
+
+"type": "number"
+
+},
+
+"Location": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"LedgerId",
+
+"Location"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+"ApplicationRoles": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Name": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"Name"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+"ApplicationWorkflows": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Name": {
+
+"type": "string"
+
+},
+
+"DisplayName": {
+
+"type": "string"
+
+},
+
+"Functions": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Name": {
+
+"type": "string"
+
+},
+
+"Parameters": {
+
+"items": {
+
+"properties": {
+
+"Name": {
+
+"type": "string"
+
+},
+
+"Type": {
+
+"properties": {
+
+"Name": {
+
+"type": "string"
+
+}
+
+},
+
+"required": [
+
+"Name"
+
+],
+
+"type": "object"
+
+},
+
+},
+
+"required": [
+
+"Name",
+
+"Type"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"Name",
+
+"Parameters"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+"States": {
+
+"items": {
+
+"properties": {
+
+"Name": {
+
+"type": "string"
+
+},
+
+"DisplayName": {
+
+"type": "string"
+
+},
+
+"Style": {
+
+"type": "string"
+
+}
+
+},
+
+"required": [
+
+"Name",
+
+"DisplayName",
+
+"Style"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+"Properties": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Name": {
+
+"type": "string"
+
+},
+
+"Type": {
+
+"properties": {
+
+"Name": {
+
+"type": "string"
+
+},
+
+}
+
+"required": [
+
+"Name"
+
+],
+
+"type": "object"
+
+}
+
+},
+
+"required": [
+
+"Id",
+
+"Name",
+
+"Type"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"Name",
+
+"DisplayName",
+
+"Functions",
+
+"States",
+
+"Properties"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
 "ConnectionId": {
 
 "type": "number"
@@ -232,6 +555,118 @@ In the Schema field, enter the following –
 "ApplicationVersion": {
 
 "type": "string"
+
+},
+
+"ApplicationRole": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Name": {
+
+"type": "string"
+
+}
+
+},
+
+"required": [
+
+"Id",
+
+"Name"
+
+],
+
+"type": "object"
+
+},
+
+"Assigner": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Type": {
+
+"type": "string"
+
+},
+
+"ChainIdentifier": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"Type",
+
+"ChainIdentifier"
+
+],
+
+"type": "object"
+
+},
+
+"Assignee": {
+
+"items": {
+
+"properties": {
+
+"Id": {
+
+"type": "number"
+
+},
+
+"Type": {
+
+"type": "string"
+
+},
+
+"ChainIdentifier": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"Id",
+
+"Type",
+
+"ChainIdentifier"
+
+],
+
+"type": "object"
 
 },
 
@@ -465,154 +900,126 @@ In the Schema field, enter the following –
 
 "properties": {
 
+"Block": {
+
+"items": {
+
+"properties": {
+
+"BlockId": {
+
+"type": "number"
+
+},
+
+"BlockNumber": {
+
+"type": "number"
+
+},
+
 "BlockHash": {
 
 "type": "string"
 
 },
 
-"BlockId": {
+"PreviousBlockHash": {
 
-"type": "number"
+"type": "string"
 
 },
 
 "BlockTimestamp": {
 
-"type": "number"
-
-},
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"OperationName": {
-
 "type": "string"
 
 }
 
 },
+
+"required": [
+
+"BlockId",
+
+"BlockNumber",
+
+"BlockHash"
+
+],
 
 "type": "object"
 
 },
 
-"dataVersion": {
+"Transactions": {
 
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
-Click on the + button in the middle of the screen to create the case for the
-next message.
-
-In the Case message on the right, enter the value of ContractFunctionInvocation
-
-Click the “…” in the upper right of the case and select Rename.
-
-Rename the case to ContractFunctionInvocation
-
-For the action, select “Data Operations – Parse Json”
-
-In the Content field select Body.
-
-![](media/4795e58a7df18eabab7d0c707962f35e.png)
-
-In the Schema field, enter the following –
-
-{
+"items": {
 
 "properties": {
 
-"data": {
-
-"properties": {
-
-"BlockId": {
+"TransactionId": {
 
 "type": "number"
 
 },
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"From": {
-
-"type": "string"
-
-},
-
-"IsAppBuilderTx": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
-
-"type": "string"
-
-},
-
-"To": {},
-
 "TransactionHash": {
 
 "type": "string"
 
 },
+"From": {
 
-"Value": {
+"type": "string"
+
+},
+"To": {
+
+"type": "string"
+
+},
+
+"ProvisioningStatus": {
+
+"type": "number"
+
+},
+
+},
+
+"required": [
+
+"TransactionId",
+
+"TransactionHash",
+
+"From",
+
+"To"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
+
+},
+
+"ConnectionId": {
+
+"type": "number"
+
+},
+
+"MessageSchemaVersion": {
+
+"type": "string"
+
+},
+
+"MessageName": {
 
 "type": "string"
 
@@ -623,48 +1030,6 @@ In the Schema field, enter the following –
 "type": "object"
 
 },
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
 
 },
 
