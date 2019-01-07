@@ -89,11 +89,11 @@ message type being delivered.
 
 ![](media/25c2f52eb62db1733a41a9166242dc31.png)
 
-In the Case message on the right, enter the value of AccountCreated
+In the Case message on the right, enter the value of ApplicationIngestion
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to AccountCreated
+Rename the case to ApplicationIngestion
 
 For the action, select “Data Operations – Parse Json”
 
@@ -113,27 +113,57 @@ In the Schema field, enter the following –
 
 "properties": {
 
-"ChainIdentifier": {
+"EventName": {
 
 "type": "string"
 
 },
 
-"OperationName": {
-
-"type": "string"
-
-},
-
-"RequestId": {
-
-"type": "string"
-
-},
-
-"UserID": {
+"ApplicationId": {
 
 "type": "number"
+
+},
+
+"ApplicationName": {
+
+"type": "string"
+
+},
+
+"ApplicationDisplayName": {
+
+"type": "string"
+
+},
+
+"ApplicationVersion": {
+
+"type": "string"
+
+},
+
+"ApplicationDefinitionLocation": {
+
+"type": "string"
+
+},
+
+"ConnectionId": {
+
+"type": "number"
+
+},
+
+"MessageSchemaVersion": {
+
+"type": "string"
+
+},
+
+"MessageName": {
+
+"type": "string"
 
 }
 
@@ -142,48 +172,6 @@ In the Schema field, enter the following –
 "type": "object"
 
 },
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
 
 },
 
@@ -195,11 +183,11 @@ Click on the + button in the middle of the screen to create the case for the
 next message.
 
 In the Case message on the right, enter the value of
-AssignContractChainIdentifier
+RoleAssignment
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to AssignContractChainIdentifier
+Rename the case to RoleAssignment
 
 For the action, select “Data Operations – Parse Json”
 
@@ -217,25 +205,49 @@ In the Schema field, enter the following –
 
 "properties": {
 
-"ChainIdentifier": {
+"EventName": {
 
 "type": "string"
 
 },
 
-"ContractId": {
+"ApplicationId": {
 
 "type": "number"
 
 },
 
-"OperationName": {
+"ApplicationName": {
 
 "type": "string"
 
 },
 
-"RequestId": {
+"ApplicationDisplayName": {
+
+"type": "string"
+
+},
+
+"ApplicationVersion": {
+
+"type": "string"
+
+},
+
+"ConnectionId": {
+
+"type": "number"
+
+},
+
+"MessageSchemaVersion": {
+
+"type": "string"
+
+},
+
+"MessageName": {
 
 "type": "string"
 
@@ -246,48 +258,6 @@ In the Schema field, enter the following –
 "type": "object"
 
 },
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
 
 },
 
@@ -298,11 +268,11 @@ In the Schema field, enter the following –
 Click on the + button in the middle of the screen to create the case for the
 next message.
 
-In the Case message on the right, enter the value of ContractInsertedOrUpdated
+In the Case message on the right, enter the value of ContractMessage
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to ContractInsertedOrUpdated
+Rename the case to ContractMessage
 
 For the action, select “Data Operations – Parse Json”
 
@@ -320,27 +290,63 @@ In the Schema field, enter the following –
 
 "properties": {
 
-"ActionName": {
-
-"type": "string"
-
-},
-
 "BlockId": {
 
 "type": "number"
 
 },
+"BlockHash": {
 
-"ChainId": {
+"type": "string"
+
+},
+
+"ModifyingTransactions": {
+
+"items": {
+
+"properties": {
+
+"TransactionId": {
 
 "type": "number"
 
 },
-
-"ContractAddress": {
+"TransactionHash": {
 
 "type": "string"
+
+},
+"From": {
+
+"type": "string"
+
+},
+"To": {
+
+"type": "string"
+
+},
+
+},
+
+"required": [
+
+"TransactionId",
+
+"TransactionHash",
+
+"From",
+
+"To"
+
+],
+
+"type": "object"
+
+},
+
+"type": "array"
 
 },
 
@@ -350,42 +356,28 @@ In the Schema field, enter the following –
 
 },
 
-"IsTopLevelUpdate": {
-
-"type": "boolean"
-
-},
-
-"IsUpdate": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
+"ContractLedgerIdentifier": {
 
 "type": "string"
 
 },
 
-"OriginatingAddress": {
-
-"type": "string"
-
-},
-
-"Parameters": {
+"ContractProperties": {
 
 "items": {
 
 "properties": {
 
+"WorkflowPropertyId": {
+
+"type": "number"
+
+},
 "Name": {
 
 "type": "string"
 
 },
-
 "Value": {
 
 "type": "string"
@@ -395,6 +387,8 @@ In the Schema field, enter the following –
 },
 
 "required": [
+
+"WorkflowPropertyId",
 
 "Name",
 
@@ -410,13 +404,25 @@ In the Schema field, enter the following –
 
 },
 
-"TopLevelInputParams": {
+"IsNewContract": {
 
-"type": "array"
+"type": "boolean"
 
 },
 
-"TransactionHash": {
+"ConnectionId": {
+
+"type": "number"
+
+},
+
+"MessageSchemaVersion": {
+
+"type": "string"
+
+},
+
+"MessageName": {
 
 "type": "string"
 
@@ -427,48 +433,6 @@ In the Schema field, enter the following –
 "type": "object"
 
 },
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
 
 },
 
@@ -479,11 +443,11 @@ In the Schema field, enter the following –
 Click on the + button in the middle of the screen to create the case for the
 next message.
 
-In the Case message on the right, enter the value of InsertBlock
+In the Case message on the right, enter the value of BlockMessage
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to InsertBlock
+Rename the case to BlockMessage
 
 For the action, select “Data Operations – Parse Json”
 
@@ -588,263 +552,17 @@ In the Schema field, enter the following –
 Click on the + button in the middle of the screen to create the case for the
 next message.
 
-In the Case message on the right, enter the value of InsertTransaction
+In the Case message on the right, enter the value of ContractFunctionInvocation
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to InsertTransaction
+Rename the case to ContractFunctionInvocation
 
 For the action, select “Data Operations – Parse Json”
 
 In the Content field select Body.
 
 ![](media/4795e58a7df18eabab7d0c707962f35e.png)
-
-In the Schema field, enter the following –
-
-{
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"BlockId": {
-
-"type": "number"
-
-},
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"From": {
-
-"type": "string"
-
-},
-
-"IsAppBuilderTx": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
-
-"type": "string"
-
-},
-
-"To": {},
-
-"TransactionHash": {
-
-"type": "string"
-
-},
-
-"Value": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
-Click on the + button in the middle of the screen to create the case for the
-next message.
-
-In the Case message on the right, enter the value of InsertTransaction
-
-Click the “…” in the upper right of the case and select Rename.
-
-Rename the case to InsertTransaction
-
-For the action, select “Data Operations – Parse Json”
-
-In the Content field select Body.
-
-![](media/c9e3ce6db8201c27e9bd87f27e8a48d0.png)
-
-In the Schema field, enter the following –
-
-{
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"BlockId": {
-
-"type": "number"
-
-},
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"From": {
-
-"type": "string"
-
-},
-
-"IsAppBuilderTx": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
-
-"type": "string"
-
-},
-
-"To": {},
-
-"TransactionHash": {
-
-"type": "string"
-
-},
-
-"Value": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
-Click on the + button in the middle of the screen to create the case for the
-next message.
-
-In the Case message on the right, enter the value of UpdateContractAction
-
-Click the “…” in the upper right of the case and select Rename.
-
-Rename the case to UpdateContractAction
-
-For the action, select “Data Operations – Parse Json”
-
-In the Content field select Body.
-
-![](media/e3ec4658eecaf1b43ded4eca4e4db23d.png)
 
 In the Schema field, enter the following –
 
