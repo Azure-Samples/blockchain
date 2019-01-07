@@ -315,21 +315,15 @@ if ($SubscriptionId -And $ResourceGroupName) {
     Log-Info "Updating your Workbench Instance with the Active Directory Application Info. This may take some time..."
 
     # For Cloud Shell
-    if (Get-Module -ListAvailable -Name "Az.Websites") {
-        Log-Debug "Importing module Az.Websites"
-        Import-Module "Az.Profile"
-        Import-Module "Az.Websites"
-    # For Windows PowerShell
-    } elseif (Get-Module -ListAvailable -Name "AzureRM.Websites") {
-        Log-Debug "Importing module AzureRM.Websites"
-        Import-Module "AzureRM.Websites"
-        Import-Module "AzureRM.Profile"
+    if (Get-Module -ListAvailable -Name Az.Accounts) {
+        Log-Debug "Importing module Az"
+        Import-Module Az
     } else {
         Log-Error "This script is not compatible with your computer. Please use Azure CloudShell https://shell.azure.com/powershell" -Exit
     }
 
     Log-Debug "Getting the Azure Context"
-    $context = Get-AzureRmContext
+    $context = Get-AzContext
     Log-Debug $context
 
     if (-Not $context)
@@ -337,7 +331,7 @@ if ($SubscriptionId -And $ResourceGroupName) {
         Log-Debug "The user is not logged in"
         Log-Info "Logging in to Azure"
         try {
-            $account = Connect-AzureRmAccount -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
+            $account = Connect-AzAccount -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
             Log-Debug $account
             if (-Not $account)
             {
@@ -350,7 +344,7 @@ if ($SubscriptionId -And $ResourceGroupName) {
 
     try {
         Log-Debug "Changing the Subscription to $SubscriptionId"
-        $context = Set-AzureRmContext -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
+        $context = Set-AzContext -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
         Log-Debug $context
         if (-Not $context) {
             throw "Context is null"
@@ -361,7 +355,7 @@ if ($SubscriptionId -And $ResourceGroupName) {
 
     try {
         Log-Debug "Looking for resource group $ResourceGroupName"
-        $rg = Get-AzureRmResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+        $rg = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
         Log-Debug $rg
         if (-Not $rg) {
             throw "Resource group is null"
@@ -372,7 +366,7 @@ if ($SubscriptionId -And $ResourceGroupName) {
 
     try {
         Log-Debug "Looking for Web apps within $ResourceGroupName"
-        $websites = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName
+        $websites = Get-AzWebApp -ResourceGroupName $ResourceGroupName
         Log-Debug "Found $($websites.length) App Service(s)"
         if (-Not $websites -Or $websites.length -eq 0) {
             throw "Websites is null"
@@ -417,7 +411,7 @@ if ($SubscriptionId -And $ResourceGroupName) {
     Foreach ($site in $websites) {
         Log-Debug "Fetching App Service $($site.Name)"
         try {
-            $fullWebsiteObject = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -Name $site.Name
+            $fullWebsiteObject = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $site.Name
             Log-Debug $fullWebsiteObject
             if (-Not $fullWebsiteObject) {
                 throw "Azure App Service is null"
@@ -427,24 +421,27 @@ if ($SubscriptionId -And $ResourceGroupName) {
         }
 
         Log-Debug "Setting the env variables on the App Service $($site.Name)"
-        ForEach($setting in $fullWebsiteObject.SiteConfig.AppSettings)
-        {
-            if($setting.Name -eq "AAD_APP_ID")
-            {
-                Log-Debug "Setting the AAD_APP_ID to $($application.AppId)"
-                $setting.Value = $application.AppId
-            }
 
-            if($setting.Name -eq "AAD_TENANT_DOMAIN_NAME")
-            {
-                Log-Debug "Setting the AAD_TENANT_DOMAIN_NAME to $TenantName"
-                $setting.Value = $TenantName
-            }
+        $websiteConfig = @{}
+
+        # Copy the original values
+        ForEach($setting in $fullWebsiteObject.SiteConfig.AppSettings) {
+            $websiteConfig[$setting.Name] = $setting.Value
         }
+
+        Log-Debug "Setting the AAD_APP_ID to $($application.AppId)"
+        $websiteConfig["AAD_APP_ID"] = $application.AppId
+
+        Log-Debug "Setting the AAD_TENANT_DOMAIN_NAME to $TenantName"
+        $websiteConfig["AAD_TENANT_DOMAIN_NAME"] = $TenantName
 
         try {
             Log-Debug "Saving the new values to App Service"
-            $fullWebsiteObject = Set-AzureRmWebApp -WebApp $fullWebsiteObject
+            $fullWebsiteObject  = Set-AzWebApp `
+                -ResourceGroupName $ResourceGroupName `
+                -Name $site.Name `
+                -AppSettings $websiteConfig
+
             if (-Not $fullWebsiteObject) {
                 throw "Azure App Service is null"
             }
