@@ -8,7 +8,7 @@ This logic app performs the following analysis on an incoming message, evaluates
 
 Specifically –
 
--   It identifies if the message is of type ContractInsertedOrUpdated
+-   It identifies if the message is of type ContractMessage
 
 -   If true, it identifies if this is an update to an existing contract or a new
     contract
@@ -118,11 +118,11 @@ evaluated.
 Click the text box and then select “Subject” which contains the name of the
 message type being delivered.
 
-In the Case message on the right, enter the value of ContractInsertedOrUpdated.
+In the Case message on the right, enter the value of ContractMessage.
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to ContractInsertedOrUpdated.
+Rename the case to ContractMessage.
 
 Add the action “Data Operations – Parse Json” to the case.
 
@@ -131,87 +131,88 @@ In the Content field, select Body.
 In the Schema field, enter the following –
 
 ``` json
+
 {
-    "properties": {
-        "data": {
-            "properties": {
-                "ActionName": {
-                    "type": "string"
-                },
-                "BlockId": {
-                    "type": "number"
-                },
-                "ChainId": {
-                    "type": "number"
-                },
-                "ContractAddress": {
-                    "type": "string"
-                },
-                "ContractId": {
-                    "type": "number"
-                },
-                "IsTopLevelUpdate": {
-                    "type": "boolean"
-                },
-                "IsUpdate": {
-                    "type": "boolean"
-                },
-                "OperationName": {
-                    "type": "string"
-                },
-                "OriginatingAddress": {
-                    "type": "string"
-                },
-                "Parameters": {
-                    "items": {
-                        "properties": {
-                            "Name": {
-                                "type": "string"
-                            },
-                            "Value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "Name",
-                            "Value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "array"
-                },
-                "TopLevelInputParams": {
-                    "type": "array"
-                },
-                "TransactionHash": {
-                    "type": "string"
-                }
+"properties": {
+    "data": {
+        "properties": {
+            "BlockId": {
+                "type": "number"
+            }, 
+            "BlockHash": {
+                "type": "string"
             },
-            "type": "object"
+            "ModifyingTransactions": {
+                "items": {
+                    "properties": {
+                        "TransactionId": {
+                            "type": "number"
+                         }, 
+                        "TransactionHash": {
+                            "type": "string"
+                         }, 
+                         "From": {
+                            "type": "string"
+                         }, 
+                         "To": {
+                            "type": "string"
+                         },
+                    },
+                    "required": [
+                        "TransactionId",
+                        "TransactionHash",
+                        "From",
+                        "To"
+                    ],
+                    "type": "object"
+                },
+                "type": "array"
+           },
+           "ContractId": {
+                "type": "number"
+           },
+           "ContractLedgerIdentifier": {
+                "type": "string"
+            },
+            "ContractProperties": {
+                "items": {
+                    "properties": {
+                        "WorkflowPropertuId": {
+                            "type": "number"
+                        }, 
+                        "Name": {
+                            "type": "string"
+                        }, 
+                        "Value": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "WorkflowPropertyId",
+                        "Name",
+                        "Value"
+                    ],
+                    "type": "object"
+                },
+                "type": "array"
+            },
+        "IsNewContract": {
+            "type": "boolean"
+         },
+        "ConnectionId": {
+            "type": "number"
         },
-        "dataVersion": {
+        "MessageSchemaVersion": {
             "type": "string"
         },
-        "eventTime": {
-            "type": "string"
-        },
-        "eventType": {
-            "type": "string"
-        },
-        "id": {
-            "type": "string"
-        },
-        "metadataVersion": {
-            "type": "string"
-        },
-        "subject": {
-            "type": "string"
-        },
-        "topic": {
+        "MessageName": {
             "type": "string"
         }
     },
     "type": "object"
+    },
+},
+"type": "object"
 }
 ```
 
@@ -220,11 +221,11 @@ In the Schema field, enter the following –
 Click the “More” link and then select “add a condition”.
 
 Click in the box at the left of the condition. It will display the Dynamic
-Content window, select “IsUpdate” from the Dynamic Content list.
+Content window, select “IsNewContract” from the Dynamic Content list.
 
 Set the condition to “is equal to”.
 
-Set the condition value to true.
+Set the condition value to false.
 
 This identifies that this is an update to a contract and not the creation of a
 new contract.
@@ -235,7 +236,7 @@ Click the three dots in the upper right corner of the Condition action and
 select Rename. Rename this action to “Check to See If This is a New Contract or
 an Action”
 
-In the “If true” section, click More and select “add a switch case”.
+In the “If false” section, click More and select “add a switch case”.
 
 Click inside the “On” field and select “ActionName” from the dynamic properties
 dialog.
@@ -376,7 +377,7 @@ may occur after a specific action is taken on a smart contract.
 
 The logic app created in this sample facilitates this need by –
 
--   Identifying if the message is of type ContractInsertedOrUpdated
+-   Identifying if the message is of type ContractMessage
 
 -   If true, it identifies if this is an update to an existing contract or a new
     contract
