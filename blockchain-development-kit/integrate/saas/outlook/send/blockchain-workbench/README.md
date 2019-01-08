@@ -43,11 +43,13 @@ CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
 )
 AS
 BEGIN
- 
-Select Top 1 vw.StateName from [vwContractState] vw
+
+Select Top 1 vw.ApplicationName, vw.WorkflowId, vw.WorkflowName, vw.ContractId, vw.ContractLedgerIdentifier, vw.StateName from [vwContractState] vw
 Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and vw.StateName = @StateName
- 
+
 END
+
+Go
 
 Click the run button to create the stored procedures in the database.
 
