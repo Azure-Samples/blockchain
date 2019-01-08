@@ -55,6 +55,19 @@ Click Login and provide your database credentials. The username will be ‘dbadm
 
 Click New Query and paste the following: 
 
+CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
+(
+@ContractLedgerIdentifier NVARCHAR(256),
+@StateName NVARCHAR(256)
+)
+AS
+BEGIN
+ 
+Select Top 1 vw.StateName from [vwContractState] vw
+Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and vw.StateName = @StateName
+ 
+END
+
 Click the run button to create the stored procedures in the database.
 
 Create the Logic App
