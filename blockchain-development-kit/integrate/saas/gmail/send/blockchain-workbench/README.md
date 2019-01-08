@@ -34,8 +34,6 @@ Select the query editor.
 
 Click Login and provide your database credentials. The username will be ‘dbadmin’ and the password is the one your provided during the installation of Azure Blockchain Workbench.
 
-Click New Query and paste the following: 
-
 CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
 (
 @ContractLedgerIdentifier NVARCHAR(256),
@@ -43,11 +41,13 @@ CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
 )
 AS
 BEGIN
- 
-Select Top 1 vw.StateName from [vwContractState] vw
+
+Select Top 1 vw.ApplicationName, vw.WorkflowId, vw.WorkflowName, vw.ContractId, vw.ContractLedgerIdentifier, vw.StateName from [vwContractState] vw
 Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and vw.StateName = @StateName
- 
+
 END
+
+Go
 
 Click the run button to create the stored procedures in the database.
 
