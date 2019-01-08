@@ -26,7 +26,7 @@ For example, after the execution of “IngestTelemetry”, if the state is
 “OutOfCompliance” then execute relevant business logic.
 
 [After a contract update, executing business logic based on the value of
-    specific contract property value.](
+    specific contract function invoked.](
     ExecuteLogicBasedOnPropertyValueAfterASpecificContractAction.md)
 
 For example, after the execution of the “IngestTelemetry”
