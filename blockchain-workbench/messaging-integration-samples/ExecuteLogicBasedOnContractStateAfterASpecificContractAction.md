@@ -46,12 +46,13 @@ CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
 )
 AS
 BEGIN
- 
-Select Top 1 vw.StateName from [vwContractState] vw
-Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and vw.StateName = @StateName
- 
+
+Select Top 1 vw.ApplicationName, vw.WorkflowId, vw.WorkflowName, vw.ContractId, from [vwContractState] 
+Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and cs.StateName = @StateName
+
 END
 
+Go
 
 Click the run button to create the stored procedures in the database.
 
@@ -295,16 +296,11 @@ may occur after a specific action is taken on a smart contract.
 
 The logic app created in this sample facilitates this need by –
 
--   Identifying if the message is of type ContractInsertedOrUpdated
+-   Identifying if the message is of type ContractFunctionInvocation
 
--   If true, it identifies if this is an update to an existing contract or a new
-    contract
+-   If true, it identifies if the action executed was named “IngestTelemetry”
 
--   If the message represents a contract update, it identifies if the action
-    executed was named “IngestTelemetry”
+-   If that is true, it will run the stored procedure to find the contract using the contractLedgerIdentifier
 
--   If that is true, it will cycle through the parameters in the message to find
-    the parameter named “State”
-
--   Once found, it evaluates the value of the current contract state so that the
+-   Once found, it evaluates the value of the current state of the contract so that the
     appropriate logic can be executed.
