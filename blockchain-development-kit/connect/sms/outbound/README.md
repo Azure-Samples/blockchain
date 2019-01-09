@@ -135,7 +135,7 @@ Select Initialize Variable.
 
 Put "ContractState" for Name, and the Type as String. Leave the value empty. 
 
-!{}(media/InitializeVariable.PNG)
+![](media/InitializeVariable.PNG)
 
 Click the “+ New Step” button.
 
