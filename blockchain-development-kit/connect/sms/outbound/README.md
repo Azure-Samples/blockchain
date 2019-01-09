@@ -14,7 +14,7 @@ Specifically –
 
 -   If true, it will look up the contract using the ContractLedgerIdentifier.
 
--   Once found, it evaluates the value of the current contract state.
+-   Once found, it evaluates the value of the current contract state to see if it is "OutofCompliance".
 
 -   It then triggers an SMS Alert using the Twilio service
 
@@ -58,19 +58,18 @@ Click New Query and paste the following:
 CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
 (
 @ContractLedgerIdentifier NVARCHAR(256),
-@StateName NVARCHAR(256)
 )
 AS
 BEGIN
 
-Select Top 1 vw.ApplicationName, vw.WorkflowId, vw.WorkflowName, vw.ContractId, vw.ContractLedgerIdentifier, vw.StateName from [vwContractState] vw
-Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier and vw.StateName = @StateName
+Select Top 1 vw.StateValue from [vwContractState] vw
+Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier
 
 END
 
 Go
 
-Click the run button to create the stored procedures in the database.
+Click the run button to create the stored procedure in the database.
 
 Create the Logic App
 --------------------
@@ -129,6 +128,14 @@ Event Grid topic in the resource group for the Azure Blockchain Workbench
 deployment.
 
 ![](media/f491275d3e072d2ca5affa55e51d0b41.png)
+
+Click the “+ New Step” button.
+
+Select Initialize Variable. 
+
+Put "ContractState" for Name, and the Type as String. Leave the value empty. 
+
+!{}(media/InitializeVariable.PNG)
 
 Click the “+ New Step” button.
 
@@ -259,9 +266,17 @@ Select the procedure from earlier named "[dbo].[LogicAppGetContractStateFromCont
 
 Select the dynamic content "contractLedgerIdentifier" for the ContractLedgerIdentifier field. 
 
-Type in "OutofCompliance" for State Name. 
+![](media/StoredProcedure.PNG)
 
-![](media/ExecuteStoredProcedure.png)
+Add another action to set the variable which was initialized at the beginning of the logic apps flow. 
+
+Set Name to ContractState and the value as the StateName from the SQL Stored Procedure. 
+
+![](media/SetVariable.PNG)
+
+Add another Condition to check if the ContractState is equal to "OutofCompliance". 
+
+![](media/ConditionMet.PNG)
 
 You can now add logic that takes action based on the state after a specific
 action. In this sample, if after a device provides telemetry that it is now in
