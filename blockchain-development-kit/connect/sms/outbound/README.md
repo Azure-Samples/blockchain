@@ -258,7 +258,7 @@ Set the condition value to IngestTelemetry.
 
 This identifies that the contract function called was IngestTelemetry.
 
-![](media/7a0a04127d71637f8b6595f7f90b24aa.png)
+![](media/ContractFunctionInvocation.png)
 
 Add an action in the "if true" section so you can execute a stored procedure to find whether or not the contract is in the out of compliance state after the reading was taken. 
 
