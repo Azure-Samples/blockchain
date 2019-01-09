@@ -350,16 +350,13 @@ may occur after a specific action is taken on a smart contract.
 
 The logic app created in this sample facilitates this need by –
 
--   Identifying if the message is of type ContractMessage
+-   Identifying if the message is of type ContractFunctionInvocation
 
--   If true, it identifies if this is an update to an existing contract or a new
-    contract
+-   If true, it identifies if the contract function invoked was named "IngestTelemetry".
 
--   If the message represents a contract update, it identifies if the action
-    executed was named “IngestTelemetry”
-
--   If that is true, it will cycle through the parameters in the message to find
-    the parameter named “State”
+-   If true, it will look up the contract using the ContractLedgerIdentifier.
 
 -   Once found, it evaluates the value of the current contract state and
-    triggers an alert when appropriate.
+    triggers an alert when appropriate
+    
+-   It then triggers an SMS Alert using the Twilio service
