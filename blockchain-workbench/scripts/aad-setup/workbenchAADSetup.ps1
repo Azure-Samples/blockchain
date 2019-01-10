@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 This script automates the creation of the Azure AD application registration for Workbench deployments
 .DESCRIPTION
@@ -133,7 +133,8 @@ Log-Debug "DeploymentId: $DeploymentId"
 $application = $null
 $currentUser = $null
 Log-Debug "Creating Admin Role object"
-$adminRole = New-Object Microsoft.Open.AzureAD.Model.AppRole("User", `
+$adminRole = New-Object Microsoft.Open.AzureAD.Model.AppRole( `
+    @("Application", "User"), `
     "This role administers Azure Blockchain Workbench", `
     "Administrator", `
     [System.GUID]::NewGuid().ToString(), `
