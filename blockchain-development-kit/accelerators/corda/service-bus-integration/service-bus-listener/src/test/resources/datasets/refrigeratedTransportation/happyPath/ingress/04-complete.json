@@ -1,0 +1,15 @@
+{
+  "requestId": "{{requestId}}",
+  "userChainIdentifier": "WorldWideImporters",
+  "applicationName": "RefrigeratedTransportation",
+  "workflowName": "WorkbenchCompleteFlow",
+  "parameters": [
+    {
+      "name": "linearId",
+      "value": "{{linearId}}"
+    }
+  ],
+  "connectionId": 1,
+  "messageSchemaVersion": "1.0.0",
+  "messageName": "CreateContractActionRequest"
+}

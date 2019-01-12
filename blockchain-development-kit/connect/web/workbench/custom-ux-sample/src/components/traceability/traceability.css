@@ -1,0 +1,25 @@
+.traceabilityPage{
+  width: 96%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  margin: 0 2% 2% 2%;
+}
+
+.activityFeed{
+  width: 30%;
+  overflow: auto;
+  background-color: white;
+}
+
+.activityFeedHeader{
+  margin: 16px 5% 16px 7%;
+  padding: 16px 16px 16px 0;
+  color: rgb(60,60,60);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+}
+
+.bingMaps{
+  width: 70%;
+  height: 100%;
+}

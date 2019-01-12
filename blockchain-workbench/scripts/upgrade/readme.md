@@ -1,63 +1,47 @@
 # Azure Blockchain Workbench Upgrade
 
 
-
 Overview
 =================
-An existing deployment of Azure Blockchain Workbench can be upgraded to the latest version. 
-
-This script automates the upgrade of your Azure Blockchain Workbench deployment. It can be easily invoked from Azure Cloud Shell.
+An existing deployment of Azure Blockchain Workbench can be upgraded to the latest version. This PowerShell script automates the upgrade of your Azure Blockchain Workbench deployment. 
 
 To learn what's new in this release, please check our [release notes](releasenotes.md).
 
 Execution Instructions
 =======================
-If you haven't already download the [script](azureBlockchainWorkbenchUpgradeTov1_1_0.ps1)
+To run this script you need to have the cross-platform [Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps) module installed.
 
-Log in to the Azure Portal
-
-Click on the Cloud Shell Icon in the upper right of the screen.
-
-This is the Cloud Shell Icon  
-
-![](media/7bf771f6aa15cbe01ad9c8611b500af0.png)
-
-![](media/cf60a0141d2459b59081e2e9b7c41ebb.png)
+We recommend using [Azure CloudShell](https://shell.azure.com/powershell) since it comes with with all dependencies installed, however, you can run this script on any operating system that has [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6) and [Az PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps) installed.
 
 
+1. Open [Azure CloudShell](https://shell.azure.com/powershell) and select the tenant Workbench is deployed to. 
 
-This will launch the Cloud Shell within the browser. You’ll be asked to select
-Bash (Linux) or PowerShell (Windows). Click the “PowerShell (Windows)” link.
+![CloudShell open](./media/cloudshell-open.png)
 
-Note – Windows refers to the type of operating system and version that
-PowerShell that is being used in Cloud Shell. You can use this version
-regardless of the operating system you’re using the shell from, e.g. MacOS, etc.
+2. Download the script. You can download the upgrade script automatically by using the command bellow, or you can download it from this repository manually
 
-![](media/0d74cac397b00074c0bef5c9226ae592.png)
+```powershell
+cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureBlockchainWorkbenchUpgradeTov1_6_0.ps1
 
-This will launch the Cloud Shell. This can take up to 60 seconds to deploy.
+```
 
-![](media/7ae894a6c4022756d3339e50fb4480dd.png)
+3. Locate your Azure subscription ID, and the resource group name where you deployed Azure Blockchain Workbench and Execute the script.
 
-Click on the Upload button at the top of the PowerShell button
 
-![](media/19b4b3fea6ffdd03c1d86af7e88921b4.png)
+```powershell
+./azureBlockchainWorkbenchUpgradeTov1_6_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 
-Select the file azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 and click ok.
+```
 
-In the Cloud Shell, navigate to your cloud drive by typing the following -
+![CloudShell run](./media/cloudshell-run.png)
 
-cd \$home\\CloudDrive
+When the upgrade completes, you will see the following message:
 
-![](media/cfe3892d0d0f2272f76304f4522c8a19.png)
+```powershell
+Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.6.0.
 
-Locate your Azure subscription ID, and the resource group name where you deployed Azure Blockchain Workbench.
+WARNING: Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates.
 
-Next, run the script by typing the following –
+```
 
-.\\azureBlockchainWorkbenchUpgradeTov1_1_0.ps1 -SubscriptionID "subscription_id" -ResourceGroupName "workbench-resource-group-name"
-
-The script will then upgrade your Workbench deployment. It will show its progress along the way.
-
-When the script completes, it will provide a message informing you of the operation status.
-
+> Note: The AAD Application Registration configuration has changed for Workbench 1.5.0. This script does **not** automatically update your Application Registration. If you are upgrading from a version prior to 1.5.0 you need to upgrade your AAD application. Please visit [AAD Upgrade Instructions](https://aka.ms/workbenchAADUpgrade) to update your AAD application.

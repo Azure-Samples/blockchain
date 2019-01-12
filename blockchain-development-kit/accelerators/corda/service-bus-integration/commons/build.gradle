@@ -1,0 +1,116 @@
+buildscript {
+    ext.kotlin_version = '1.2.51'
+
+    ext.corda_release_version = '3.2-corda'
+    ext.corda_release_distribution = 'net.corda'
+    ext.corda_gradle_plugins_version = '3.0.9'
+    ext.junit_version = '4.12'
+    ext.quasar_version = '0.7.9'
+    ext.jolokia_version = '1.3.7'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+        mavenLocal()
+
+    }
+    dependencies {
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+         // for Spec - http://spekframework.org/docs/latest/
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+
+    }
+
+}
+plugins {
+    id 'java'
+    id "org.jetbrains.kotlin.jvm" version "1.2.51"
+    id "application"
+    id "kr.motd.sphinx" version "2.2.3"
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+
+
+group 'net.corda.workbench'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+    mavenLocal()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    compile ("net.corda:corda-rpc:$corda_release_version") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    compile "io.reactivex:rxjava:1.3.8"
+
+    //compile "io.javalin:javalin:1.6.1"
+    compile group: 'org.json', name: 'json', version: '20180130'
+
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
+
+    // some example local cordapps for now
+    compile files(' ../../cordapps/refrigerated-transportation/lib/refrigerated-transportation.jar')
+    compile files('../corda-workflow-dsl/lib/corda-workflow-dsl.jar')
+
+
+    compile "org.slf4j:jcl-over-slf4j:1.7.25"
+
+
+    compile group: 'io.github.classgraph', name: 'classgraph', version: '4.4.7'
+
+    //compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2'
+
+
+    testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+    testCompile ('org.jetbrains.spek:spek-api:1.1.5') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntime ('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile ('org.junit.platform:junit-platform-runner:1.0.0')
+
+
+}
+
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+
+jar {
+    archiveName = "workbench-commons.jar"
+}
+
+task copyJarToLib(type: Copy) {
+    from 'build/libs/workbench-commons.jar'
+    into "lib"
+}

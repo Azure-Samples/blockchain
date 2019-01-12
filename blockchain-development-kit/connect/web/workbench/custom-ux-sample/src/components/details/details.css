@@ -1,0 +1,104 @@
+.detailsContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  width: 96%;
+  margin-left: 2%;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.detailsContainer-top,
+.detailsContainer-bottom {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailsContainer-top {
+  height: 124px;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.detailsContainer-top-content {
+  min-width: 23%;
+  max-width: 23%;
+  text-align: center;
+  margin-bottom: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myIcon {
+  font-size: 1.2rem;
+  margin-top: 16px;
+}
+
+.myMapPinIcon {
+  font-size: 1.2rem;
+  margin-top: 16px;
+  margin-right: 2px;
+}
+.details-content-left {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin: 0 5%;
+}
+.details-content-right {
+  padding: 0 5%;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.details-divider {
+  border-left: 1px solid gray;
+  width: 1px;
+  height: 36px;
+}
+
+.details-content-left p,
+.details-content-right p {
+  margin-top: 12px;
+}
+
+.details-content-right-Success,
+.details-content-right-fail {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  padding-top: 8px;
+}
+
+.details-content-right-fail {
+  color: red;
+}
+
+.details-content-right-Success {
+  color: #01b8aa;
+}
+
+.detailsContainer-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  overflow: auto;
+  height: 270px;
+}
+
+.details-content-paragraph-font {
+  font-size: 12px;
+}
+
+.bigNumber {
+  font-size: 1.2rem;
+}
+
+.details-content-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 0 5%;
+}

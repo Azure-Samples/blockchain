@@ -95,7 +95,7 @@ Name the field “RequestId”
 
 Select the type of “String”
 
-Click in the textbox, select expression, and [provide a value of “guid()”
+Click in the textbox, select expression, and provide a value of “guid()”
 
 ![](media/4ca67ffb0e784381e78cbb8bda26cdc2.png)
 
@@ -107,16 +107,38 @@ Select the Service Bus connector and then select the “Send Message” action.
 
 ![](media/f4679f0e5391e5792fd4f790645c0f82.png)
 
-Select “activityhub”
+Select “ingressqueue”
 
 In the Session Id field, select RequestId from the Dynamic content dialog
 
 In the content field, enter the below –
 
+```
+{
+    "requestId": "",
+    "userChainIdentifier": "",
+    "contractLedgerIdentifier": "",
+    "workflowFunctionName": "modify",
+    "Parameters": [
+        {
+            "name": "description",
+            "value": "a 1969 dodge charger"
+        },
+        {
+            "name": "price",
+            "value": "12345"
+        }
+    ],
+    "connectionId": ,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractActionRequest"
+}
+```
+
 Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
-![](media/CreateContractAction.PNG)
+![](media/servicebus-createcontractaction.PNG)
 
 Click Save
 

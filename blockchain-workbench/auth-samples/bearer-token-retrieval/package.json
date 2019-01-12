@@ -1,0 +1,22 @@
+{
+  "name": "bearer-token-retrieval",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server static -p 3000"
+  },
+  "keywords": [
+    "Azure",
+    "Blockchain",
+    "Workbench",
+    "AAD",
+    "Azure Active Directory",
+    "Bearer Token"
+  ],
+  "author": "Azure Blockchain",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "0.11.1"
+  }
+}

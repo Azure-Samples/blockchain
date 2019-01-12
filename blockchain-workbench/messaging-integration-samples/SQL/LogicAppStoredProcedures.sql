@@ -45,7 +45,7 @@ AS
 BEGIN
 
 
-Select Top 1 vw.WorkflowName,cc.ArtifactBlobStorageURL as ContractCodeArtifactBlobStorageURL,cc.LedgerId as ChainId, c.Id as ConnectionId
+Select Top 1 vw.ApplicationName,vw.WorkflowName,cc.ArtifactBlobStorageURL as ContractCodeArtifactBlobStorageURL,cc.LedgerId as ChainId, c.Id as ConnectionId
 From 
 vwWorkflow vw 
 inner join ContractCode cc on vw.ApplicationId = cc.ApplicationId
