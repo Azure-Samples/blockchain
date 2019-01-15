@@ -10,10 +10,10 @@ import java.util.*
  */
 object EventFactory {
 
-    fun CORDA_APP_DEPLOYED(appname: String, network: String, appId: UUID, scannablePackages : List<String>): Event {
+    fun CORDA_APP_DEPLOYED(network: String, appname: String, appId: UUID, scannablePackages: List<String>): Event {
         return Event(type = "CordaAppDeployed",
                 aggregateId = network,
-                payload = mapOf<String, Any>("appname" to appname,
+                payload = mapOf("appname" to appname,
                         "appId" to appId.toString(),
                         "network" to network,
                         "scannablePackages" to scannablePackages))
@@ -34,5 +34,20 @@ object EventFactory {
                 payload = mapOf("network" to network,
                         "pid" to pid,
                         "message" to message))
+    }
+
+    fun NETWORK_JOINED(network: String, nodes: List<String>): Event {
+        return Event(type = "NetworkJoined",
+                aggregateId = network,
+                payload = mapOf("network" to network,
+                        "nodes" to nodes))
+    }
+
+    fun CORDAPP_DOWNLOAD(network: String, name: String, md5Hash: String): Event {
+        return Event(type = "CordappDownload",
+                aggregateId = network,
+                payload = mapOf("network" to network,
+                        "name" to name,
+                        "md5Hash" to md5Hash))
     }
 }

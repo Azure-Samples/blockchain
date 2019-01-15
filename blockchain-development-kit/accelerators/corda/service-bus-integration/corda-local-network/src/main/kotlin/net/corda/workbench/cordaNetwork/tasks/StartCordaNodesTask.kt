@@ -17,6 +17,5 @@ class StartCordaNodesTask(private val registry: Registry) : NodesTask(registry.r
             StartCordaNodeTask(registry, node.name).exec(executionContext)
         }
         es.storeEvent(EventFactory.NETWORK_STARTED(ctx.networkName))
-
     }
 }

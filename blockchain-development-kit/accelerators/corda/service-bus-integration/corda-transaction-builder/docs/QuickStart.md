@@ -38,7 +38,7 @@ java -jar build/libs/corda-transaction-builder.jar
 This app needs access to the CorDapp jar files, as its needs the app's Java classes to construct 
 the CordaRPC calls.
 
-For now the process is copy of that used to deploy to the corda-local-network.
+For now the process is just a copy of that used to deploy to the corda-local-network.
  
  
 ```bash

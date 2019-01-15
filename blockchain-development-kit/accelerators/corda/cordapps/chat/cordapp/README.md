@@ -12,5 +12,5 @@ Other project reference this CorDapp in test cases. To update them with changes
 ./buildLocal.sh
 ```
 
-You will also need to check <code>lib/chat.jar</code> 
+You will also need to check <code>../jars/chat.jar</code> 
 into Git  

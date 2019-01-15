@@ -23,7 +23,6 @@ abstract class BaseTask : Task {
 
 /**
  * A task that runs over all the nodes
- * TODO - need to make the
  */
 abstract class NodesTask(protected val ctx: TaskContext) : BaseTask() {
     fun nodesIter(): Sequence<File> {
@@ -37,4 +36,7 @@ abstract class NodesTask(protected val ctx: TaskContext) : BaseTask() {
 /**
  * Simple data class to hold basic logging information
  */
-data class TaskLogMessage(val message: String, val taskId: UUID, val timestamp: Long = System.currentTimeMillis())
+data class TaskLogMessage(val executionId : UUID,
+                          val message: String,
+                          val taskId: UUID,
+                          val timestamp: Long = System.currentTimeMillis())

@@ -4,7 +4,8 @@ import net.corda.workbench.commons.taskManager.TaskLogMessage
 
 class TestTask : BaseTask() {
     override fun exec(executionContext: ExecutionContext) {
-        executionContext.messageStream.invoke("executing...")
+        executionContext.messageSink.invoke("executing...")
+        // do something
     }
 }
 

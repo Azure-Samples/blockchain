@@ -21,12 +21,12 @@ class DeployCordaAppTask(registry: Registry, private val cordapp: File, private 
     val es = registry.retrieve(EventStore::class.java)
 
     override fun exec(executionContext: ExecutionContext) {
-        executionContext.messageStream.invoke("Deploying cordapp ${cordapp.name}")
+        executionContext.messageSink("Deploying cordapp ${cordapp.name}")
         val target = "${ctx.workingDir}/cordapps/$registeredName.jar"
         cordapp.copyTo(File(target), true)
         val config = readConfig(cordapp)
 
-        es.storeEvents(listOf(EventFactory.CORDA_APP_DEPLOYED(registeredName, ctx.networkName, config.id, config.scannablePackages)))
+        es.storeEvents(listOf(EventFactory.CORDA_APP_DEPLOYED(ctx.networkName, registeredName, config.id, config.scannablePackages)))
     }
 
 

@@ -5,15 +5,16 @@ import io.javalin.Context
 import io.javalin.Javalin
 import net.corda.workbench.commons.event.EventStore
 import net.corda.workbench.commons.event.Filter
+import net.corda.workbench.commons.processManager.ProcessManager
 import net.corda.workbench.commons.taskManager.BlockingTasksExecutor
 import net.corda.workbench.commons.taskManager.SimpleTaskRepo
 import net.corda.workbench.commons.taskManager.TaskContext
 import net.corda.workbench.commons.taskManager.TaskLogMessage
 import net.corda.workbench.commons.taskManager.TaskRepo
-import net.corda.workbench.cordaNetwork.ProcessManager
 import org.json.JSONArray
 import java.io.File
 import net.corda.workbench.commons.registry.Registry
+import net.corda.workbench.cordaNetwork.events.Repo
 import net.corda.workbench.cordaNetwork.tasks.*
 
 
@@ -21,6 +22,9 @@ class ApiController(private val registry: Registry) {
 
     // simple file log of tasks message
     private val taskRepos = HashMap<String, TaskRepo>()
+    private val processManager = registry.retrieve(ProcessManager::class.java)
+    private val repo = Repo(registry.retrieve(EventStore::class.java))
+
 
     fun register(app: Javalin) {
 
@@ -33,6 +37,7 @@ class ApiController(private val registry: Registry) {
                     @Suppress("UNCHECKED_CAST")
                     val nodes = JSONArray(ctx.body()).toList() as List<String>
 
+                    executor.exec(CreateNetworkTask(registry.overide(taskContext)))
                     executor.exec(CreateNodesTask(registry.overide(taskContext), nodes))
 
                     ctx.json(successMessage("successfully created network $networkName"))
@@ -46,7 +51,7 @@ class ApiController(private val registry: Registry) {
                     val f = File(tempDir(taskContext) + "/" + appName + ".jar")
                     f.writeBytes(data)
 
-                    executor.exec(DeployCordaAppTask(taskContext, f))
+                    executor.exec(DeployCordaAppTask(registry.overide(taskContext), f))
 
                     ctx.json(successMessage("successfully deployed $appName to $networkName"))
                 }
@@ -90,6 +95,13 @@ class ApiController(private val registry: Registry) {
                     ctx.json(nodes)
                 }
 
+                ApiBuilder.get("status") { ctx ->
+                    val networkName = ctx.param("networkName")!!
+                    val context = RealContext(networkName)
+                    val status = NodesInfoTask(context).exec()
+                    ctx.json(status)
+                }
+
                 ApiBuilder.path("nodes/:nodeName") {
                     ApiBuilder.get("config") { ctx ->
                         val networkName = ctx.param("networkName")!!
@@ -129,7 +141,7 @@ class ApiController(private val registry: Registry) {
 
                 ApiBuilder.get("processes") { ctx ->
                     val networkName = ctx.param("networkName")!!
-                    val processes = ProcessManager.queryForNetwork(networkName)
+                    val processes = processManager.allProcesses().filter { it.label.startsWith(networkName) }
                     ctx.json(processes)
                 }
 
@@ -141,6 +153,9 @@ class ApiController(private val registry: Registry) {
 
             }
         }
+
+
+
     }
 
     private fun buildMessageSink(context: TaskContext): ((TaskLogMessage) -> Unit) {

@@ -33,7 +33,7 @@ object DeployCordaAppTaskSpec : Spek({
             es.truncate()
 
             val task = DeployCordaAppTask(registry,
-                    File("../../cordapps/chat/lib/chat.jar"),
+                    File("../../cordapps/jars/chat.jar"),
                     "Chat")
             task.exec()
 

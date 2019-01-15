@@ -4,6 +4,7 @@ import io.javalin.ApiBuilder
 import io.javalin.Javalin
 import net.corda.core.utilities.loggerFor
 import net.corda.workbench.commons.registry.Registry
+import net.corda.workbench.transactionBuilder.events.Repo
 import org.slf4j.Logger
 
 
@@ -16,7 +17,7 @@ class FlowProxyApi(private val registry: Registry) {
 
     fun register() {
         val app = registry.retrieve(Javalin::class.java)
-        val agentRepo = registry.retrieve(AgentRepo::class.java)
+        val repo = registry.retrieve(Repo::class.java)
 
 
         ApiBuilder.path(":network/:node/:app") {
@@ -30,7 +31,7 @@ class FlowProxyApi(private val registry: Registry) {
                             val node = ctx.param("node")!!
                             val appName = ctx.param("app")!!
                             val name = ctx.param("name")!!
-                            val port = agentRepo.agentPort(network)
+                            val port = repo.agentPort(network)
                             val url = "http://localhost:$port/$network/$node/$appName/flows/$name/run"
 
                             logger.info("proxing to agent at: $url")
@@ -50,7 +51,7 @@ class FlowProxyApi(private val registry: Registry) {
                             val node = ctx.param("node")!!
                             val appName = ctx.param("app")!!
                             val name = ctx.param("name")!!
-                            val port = agentRepo.agentPort(network)
+                            val port = repo.agentPort(network)
                             val url = "http://localhost:$port/$network/$node/$appName/flows/$name/metadata"
 
                             logger.info("proxing to agent at: $url")
@@ -65,8 +66,6 @@ class FlowProxyApi(private val registry: Registry) {
 
 
                         }
-
-
                     }
                 }
             }

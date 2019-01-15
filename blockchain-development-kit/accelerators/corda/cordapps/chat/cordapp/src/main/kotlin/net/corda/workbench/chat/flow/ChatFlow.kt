@@ -14,9 +14,8 @@ import net.corda.workbench.chat.ChatContract
 import net.corda.workbench.chat.Message
 
 @InitiatingFlow
-@StartableByRPC
+//@StartableByRPC
 class ChatFlow(private val message: String,
-               private val otherParty: Party,
                private val linearId: UniqueIdentifier = UniqueIdentifier()) : FlowLogic<SignedTransaction>() {
 
     @Suspendable
@@ -25,17 +24,21 @@ class ChatFlow(private val message: String,
         // simplest way of finding a notary
         val notary = serviceHub.networkMapCache.notaryIdentities.first()
 
+        // extract current message
         val queryCriteria = QueryCriteria.LinearStateQueryCriteria(linearId = listOf(linearId))
         val items = serviceHub.vaultService.queryBy<Message>(queryCriteria).states
         if (items.isEmpty()) {
             throw IllegalArgumentException("Cannot find a message for $linearId")
         }
         val currentMessage = items.single()
+        val currentData = currentMessage.state.data
 
-        val newMessage = Message(message = message, interlocutorA = ourIdentity, interlocutorB = otherParty, linearId = linearId)
+
+        val newMessage = buildMessage(currentData)
+
 
         // build txn
-        val participants = listOf(ourIdentity, otherParty)
+        val participants = listOf(newMessage.interlocutorA, newMessage.interlocutorB)
         val cmd = Command(ChatContract.Commands.Chat(), participants.map { it -> it.owningKey })
         val builder = TransactionBuilder(notary = notary)
                 .addInputState(currentMessage)
@@ -47,13 +50,24 @@ class ChatFlow(private val message: String,
         val ptx = serviceHub.signInitialTransaction(builder)
 
         // make sure everyone else signs
-        val signers = listOf(otherParty)
+        val signers = participants - ourIdentity
         val sessions = signers.map { initiateFlow(it) }
         val stx = subFlow(CollectSignaturesFlow(ptx, sessions))
 
         // complete and notarise
         return subFlow(FinalityFlow(stx))
 
+    }
+
+    private fun buildMessage(currentData: Message): Message {
+        // sender of message is interlocutorA.
+        if (ourIdentity == currentData.interlocutorA) {
+            return Message(message = message, interlocutorA = ourIdentity, interlocutorB = currentData.interlocutorB, linearId = linearId)
+        }
+        if (ourIdentity == currentData.interlocutorB) {
+            return Message(message = message, interlocutorA = ourIdentity, interlocutorB = currentData.interlocutorA, linearId = linearId)
+        }
+        throw IllegalArgumentException("$ourIdentity is not part of the conversation")
     }
 }
 

@@ -3,7 +3,7 @@ package net.corda.workbench.transactionBuilder.agent
 import io.javalin.Javalin
 import net.corda.workbench.commons.event.FileEventStore
 import net.corda.workbench.commons.registry.Registry
-import net.corda.workbench.transactionBuilder.api.*
+import net.corda.workbench.transactionBuilder.agent.api.*
 
 class JavalinAgent(private val port: Int) {
 
@@ -39,7 +39,7 @@ class JavalinAgent(private val port: Int) {
         QueryApi(registry).register()
         FlowApi(registry).register()
         app.start()
-        println("Ready on port $port :)")
+        println("Agent ready on port $port :)")
         return app
     }
 }
