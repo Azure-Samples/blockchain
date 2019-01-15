@@ -1,0 +1,241 @@
+{
+  "ApplicationName": "PingPongGame",
+  "DisplayName": "Ping Pong Game",
+  "Description": "Sample for testing multievent",
+  "ApplicationRoles": [
+    {
+      "Name": "GameStarter",
+      "Description": "Starter of the game."
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "Starter",
+      "DisplayName": "Starter",
+      "Description": "",
+      "Initiators": [ "GameStarter" ],
+      "StartState":  "GameProvisioned",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the current scope",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "PingPongGameName",
+          "DisplayName": "PingPong Game Name",
+          "Description": "PingPongGameName",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "GamePlayer",
+          "DisplayName": "Player",
+          "Description": "Player",
+          "Type": {
+            "Name": "address"
+          }
+        },
+        {
+          "Name": "PingPongTimes",
+          "DisplayName": "PingPong times",
+          "Description": "PingPong times",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "GameStarter",
+          "DisplayName": "Game Starter",
+          "Description": "Game Starter",
+          "Type": {
+            "Name": "GameStarter"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "gameName",
+            "Description": "Game name",
+            "DisplayName": "Game name",
+            "Type": {
+              "Name": "string"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "StartPingPong",
+          "DisplayName": "Start game",
+          "Description": "Start game",
+          "Parameters": [
+            {
+            "Name": "pingPongTimes",
+              "Description": "PingPong times",
+              "DisplayName": "PingPong times",
+              "Type": {
+                "Name": "int"
+              }
+            }
+            ]
+        },
+        {
+          "Name": "Pong",
+          "DisplayName": "Pong",
+          "Description": "Pong",
+          "Parameters": [
+            {
+            "Name": "currentPingPongTimes",
+              "Description": "Current PingPong times",
+              "DisplayName": "Current PingPong times",
+              "Type": {
+                "Name": "int"
+              }
+            }
+            ]
+        },
+        {
+          "Name": "FinishGame",
+          "DisplayName": "Finish Game",
+          "Description": "Finish Game",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "GameProvisioned",
+          "DisplayName": "Game Provisioned",
+          "Description": "Game Provisioned",
+          "PercentComplete": 20,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["GameStarter"],
+              "Description": "StartPingPong",
+              "Function": "StartPingPong",
+              "NextStates": [ "Pingponging" ],
+              "DisplayName": "Ping Pong Started."
+            }
+          ]
+        },
+        {
+          "Name": "Pingponging",
+          "DisplayName": "Pingponging",
+          "Description": "Pingponging",
+          "PercentComplete": 70,
+          "Style": "Success",
+          "Transitions": []
+        },
+        {
+          "Name": "GameFinished",
+          "DisplayName": "GameFinished",
+          "Description": "GameFinished",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": []
+        }
+      ]
+    },
+    {
+      "Name": "Player",
+      "DisplayName": "Player",
+      "Description": "Player",
+      "Initiators": [],
+      "StartState":  "PingpongPlayerCreated",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the current scope",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "GameStarter",
+          "DisplayName": "Game Starter",
+          "Description": "Game Starter",
+          "Type": {
+            "Name": "GameStarter"
+          }
+        },
+        {
+          "Name": "PingPongGameName",
+          "DisplayName": "PingPongGameName",
+          "Description": "PingPongGameName",
+          "Type": {
+            "Name": "string"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "pingPongGameName",
+            "Description": "PingPong Game Name",
+            "DisplayName": "PingPong Game Name",
+            "Type": {
+              "Name": "string"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "Ping",
+          "DisplayName": "Ping",
+          "Description": "Ping",
+          "Parameters": [
+            {
+              "Name": "currentPingPongTimes",
+              "Description": "Current PingPong times",
+              "DisplayName": "current PingPong times",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "FinishGame",
+          "DisplayName": "Finish Game",
+          "Description": "Finish Game",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "PingpongPlayerCreated",
+          "DisplayName": "Pingpong Player Created",
+          "Description": "Pingpong Player Created",
+          "PercentComplete": 20,
+          "Style": "Success",
+          "Transitions": []
+        },
+        {
+          "Name": "PingPonging",
+          "DisplayName": "PingPonging",
+          "Description": "PingPonging",
+          "PercentComplete": 80,
+          "Style": "Success",
+          "Transitions": []
+        },
+        {
+          "Name": "GameFinished",
+          "DisplayName": "GameFinished",
+          "Description": "GameFinished",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": []
+        }
+      ]
+    }
+  ]
+}

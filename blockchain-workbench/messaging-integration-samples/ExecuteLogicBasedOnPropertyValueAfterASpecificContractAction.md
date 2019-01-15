@@ -9,19 +9,11 @@ the state of property and allows you to take appropriate action.
 
 Specifically –
 
--   It identifies if the message is of type ContractInsertedOrUpdated
+-   It identifies if the message is of type ContractFunctionInvocation.
 
--   If true, it identifies if this is an update to an existing contract or a new
-    contract
+-   If true, it identifies if the contract function invoked was named "IngestTelemetry".
 
--   If an update, it identifies if the action executed was named
-    “IngestTelemetry”
-
--   If true, it will cycle through the parameters in the message to find the
-    parameter named “ComplianceStatus”
-
--   Once found, it evaluates the value of that property so that the appropriate
-    action can be taken.
+-   If true, it evaluates the value of the current contract state so that the appropriate logic can be executed. 
 
 Of Note
 -------
@@ -84,246 +76,128 @@ deployment.
 
 ![](media/f491275d3e072d2ca5affa55e51d0b41.png)
 
-Click New Step
+Click the “+ New Step” button.
 
 Click More and click the Add a Switch Case
 
-For the Switch, there is an “On” configuration that identifies what value will
-be reviewed.
+For the Switch, there is an “On” field that identifies what value will be
+evaluated.
 
 Click the text box and then select “Subject” which contains the name of the
 message type being delivered.
 
-In the Case message on the right, enter the value of ContractMessage
+In the Case message on the right, enter the value of ContractFunctionInvocation.
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to ContractMessage
+Rename the case to ContractFunctionInvocation.
 
-For the action, select “Data Operations – Parse Json”
+Add the action “Data Operations – Parse Json” to the case.
 
-In the Content field select Body.
-
-![](media/cba74aaab2a729b0d9bc70b1542fc124.png)
+In the Content field, select Body.
 
 In the Schema field, enter the following –
 
+``` json
+
 {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"BlockId": {
-
-"type": "number"
-
-},
-"BlockHash": {
-
-"type": "string"
-
-},
-
-"ModifyingTransactions": {
-
-"items": {
-
-"properties": {
-
-"TransactionId": {
-
-"type": "number"
-
-},
-"TransactionHash": {
-
-"type": "string"
-
-},
-"From": {
-
-"type": "string"
-
-},
-"To": {
-
-"type": "string"
-
-},
-
-},
-
-"required": [
-
-"TransactionId",
-
-"TransactionHash",
-
-"From",
-
-"To"
-
-],
-
-"type": "object"
-
-},
-
-"type": "array"
-
-},
-
-"ContractId": {
-
-"type": "number"
-
-},
-
-"ContractLedgerIdentifier": {
-
-"type": "string"
-
-},
-
-"ContractProperties": {
-
-"items": {
-
-"properties": {
-
-"WorkflowPropertuId": {
-
-"type": "number"
-
-},
-"Name": {
-
-"type": "string"
-
-},
-"Value": {
-
-"type": "string"
-
+    "properties": {
+        "additionalInformation": {
+            "properties": {},
+            "type": "object"
+        },
+        "caller": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "ledgerIdentifier": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "connectionId": {
+            "type": "integer"
+        },
+        "contractId": {
+            "type": "integer"
+        },
+        "contractLedgerIdentifier": {
+            "type": "string"
+        },
+        "eventName": {
+            "type": "string"
+        },
+        "functionName": {
+            "type": "string"
+        },
+        "inTransactionSequenceNumber": {
+            "type": "integer"
+        },
+        "messageName": {
+            "type": "string"
+        },
+        "messageSchemaVersion": {
+            "type": "string"
+        },
+        "parameters": {
+            "items": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "value"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "transaction": {
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "transactionId": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
 }
+```
 
-},
+![](media/ContractFunctionInvocation.png)
 
-"required": [
-
-"WorkflowPropertyId",
-
-"Name",
-
-"Value"
-
-],
-
-"type": "object"
-
-},
-
-"type": "array"
-
-},
-
-"IsNewContract": {
-
-"type": "boolean"
-
-},
-
-"ConnectionId": {
-
-"type": "number"
-
-},
-
-"MessageSchemaVersion": {
-
-"type": "string"
-
-},
-
-"MessageName": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-},
-
-"type": "object"
-
-}
-
-Click the “More” link and then select “add a condition”
+Click the “More” link and then select “add a condition”.
 
 Click in the box at the left of the condition. It will display the Dynamic
-Content window, select “IsUpdate”.
+Content window, select “functionName” from the Dynamic Content list.
 
-Set the condition to “is equal to”
+Set the condition to “is equal to”.
 
-Set the condition value to true.
+Set the condition value to IngestTelemetry.
 
-This identifies that this is an update to a contract and not the creation of a
-new contract.
+This identifies that the contract function called was IngestTelemetry.
 
-![](media/7a0a04127d71637f8b6595f7f90b24aa.png)
-
-Click the three dots in the upper right corner of the condition action and
-select Rename. Rename this action to “Check to See If This is a New Contract or
-an Action”
-
-In the “If true” section, click “More” and select “add a switch case”.
-
-Click inside the “On” field and select “ActionName” from the Dynamic Content
-window.
-
-Click the three dots in the upper right of the action, select Rename, and name
-it “Check to See What Action Was Executed”
-
-![](media/76e6d0ebc407cbc8b90b3d8604b0bcde.png)
-
-In the choice on the right, set the “Equals” field to IngestTelemetry.
-
-Click the three dots in the upper right, select Rename and name this “Check to
-see if this is the IngestTelemetry action from our device”
-
-Click More” and select “add for each”
-
-![](media/e77fbaa0dad3081ab19cb876b4c0db38.png)
-
-In the “For each” action, click in the “Select an output from previews steps”
-field and select Parameters from the Dynamic Content window.
-
-Click “More” button and add a switch case.
-
-Right click the three dots in the upper corner of the action and select Rename.
-Rename this to “Determine what parameter this is”
-
-![](media/3df8d7ffada6d4b0a1a66ccdd288fa4a.png)
-
-For the item on the left of the switch case, set the Equals property to
-ComplianceStuatus
-
-Add a condition. For the left most item, click in the field and then select
-Value from the Dynamic Content window.
-
-Set “is equal to” in the center box.
-
-Set the right most box to “false”
-
-![](media/952b9528ab2e0dac4be03c272b72f857.png)
+Now you can add an action in the "if true" section so you can execute logic of your choice. 
 
 Testing
 -------
@@ -379,16 +253,11 @@ and when a contract property is set to a specific value.
 
 The logic app created in this sample facilitates this need by –
 
--   Identifying if the message is of type ContractInsertedOrUpdated
-
--   Confirming if this is an update to an existing contract
+-   Identifying if the message is of type ContractFunctionInvocation
 
 -   Confirming that the action executed was IngestTelemetry
 
--   Finding the value of the property named “ComplianceStatus”
-
--   Evaluating the value of that property so that the appropriate action can be
-    taken.
+-   User can write logic so the appropriate action can be taken.
 
 This sample is designed to work with the [RefrigeratedTransportation application
 and associated smart
