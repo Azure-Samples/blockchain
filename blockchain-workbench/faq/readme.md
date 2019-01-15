@@ -19,7 +19,7 @@ A: You can refer to our [AAD setup instructions](../scripts/aad-setup/readme.md)
 ##### Q: I'm having trouble with my Workbench deployment failing due to a password validation failure. What are the password requirements?
 
 A: Your password must meet the following criteria. Please retry your deployment with these in mind.
-	1. Your password must be atleast 8 and no more than 128 characters in length.
-	2. Your password must contain uppercase letters, lowercase letters, and numbers.
-	3. Your password cannot contain all or part of the sql login name. Part of a login name is defined as 3 or more consecutive alphanumeric characters.
+- Your password must be atleast 8 and no more than 128 characters in length.
+- Your password must contain uppercase letters, lowercase letters, and numbers.
+- Your password cannot contain all or part of the sql login name. Part of a login name is defined as 3 or more consecutive alphanumeric characters.
 
