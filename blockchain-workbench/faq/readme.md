@@ -15,3 +15,11 @@ A: We leverage Application Insights to give you detailed troubleshooting informa
 ##### Q: I'm having trouble setting up AAD integration with Workbench. What steps do I need to take to do this post deployment? 
 
 A: You can refer to our [AAD setup instructions](../scripts/aad-setup/readme.md) for instructions and more information.
+
+##### Q: I'm having trouble with my Workbench deployment failing due to a password validation failure. What are the password requirements?
+
+A: Your password must meet the following criteria. Please retry your deployment with these in mind.
+- Your password must be atleast 8 and no more than 128 characters in length.
+- Your password must contain uppercase letters, lowercase letters, and numbers.
+- Your password cannot contain all or part of the sql login name. Part of a login name is defined as 3 or more consecutive alphanumeric characters.
+
