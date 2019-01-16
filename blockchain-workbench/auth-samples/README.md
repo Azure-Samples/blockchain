@@ -12,8 +12,8 @@ Instructions for using Postman's OAuth 2.0 authentication mechanism to obtain a 
 #### [Postman using service principal](./postman-sp)
 Instructions for using Postman to call the AAD token service and obtain a bearer token as using a service principal.
 
-#### [C# .NetCore](./netcore)
-Instructions and code samples for calling Workbench's API in C# (.NetCore).
+#### [C# .NET Core](./netcore)
+Instructions and code samples for calling Workbench's API in C# (.NET Core).
 
 #### [Node.js](./nodejs)
 Instructions and code samples for calling Workbench's API in JavaScript (Node.js).
