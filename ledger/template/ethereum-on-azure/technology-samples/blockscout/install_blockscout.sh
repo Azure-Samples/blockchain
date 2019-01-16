@@ -173,12 +173,11 @@ config :block_scout_web, BlockScoutWeb.Endpoint,
 cd -
 
 # Drop Old DB (If Exists) && Create + Migrate DB
-sudo MIX_ENV=prod mix do ecto.drop --no-compile --force
-sudo MIX_ENV=prod mix ecto.create && sudo MIX_ENV=prod mix ecto.migrate && echo "migrated DB"
+sudo MIX_ENV=prod mix do ecto.drop --no-compile --force, ecto.create --no-compile, ecto.migrate --no-compile && echo "migrated DB"
 
 # Install NPM Dependencies
 cd apps/block_scout_web/assets && sudo npm install --unsafe-perm; cd -
-cd apps/explorer && sudo npm install; cd -
+cd apps/explorer && sudo npm install --unsafe-perm; cd -
 
 # NPM Deploy
 cd apps/block_scout_web/assets && sudo npm run-script deploy; cd -
