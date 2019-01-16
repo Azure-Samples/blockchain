@@ -3,10 +3,10 @@ const axios = require('axios');
 
 
 const AUTHORITY = 'https://login.microsoftonline.com/<tenant_name>';
-const WORKBENCH_API_URL = "<Workbench API URL>";
-const RESOURCE = "<Workbench AppId>";
-const CLIENT_APP_Id = "<service principal AppId>";
-const CLIENT_SECRET = "<service principal secret>";
+const WORKBENCH_API_URL = '<Workbench API URL>';
+const RESOURCE = '<Workbench AppId>';
+const CLIENT_APP_Id = '<service principal AppId>';
+const CLIENT_SECRET = '<service principal secret>';
 
 
 // Getting token from AAD
