@@ -29,7 +29,7 @@ WEBSOCKET_PORT=${5:-8547}
 wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
 sudo apt-get update
 sudo apt-get -y install esl-erlang
-sudo apt-get -y install elixir
+sudo apt-get -y install elixir=1.7.4-1
 
 # gcc, make and build-essential Install
 sudo apt-get install make
@@ -79,10 +79,11 @@ config :explorer,
       http: EthereumJSONRPC.HTTP.HTTPoison,
       url: \"http://$CONSORTIUM_IP:$RPC_PORT\",
       method_to_url: [
+        eth_call: \"http://$CONSORTIUM_IP:$RPC_PORT\,
         eth_getBalance: \"http://$CONSORTIUM_IP:$RPC_PORT\",
         trace_replayTransaction: \"http://$CONSORTIUM_IP:$RPC_PORT\"
       ],
-      http_options: [recv_timeout: 60_000, timeout: 60_000, hackney: [pool: :ethereum_jsonrpc]]
+      http_options: [recv_timeout: :timer.minutes(1), timeout: :timer.minutes(1), hackney: [pool: :ethereum_jsonrpc]]
     ],
     variant: EthereumJSONRPC.Parity
   ],
@@ -90,7 +91,7 @@ config :explorer,
     transport: EthereumJSONRPC.WebSocket,
     transport_options: [
       web_socket: EthereumJSONRPC.WebSocket.WebSocketClient,
-      url: \"wss://$WEBSOCKET_IP:$WEBSOCKET_PORT\"
+      url: \"ws://$WEBSOCKET_IP:$WEBSOCKET_PORT\"
     ],
     variant: EthereumJSONRPC.Parity
  ]" | sudo tee parity.exs 
@@ -101,7 +102,6 @@ echo "
 use Mix.Config
 
 config :explorer, Explorer.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: \"postgres\",
   password: \"$DATABASE_PW\",
   database: \"explorer_test\",
@@ -111,7 +111,7 @@ config :explorer, Explorer.Repo,
   pool_size: String.to_integer(System.get_env(\"POOL_SIZE\") || \"10\"),
   #ssl: String.equivalent?(System.get_env(\"ECTO_USE_SSL\") || \"true\", \"true\"),
   prepare: :unnamed,
-  timeout: 60_000
+  timeout: :timer.seconds(60)
 
 variant =
   if is_nil(System.get_env(\"ETHEREUM_JSONRPC_VARIANT\")) do
@@ -131,7 +131,7 @@ echo "
 use Mix.Config
 
 config :indexer,
-  block_interval: 2_000,
+  block_interval: :timer.seconds(5),
   json_rpc_named_arguments: [
     transport: EthereumJSONRPC.HTTP,
     transport_options: [
@@ -139,9 +139,10 @@ config :indexer,
       url: \"http://$CONSORTIUM_IP:$RPC_PORT\",
       method_to_url: [
         eth_getBalance: \"http://$CONSORTIUM_IP:$RPC_PORT\",
+        trace_block: \"http://$CONSORTIUM_IP:$RPC_PORT\",
         trace_replayTransaction: \"http://$CONSORTIUM_IP:$RPC_PORT\"
       ],
-      http_options: [recv_timeout: 60_000, timeout: 60_000, hackney: [pool: :ethereum_jsonrpc]]
+      http_options: [recv_timeout: :timer.minutes(1), timeout: :timer.minutes(1), hackney: [pool: :ethereum_jsonrpc]]
     ],
     variant: EthereumJSONRPC.Parity
   ],
