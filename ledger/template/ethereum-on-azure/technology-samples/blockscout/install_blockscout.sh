@@ -31,9 +31,10 @@ sudo apt-get update
 sudo apt-get -y install esl-erlang
 sudo apt-get -y install elixir
 
-# gcc & make Install
+# gcc, make and build-essential Install
 sudo apt-get install make
 sudo apt-get -y install gcc
+sudo apt-get -y install build-essential
 
 # nginx Install
 sudo apt-get -y install nginx && sudo ufw allow 'Nginx HTTP'
