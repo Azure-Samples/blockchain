@@ -30,7 +30,7 @@ To use Postman with service principal you need to first create a service princip
 3. In this example we are going to make a `GET` call to `/api/v1/users` to get all the users. Set the operation to `GET` and the url to `<workbench_url>/api/v1/users`
 
 4. Navigate to the `Authorization` tab
-	* select `OAuth 2.0` from the dropdown menu
+	* Select `OAuth 2.0` from the dropdown menu
 	* Paste your `access_token` in the text box
 
 5. Click on send and you should get a list of users
