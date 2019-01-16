@@ -59,17 +59,6 @@ cd blockscout
 sudo git checkout 53ea60c3 && echo "checked out"; cd -
 sudo chmod -R a+x blockscout && echo "permissions granted"
 
-# Setup WebSocket Client
-cd blockscout/apps/ethereum_jsonrpc/lib/ethereum_jsonrpc/web_socket
-sudo sed -i 's/wss:/ws:/g' web_socket_client.ex
-sudo sed -i 's/ssl_verify: :verify_peer,/#ssl_verify: :verify_peer,/g' web_socket_client.ex
-sudo sed -i 's/cacerts: :certifi.cacerts(),/#cacerts: :certifi.cacerts(),/g' web_socket_client.ex
-sudo sed -i 's/depth: 99,/#depth: 99,/g' web_socket_client.ex
-sudo sed -i 's/server_name_indication: host_charlist,/#server_name_indication: host_charlist,/g' web_socket_client.ex
-sudo sed -i 's/verify_fun/#verify_fun/g' web_socket_client.ex
-sudo sed -i 's/%URI/#%URI/g' web_socket_client.ex
-sudo sed -i 's/host_charlist =/#host_charlist =/g' web_socket_client.ex
-cd -
 
 # Install Mix Dependencies
 cd blockscout
