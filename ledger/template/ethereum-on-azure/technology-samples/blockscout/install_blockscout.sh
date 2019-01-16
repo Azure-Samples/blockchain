@@ -42,7 +42,6 @@ sudo apt-get -y install nginx && sudo ufw allow 'Nginx HTTP'
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get -y install nodejs
 sudo ln -s /usr/bin/nodejs /usr/bin/node 
-sudo apt-get -y install npm
 
 # PostgreSQL Install
 echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' sudo tee -a /etc/apt/sources.list.d/pgdg.list
