@@ -1,1 +1,1 @@
-# Using Postman as a Service Principal
+# Using Postman as a Service Principal to Obtain Bearer Token
