@@ -1,4 +1,4 @@
-﻿namespace sample
+﻿namespace netcore
 {
     using System;
     using System.Net.Http;
