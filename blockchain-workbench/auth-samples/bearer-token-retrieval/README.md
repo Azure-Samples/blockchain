@@ -1,4 +1,6 @@
-# AAD Bearer Token Retrieval
+# ~~AAD Bearer Token Retrieval~~ (Deprecated)
+
+> This tool is deprecated in favor of using postman to obtain the token [postman instructions ](../postman-user) and will be removed in the future.
 
 ## Overview
 This is a simple tool that allows you to obtain a bearer token for your Workbench instance to be used for development purposes or through Postman.
