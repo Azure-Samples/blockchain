@@ -56,7 +56,7 @@ sudo -u postgres psql -U postgres -d postgres -c "alter user postgres with passw
 sudo apt-get install -y git
 sudo git clone https://github.com/poanetwork/blockscout.git && echo "cloned"
 cd blockscout
-sudo git checkout 869425df && echo "checked out"; cd -
+sudo git checkout 53ea60c3 && echo "checked out"; cd -
 sudo chmod -R a+x blockscout && echo "permissions granted"
 
 # Setup WebSocket Client
