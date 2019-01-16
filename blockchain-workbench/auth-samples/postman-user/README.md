@@ -13,21 +13,20 @@ In this example we are going to make a `GET` call to `/api/v1/users` to get all 
 
 ![open postman](./media/initial.png)
 
-2. Navigate to the `Authorization` tab and pick `OAuth 2.0` from the dropdown menu. Then click on `Get New Access Token`
+2. Navigate to the `Authorization` tab and select `OAuth 2.0` from the dropdown menu. Then click on `Get New Access Token`
 
 ![authorization tap](./media/authorization.png)
 
 3. Now you need to set the following parameters:
   * Token Name: The name for your token
   * Grant Type: `Implicit`
-  * Callback URL: The URL for Workbench WebApp
-  * Auth URL: `https://login.microsoftonline.com/<tenant_name>/oauth2/authorize?resource=<workbench_app_id>`
+  * Callback URL: The URL for Workbench UI
+  * Auth URL: `https://login.microsoftonline.com/<tenant_name>/oauth2/authorize?resource=<workbench_appId>`
   * Client id: Workbench's AppId
   * Scope: empty
   * State: A randomly generated GUID, you can use this [Online GUID Generator](https://www.guidgenerator.com/)
   * Client Authentication: `Send client credential in body`
-
-Click on `Request Token`
+  * Click on `Request Token`
 
 ![parameters tap](./media/parameters.png)
 
@@ -42,3 +41,5 @@ Click on `Request Token`
 6. Click on send and you should get a list of users
 
 ![get call result](./media/call.png)
+
+> Note: This token will expire in an hour, you need to click on `Request Token` token again  to get a new token. Postman will save your parameters and client session so you will not be prompted to login again.
