@@ -4,6 +4,9 @@
 
 A: Delete your failed deployment.  Change the VM SKU in step 8 of the "Deploy Blockchain Workbench" section of the [deployment guide](https://docs.microsoft.com/en-us/azure/blockchain/workbench/deploy#deploy-blockchain-workbench) to a "Standard DS1 v2" and ensure you do not have any other virtual machines deployed on your subscription before deploying Workbench again.
 
+##### Q: How to I upgrade my old AAD application to be compatible with Workbench 1.5.0 and later
+The AAD application manifest has slightly changed for Workbench 1.5.0 and later, we've provided [upgrade instructions and script](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/aad-upgrade) to help you upgrade your old AAD application.
+
 ##### Q: Workbench performance is very slow for me. How can I scale up/out to improve performance? 
 
 A: When there are many users interacting with Workbench, pages load/refresh slowly. Refer to our [scale up/out guidance](./performance.md). 
