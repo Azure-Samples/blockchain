@@ -1,0 +1,1 @@
+# Using Postman as your user to Obtain Bearer Token
