@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ganache-cli": "^6.1.8"
+    "ganache-core": "^2.3.1-beta.1"
   }
 }

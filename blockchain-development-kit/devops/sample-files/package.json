@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "npx truffle test",
-    "build": "npx truffle compile && npm test",
-    "prepare": "npm run build"
+    "build": "npx truffle compile && npm test"
   },
   "author": "",
   "license": "MIT",
@@ -18,8 +17,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi-reporters": "^1.1.7",
-    "truffle": "^5.0.0-next.14",
-    "truffle-contract": "^4.0.0-next.0",
+    "truffle": "^5.0.0-next.16",
     "web3-providers-http": "^1.0.0-beta.36"
   },
   "dependencies": {

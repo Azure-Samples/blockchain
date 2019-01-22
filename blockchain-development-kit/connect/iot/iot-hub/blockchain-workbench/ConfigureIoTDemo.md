@@ -547,19 +547,29 @@ The template of the message to be put in the Content property is below -
             "value":
         }
     ],
-    "connectionId": ,
+    "connectionId": 1,
     "messageSchemaVersion": "1.0.0",
     "messageName": "CreateContractActionRequest"
 }
 
 ```
 
-Augment this with values from the Dynamic Content window to match the screenshot
-below -
+Augment this with values from the Dynamic Content window.
 
-![](media/4bae35957565e503a9203cd37a120d42.png)
+The specific dynamic content to use for dynamic parts of the JSON can be found below - 
 
-![](media/d6d5433a02ec09048e5e584c19201907.png)
+requestId - RequestId
+
+userChainIdentifier - UserChainIdentifier
+
+contractLedgerIdentifier- ContractLedgerIdentifier
+
+humidity - device.measurements.telemetry.Humidity
+
+temperature- device.measurements.telemetry.Temperature
+
+timestamp - TimstampInt
+
 
 Testing
 -------

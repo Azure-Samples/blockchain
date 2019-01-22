@@ -1,10 +1,6 @@
 const BasicItemRegistry = artifacts.require("BasicItemRegistry");
 const Item = artifacts.require("Item");
 
-// Grab truffle-contract's decodeLogs helper function. It expects to be bound
-// to the contract constructor, so we do that here as well
-const decodeLogs = require('truffle-contract/lib/utils').decodeLogs.bind(BasicItemRegistry);
-
 // augment assert with workbench event validators
 require("./helpers/workbenchEventValidators.js")(assert);
 
@@ -44,7 +40,7 @@ contract("BasicItemRegistry", function (accounts) {
 
     it("should emit a WorkbenchContractCreated event", async function () {
       const receipt = await web3.eth.getTransactionReceipt(basicItemRegistry.transactionHash);
-      const logs = decodeLogs(receipt.logs);
+      const logs = BasicItemRegistry.decodeLogs(receipt.logs);
       assert.eventIsWorkbenchContractCreated(logs[0], "BasicItemRegistry", "ItemRegistry", accounts[0]);
     });
   });

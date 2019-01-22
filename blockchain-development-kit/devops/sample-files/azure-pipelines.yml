@@ -14,6 +14,8 @@ steps:
 
 - script: |
     npm install
+    cd function-app/GanacheFunction
+    npm install
   displayName: 'Install project dependencies'
 
 - script: |
@@ -28,10 +30,19 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/TEST-*.xml' 
 
-- task: CopyFiles@2
+- task: ArchiveFiles@2
   inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: '**'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/full-$(Build.BuildId).zip'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/function-app'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/function-app-$(Build.BuildId).zip'
 
 - task: PublishBuildArtifacts@1
   inputs:
