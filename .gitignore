@@ -286,3 +286,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+blockchain-development-kit/integrate/data/cosmosdb/blockchain-workbench/README.md
