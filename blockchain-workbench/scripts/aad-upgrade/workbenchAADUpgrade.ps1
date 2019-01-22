@@ -156,21 +156,15 @@ if (-Not ($TenantName -Or $AppId)) {
     Log-Info "Getting your AppId and Tenant name from your Workbench Instance."
 
     # For Cloud Shell
-    if (Get-Module -ListAvailable -Name "Az.Websites") {
-        Log-Debug "Importing module Az.Websites"
-        Import-Module "Az.Profile"
-        Import-Module "Az.Websites"
-    # For Windows PowerShell
-    } elseif (Get-Module -ListAvailable -Name "AzureRM.Websites") {
-        Log-Debug "Importing module AzureRM.Websites"
-        Import-Module "AzureRM.Websites"
-        Import-Module "AzureRM.Profile"
+    if (Get-Module -ListAvailable -Name Az.Accounts) {
+        Log-Debug "Importing module Az"
+        Import-Module Az
     } else {
         Log-Error "This script is not compatible with your computer. Please use Azure CloudShell https://shell.azure.com/powershell" -Exit
     }
 
     Log-Debug "Getting the Azure Context"
-    $context = Get-AzureRmContext
+    $context = Get-AzContext
     Log-Debug $context
 
     if (-Not $context)
@@ -178,7 +172,7 @@ if (-Not ($TenantName -Or $AppId)) {
         Log-Debug "The user is not logged in"
         Log-Info "Logging in to Azure"
         try {
-            $account = Connect-AzureRmAccount -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
+            $account = Connect-AzAccount -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
             Log-Debug $account
             if (-Not $account)
             {
@@ -191,7 +185,7 @@ if (-Not ($TenantName -Or $AppId)) {
 
     try {
         Log-Debug "Changing the Subscription to $SubscriptionId"
-        $context = Set-AzureRmContext -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
+        $context = Set-AzContext -SubscriptionId $SubscriptionId -ErrorAction SilentlyContinue
         Log-Debug $context
         if (-Not $context) {
             throw "Context is null"
@@ -202,7 +196,7 @@ if (-Not ($TenantName -Or $AppId)) {
 
     try {
         Log-Debug "Looking for resource group $ResourceGroupName"
-        $rg = Get-AzureRmResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+        $rg = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
         Log-Debug $rg
         if (-Not $rg) {
             throw "Resource group is null"
@@ -213,7 +207,7 @@ if (-Not ($TenantName -Or $AppId)) {
 
     try {
         Log-Debug "Looking for Web apps within $ResourceGroupName"
-        $websites = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName
+        $websites = Get-AzWebApp -ResourceGroupName $ResourceGroupName
         Log-Debug "Found $($websites.length) App Service(s)"
         if (-Not $websites -Or $websites.length -eq 0) {
             throw "Websites is null"
@@ -229,7 +223,7 @@ if (-Not ($TenantName -Or $AppId)) {
     $site = $websites[0]
     Log-Debug "Fetching App Service $($site.Name)"
     try {
-        $fullWebsiteObject = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -Name $site.Name
+        $fullWebsiteObject = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $site.Name
         Log-Debug $fullWebsiteObject
         if (-Not $fullWebsiteObject) {
             throw "Azure App Service is null"

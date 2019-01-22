@@ -1,3 +1,0 @@
-﻿# WorkbenchAuthSamples_NodeJSWebApplication
-
-

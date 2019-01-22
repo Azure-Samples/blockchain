@@ -1,0 +1,17 @@
+{
+    // TODO - rename as application.conf
+    //        and update as necessary. See 'reference.conf'
+    //        files in services for more details
+
+    azureServiceBus {
+
+        // service bus connection String
+        endpoint = "Endpoint=sb://<myapp>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=MyToken="
+
+        // the inbound queue name in service bus
+        ingressQueue = Ingress
+
+        // the outbound queue name in service bus
+        egressQueue = Egress
+    }
+}

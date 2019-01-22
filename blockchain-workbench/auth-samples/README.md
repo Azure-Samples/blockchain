@@ -1,32 +1,25 @@
+
 # Auth Samples and Code Snippets for Workbench
 
 ## Overview
-### Steps for Workbench Authentication
+This folder contains samples for accessing Workbench's API in different languages and frameworks.
 
-1. Create a Service Principle
+## Authentication Samples 
 
-Instruction for Creating a Service Principle on the Azure Portal:
+#### [Postman using your user account](./postman-user)
+Instructions for using Postman's OAuth 2.0 authentication mechanism to obtain a bearer token by logging in using your user credentials. This is similar to how Workbench's UI obtains the bearer token, and the token will have the same claims as your user.
 
-Go to Azure Active Directory --> App Registrations
-<br>
-<img src="media/auth_samples_1.png" width="400">
-<br>
+#### [Postman using service principal](./postman-sp)
+Instructions for using Postman to call the AAD token service and obtain a bearer token as using a service principal.
 
-Create a New Application Registration
-<br>
-<img src="media/auth_samples_2.png" width="250">
-<br>
-<img src="media/auth_samples_3.png" width="300">
-<br>
+#### [C# .NET Core](./netcore)
+Instructions and code samples for calling Workbench's API in C# (.NET Core).
 
-To get the Client Id: Go to the Application you have just created --> Settings --> Keys
-<br>
-<img src="media/auth_samples_4.png" width="300">
-<br>
-Generate a New Key and be sure to save this. This is your Client App Secret.
+#### [Node.js](./nodejs)
+Instructions and code samples for calling Workbench's API in JavaScript (Node.js).
 
-2. Get the latest version of the ADAL Package (Instructions Provided in Samples)
-3. Use the code samples provided as a guideline of how to get a bearer token for your Workbench Application.
+#### [Python](./python)
+Instructions and code samples for calling Workbench's API in Python.
 
-#### [Bearer Token Retrieval tool](./bearer-token-retrieval)
-A simple tool that allows you to obtain a bearer token for your Workbench instance to be used for development purposes or through Postman.
+#### [~~Bearer Token Retrieval tool~~ (Deprecated)](./bearer-token-retrieval)
+This tool is deprecated, please use [postman as your user](./postman-user)

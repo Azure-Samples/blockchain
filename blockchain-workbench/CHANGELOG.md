@@ -1,3 +1,117 @@
+# Azure Blockchain Workbench Release Notes - Version 1.6.0
+
+Application versioning
+=================
+One of the most popular feature requests from you all has been that you would like to have an easy way to manage and version your Workbench applications instead of having to manually change and update your applications as you are in the development process.
+We’ve continued to improve the Workbench development story with support for application versioning with 1.6.0 via the web app as well as the REST API. You can upload new versions directly from the web application by clicking “Add version.” Note that if you have any changes in the application role name, the role assignment will not be carried over to the new version.
+ 
+![](media/release160-1.png)
+
+![](media/release160-2.png)
+
+![](media/release160-3.png)
+
+You can also view the application version history. To view and access older versions, select the application and click “version history” in the command bar. Note, that as of now by default older versions are read only. If you would like to interact with older versions, you can explicitly enable the previous versions.
+
+![](media/release160-4.png)
+
+![](media/release160-5.png)
+
+
+New egress messaging API
+=================
+Workbench provides many integration and extension points, including via a REST API and a messaging API. The REST API provides developers a way to integrate to blockchain applications. The messaging API is designed for system to system integrations.
+In our previous release, we enabled more scenarios with a new input messaging API. In 1.6.0, we have implemented an enhanced and updated output messaging API which publishes blockchain events via Azure Event Grid and Azure Service Bus. This enables downstream consumers to take actions based on these events and messages such as, sending email notifications when there are updates on relevant contracts on the blockchain, or triggering events in existing enterprise resource planning (ERP) systems.
+![](media/release160-6.png)
+
+Here is an example of a contract information message with the new output messaging API. You’ll get the information about the block, a list of modifying transactions for the contract, as well as information about the contract itself such as contract ID and contract properties. You also get information on whether or not the contract was newly created or if a contract update occurred.
+
+```
+{
+     "blockId": 123,
+     "blockhash": "0x03a39411e25e25b47d0ec6433b73b488554a4a5f6b1a253e0ac8a200d13f70e3",
+     "modifyingTransactions": [
+         {
+             "transactionId": 234,
+             "transactionHash": "0x5c1fddea83bf19d719e52a935ec8620437a0a6bdaa00ecb7c3d852cf92e18bdd",
+             "from": "0xd85e7262dd96f3b8a48a8aaf3dcdda90f60dadb1",
+             "to": "0xf8559473b3c7197d59212b401f5a9f07b4299e29"
+         },
+         {
+             "transactionId": 235,
+             "transactionHash": "0xa4d9c95b581f299e41b8cc193dd742ef5a1d3a4ddf97bd11b80d123fec27506e",
+             "from": "0xd85e7262dd96f3b8a48a8aaf3dcdda90f60dadb1",
+             "to": "0xf8559473b3c7197d59212b401f5a9f07b4299e29"
+         }
+     ],
+     "contractId": 111,
+     "contractLedgerIdentifier": "0xf8559473b3c7197d59212b401f5a9f07b4299e29",
+     "contractProperties": [
+         {
+             "workflowPropertyId": 1,
+             "name": "State",
+             "value": "0"
+         },
+         {
+             "workflowPropertyId": 2,
+             "name": "Description",
+             "value": "1969 Dodge Charger"
+         },
+         {
+             "workflowPropertyId": 3,
+             "name": "AskingPrice",
+             "value": "30000"
+         },
+         {
+             "workflowPropertyId": 4,
+             "name": "OfferPrice",
+             "value": "0"
+         },
+         {
+             "workflowPropertyId": 5,
+             "name": "InstanceOwner",
+             "value": "0x9a8DDaCa9B7488683A4d62d0817E965E8f248398"
+         },
+     ],
+     "isNewContract": false,
+     "connectionId": 1,
+     "messageSchemaVersion": "1.0.0",
+     "messageName": "ContractMessage",
+     "additionalInformation": {}
+}
+```
+
+Read more about the newly designed messaging API in our [documentation](https://docs.microsoft.com/en-us/azure/blockchain/workbench/messages-overview). Note that this redesign of the output messaging model will impact existing integrations you have done. 
+	
+WorkbenchBase class is no longer needed in contract code
+=================
+For customers who have been using Workbench, you will know that there is a specific class that you need to include in your contract code, called WorkbenchBase. This class enabled Workbench to create and update your specified contract. When developing custom Workbench applications, you would also have to call functions defined in the WorkbenchBase class to notify Workbench that a contract had been created or updated.
+With 1.6.0, this code serving the same purpose as WorkbenchBase will now be autogenerated for you when you upload your contract code. You will now have a more simplified experience when developing custom Workbench applications and will no longer have bugs or validation errors related to using WorkbenchBase. See our updated samples, which have WorkbenchBase removed.
+This means that you no longer need to include the WorkbenchBase class nor any of the contract update and contract created functions defined in the class. To update your older Workbench applications to support this new version, you will need to change a few items in your contract code files:
+* Remove the WorkbenchBase class.
+* Remove calls to functions defined in the WorkbenchBase class (ContractCreated and ContractUpdated).
+If you upload an application with WorkbenchBase included, you will get a validation error and will not be able to successfully upload until it is removed. For customers upgrading to 1.6.0 from an earlier version, your existing Workbench applications will be upgraded automatically for you. Once you start uploading new versions, they will need to be in the 1.6.0 format.
+
+Get available updates directly from within Workbench
+=================
+Whenever a Workbench update is released, we announce the updates via the Azure blog and post release notes in our [GitHub](https://aka.ms/blockchainsdkgithub). If you’re not actively monitoring these announcements, it can be difficult to figure out whether or not you are on the latest version of Workbench. You might be running into issues while developing which have already been fixed by our team with the latest release.
+We have now added the capability to view information for the latest updates directly within the Workbench UI. If there is an update available, you will be able to view the changes available in the newest release and update directly from the UI.
+![](media/release160-7.png)
+
+Breaking Changes in 1.6.0
+=================
+1. **WorkbenchBase related code generation:** Before 1.6.0, the WorkbenchBase class was needed because it defined events indicating creation and update of Blockchain Workbench contracts. With this change, you no longer need to include it in your contract code file, as Workbench will automatically generate the code for you. Note that contracts containing WorkbenchBase in the Solidity code will be rejected when uploaded.
+
+2. **Updated outbound messaging API:** The new schema will impact the existing integration work you have done with the current messaging API. If you want to use the new messaging API you will need to update your integration specific code. 
+
+The name of the service bus queues and topics has been changed in this release. Any code that points to the service bus will need to be updated to work with Workbench version 1.6.0.
+* ingressQueue - the input queue on which request messages arrive
+* egressTopic     - the output queue on which update and information messages are sent
+
+3. **Workbench application sample udpates:** All Workbench applications sample code are updated since we no longer need the WorkbenchBase class in contract code. If you are on an older version of Workbench and use the samples on GitHub, or vice versa, you will see errors. Upgrade to the latest version of Workbench if you want to use samples.
+
+
+
 # Azure Blockchain Workbench Release Notes - Version 1.5.0
 This release contains changes in the following areas: 
 - Simplified deployment experience – one required setup section with optional advanced settings
