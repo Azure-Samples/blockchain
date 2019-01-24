@@ -1,27 +1,6 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    function WorkbenchBase(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract Coffee is WorkbenchBase("Coffee", "Coffee") {
+contract Coffee {
 
     //Set of States
     enum StateType { Created, InTransit, Completed, OutOfCompliance}
@@ -54,13 +33,13 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
     int public  MaxHumidity;
     int public  MinTemperature;
     int public  MaxTemperature;
-    SensorType public  ComplianceSensorType;
+    SensorType public ComplianceSensorType;
     int public  ComplianceSensorReading;
     bool public  ComplianceStatus;
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
 
-    function Coffee(string description, address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public {
+    constructor(string description, address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public {
         Description = description;
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
@@ -77,7 +56,6 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
         InitialPickupTimestamp = -1;
         State = StateType.Created;
         ComplianceDetail = "N/A";
-        ContractCreated();
     }
 
     //RFID Functions
@@ -94,17 +72,14 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
     
     //GPS Functions
     function UpdateLocation(string latitude, string longitude, int timestamp) public {
-    LastRecordedLatitude = latitude;
-    LastRecoredLongitude = longitude;
-    LastLocationUpdateTimestamp = timestamp;
-    if (InitialPickupTimestamp == -1) {
-            InitialPickupTimestamp = timestamp;
+        LastRecordedLatitude = latitude;
+        LastRecoredLongitude = longitude;
+        LastLocationUpdateTimestamp = timestamp;
+        if (InitialPickupTimestamp == -1) {
+                InitialPickupTimestamp = timestamp;
+        }
     }
 
-    
-    ContractUpdated('UpdateLocation');
-
-    }
     //Temperature and Humidity Functions
     function IngestTelemetry(int humidity, int temperature, int timestamp) public
     {
@@ -147,8 +122,6 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
         {
             State = StateType.OutOfCompliance;
         }
-
-        ContractUpdated('IngestTelemetry');
     }
 
     function TransferResponsibility(address newCounterparty) public
@@ -182,7 +155,6 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
 
         PreviousCounterparty = Counterparty;
         Counterparty = newCounterparty;
-        ContractUpdated('TransferResponsibility');
     }
 
     function Complete() public
@@ -207,6 +179,5 @@ contract Coffee is WorkbenchBase("Coffee", "Coffee") {
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
-        ContractUpdated('Complete');
     }
 }
