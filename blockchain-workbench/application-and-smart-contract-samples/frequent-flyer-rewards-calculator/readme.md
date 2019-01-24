@@ -31,5 +31,3 @@ Application Files
 [FrequentFlyerRewardsCalculator.json](./ethereum/FrequentFlyerRewardsCalculator.json)
 
 [FrequentFlyerRewardsCalculator.sol](./ethereum/FrequentFlyerRewardsCalculator.sol)
-
-[FrequentFlyerRewardsCalculator.zip](./ethereum/FrequentFlyerRewardsCalculator.zip)

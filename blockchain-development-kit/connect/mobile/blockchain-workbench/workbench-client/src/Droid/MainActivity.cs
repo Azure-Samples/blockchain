@@ -30,7 +30,9 @@ namespace Workbench.Forms.Droid
 
 			base.OnCreate(bundle);
 
-			global::Xamarin.Forms.Forms.Init(this, bundle);
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
+
+           	global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			Lottie.Forms.Droid.AnimationViewRenderer.Init();
 
@@ -70,6 +72,11 @@ namespace Workbench.Forms.Droid
         {
             base.OnActivityResult(requestCode, resultCode, data);
             AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
+        }
+
+        public override void OnBackPressed()
+        {
+            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
         }
 
 	}

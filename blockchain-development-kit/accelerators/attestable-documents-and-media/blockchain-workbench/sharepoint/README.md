@@ -11,6 +11,8 @@ Specifically –
 - Hashes the file contents and some metadata about the file
 - Creates a new contract containing the hashed data and then adds it to the Registry
 
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Faccelerators%2Fattestable-documents-and-media%2Fblockchain-workbench%2Fsharepoint%2Fdeploy%2FLogicApp.json" target="_blank">    <img src="http://azuredeploy.net/deploybutton.png"/></a> <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fblockchain%2Fmaster%2Fblockchain-development-kit%2Faccelerators%2Fattestable-documents-and-media%2Fblockchain-workbench%2Fsharepoint%2Fdeploy%2FLogicApp.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
+
 ## Pre-Requisites
 
 The pre-requisites for this sample include -

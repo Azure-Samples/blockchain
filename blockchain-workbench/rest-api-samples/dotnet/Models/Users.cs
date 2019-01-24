@@ -5,16 +5,16 @@ using System.Collections.Generic;
 namespace Workbench.Client.Models
 {
 
-	public class CurrentUser
-	{
-		[JsonProperty("currentUser")]
+    public class CurrentUser
+    {
+        [JsonProperty("currentUser")]
         public User UserDetails { get; set; }
-        
+
         [JsonProperty("capabilities")]
         public Capabilities Capabilities { get; set; }
-	}
+    }
 
-	public class Capabilities
+    public class Capabilities
     {
         [JsonProperty("canUploadApplication")]
         public bool CanUploadApplication { get; set; }
@@ -29,13 +29,13 @@ namespace Workbench.Client.Models
         public bool CanProvisionUser { get; set; }
     }
 
-	public class UsersReturnType
+    public class UsersReturnType
     {
         [JsonProperty("nextLink")]
         public string NextLink { get; set; }
 
-		[JsonProperty("users")]
-		public List<User> Users = new List<User>();
+        [JsonProperty("users")]
+        public List<User> Users = new List<User>();
     }
 
     public class User
@@ -44,7 +44,7 @@ namespace Workbench.Client.Models
         public long UserId { get; set; }
 
         [JsonProperty("provisioningStatus")]
-        public long ProvisioningStatus { get; set; }
+        public long? ProvisioningStatus { get; set; }
 
         [JsonProperty("externalID")]
         public string ExternalId { get; set; }
@@ -58,10 +58,10 @@ namespace Workbench.Client.Models
         [JsonProperty("emailAddress")]
         public string EmailAddress { get; set; }
 
-		[JsonProperty("userChainMappings")]
-		public List<UserChainMapping> UserChainMappings = new List<UserChainMapping>();
+        [JsonProperty("userChainMappings")]
+        public List<UserChainMapping> UserChainMappings = new List<UserChainMapping>();
 
-		public string DisplayName => $"{FirstName} {LastName}";          
+        public string DisplayName => $"{FirstName} {LastName}";
 
     }
 
@@ -74,12 +74,12 @@ namespace Workbench.Client.Models
         public long UserId { get; set; }
 
         [JsonProperty("connectionID")]
-        public long ConnectionId { get; set; }
+        public long? ConnectionId { get; set; }
 
         [JsonProperty("chainIdentifier")]
         public string ChainIdentifier { get; set; }
 
         [JsonProperty("chainBalance")]
-        public long ChainBalance { get; set; }
+        public long? ChainBalance { get; set; }
     }
 }

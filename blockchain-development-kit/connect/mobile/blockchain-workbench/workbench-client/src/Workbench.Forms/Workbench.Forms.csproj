@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
@@ -19,6 +18,7 @@
     <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
     <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.180" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="TemplatedApp.xaml" />

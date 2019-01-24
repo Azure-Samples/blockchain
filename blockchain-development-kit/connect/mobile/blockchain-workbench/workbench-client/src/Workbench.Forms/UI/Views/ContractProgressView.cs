@@ -82,43 +82,45 @@ namespace Workbench.Forms.UI.Views
 		{
 			var contractProgress = bindable as ContractProgressView;
 
-			contractProgress.Progress.HorizontalOptions = LayoutOptions.FillAndExpand;
-
-			var contractInstance = newValue as Client.Models.Contract;
-                     
-			var stateProperty = App.ViewModel.Contract.Properties.FirstOrDefault(x => x.Type.Name.Equals("state"));
-            var stateValue = contractInstance?.ContractProperties.FirstOrDefault(x => x.WorkflowPropertyId.Equals(stateProperty.Id.ToString()))?.Value;
-
-            if (stateValue != null)
+            if (contractProgress != null)
             {
-                var _contractState = App.ViewModel.Contract.States.FirstOrDefault(x => x.Value.ToString().Equals(stateValue));
+                contractProgress.Progress.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-                contractProgress.StateLabel.Text = _contractState.DisplayName;
+                var contractInstance = newValue as Client.Models.Contract;
 
-                //contractProgress.Progress.LabelText = _contractState.PercentComplete.ToString() + "%";
+                var stateProperty = App.ViewModel.Contract.Properties.FirstOrDefault(x => x.Type.Name.Equals("state"));
+                var stateValue = contractInstance?.ContractProperties.FirstOrDefault(x => x.WorkflowPropertyId.Equals(stateProperty.Id.ToString()))?.Value;
 
-                contractProgress.Progress.PercentComplete = (int)_contractState.PercentComplete;
+                if (stateValue != null)
+                {
+                    var _contractState = App.ViewModel.Contract.States.FirstOrDefault(x => x.Value.ToString().Equals(stateValue));
 
-				if ((int)_contractState.PercentComplete == 100)
-				{
-                    if(_contractState.Style.ToLower().Equals("failure"))
-                        contractProgress.Progress.LabelStyle = _contractState.Style;
+                    contractProgress.StateLabel.Text = _contractState.DisplayName;
+
+                    //contractProgress.Progress.LabelText = _contractState.PercentComplete.ToString() + "%";
+
+                    contractProgress.Progress.PercentComplete = (int)_contractState.PercentComplete;
+
+                    if ((int)_contractState.PercentComplete == 100)
+                    {
+                        if (_contractState.Style.ToLower().Equals("failure"))
+                            contractProgress.Progress.LabelStyle = _contractState.Style;
+                        else
+                            contractProgress.Progress.LabelStyle = "complete";
+                    }
                     else
-					    contractProgress.Progress.LabelStyle = "complete";
-				}
-				else
-				{
-					contractProgress.Progress.LabelStyle = _contractState.Style;
-				}
+                    {
+                        contractProgress.Progress.LabelStyle = _contractState.Style;
+                    }
+                }
+                else
+                {
+                    contractProgress.StateLabel.Text = "Verifying";
+                    contractProgress.Progress.LabelText = "";
+                    contractProgress.Progress.PercentComplete = 0;
+                    contractProgress.Progress.LabelStyle = "success";
+                }
             }
-            else
-            {
-                contractProgress.StateLabel.Text = "Verifying";
-                contractProgress.Progress.LabelText = "";
-                contractProgress.Progress.PercentComplete = 0;
-                contractProgress.Progress.LabelStyle = "success";
-            }
-
 		}
     }
 }
