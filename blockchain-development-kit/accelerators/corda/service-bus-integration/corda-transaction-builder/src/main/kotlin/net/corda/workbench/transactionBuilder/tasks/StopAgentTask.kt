@@ -1,6 +1,7 @@
 package net.corda.workbench.transactionBuilder.tasks
 
 import net.corda.workbench.commons.event.EventStore
+import net.corda.workbench.commons.processManager.ProcessManager
 import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.commons.taskManager.BaseTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
@@ -12,20 +13,23 @@ import java.util.concurrent.TimeUnit
 
 class StopAgentTask(registry: Registry) : BaseTask() {
 
-    val ctx = registry.retrieve(TaskContext::class.java)
-    val es = registry.retrieve(EventStore::class.java)
+    private val ctx = registry.retrieve(TaskContext::class.java)
+    private val es = registry.retrieve(EventStore::class.java)
+    private val processManager = registry.retrieve(ProcessManager::class.java)
+
 
 
     override fun exec(executionContext: ExecutionContext) {
 
-        executionContext.messageStream("${ctx.networkName}: Attempting to stop agent.")
+        executionContext.messageSink("${ctx.networkName}: Attempting to stop agent.")
 
         var killed = false
 
-        // First try killing the node
-        val p = ProcessManager.queryForProcessOnNetwork(ctx.networkName, "agent")
+        // First try killing the agent
+        val p = processManager.findByLabel(ctx.networkName + " - Agent")
+
         if (p != null) {
-            killed = tryByJavaProcess(executionContext, p)
+            killed = tryByJavaProcess(executionContext, p.process)
         }
 
         if (!killed) {
@@ -35,7 +39,7 @@ class StopAgentTask(registry: Registry) : BaseTask() {
         cleanupPID()
 
         if (!killed) {
-            executionContext.messageStream("agent for ${ctx.networkName}: failed to shutdown")
+            executionContext.messageSink("agent for ${ctx.networkName}: failed to shutdown")
         }
     }
 
@@ -48,7 +52,7 @@ class StopAgentTask(registry: Registry) : BaseTask() {
             val ev = EventFactory.AGENT_STOPPED(ctx.networkName, pid.toLong(), "Shutdown using PID file")
             es.storeEvents(listOf(ev))
 
-            executionContext.messageStream("${ctx.networkName}: destroyed agent process with $pid")
+            executionContext.messageSink("${ctx.networkName}: destroyed agent process with $pid")
 
             return true
         } catch (ex: Exception) {
@@ -68,7 +72,7 @@ class StopAgentTask(registry: Registry) : BaseTask() {
 
                     val ev = EventFactory.AGENT_STOPPED(ctx.networkName, pid.toLong(), "Shutdown of running Java process")
                     es.storeEvents(listOf(ev))
-                    executionContext.messageStream("${ctx.networkName}: destroyed running Java process with PID $pid")
+                    executionContext.messageSink("${ctx.networkName}: destroyed running Java process with PID $pid")
                     return true
                 }
 

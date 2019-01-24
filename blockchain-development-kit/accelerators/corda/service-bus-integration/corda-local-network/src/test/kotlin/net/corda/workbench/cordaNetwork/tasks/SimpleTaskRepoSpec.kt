@@ -21,14 +21,15 @@ object SimpleTaskRepoSpec : Spek({
 
 
     it("should log and read tasks ") {
+        val executionId = UUID.randomUUID()
         val repo = SimpleTaskRepo("${ctx.workingDir}/tasks")
         println(repo.all())
 
-        val msg1 = TaskLogMessage("message 1", UUID.randomUUID())
+        val msg1 = TaskLogMessage(executionId,"message 1", UUID.randomUUID())
         repo.store(msg1)
         println(repo.all())
 
-        val msg2 = TaskLogMessage("message 2", UUID.randomUUID())
+        val msg2 = TaskLogMessage(executionId,"message 2", UUID.randomUUID())
         repo.store(msg2)
         println(repo.all())
     }

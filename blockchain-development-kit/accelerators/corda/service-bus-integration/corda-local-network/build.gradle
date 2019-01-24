@@ -58,6 +58,10 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
     compile 'khttp:khttp:0.1.0'
 
+    compile ("net.corda:corda-core:3.2-corda") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
 
     // TOOO - removing this has odd conflicts with the embedded org.json in workbench commons
@@ -72,6 +76,17 @@ dependencies {
     // shared libraries is local for now
     compile files('../commons/lib/workbench-commons.jar')
 
+    compile group: "org.http4k", name: "http4k-core", version: "3.102.1"
+    compile group: "org.http4k", name: "http4k-server-jetty", version: "3.103.2"
+    compile group: "org.http4k", name: "http4k-client-apache", version: "3.103.2"
+    compile group: "org.http4k", name: "http4k-multipart", version: "3.103.2"
+
+    // need an explicit dependencies for some reason once 'org.http4k' is included
+    compile "com.google.guava:guava:19.0"
+
+    // web page template engine
+    compile 'com.vladsch.flexmark:flexmark-all:0.34.48'
+    compile 'com.github.spullara.mustache.java:compiler:0.9.5'
 
 
     testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
@@ -86,9 +101,21 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
 
+    testCompile 'org.spekframework.spek2:spek-dsl-common:2.0.0-rc.1'
+
+    testCompile group: "org.http4k", name: "http4k-testing-hamkrest", version: "3.102.1"
+
+
+
     testCompile ('org.junit.platform:junit-platform-runner:1.0.0')
     testCompile 'khttp:khttp:0.1.0'
 
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek', 'spek2'
+    }
 }
 
 

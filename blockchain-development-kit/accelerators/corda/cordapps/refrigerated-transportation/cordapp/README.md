@@ -14,7 +14,7 @@ Other project reference this CorDapp in test cases. To update them with changes
 ./buildLocal.sh
 ```
 
-You will also need to check <code>lib/refrigerated-transportation.jar</code> 
+You will also need to check <code>../jars/refrigerated-transportation.jar</code> 
 into Git  
  
 ## Quick start 

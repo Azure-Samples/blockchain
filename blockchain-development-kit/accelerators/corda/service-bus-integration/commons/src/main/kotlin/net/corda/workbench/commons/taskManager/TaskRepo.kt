@@ -26,9 +26,10 @@ class SimpleTaskRepo(private val directory: String, private val dataFile: String
         file.forEachLine {
             val parts = it.split(":")
             val ts = parts[0].toLong()
-            val id = UUID.fromString(parts[1])
-            val message = parts[2]
-            result.add(TaskLogMessage(message, id, ts))
+            val executionId = UUID.fromString(parts[1])
+            val taskId = UUID.fromString(parts[2])
+            val message = parts[3]
+            result.add(TaskLogMessage(executionId, message, taskId, ts))
         }
 
         return result
@@ -36,7 +37,7 @@ class SimpleTaskRepo(private val directory: String, private val dataFile: String
 
     override fun store(message: TaskLogMessage) {
         val file = File("$directory/$dataFile")
-        val encoded = "${message.timestamp}:${message.taskId}:${message.message}\n"
+        val encoded = "${message.timestamp}:${message.executionId}:${message.taskId}:${message.message}\n"
         file.appendText(encoded)
     }
 }

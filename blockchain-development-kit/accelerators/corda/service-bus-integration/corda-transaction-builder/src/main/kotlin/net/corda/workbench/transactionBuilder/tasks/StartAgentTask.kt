@@ -1,6 +1,7 @@
 package net.corda.workbench.transactionBuilder.tasks
 
 import net.corda.workbench.commons.event.EventStore
+import net.corda.workbench.commons.processManager.ProcessManager
 import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.commons.taskManager.BaseTask
 import net.corda.workbench.commons.taskManager.ExecutionContext
@@ -10,17 +11,19 @@ import java.io.File
 import java.lang.StringBuilder
 import java.io.IOException
 import java.net.ServerSocket
+import java.util.*
 
 
 class StartAgentTask(registry: Registry) : BaseTask() {
 
-    val ctx = registry.retrieve(TaskContext::class.java)
-    val es = registry.retrieve(EventStore::class.java)
+    private val ctx = registry.retrieve(TaskContext::class.java)
+    private val es = registry.retrieve(EventStore::class.java)
+    private val processManager = registry.retrieve(ProcessManager::class.java)
 
 
     override fun exec(executionContext: ExecutionContext) {
 
-        executionContext.messageStream.invoke("Starting agent for: ${ctx.networkName}")
+        executionContext.messageSink("Starting agent for: ${ctx.networkName}")
 
         val startClass = "net.corda.workbench.transactionBuilder.agent.AgentKt"
         val classPath = StringBuilder("build/libs/corda-transaction-builder.jar")
@@ -31,30 +34,29 @@ class StartAgentTask(registry: Registry) : BaseTask() {
             classPath.append(jar.absoluteFile)
         }
 
-        println("Starting agent with cp $classPath")
+        //println("Starting agent with cp $classPath")
 
         // pick a range that won't clash with the 'corda-local-network'
         // just in case both are running on the same server
         val port = freePort(10200..10300)
 
         val pb = ProcessBuilder(listOf("java", "-cp", classPath.toString(), startClass, port.toString()))
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
+                .inheritIO()
                 .start()
 
 
         val pid = getPidOfProcess(pb)
         File("${ctx.workingDir}/process_id").writeText(pid.toString())
 
-        executionContext.messageStream.invoke("Agent process started on $port, with pid: $pid")
+        executionContext.messageSink("Agent process started on $port, with pid: $pid")
 
         // record this in the event store
         val ev = EventFactory.AGENT_STARTED(ctx.networkName, port, pid)
         es.storeEvents(listOf(ev))
 
-        // and keep an active list of live processe
-        ProcessManager.register(ctx.networkName, "agent", pb)
-
+        // and keep an active list of live processes
+        val processId = UUID.randomUUID()
+        processManager.register(pb, processId, ctx.networkName + " - Agent" )
     }
 
     private fun cordaAppsIter(): Sequence<File> {

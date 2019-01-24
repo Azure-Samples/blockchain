@@ -22,7 +22,7 @@ object CordaAppLoaderSpec : Spek({
 
     describe("It should dynamically scan and load Corda Apps") {
 
-        val jarFile = File("../../cordapps/chat/lib/chat.jar")
+        val jarFile = File("../../cordapps/jars/chat.jar")
         val cordaURL = URL("file://" + jarFile.absolutePath)
         val classLoader = URLClassLoader(arrayOf(cordaURL))
 

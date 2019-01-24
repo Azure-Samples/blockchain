@@ -33,6 +33,12 @@ object FlowRunnerSpec : Spek({
                 assert.that(result, equalTo("FOO"))
             }
 
+            it("should pass on exception from flow") {
+                val params = mapOf("data" to "bad")
+
+                assert.that({runner.run<String>( "SimpleFlow", params)}, throws<RuntimeException>())
+            }
+
             it("should not call flows without necessary annotations") {
                 assert.that ({runner.run<String>( "NotRpcFlow")}, throws<RuntimeException>())
                 assert.that ({runner.run<String>( "NotInitiatingFlow")}, throws<RuntimeException>())

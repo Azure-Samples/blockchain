@@ -28,3 +28,14 @@ class TestMessageSink {
         return logs.map { it.message }
     }
 }
+
+
+/**
+ * Runs the network bootstrapper, streaming results
+ */
+class MobyDickDownloadTask() : AbstractDownloadTask() {
+
+    override val fileName: String = "$downloadCache/mobydick.txt"
+    override val externalUrl: String = "https://azureblockchainworkbench.blob.core.windows.net/artifacts/scratch/mobydick.txt"
+
+}

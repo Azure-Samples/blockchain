@@ -9,9 +9,9 @@ import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.InitiatingFlow
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.identity.Party
-import net.corda.core.serialization.SerializedBytes
 import net.corda.core.transactions.CoreTransaction
-import net.corda.core.transactions.SignedTransaction
+import net.corda.reflections.annotations.Description
+import java.lang.RuntimeException
 
 /**
  * Various patterns needed to test reflections
@@ -20,10 +20,11 @@ import net.corda.core.transactions.SignedTransaction
 
 @InitiatingFlow
 @StartableByRPC
-class SimpleFlow(val data: String) : FlowLogic<String>() {
+class SimpleFlow(private val data: String) : FlowLogic<String>() {
 
     @Suspendable
     override fun call(): String {
+       if (data == "bad") throw  RuntimeException("Forced an Exception")
        return data.toUpperCase()
     }
 }
@@ -57,6 +58,17 @@ class MultipleConstructorFlow(val p1: String, val p2 : Int) : FlowLogic<String>(
     }
 }
 
+
+@InitiatingFlow
+@StartableByRPC
+@Description("Hello World")
+class FlowWithAnnotations() : FlowLogic<String>() {
+
+    @Suspendable
+    override fun call(): String {
+        return "result"
+    }
+}
 
 
 class FakeTransaction : CoreTransaction() {
