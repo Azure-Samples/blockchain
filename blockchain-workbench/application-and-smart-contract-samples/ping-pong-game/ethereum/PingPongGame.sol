@@ -7,7 +7,7 @@ contract Starter
     StateType public State;
 
     string public PingPongGameName;
-    address public Starter;
+    address public GameStarter;
     address public GamePlayer;
     int public PingPongTimes;
 
