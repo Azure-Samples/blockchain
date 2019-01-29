@@ -188,7 +188,8 @@
           "DisplayName": "Sensor Type",
           "Description": "The type of IoT sensor used to read out of compliance reading. Either humidity or temperature.",
           "Type": {
-            "Name": "int"
+            "Name": "enum",
+            "EnumValues": ["None", "Humidity", "Temperature"]
           }
         },
         {
