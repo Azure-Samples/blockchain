@@ -28,15 +28,30 @@ Using the .NET ADAL library for Xamarin.iOS, Xamarin.Android, or .NET - authenti
 
 Workbench doesn't require an API Key. It knows who the request is coming from by simply including the authentication token from ADAL in the authorization request header. 
 
-For Xamarin Apps (Xamarin.Forms, Xamarin.iOS and Xamarin.Android) please follow this tutorial: 
-https://blog.xamarin.com/put-adal-xamarin-forms/
+You can take a look at the Azure Function sample included in this repository for how to get an authentication token as a service principal and use it with Workbench. 
 
-### 3. Setting the Authentication Token on the API
-Once you obtain the authentication token, use the following method to set it on the Gateway API instance: 
+To create a service principal, you can use the service principal script located at https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/workbench-serviceprincipal or follow the step by step guide here: https://medium.com/@malirezaie/how-to-enable-programmatic-interaction-with-azure-blockchain-workbench-apis-56c0d95c79c0
+
+For Xamarin Apps (Xamarin.Forms, Xamarin.iOS and Xamarin.Android) have a look at the Xamarin sample in the Blockchain Development Kit: https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect/mobile/blockchain-workbench/workbench-client
+
+### 3. Setting the Authentication Token on the API and using the static instance:
+Once you obtain the authentication token, use the following method to set it on the Gateway API instance:
+
+```var BASE_URL = "https://mahdi-m3yy5x-api.azurewebsites.net"```
+
+```GatewayApi.SiteUrl =  BASE_URL;```
 
 ```GatewayApi.Instance.SetAuthToken(<yourTokenAsString>)```
 
 ### 4. Using the Gateway API
-Refer to the swagger documentation of the Workbench API on getting started. Method names will be similar to the api documentation
+Refer to the swagger documentation of the Workbench API on getting started. Method names will be similar to the api documentation. You can also use the postman collection located here: 
+
+https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/rest-api-samples/postman
+
+As an example, to get a list of all applications by ID and to see if the current user can access Workbench: 
+
+```var canUserAccessWorkbench = await GatewayApi.Instance.CanCurrentUserCreateContractsForWorkflow(<The_workflow_Id>);```
+
+```var listOfApplications = await GatewayApi.Instance.GetApplicationsAsync();```
 
 
