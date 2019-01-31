@@ -1,46 +1,6 @@
 pragma solidity ^0.4.20;
 
-contract WorkbenchBase {
-
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-
-
-    string internal ApplicationName;
-
-    string internal WorkflowName;
-
-
-
-    function WorkbenchBase(string applicationName, string workflowName) internal {
-
-        ApplicationName = applicationName;
-
-        WorkflowName = workflowName;
-
-    }
-
-
-
-    function ContractCreated() internal {
-
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-
-    }
-
-
-
-    function ContractUpdated(string action) internal {
-
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-
-    }
-
-}
-
-contract FileRegistry  is WorkbenchBase("FileRegistry", "FileRegistry") {
+contract FileRegistry {
     enum StateType { Created, Open, Closed}
     StateType public State;
     FileStruct[] public Files;
@@ -65,22 +25,19 @@ contract FileRegistry  is WorkbenchBase("FileRegistry", "FileRegistry") {
         Description = description;
         State = StateType.Created;
 
-
-
-        ContractCreated();
     }
     function OpenRegistry() public
     {
 
         State = StateType.Open;        
-        ContractUpdated("OpenRegistry");
+        
     }
 
     function CloseRegistry() public
     {
 
         State = StateType.Closed;
-        ContractUpdated("CloseRegistry");
+        
 
     }
     //Lookup to see if a contract address for a File contract is already registered
@@ -186,7 +143,7 @@ contract FileRegistry  is WorkbenchBase("FileRegistry", "FileRegistry") {
            // FileContractAddressLookup[FileContractAddress].Index, 
             //stringToBytes32(FileId));
     
-        ContractUpdated("RegisterFile");
+        
      //   return FileAddressIndex.length-1;
     }
     
@@ -264,7 +221,7 @@ contract FileRegistry  is WorkbenchBase("FileRegistry", "FileRegistry") {
 
 }
 
-contract File  is WorkbenchBase("FileRegistry", "File") {
+contract File {
 
 // Registry
 FileRegistry MyFileRegistry;
@@ -307,7 +264,6 @@ function File (string registryAddress, string fileId, string location, string fi
  
     State = StateType.Active;
     
-    ContractCreated();
 }
 
 
@@ -329,7 +285,6 @@ function RegisterFile(address registryAddress) public {
     
 
     MyFileRegistry.RegisterFile32(address(this), stringToBytes32(FileId));
-    ContractUpdated("RegisterFile");
 
 
 }
@@ -337,7 +292,6 @@ function RegisterFile(address registryAddress) public {
  function  Delete(string deletionProcessedDateTime) public{
     DeletionRecordedDateTime = deletionProcessedDateTime;
     State = StateType.Deleted;
-    ContractUpdated("Delete");
 }
 
 //-----------------------------------------------------
