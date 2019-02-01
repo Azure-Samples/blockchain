@@ -147,6 +147,8 @@ try {
 
     $password = New-AzureADApplicationPasswordCredential `
         -ObjectId $application.ObjectId `
+        -CustomKeyIdentifier "Key1" `
+        -StartDate $(Get-Date).AddMinutes(-5) `
         -EndDate $(Get-Date).AddYears(2)
 } catch {
     # The user cannot create apps in their directory

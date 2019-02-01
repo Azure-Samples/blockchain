@@ -16,7 +16,7 @@ By default any service principal in Workbench's active directory has access to W
 
 Admin level access is needed if you are trying to create Applications, read all applications, create users, and create role assignments.
 
-> Note: Since service principals act like users in a directory they can be assigned to different Workbench "application roles". For example if you are trying to use a service principal to create contracts, you need to assign that service principal to the "creator" role of that application. Today this operation has to be done using the Workbench API as the UI does not allow for service principal role assignment. 
+> Note: Since service principals act like users in a directory they can be assigned to different Workbench "application roles". For example if you are trying to use a service principal to create contracts, you need to assign that service principal to the "creator" role of that application. Today this operation has to be done using the Workbench API as the UI does not allow for service principal role assignment. There is this [great article](https://medium.com/@malirezaie/how-to-enable-programmatic-interaction-with-azure-blockchain-workbench-apis-56c0d95c79c0) that discusses programatic access of Workbench and application role assignment.
 
 
 It can be tricky to create a service principal and assign it to Workbench as an Admin, so we've provided an automated a script to create a service principal and you have the option to make that service principal an Admin.
