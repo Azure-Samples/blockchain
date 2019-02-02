@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract FrequentFlyerRewardsCalculator
 {
@@ -26,7 +26,7 @@ contract FrequentFlyerRewardsCalculator
     }
 
     // call this function to add miles
-    function AddMiles(int[] miles) public
+    function AddMiles(int[] memory miles) public
     {
         if (Flyer != msg.sender)
         {
@@ -54,7 +54,7 @@ contract FrequentFlyerRewardsCalculator
         }
     }
 
-    function GetMiles() public constant returns (uint[]) {
+    function GetMiles() public view returns (uint[] memory) {
         return Miles;
     }
 }

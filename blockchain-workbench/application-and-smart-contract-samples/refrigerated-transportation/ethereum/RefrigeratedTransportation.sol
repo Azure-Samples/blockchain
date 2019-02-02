@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract RefrigeratedTransportation
 {
@@ -40,7 +40,7 @@ contract RefrigeratedTransportation
         MinTemperature = minTemperature;
         MaxTemperature = maxTemperature;
         State = StateType.Created;
-        ComplianceDetail = 'N/A';
+        ComplianceDetail = "N/A";
     }
 
     function IngestTelemetry(int humidity, int temperature, int timestamp) public
@@ -69,14 +69,14 @@ contract RefrigeratedTransportation
         {
             ComplianceSensorType = SensorType.Humidity;
             ComplianceSensorReading = humidity;
-            ComplianceDetail = 'Humidity value out of range.';
+            ComplianceDetail = "Humidity value out of range.";
             ComplianceStatus = false;
         }
         else if (temperature > MaxTemperature || temperature < MinTemperature)
         {
             ComplianceSensorType = SensorType.Temperature;
             ComplianceSensorReading = temperature;
-            ComplianceDetail = 'Temperature value out of range.';
+            ComplianceDetail = "Temperature value out of range.";
             ComplianceStatus = false;
         }
 
@@ -140,6 +140,6 @@ contract RefrigeratedTransportation
 
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
-        Counterparty = 0x0;
+        Counterparty = 0x0000000000000000000000000000000000000000;
     }
 }

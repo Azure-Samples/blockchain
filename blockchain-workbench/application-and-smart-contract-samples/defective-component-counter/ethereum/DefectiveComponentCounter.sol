@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract DefectiveComponentCounter {
 
@@ -12,7 +12,7 @@ contract DefectiveComponentCounter {
     int public Total;
 
     // constructor function
-    constructor(int[12] defectiveComponentsCount) public
+    constructor(int[12] memory defectiveComponentsCount) public
     {
         Manufacturer = msg.sender;
         DefectiveComponentsCount = defectiveComponentsCount;
@@ -38,7 +38,7 @@ contract DefectiveComponentCounter {
     }
 
     // add the required getter function for array DefectiveComponentsCount
-    function GetDefectiveComponentsCount() public constant returns (int[12]) {
+    function GetDefectiveComponentsCount() public view returns (int[12] memory) {
         return DefectiveComponentsCount;
     }
 }

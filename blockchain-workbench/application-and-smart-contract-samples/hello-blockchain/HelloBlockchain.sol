@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract HelloBlockchain
 {
@@ -14,7 +14,7 @@ contract HelloBlockchain
     string public ResponseMessage;
 
     // constructor function
-    constructor(string message) public
+    constructor(string memory message) public
     {
         Requestor = msg.sender;
         RequestMessage = message;
@@ -22,7 +22,7 @@ contract HelloBlockchain
     }
 
     // call this function to send a request
-    function SendRequest(string requestMessage) public
+    function SendRequest(string memory requestMessage) public
     {
         if (Requestor != msg.sender)
         {
@@ -34,7 +34,7 @@ contract HelloBlockchain
     }
 
     // call this function to send a response
-    function SendResponse(string responseMessage) public
+    function SendResponse(string memory responseMessage) public
     {
         Responder = msg.sender;
 
