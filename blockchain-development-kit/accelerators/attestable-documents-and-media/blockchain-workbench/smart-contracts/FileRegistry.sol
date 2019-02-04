@@ -1,4 +1,4 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
 contract FileRegistry {
     enum StateType { Created, Open, Closed}
@@ -20,7 +20,7 @@ contract FileRegistry {
     event LogNewFile   (address indexed FileContractAddress, uint index, bytes32 FileId);
     event LogUpdateFile(address indexed FileContractAddress, uint index, bytes32 FileId);
 
-    function FileRegistry(string name, string description) public {
+    constructor (string name, string description) public {
         Name = name;
         Description = description;
         State = StateType.Created;
