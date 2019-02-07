@@ -17,32 +17,23 @@ Azure Blockchain Workbench Samples
 
 __Legacy applications and protocols__ 
 
-[Recieving files via FTP](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/ftp/inbound/blockchain-workbench)
-
-[Processing comma separated files](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/files/csv/blockchain-workbench/README.md)
-
-[Email delivery of data]()
+- [Processing comma separated variable (CSV) files via FTP](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/ftp/inbound/blockchain-workbench)
+- [Processing comma separated variable (CSV) files via OneDrive](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/files/csv/blockchain-workbench/README.md)
 
 __Data__ 
 
-[SQL](https://docs.microsoft.com/en-us/azure/blockchain/workbench/data-sql-management-studio)
-
-[CosmosDB](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/cosmosdb/blockchain-workbench)
-
-[Azure Search](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/azure-search/blockchain-workbench)
-
-[Excel](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/excel/blockchain-workbench)
-
-[PowerBI](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/powerbi/blockchain-workbench)
+- [SQL](https://docs.microsoft.com/en-us/azure/blockchain/workbench/data-sql-management-studio)
+- [CosmosDB](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/cosmosdb/blockchain-workbench)
+- [Azure Search](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/azure-search/blockchain-workbench)
+- [Excel](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/excel/blockchain-workbench)
+- [PowerBI](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/data/powerbi/blockchain-workbench)
 
 __SaaS__  
-[SharePoint](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint/README.md)
 
-[Dynamics](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/dynamics/cds)
-
-[Outlook](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/outlook/send/blockchain-workbench)
-
-[Gmail](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/saas/gmail/send/blockchain-workbench/README.md)
+- [SharePoint](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/accelerators/attestable-documents-and-media/blockchain-workbench/sharepoint/README.md)
+- [Dynamics](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/dynamics/cds)
+- [Outlook](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate/saas/outlook/send/blockchain-workbench)
+- [Gmail](https://github.com/Azure-Samples/blockchain/blob/master/blockchain-development-kit/integrate/saas/gmail/send/blockchain-workbench/README.md)
 
 __Registries__ 
 
