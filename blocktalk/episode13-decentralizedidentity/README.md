@@ -9,4 +9,4 @@ To run this demo you will need to have nodejs installed on your machine.
 `NOTE: VS Code provided an excellent environment to develop with Truffle and is demonstrated in the video.` https://code.visualstudio.com/
 
 # Examples shown in video
-To run this, simply execute the code in the [examples directory](uport-credentials\examples).  There are 2 code files there for creation and verification/request for attestation.
+To run this, simply execute the code in the [examples directory](uport-credentials/examples).  There are 2 code files there for creation and verification/request for attestation.
