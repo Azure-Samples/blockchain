@@ -1,19 +1,17 @@
 ---
 topic: sample
 languages:
-  - python
+  - .net
 products:
   - azure
-  - azure-cosmos-db
+  - azure-blockchain
 ---
 
-# Build a Flask app using Azure Cosmos DB for MongoDB API
+# Connect an Azure Ethereum Blockchain to a MySQL Database using the Ethereum Logic App Connector
 
-![Flask sample build badge](https://img.shields.io/badge/build-passing-brightgreen.svg) ![Flask sample code coverage badge](https://img.shields.io/badge/coverage-100%25-brightgreen.svg) ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
+![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-This content was taken from [this repo](https://github.com/Azure-Samples/CosmosDB-Flask-Mongo-Sample) as a demonstration of how we can update the samples template to provide more context to developers.
-
-This sample shows you how to use the Azure Cosmos DB for MongoDB API to store and access data from a Flask application.
+This sample shows you how to use the Azure Ethereum Logic App and an Azure function store blockchain events in a MySQL database
 
 ## Contents
 
@@ -28,9 +26,8 @@ This sample shows you how to use the Azure Cosmos DB for MongoDB API to store an
 
 ## Prerequisites
 
-- Download the [Azure Cosmos DB Emulator](https://docs.microsoft.com/azure/cosmos-db/local-emulator). The emulator is currently only supported on Windows.
-- Install [Visual Studio Code](https://code.visualstudio.com/Download) for your platform.
-- Install the Don Jayamanne's [Python Extension](https://marketplace.visualstudio.com/items?itemName=donjayamanne.python)
+- An Ethereum RPC endpoint 
+- An Azure MySQL database
 
 ## Setup
 
@@ -69,14 +66,33 @@ You then need to add your MONGOURL, MONGO_PASSWORD, and MONGO_USERNAME to the ap
 
 ## Key concepts
 
-Let's take a quick review of what's happening in the app. Open the `app.py` file under the root directory and you find that these lines of code create the Azure Cosmos DB connection. The following code uses the connection string for the local Azure Cosmos DB Emulator. The password needs to be split up as seen below to accommodate for the forward slashes that cannot be parsed otherwise.
+Let's take a quick review of what's happening in this example. 
 
-* Initialize the MongoDB client, retrieve the database, and authenticate.
+* Contract events that happen on the blockchain are sent to an Azure Event Hub
+* An Azure Logic App monitors that Event Hub for notifications of new contract events
+* Upon a receipt of a new contract event the Ethereum Logic App Connector queries the blockchain at the address of a contract we are monitoring and pulls the current contract status
+* The Ethereum Logic App Connector then forwards the current contract status to a custom Azure Function
+    ```JSON
+        "body": {
+        "PreviousCounterparty": "0x0123...",
+        "SupplyChainObserver": "0x4567...",
+        "Counterparty": "0x0000...",
+        "SupplyChainOwner": "0x89ab...",
+        "InitiatingCounterparty": "0xcdef",
+        "State": "2"
+    }
+    ```
 
-    ```python
-    client = MongoClient("mongodb://127.0.0.1:10250/?ssl=true") #host uri
-    db = client.test    #Select the database
-    db.authenticate(name="localhost",password='C2y6yDjf5' + r'/R' + '+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw' + r'/Jw==')
+* The Azure Function is parsing the contract status JSON and inserts that into a MySQL table
+    ```c#
+    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+    ```
+
+    ```c#
+    command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, 
+                    supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, 
+                    @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
     ```
 
 * Retrieve the collection or create it if it does not already exist.
@@ -92,7 +108,7 @@ Let's take a quick review of what's happening in the app. Open the `app.py` file
     title = "TODO with Flask"
     heading = "ToDo Reminder"
     ```
-    
+
 ## Next steps
 
 You can learn more about our service on the [official documentation site](https://docs.microsoft.com/azure).
