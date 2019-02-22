@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace PatternCodeGen.CodeGen
 {
@@ -14,10 +13,10 @@ namespace PatternCodeGen.CodeGen
         private void SolGenInit()
         {
             _ItemStruct = _ItemName + "Struct";
-            _propertyCommaList = getPropertyCommaList(true, false, string.Empty);
+            _propertyCommaList = getPropertyCommaList(true, false, true, string.Empty);
         }
 
-        private string getPropertyCommaList(bool IncludesContractAddress, bool IsIndexOnly, string s, bool EmitType = true, string underscore = "_")
+        private string getPropertyCommaList(bool IncludesContractAddress, bool IsIndexOnly, bool addMemory, string s, bool EmitType = true, string underscore = "_")
         {
             var paramList = new List<string>();
             if (!s.Equals(string.Empty, StringComparison.Ordinal))
@@ -31,14 +30,14 @@ namespace PatternCodeGen.CodeGen
                     );
             if (EmitType)
             {
-                paramList.AddRange(whereResult.Select(prop => $"{prop.PropertyDataType} {underscore}{prop.PropertyName}"));
+                paramList.AddRange(whereResult.Select(prop => $"{(addMemory ? potentiallyConvertToMemoryType(prop.PropertyDataType) : prop.PropertyDataType)} {underscore}{prop.PropertyName}"));
             }
             else
             {
                 paramList.AddRange(whereResult.Select(prop => $"{underscore}{prop.PropertyName}"));
             }
-            var paramString = string.Join(", ", paramList);
-            return paramString;
+            
+            return string.Join(", ", paramList);
         }
 
         private string PropertyDepenentDeclarations()
@@ -78,8 +77,8 @@ $@"mapping({prop.PropertyDataType} => {_ItemStruct}) private {_ItemName}{prop.Pr
 
             codeString += "\n";
             codeString +=
-$@"event LogNew{_ItemName} ({getPropertyCommaList(true, true, string.Empty)}, uint index);
-event LogUpdate{_ItemName} ({getPropertyCommaList(true, true, string.Empty)}, uint index);
+$@"event LogNew{_ItemName} ({getPropertyCommaList(true, true, false, string.Empty)}, uint index);
+event LogUpdate{_ItemName} ({getPropertyCommaList(true, true, false, string.Empty)}, uint index);
 ";
 
             return addIndentation(codeString, 1);
@@ -96,25 +95,30 @@ event LogUpdate{_ItemName} ({getPropertyCommaList(true, true, string.Empty)}, ui
                 return type;
             }
         }
+
         private string IsRegisteredPropertyFunctions()
         {
             string codeString = string.Empty;
-            foreach (var prop in ((RegistryTemplate)inputJSON).Properties)
+            var properties = ((RegistryTemplate) inputJSON).Properties;
+            foreach (var prop in properties)
             {
                 if (prop.IndexType != IndexType_t.PrimaryIndex && prop.IndexType != IndexType_t.Index) continue;
                 codeString +=
 $@"//Lookup to see if a contract address for a {_ItemName} contract is already registered
-function isRegistered{_ItemName}{prop.PropertyName}({prop.PropertyDataType} {_ItemName}{prop.PropertyName})
+function isRegistered{_ItemName}{prop.PropertyName}({prop.PropertyDataType} {(prop.PropertyDataType != "address" ? "memory" : "")} {_ItemName}{prop.PropertyName})
 public view
 returns(bool isRegistered)
 {{
-    if({_ItemName}{prop.PropertyName}Index.length == 0) return false;
+    if ({_ItemName}{prop.PropertyName}Index.length == 0) return false;
     {potentiallyConvertToMemoryType(prop.PropertyDataType)} var1 = {_ItemName}{prop.PropertyName}Index[{_ItemName}{prop.PropertyName}Lookup[{_ItemName}{prop.PropertyName}].Index];
     {potentiallyConvertToMemoryType(prop.PropertyDataType)} var2 = {_ItemName}{prop.PropertyName};
     return (keccak256(abi.encodePacked(var1)) == keccak256(abi.encodePacked(var2)));
 }}
 ";
-                codeString += "\n";
+                if (prop != properties.Last())
+                {
+                    codeString += "\n";
+                }
             }
 
             return addIndentation(codeString, 1);
@@ -123,10 +127,10 @@ returns(bool isRegistered)
         private string RegisterFunction()
         {
             string codeString =
-$@"function Register{_ItemName}({getPropertyCommaList(true, true, string.Empty)}) 
+$@"function Register{_ItemName}({getPropertyCommaList(true, true, true, string.Empty)}) 
 public
 {{";
-            codeString +=
+            codeString += "\n" +
 $@"    if (isRegistered{_ItemName}{contractAddressPropertyName}(_{contractAddressPropertyName})) revert();
 ";
 
@@ -149,7 +153,7 @@ $@"    {_ItemName}{prop1.PropertyName}Lookup[_{prop1.PropertyName}].Index = {_It
 ";
             }
 
-            string propertyCommaListWithoutType = getPropertyCommaList(true, true, string.Empty, false);
+            string propertyCommaListWithoutType = getPropertyCommaList(true, true, true, string.Empty, false);
             propertyCommaListWithoutType +=
 $@",
 {_ItemName}{contractAddressPropertyName}Lookup[_{contractAddressPropertyName}].Index";
@@ -180,14 +184,13 @@ $@"    emit LogNew{_ItemName}(
                     RegisterItemFuncCallArgList += "_" + prop.PropertyName;
                 }
             }
-            codeString +=
+            codeString += "\n" + 
 $@"function Register{_ItemName}32({Func32ParamList}) 
 public
 {{
-    return Register{_ItemName} (
+    return Register{_ItemName}(
         {RegisterItemFuncCallArgList});
-}}
-";
+}}";
             return addIndentation(codeString, 1);
         }
 
@@ -195,7 +198,8 @@ public
         {
             string codeString = string.Empty;
             string pType, convertion1, convertion2;
-            foreach (var prop in ((RegistryTemplate)inputJSON).Properties)
+            var properties = ((RegistryTemplate) inputJSON).Properties;
+            foreach (var prop in properties)
             {
                 if (prop.IndexType != IndexType_t.PrimaryIndex && prop.IndexType != IndexType_t.Index
                     || prop.PropertyName == contractAddressPropertyName
@@ -222,18 +226,18 @@ public
 $@"
 function get{prop.PropertyName}ByAddress(address {_ItemName}{contractAddressPropertyName})
 public view
-returns({pType} {_ItemName}{prop.PropertyName})
+returns({potentiallyConvertToMemoryType(pType)} {_ItemName}{prop.PropertyName})
 {{
-    if(!isRegistered{_ItemName}{contractAddressPropertyName}({_ItemName}{contractAddressPropertyName})) revert(); 
+    if (!isRegistered{_ItemName}{contractAddressPropertyName}({_ItemName}{contractAddressPropertyName})) revert();
     return {convertion1}({_ItemName}{contractAddressPropertyName}Lookup[{_ItemName}{contractAddressPropertyName}].{prop.PropertyName});
 }}
 
-function getAddressBy{prop.PropertyName}({pType} {_ItemName}{prop.PropertyName})
+function getAddressBy{prop.PropertyName}({potentiallyConvertToMemoryType(pType)} {_ItemName}{prop.PropertyName})
 public view
 returns(address {_ItemName}{contractAddressPropertyName})
 {{
     {potentiallyConvertToMemoryType(prop.PropertyDataType)} idx = {convertion2}({_ItemName}{prop.PropertyName});
-    if(!isRegistered{_ItemName}{prop.PropertyName}(idx)) revert(); 
+    if (!isRegistered{_ItemName}{prop.PropertyName}(idx)) revert();
     return {_ItemName}{prop.PropertyName}Lookup[idx].{contractAddressPropertyName};
 }}
 ";
@@ -258,7 +262,7 @@ function get{prop.PropertyName}ByAddress32(address {_ItemName}{contractAddressPr
 public view
 returns({pType} {_ItemName}{prop.PropertyName})
 {{
-    if(!isRegistered{_ItemName}{contractAddressPropertyName}({_ItemName}{contractAddressPropertyName})) revert(); 
+    if (!isRegistered{_ItemName}{contractAddressPropertyName}({_ItemName}{contractAddressPropertyName})) revert();
     return {convertion1}({_ItemName}{contractAddressPropertyName}Lookup[{_ItemName}{contractAddressPropertyName}].{prop.PropertyName});
 }}
 
@@ -267,22 +271,30 @@ public view
 returns(address {_ItemName}{contractAddressPropertyName})
 {{
     {potentiallyConvertToMemoryType(prop.PropertyDataType)} idx = {convertion2}({_ItemName}{prop.PropertyName});
-    if(!isRegistered{_ItemName}{prop.PropertyName}(idx)) revert(); 
+    if (!isRegistered{_ItemName}{prop.PropertyName}(idx)) revert();
     return {_ItemName}{prop.PropertyName}Lookup[idx].{contractAddressPropertyName};
-}}
-";
+}}";
                 }
 
+                if (prop != properties.Last())
+                {
+                    codeString += "\n";
+                }
             }
-            return addIndentation(codeString, 1); ;
+
+            return addIndentation(codeString, 1);
         }
 
         protected override void SolGen(string outputPath)
         {
             string filePath;
             string outputString =
-$@"pragma solidity ^0.4.20;
+$@"pragma solidity ^0.5.2;
+
+
 import ""./{_ItemContractName}.sol"";
+
+
 contract WorkbenchBase {{
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
@@ -290,7 +302,7 @@ contract WorkbenchBase {{
     string internal ApplicationName;
     string internal WorkflowName;
 
-    constructor(string applicationName, string workflowName) internal {{
+    constructor(string memory applicationName, string memory workflowName) internal {{
         ApplicationName = applicationName;
         WorkflowName = workflowName;
     }}
@@ -299,14 +311,15 @@ contract WorkbenchBase {{
         emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
     }}
 
-    function ContractUpdated(string action) internal {{
+    function ContractUpdated(string memory action) internal {{
         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }}
 }}
 
+
 contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_RegistryContracyName}"") {{
-    enum StateType {{ Created, Open, Closed}}
-    StateType public State;                       
+    enum StateType {{ Created, Open, Closed }}
+    StateType public State;
 
     {_ItemStruct}[] public {_ItemName}s;
 
@@ -314,7 +327,7 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
     string public Description;
 
 {PropertyDepenentDeclarations()}
-    constructor(string _Name, string _Description) public {{
+    constructor(string memory _Name, string memory _Description) public {{
         Name = _Name;
         Description = _Description;
         State = StateType.Created;
@@ -323,7 +336,7 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
 
     function OpenRegistry() public
     {{
-        State = StateType.Open;        
+        State = StateType.Open;
         ContractUpdated(""OpenRegistry"");
     }}
 
@@ -336,10 +349,9 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
 {IsRegisteredPropertyFunctions()}
 {RegisterFunction()}
 {GetItemByPropertyFunctions()}
-    
     function getNumberOfRegistered{_ItemName}s() 
     public
-    constant
+    view
     returns(uint count)
     {{
         return {_ItemName}{contractAddressPropertyName}Index.length;
@@ -347,7 +359,7 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
 
     function get{_ItemName}AtIndex(uint index)
     public
-    constant
+    view
     returns(address {_ItemName}{contractAddressPropertyName})
     {{
         return {_ItemName}{contractAddressPropertyName}Index[index];
@@ -373,8 +385,11 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
         protected string SolGenItem()
         {
             string s =
-$@"pragma solidity ^0.4.20;
+$@"pragma solidity ^0.5.2;
+
+
 import ""./{_ApplicationName}.sol"";
+
 
 contract {_ItemContractName} is WorkbenchBase(""{_ApplicationName}"", ""{_ItemContractName}"") {{
 
@@ -412,7 +427,7 @@ contract {_ItemContractName} is WorkbenchBase(""{_ApplicationName}"", ""{_ItemCo
             var codeString =
                 $@"
 //Retire Function for {_ItemName}
-function  Retire(string retirementRecordedDateTime) public {{
+function Retire(string memory retirementRecordedDateTime) public {{
     RetirementRecordedDateTime = retirementRecordedDateTime;
     State = StateType.Retired;
     ContractUpdated(""Retire"");
@@ -447,7 +462,7 @@ function  Retire(string retirementRecordedDateTime) public {{
 function {funcName}({argList}) public {{
     
     // only assign if there isn't one assigned already
-    if (RegistryAddress != 0x0) revert(); 
+    if (RegistryAddress != address(0)) revert();
     {ownership_varAssignments}
     if (State != StateType.Active) revert();
     
@@ -468,7 +483,7 @@ function {funcName}({argList}) public {{
             string output = $@"
 function AssignRegistry(address _registryAddress) public
 {{
-    if (RegistryAddress != 0x0) revert(); 
+    if (RegistryAddress != address(0)) revert();
     RegistryAddress = _registryAddress;
     ContractUpdated(""AssignRegistry"");
 }}";
@@ -495,13 +510,15 @@ function AddMedia({Media_ConstructorParamList}) public
 //Constructor Function for {_ItemName}
 //-------------------------------------
 ";
-            var paramString = getPropertyCommaList(false, false, IsRegistryKnown?"string _RegistryAddress":string.Empty);
+            // TODO: Better to use just 'address' instead of a 'string'
+            // var paramString = getPropertyCommaList(false, false, true, IsRegistryKnown ? "address _RegistryAddress" : string.Empty);
+            var paramString = getPropertyCommaList(false, false, true, IsRegistryKnown ? "string memory _RegistryAddress" : string.Empty);
             string Media_ConstructorParamList_Or_Empty = (MediaSetting.AssociatedMedia == AssociatedMedia_t.SingleElementAtCreation) ?
                                                               $", {Media_ConstructorParamList}" : string.Empty;
             string Media_VarAssignments_Or_Empty = (MediaSetting.AssociatedMedia == AssociatedMedia_t.SingleElementAtCreation) ?
                                                               $"{Media_VarAssignments}" : string.Empty;
             codeString += $@"
-constructor({paramString}{Media_ConstructorParamList_Or_Empty}";
+constructor ({paramString}{Media_ConstructorParamList_Or_Empty}";
             if (IsOwnerKnown)
                 codeString += $@", {Ownership_ConstructorParamList}";
             codeString += $@") public {{
@@ -522,11 +539,13 @@ $@"    {prop.PropertyName} = _{prop.PropertyName};
 ";
             }
             codeString += IsRegistryKnown ? $"    RegistryAddress = stringToAddress(_RegistryAddress);\n" : string.Empty;
+            // TODO: Better to use just 'address' instead of a 'string'
+            // codeString += IsRegistryKnown ? $"    RegistryAddress = _RegistryAddress;\n" : string.Empty;
             if (IsRegistryKnown && (IsOwnerKnown ^ IsOwnershipTypeNone))
             {
                 codeString +=
 $@"
-     My{_ItemName}Registry = {_RegistryContracyName}(RegistryAddress);
+    My{_ItemName}Registry = {_RegistryContracyName}(RegistryAddress);
      {RegisterItem()}
 ";
             }
