@@ -1,23 +1,26 @@
 ---
 topic: sample
 languages:
-  - .net
+  - C#
 products:
   - azure
   - azure-blockchain
+  - azure-logic-apps	
 ---
 
 # Connect an Azure Ethereum Blockchain to a MySQL Database using the Ethereum Logic App Connector
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-This sample shows you how to use the Azure Ethereum Logic App and an Azure function store blockchain events in a MySQL database
+This sample shows you how to use the Azure Ethereum Logic App and an Azure Function to store blockchain events in a MySQL database.
 
 ## Contents
 
 | File/folder | Description |
 |-------------|-------------|
 | `src`       | Sample source code. |
+| `media` | Images used in this README |
+| `schema` | A JSON schema file used in the logic app JSON parser needed in this sample. |
 | `.gitignore` | Define what to ignore at commit time. |
 | `CHANGELOG.md` | List of changes to the sample. |
 | `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
@@ -26,17 +29,31 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure funct
 
 ## Prerequisites
 
-- An Ethereum RPC endpoint 
-- An Azure MySQL database
+- An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
+- An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
+- A [MySQL explorer](https://dev.mysql.com/downloads/)
 
 ## Setup
 
 1. Clone or download this sample repository
-3. Run the following command to install the required Python modules in the context of the sample folder.
+
+2. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called *contractaction*
+
+3. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
+
+4. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+
+5. In Logic App Designer create the following
+
+    
+
+6. Run the following command to install the required Python modules in the context of the sample folder.
+
     ```bash
     pip install -r .\requirements.txt
     ```
-4. Open the sample folder in Visual Studio Code or your IDE of choice.
+
+7. Open the sample folder in Visual Studio Code or your IDE of choice.
 
 ## Running the sample
 
@@ -78,7 +95,7 @@ Let's take a quick review of what's happening in this example.
         "SupplyChainObserver": "0x4567...",
         "Counterparty": "0x0000...",
         "SupplyChainOwner": "0x89ab...",
-        "InitiatingCounterparty": "0xcdef",
+        "InitiatingCounterparty": "0xcdef...",
         "State": "2"
     }
     ```
@@ -90,9 +107,7 @@ Let's take a quick review of what's happening in this example.
     ```
 
     ```c#
-    command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, 
-                    supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, 
-                    @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
+    command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
     ```
 
 * Retrieve the collection or create it if it does not already exist.
