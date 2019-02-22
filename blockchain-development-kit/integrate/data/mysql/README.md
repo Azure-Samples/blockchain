@@ -43,9 +43,31 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 
 4. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
 
-5. In Logic App Designer create the following
+5. In Logic App Designer build the following logic app flow
 
-    
+    1. Add an Event Grid watcher to the logic app designer
+
+        ![](C:\blockchain\blockchain\blockchain-development-kit\integrate\data\mysql\media\LogicAppEventGrid.png)
+
+        1. Enter the subscription where you have deployed Azure Blockchain Workbench
+        2. Select Microsoft.EventGrid.Topics as the resource name
+        3. Select the event grid resource name created when you deployed workbench (search your resource group for event grid and get the resource name from the portal)
+
+    2. do this
+
+    3. do that
+
+    4. do more 
+
+    5. and more
+
+    6. 
+
+        
+
+        
+
+        
 
 6. Run the following command to install the required Python modules in the context of the sample folder.
 
