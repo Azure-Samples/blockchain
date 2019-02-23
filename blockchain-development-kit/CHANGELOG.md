@@ -1,4 +1,4 @@
-## [Azure Blockchain Workbench] Changelog
+## Azure Blockchain Workbench Changelog
 
 <a name="x.y.z"></a>
 # 2019.02.22 (yyyy-mm-dd)
@@ -11,4 +11,5 @@
 * ...
 
 *Breaking Changes*
+
 * ...
