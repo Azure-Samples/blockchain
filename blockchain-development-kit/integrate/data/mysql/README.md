@@ -51,7 +51,10 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 
         ![](./media/AzureFunctionApplicationSettingsKeys.PNG)
 
-3. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called `contractaction`
+3. [Create a database and table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server.
+
+    1. Name the database `blockchaintestdb`
+    2. Name the table `contractaction`
 
 4. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
 
