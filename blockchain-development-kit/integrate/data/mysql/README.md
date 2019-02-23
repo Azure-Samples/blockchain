@@ -37,13 +37,27 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 
 1. Clone or download this sample repository
 
-2. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called `contractaction`
+2. Open the Visual Studio Code project in `./src` 
 
-3. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
+    1. To test the project locally, you must add a `local.settings.json` file to the project and add your MySQL database credentials as shown below
 
-4. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+        ![](./media/VSCodeLocalSettings.PNG)
 
-5. In Logic App Designer build the following logic app flow
+    2. To test and run this Azure Function in the cloud you must add these same credentials to the application settings for the Azure Function
+
+        ![](./media/AzureFunctionApplicationSettings.PNG)
+
+        After selecting `Application Settings` scroll down until you see the `Application Settings` area of the tab. Insert your key/values as shown below (all key/value pairs are encrypted at rest in Azure)
+
+        ![](./media/AzureFunctionApplicationSettingsKeys.PNG)
+
+3. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called `contractaction`
+
+4. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
+
+5. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+
+6. In Logic App Designer build the following logic app flow
 
     1. Add an Event Grid watcher to the logic app designer
 
@@ -91,29 +105,20 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 
 ## Running the sample
 
-1. Make sure the Azure Cosmos DB Emulator is running.
-2. Open a terminal window and `cd` to the directory that the app is saved in.
-3. Set the environment variable for the Flask app with `set FLASK_APP=app.py` on Windows, or `export FLASK_APP=app.py` if you are using macOS.
-4. Run the app with `flask run` and point your browser to `http://127.0.0.1:5000/`.
-5. Add and remove tasks and see them added and changed in the collection.
+1. Make sure the your `blockchainToMySQL` function and Azure logic app are running
 
-## Deploy to Azure
+2. Create and execute a few transaction/state changes in your contract.
 
-<a href="https://deploy.azure.com/?repository=https://github.com/heatherbshapiro/To-Do-List---Flask-MongoDB-Example" target="_blank">
-<img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
+3. Connect your MySQL explorer to your server and `contractactions` table and execute the following SQL statement
 
-To deploy this app, you can create a new web app in Azure and enable continuous deployment with a fork of this GitHub repo. Follow the [App Service continuous deployment tutorial](https://docs.microsoft.com/azure/app-service-web/app-service-continuous-deployment) to set up continuous deployment with GitHub in Azure.
+   ```sql 
+    SELECT * FROM contractaction
+   ```
 
-When deploying to Azure, you should remove your application keys and make sure the section below is not commented out:
+4. For every state change you should see the SQL table add a new row with all parties and state transactions recorded as shown in the example below
 
-```python
-    client = MongoClient(os.getenv("MONGOURL"))
-    db = client.test    #Select the database
-    db.authenticate(name=os.getenv("MONGO_USERNAME"),password=os.getenv("MONGO_PASSWORD"))
-```
+   ![](./media/MySQLExplorer.PNG)
 
-You then need to add your MONGOURL, MONGO_PASSWORD, and MONGO_USERNAME to the application settings. You can follow the [website configuration tutorial](https://docs.microsoft.com/azure/app-service-web/web-sites-configure#application-settings) to learn more about Application Settings in Azure Web Apps.
 
 ## Key concepts
 
@@ -144,20 +149,9 @@ Let's take a quick review of what's happening in this example.
     command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
     ```
 
-* Retrieve the collection or create it if it does not already exist.
+* Finally, you are viewing a record of all smart-contract actions as recorded in a MySQL database by querying the database using the MySQL workbench database viewer and selecting all records from the database `contractaction`
 
-    ```python
-    todos = db.todo #Select the collection
-    ```
-
-* Create the app
-
-    ```Python
-    app = Flask(__name__)
-    title = "TODO with Flask"
-    heading = "ToDo Reminder"
-    ```
 
 ## Next steps
 
-You can learn more about our service on the [official documentation site](https://docs.microsoft.com/azure).
+You can learn more about the Ethereum Logic App Connector and the various triggers and actions on the [official documentation site](https://docs.microsoft.com/en-us/connectors/blockchainethereum/).
