@@ -1,14 +1,13 @@
 ---
 topic: sample
 languages:
-  - C#
+  - csharp
 products:
   - azure
-  - azure-blockchain
-  - azure-logic-apps	
+  - azure-blockchain	
 ---
 
-# Connect an Azure Ethereum Blockchain to a MySQL Database using the Ethereum Logic App Connector
+# Connect and add blockchain data to a MySQL Database using the Ethereum Logic App Connector
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -32,12 +31,13 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 - An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
 - An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
 - A [MySQL explorer](https://dev.mysql.com/downloads/)
+- An Ethereum contract. You may use your own, or one included in the Blockchain Workbench or in the Blockchain Development Kit
 
 ## Setup
 
 1. Clone or download this sample repository
 
-2. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called *contractaction*
+2. [Create a table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server called `contractaction`
 
 3. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
 
@@ -47,35 +47,47 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 
     1. Add an Event Grid watcher to the logic app designer
 
-        ![](C:\blockchain\blockchain\blockchain-development-kit\integrate\data\mysql\media\LogicAppEventGrid.png)
+        ![](./media/LogicAppEventGrid.png)
 
         1. Enter the subscription where you have deployed Azure Blockchain Workbench
-        2. Select Microsoft.EventGrid.Topics as the resource name
+        2. Select `Microsoft.EventGrid.Topics` as the resource name
         3. Select the event grid resource name created when you deployed workbench (search your resource group for event grid and get the resource name from the portal)
 
-    2. do this
+    2. Next add a switch case conditional statement block and add "subject" as the switch condition
 
-    3. do that
+        ![](./media/LogicAppConditionalSwitch.png)
 
-    4. do more 
+    3. In the case statement type in `ContractMessage` as the case condition
 
-    5. and more
+    4. Add an action to parse the incoming JSON
 
-    6. 
+        1. In the parse JSON step, select `body` as the content section and cut and paste the schema contained in ``./schema/logic/appParseSchema.txt`` into the Schema window
 
-        
+        ![](./media/LogicParseJSON.png)
 
-        
+    5. Next we want to add an evaluation of the contract status. Workbench gives us updates on many things, in this sample we are tracking updates to an existing contract. Thus we want to filter out messages related to new contracts being added. Add a filter and select `IsNewContract` as the filter condition
 
-        
+        ![](./media/LogicAppIsNewContract.png) 
 
-6. Run the following command to install the required Python modules in the context of the sample folder.
+    6. For the "if true" branch of the above condition, you want to add the Ethereum Logic App connector - Get smart contract state (all properties) action
 
-    ```bash
-    pip install -r .\requirements.txt
-    ```
+        1. Upload your contracts ABI to the connector
+        2. Add the address of your deployed contract to the connector
 
-7. Open the sample folder in Visual Studio Code or your IDE of choice.
+        ![](./media/LogicAppABI.png)
+
+        ![](./media/LogicAppContractAddress.png)
+
+    7. Finally add the Azure Function `blockchainToMySQL` that you uploaded earlier
+
+        ![](./media/LogicAppAzureFunction.png)
+
+    8. The finished logic app connections should look like this
+
+        ![](./media/LogicAppDesigner.PNG)
+
+         
+
 
 ## Running the sample
 

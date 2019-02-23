@@ -1,36 +1,39 @@
-Azure Blockchain Development Kit
-================================
+---
+topic: sample
+products:
+  - azure
+  - azure-blockchain	
+---
 
-*New!* Version 1.0 of the Azure Blockchain Development Kit is now available.
+![Azure Blockchain Devkit MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
+# Azure Blockchain Development Kit
 
 This repository contains content and samples in number of areas, including:
 
--   [Connecting interfaces to the
-    blockchain](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect)
+-   [Connect](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect) - Connect various data producers and consumers to or from the blockchain
+-   [Integrate](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate) - Integrate legacy tools, systems and protocols
+-   [Accelerators](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators) - Deep dive into End-to-End examples, or solutions to common patterns.
+-   [DevOps for smart contracts](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/devops) - Bring traditional DevOps practices into a distributed application environment
 
--   [Integrating legacy tools, systems, data and
-    protocols](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/integrate)
+To learn more about Azure Blockchain Workbench, please visit our [product page](https://aka.ms/workbenchdocs) and [documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench).
 
--   [DevOps for smart
-    contracts](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/devops)
 
--   [Accelerators](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators)
+## Contents
 
-To learn more about Azure Blockchain Workbench, please visit our [product
-page](https://aka.ms/workbenchdocs) and
-[documentation](http://azure.microsoft.com/en-us/features/blockchain-workbench).
+| File/folder       | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `accelerators`    | Samples showing common end-to-end application patterns and business scenarios |
+| `connect`         | Samples showing how to produce or consume information, sending to and reading from the blockchain through outside sources |
+| `devops`          | A series of patterns and whitepapers of how to integrate traditional software devops into a multi-party, distributed, application environment |
+| integrate         | Samples showing how to connect to traditional enterprise systems such as SQL databases, FTP, storage, or cloud file and email services. |
+| `.gitignore`      | Define what to ignore at commit time.                        |
+| `CHANGELOG.md`    | List of changes to the sample.                               |
+| `CONTRIBUTING.md` | Guidelines for contributing to the Azure Blockchain Devkit.  |
+| `README.md`       | This README file.                                            |
+| `LICENSE`         | The license for the sample.                                  |
 
-How to contribute
------------------------
-This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repositories using our CLA.
 
-This project has adopted the Microsoft Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
+## Feedback
+For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain&data=02).
 
-Feedback
------------------------
-For general product feedback, please visit our
-[forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain&data=02).
-
-To request additional features or samples, visit our [UserVoice
-site](https://feedback.azure.com/forums/586780-blockchain&data=02).
+To request additional features or samples, visit our [UserVoice site](https://feedback.azure.com/forums/586780-blockchain&data=02).
