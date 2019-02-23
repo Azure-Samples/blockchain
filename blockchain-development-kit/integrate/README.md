@@ -1,6 +1,7 @@
 
 # Integrate
 ![MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
+
 Businesses are using blockchain and smart contracts to facilitate multi-party processes. Blockchain also delivers real-time transparency of the states and events of those contracts to appropriate participants.
 
 End to end blockchain solutions require integration with data, software, and media that live “off chain”. External updates and events can trigger actions on smart contracts. Smart contract events and state changes can then trigger actions and data updates to “off chain” systems and data. These external systems and AI will also need the ability to query attestable data from smart contracts to inform action.
