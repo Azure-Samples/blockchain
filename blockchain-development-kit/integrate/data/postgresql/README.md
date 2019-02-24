@@ -7,11 +7,13 @@ products:
   - azure-blockchain	
 ---
 
-# Connect and add blockchain data to a MySQL Database using the Ethereum Logic App Connector
+# Connect and add blockchain data to a PostgreSQL Database using the Ethereum Logic App Connector
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-This sample shows you how to use the Azure Ethereum Logic App and an Azure Function to store blockchain events in a MySQL database.
+This sample, which is similar to the [MySQL sample](../mysql),  shows you how to use the Azure Ethereum Logic App and an Azure Function to store blockchain events in a PostgreSQL database.
+
+The preliminary difference in this sample is that in this PostgreSQL sample, we are monitoring the contract stored on the blockchain directly for any events the contract itself creates. This sample uses the Azure Ethereum Logic App to monitor the contract for events, and upon being triggered by the contract,  the logic app queries the contract for its current state. That state is written to a PostgreSQL database using the same schema as the MySQL sample.
 
 ## Contents
 
@@ -19,7 +21,7 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 |-------------|-------------|
 | `src`       | Sample source code. |
 | `media` | Images used in this README |
-| `schema` | A JSON schema file used in the logic app JSON parser needed in this sample. |
+| `contract` | An example Solidity contract and ABI. This contract contains an "emit" function which generates event that the logic app is triggered on. |
 | `.gitignore` | Define what to ignore at commit time. |
 | `CHANGELOG.md` | List of changes to the sample. |
 | `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
