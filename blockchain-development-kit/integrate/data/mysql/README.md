@@ -11,7 +11,11 @@ products:
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-This sample shows you how to use the Azure Ethereum Logic App and an Azure Function to store blockchain events in a MySQL database.
+This sample, which is similar to the [PostgreSQL sample](../postgresql),  shows you how to use the Azure Ethereum Logic App and an Azure Function to store blockchain events in a MySQL database.
+
+This is a slightly more complex sample than the PostgreSQL sample as this sample monitors the event grid that Azure Blockchain Workbench creates to help facilitate event driven programming. 
+
+In this sample we use the Ethereum Logic App connector to take an action when triggered by the event grid. The Ethereum Logic app reads the current contract state when triggered and  that state is written to a MySQL database using the same schema as the PostgreSQL sample.
 
 ## Contents
 
@@ -31,7 +35,7 @@ This sample shows you how to use the Azure Ethereum Logic App and an Azure Funct
 - An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
 - An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
 - A [MySQL explorer](https://dev.mysql.com/downloads/)
-- An Ethereum contract. You may use your own, or one included in the Blockchain Workbench or in the Blockchain Development Kit
+- An Ethereum contract. You may use your own, or any included in the Blockchain Workbench or in the Blockchain Development Kit. 
 
 ## Setup
 

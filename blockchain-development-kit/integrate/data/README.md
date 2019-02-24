@@ -8,11 +8,11 @@ These samples show you how to integrate blockhain ledgers into common enterprise
 
 | File/folder | Description |
 |-------------|-------------|
-| `azure-search` | TBD |
+| `azure-search` | <coming soon> |
 | cosmosdb               | Example to show how to push blockchain data into a Cosmos database |
 | `excel` | Example to show how to pull blockchain information out of Azure Blockchain Workbench and view/explore the data in Excel |
 | `mysql` | Example of how to trigger a logic app from event grid and push data from a blockchain into an Azure MySQL server |
 | `postgresql` | Example of how to trigger a logic app from a Solidity contract event and push data from a blockchain into an Azure PostgreSQL server |
-| `powerbi` | TBD |
-| `sql` | Example of how to use a logic app to push data from a blockchain into an Azure SQL server |
+| `powerbi` | <coming soon> |
+| `sql` | Example of how to use the Ethereum Logic App connector to push data from Azure SQL database into an Ethereum blockchain |
 | `README`.md | This README file |
