@@ -21,8 +21,6 @@ namespace EthereumLogicApp.Insert
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = "Chris";
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
@@ -33,7 +31,7 @@ namespace EthereumLogicApp.Insert
             string _initiatingcounteraparty = Convert.ToString(data.InitiatingCounterparty);  
             int _state = data.State; 
 
-            log.LogInformation("Processed through request body.");
+            log.LogInformation("Processed request body.");
 
            var config = new ConfigurationBuilder()
             .SetBasePath(context.FunctionAppDirectory)
@@ -50,22 +48,15 @@ namespace EthereumLogicApp.Insert
                 SslMode = MySqlSslMode.None,
             };
 
+            int rowCount;
+
             using (var conn = new MySqlConnection(builder.ConnectionString))
             {
-                log.LogInformation("Trying to open connection");
                 await conn.OpenAsync();
-
                 log.LogInformation("Opened connection");
+
                 using (var command = conn.CreateCommand())
                 {
-                    //command.CommandText = "DROP TABLE IF EXISTS contractaction;";
-                    //await command.ExecuteNonQueryAsync();
-                    // Console.WriteLine("Finished dropping table (if existed)");
-
-                    //command.CommandText = "CREATE TABLE contractaction (id serial PRIMARY KEY, previouscounterparty VARCHAR(50), supplychainobserver VARCHAR(50), counterparty VARCHAR(50), supplychainowner VARCHAR(50), initiatingcounteraparty VARCHAR(50), state INTEGER);";
-                    //await command.ExecuteNonQueryAsync();
-                    //Console.WriteLine("Finished creating table");
-
                     command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, 
                     supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, 
                     @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
@@ -77,14 +68,14 @@ namespace EthereumLogicApp.Insert
                     command.Parameters.AddWithValue("@_initiatingcounteraparty", _initiatingcounteraparty);
                     command.Parameters.AddWithValue("@_state", _state);
 
-                    int rowCount = await command.ExecuteNonQueryAsync();
+                    rowCount = await command.ExecuteNonQueryAsync();
                 }
 
             }
         
-             return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+             return rowCount > 0
+                ? (ActionResult)new OkObjectResult($"Updated, {rowCount} database rows")
+                : new BadRequestObjectResult("No database updates");
         }
     }
 }

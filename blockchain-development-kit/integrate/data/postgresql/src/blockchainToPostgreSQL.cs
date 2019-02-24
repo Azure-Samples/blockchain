@@ -21,8 +21,6 @@ namespace EthereumLogicApp.Insert
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = "Chris";
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
@@ -33,7 +31,7 @@ namespace EthereumLogicApp.Insert
             string _initiatingcounteraparty = Convert.ToString(data.InitiatingCounterparty);  
             int _state = data.State; 
 
-            log.LogInformation("Processed through request body.");
+            log.LogInformation("Processed request body.");
 
            var config = new ConfigurationBuilder()
             .SetBasePath(context.FunctionAppDirectory)
@@ -57,9 +55,10 @@ namespace EthereumLogicApp.Insert
                     Port,
                     Password);
 
+            int rowCount;
+
             using (var conn = new NpgsqlConnection(connString))
             {
-                log.LogInformation("Trying to open connection");
                 conn.Open();             
                 log.LogInformation("Opened connection");
 
@@ -77,15 +76,13 @@ namespace EthereumLogicApp.Insert
                 command.Parameters.AddWithValue("@_initiatingcounteraparty", _initiatingcounteraparty);
                 command.Parameters.AddWithValue("@_state", _state);
 
-                int rowCount = await command.ExecuteNonQueryAsync();
+                rowCount = await command.ExecuteNonQueryAsync();
                 
-                log.LogInformation("wrote rows");
-
             }
 
-             return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+             return rowCount > 0
+                ? (ActionResult)new OkObjectResult($"Updated, {rowCount} database rows")
+                : new BadRequestObjectResult("No database updates");
         }
     }
 }
