@@ -21,7 +21,7 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 |-------------|-------------|
 | `src`       | Sample source code. |
 | `media` | Images used in this README |
-| `contract` | An example Solidity contract and ABI. This contract contains an "emit" function which generates event that the logic app is triggered on. |
+| `contract` | An example Solidity contract and ABI. This contract contains an "emit" function which generates an event that the logic app is triggered on. |
 | `.gitignore` | Define what to ignore at commit time. |
 | `CHANGELOG.md` | List of changes to the sample. |
 | `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
@@ -30,10 +30,10 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
 ## Prerequisites
 
-- An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
-- An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
-- A [MySQL explorer](https://dev.mysql.com/downloads/)
-- An Ethereum contract. You may use your own, or one included in the Blockchain Workbench or in the Blockchain Development Kit
+- Optional - [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
+- An [Azure PostgreSQL database](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal)
+- [pgAdmin](https://www.pgadmin.org/) A PostgreSQL database explorer
+- An Ethereum contract. You may use your own, or one included in the `contract` directory in this sample
 
 ## Setup
 
@@ -41,7 +41,7 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
 2. Open the Visual Studio Code project in `./src` 
 
-    1. To test the project locally, you must add a `local.settings.json` file to the project and add your MySQL database credentials as shown below
+    1. To test the project locally, you must add a `local.settings.json` file to the project and add your PostgreSQL database credentials as shown below
 
         ![](./media/VSCodeLocalSettings.PNG)
 
@@ -53,7 +53,7 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
         ![](./media/AzureFunctionApplicationSettingsKeys.PNG)
 
-3. [Create a database and table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server.
+3. [Create a database and table](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal#connect-to-the-postgresql-database-using-psql) in your PostgreSQL server.
 
     1. Name the database `blockchaintestdb`
 
@@ -69,57 +69,36 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
 6. In Logic App Designer build the following logic app flow
 
-    1. Add an Event Grid watcher to the logic app designer
+    1. Add the Ethereum Logic App connector, select the trigger `when a smart contract event occurs` as shown below
 
-        ![](./media/LogicAppEventGrid.png)
+        ![](./media/LogicAppTrigger.png)
 
-        1. Enter the subscription where you have deployed Azure Blockchain Workbench
-        2. Select `Microsoft.EventGrid.Topics` as the resource name
-        3. Select the event grid resource name created when you deployed workbench (search your resource group for event grid and get the resource name from the portal)
+    2. Cut and paste the ABI from your own contract, or from the example contract located in the `contract` directory of this sample
 
-    2. Next add a switch case conditional statement block and add "subject" as the switch condition
+    3. Cut and paste the address of your contract into the address field of this connector and save.
 
-        ![](./media/LogicAppConditionalSwitch.png)
+    4. Add a 2nd Ethereum Logic App connector. This time select the action `Get contract state (all properties)` as shown below
 
-    3. In the case statement type in `ContractMessage` as the case condition
+        ![](./media/LogicAppAction.png)
 
-    4. Add an action to parse the incoming JSON
+    5. Finally add the last action, connect this to your `blockchainToPostgreSQL` Azure Function you uploaded earlier
 
-        1. In the parse JSON step, select `body` as the content section and cut and paste the schema contained in ``./schema/logic/appParseSchema.txt`` into the Schema window
+    6. Add the \`body` as the input into the  Azure Logic App from the dynamic content menu
 
-        ![](./media/LogicParseJSON.png)
-
-    5. Next we want to add an evaluation of the contract status. Workbench gives us updates on many things, in this sample we are tracking updates to an existing contract. Thus we want to filter out messages related to new contracts being added. Add a filter and select `IsNewContract` as the filter condition
-
-        ![](./media/LogicAppIsNewContract.png) 
-
-    6. For the "if true" branch of the above condition, you want to add the Ethereum Logic App connector - Get smart contract state (all properties) action
-
-        1. Upload your contracts ABI to the connector
-        2. Add the address of your deployed contract to the connector
-
-        ![](./media/LogicAppABI.png)
-
-        ![](./media/LogicAppContractAddress.png)
-
-    7. Finally add the Azure Function `blockchainToMySQL` that you uploaded earlier
-
-        ![](./media/LogicAppAzureFunction.png)
-
-    8. The finished logic app connections should look like this
+    7. The final logic app flow should look like this
 
         ![](./media/LogicAppDesigner.PNG)
 
-         
+        
 
 
 ## Running the sample
 
-1. Make sure the your `blockchainToMySQL` function and Azure logic app are running
+1. Make sure the your `blockchainToPostgreSQL` function and Azure logic app are running
 
 2. Create and execute a few transaction/state changes in your contract.
 
-3. Connect your MySQL explorer to your server and `contractactions` table and execute the following SQL statement
+3. Connect your PostgreSQL explorer to your server and `contractactions` table and execute the following SQL statement
 
    ```sql 
     SELECT * FROM contractaction
@@ -127,16 +106,15 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
 4. For every state change you should see the SQL table add a new row with all parties and state transactions recorded as shown in the example below
 
-   ![](./media/MySQLExplorer.PNG)
+   ![](./media/PostgreSQLExplorer.PNG)
 
 
 ## Key concepts
 
 Let's take a quick review of what's happening in this example. 
 
-* Contract events that happen on the blockchain are sent to an Azure Event Hub
-* An Azure Logic App monitors that Event Hub for notifications of new contract events
-* Upon a receipt of a new contract event the Ethereum Logic App Connector queries the blockchain at the address of a contract we are monitoring and pulls the current contract status
+* Contract events that happen on the blockchain are emitted by the Ethereum EVM as events that the Azure Ethereum Logic App is triggered on
+* After being triggered a 2nd Azure Ethereum Logic App then takes an action to query the blockchain at the address of a contract we are monitoring and pulls the current contract status
 * The Ethereum Logic App Connector then forwards the current contract status to a custom Azure Function
     ```JSON
         "body": {
@@ -149,7 +127,7 @@ Let's take a quick review of what's happening in this example.
     }
     ```
 
-* The Azure Function is parsing the contract status JSON and inserts that into a MySQL table
+* The Azure Function is parsing the contract status JSON and inserts that into a PostgreSQL table
     ```c#
     string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -159,7 +137,7 @@ Let's take a quick review of what's happening in this example.
     command.CommandText = @"INSERT INTO contractaction (previouscounterparty, supplychainobserver, counterparty, supplychainowner, initiatingcounteraparty, state) VALUES (@_previouscounterparty, @_supplychainobserver, @_counterparty, @_supplychainowner, @_initiatingcounteraparty, @_state);";
     ```
 
-* Finally, you are viewing a record of all smart-contract actions as recorded in a MySQL database by querying the database using the MySQL workbench database viewer and selecting all records from the database `contractaction`
+* Finally, you are viewing a record of all smart-contract actions as recorded in a PostgreSQL database by querying the database using the PostgreSQL workbench database viewer and selecting all records from the database `contractaction`
 
 
 ## Next steps
