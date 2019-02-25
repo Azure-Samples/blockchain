@@ -11,7 +11,7 @@ products:
 This repository contains content and samples in number of areas, including:
 
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/?repository=https://github.com/cnsegura/blockchain/blob/master/blockchain-development-kit/azureethdeploy.json)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://portal.azure.com/#create/Microsoft.Template/uri/https://github.com/cnsegura/blockchain/blob/master/blockchain-development-kit/azureethdeploy.json)
 
 -   
 -   -   [Connect](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/connect) - Connect various data producers and consumers to or from the blockchain
