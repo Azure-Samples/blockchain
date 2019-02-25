@@ -33,9 +33,17 @@ To learn more about Azure Blockchain Workbench, please visit our [product page](
 | `LICENSE`         | The license for the Azure Development Kit samples            |
 ## Prerequisites
 - Where noted, some of the samples in this development kit may need the following
+
   - Azure Blockchain Workbench
 - Samples using the Ethereum Logic App connector available on the Azure Marketplace require an Ethereum network with a public RPC endpoint
-  - If you wish to use the Azure Blockchain Workbench with the Ethereum Logic App connectors please see this guide on how to create your own Ethereum node and connect that nodes RPC endpoint to Workbench
+
+  - If you wish to use the Azure Blockchain Workbench with the Ethereum Logic App connectors you will need a public RPC endpoint. You may use an existing one, or create a new one. 
+
+    - You may create a new endpoint in Azure [here](https://portal.azure.com/?pub_source=email&pub_status=success#create/microsoft-azure-blockchain.azure-blockchain-ethereumethereum-poa-consortium)
+
+    - Once your endpoint is ready, copy the RPC address from the deployment output and deploy Azure Blockchain Workbench to your subscription. In the Azure deployment blade, enter the RPC endpoint in the blade as shown below
+
+      ![](C:\blockchain\blockchain\blockchain-development-kit\media\wbdeployment.PNG.jpg)
 
 ## Feedback
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain&data=02).
