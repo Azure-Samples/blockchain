@@ -35,7 +35,7 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
 - An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
 - An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
 - A [MySQL explorer](https://dev.mysql.com/downloads/)
-- An Ethereum contract. You may use your own, or any included in the Blockchain Workbench or in the [Blockchain Development Kit](../../../accelerators/attestable-documents-and-media/blockchain-workbench/smart-contracts) 
+- An Ethereum contract - this sample uses the contract stored in the PostgreSQL [contracts](../postgresql/contract) directory
 
 ## Setup
 
