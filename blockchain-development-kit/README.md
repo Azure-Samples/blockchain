@@ -23,15 +23,19 @@ To learn more about Azure Blockchain Workbench, please visit our [product page](
 | File/folder       | Description                                                  |
 | ----------------- | ------------------------------------------------------------ |
 | `accelerators`    | Samples showing common end-to-end application patterns and business scenarios |
-| `connect`         | Samples showing how to produce or consume information, sending to and reading from the blockchain through outside sources |
-| `devops`          | A series of patterns and whitepapers of how to integrate traditional software devops into a multi-party, distributed, application environment |
-| integrate         | Samples showing how to connect to traditional enterprise systems such as SQL databases, FTP, storage, or cloud file and email services. |
-| `.gitignore`      | Define what to ignore at commit time.                        |
-| `CHANGELOG.md`    | List of changes to the sample.                               |
-| `CONTRIBUTING.md` | Guidelines for contributing to the Azure Blockchain Devkit.  |
-| `README.md`       | This README file.                                            |
-| `LICENSE`         | The license for the sample.                                  |
-
+| `connect`         | Samples showing how to produce or consume information, sending to and reading from, the blockchain through outside sources |
+| `devops`          | A series of patterns and whitepapers of how to integrate traditional software devops into a multi-party, distributed, application environments |
+| integrate         | Samples showing how to connect to traditional enterprise systems such as SQL databases, FTP, storage, or cloud file and email services |
+| `.gitignore`      | Define what to ignore at commit time                         |
+| `CHANGELOG.md`    | List of changes to the sample                                |
+| `CONTRIBUTING.md` | Guidelines for contributing to the Azure Blockchain Devkit   |
+| `README.md`       | This README file                                             |
+| `LICENSE`         | The license for the Azure Development Kit samples            |
+## Prerequisites
+- Where noted, some of the samples in this development kit may need the following
+  - Azure Blockchain Workbench
+- Samples using the Ethereum Logic App connector available on the Azure Marketplace require an Ethereum network with a public RPC endpoint
+  - If you wish to use the Azure Blockchain Workbench with the Ethereum Logic App connectors please see this guide on how to create your own Ethereum node and connect that nodes RPC endpoint to Workbench
 
 ## Feedback
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain&data=02).
