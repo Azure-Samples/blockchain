@@ -48,14 +48,14 @@ An [accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockch
 ## Ethereum Blockchain Connector for Logic Apps Samples
 **Data**
 
-- [MySQL](./mysql)
-- [PostgreSQL](./postgresql)
+- [MySQL](./data/mysql)
+- [PostgreSQL](./data/postgresql)
 
 ## Corda Ledger Connector for Logic Apps Sample (Coming Soon)
 (Coming Soon)
 
 # Documents and Media
-Documents and media do not belong on chain, but business processes often involve images, videos, audio, Office documents, CAD files for 3D printers or other file types.
+Documents and mecd dia do not belong on chain, but business processes often involve images, videos, audio, Office documents, CAD files for 3D printers or other file types.
 
 The common pattern is to generate a unique hash of the media and the metadata that describes it. Those hashes are then placed on a public or private chain. If authenticity of a file is ever questioned, the “off chain” files can be re-hashed at a later time and that hash is compared to the “on chain” hash stored on the blockchain. If the hashes match, the document is authentic, but if so much as a pixel of an image or letter in a document is changed, the hashes will not match and this will make obvious that tampering has occurred.
 
