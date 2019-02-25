@@ -1,3 +1,10 @@
+---
+topic: overview
+products:
+  - azure
+  - azure-blockchain	
+---
+
 # Integrating the blockchain into enterprise data operations
 
 ![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
