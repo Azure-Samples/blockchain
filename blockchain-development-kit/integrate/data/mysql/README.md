@@ -35,7 +35,7 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
 - An [Azure Blockchain Workbench](https://azure.microsoft.com/en-us/features/blockchain-workbench/) instance with a public Ethereum RPC endpoint 
 - An [Azure MySQL database](https://docs.microsoft.com/en-us/azure/mysql/quickstart-create-mysql-server-database-using-azure-portal)
 - A [MySQL explorer](https://dev.mysql.com/downloads/)
-- An Ethereum contract. You may use your own, or any included in the Blockchain Workbench or in the Blockchain Development Kit. 
+- An Ethereum contract. You may use your own, or any included in the Blockchain Workbench or in the [Blockchain Development Kit](../../../accelerators/attestable-documents-and-media/blockchain-workbench/smart-contracts) 
 
 ## Setup
 
@@ -117,9 +117,9 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
 
 ## Running the sample
 
-1. Make sure the your `blockchainToMySQL` function and Azure logic app are running
+1. Make sure the `blockchainToMySQL` function and Azure logic app you just created, are running
 
-2. Create and execute a few transaction/state changes in your contract.
+2. Create and execute a few transaction/state changes in your contract
 
 3. Connect your MySQL explorer to your server and `contractactions` table and execute the following SQL statement
 
