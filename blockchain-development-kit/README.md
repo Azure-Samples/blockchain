@@ -43,7 +43,7 @@ To learn more about Azure Blockchain Workbench, please visit our [product page](
 
     - Once your endpoint is ready, copy the RPC address from the deployment output and deploy Azure Blockchain Workbench to your subscription. In the Azure deployment blade, enter the RPC endpoint in the blade as shown below
 
-      ![](C:\blockchain\blockchain\blockchain-development-kit\media\wbdeployment.PNG.jpg)
+      ![](./media/wbdeployment.PNG.jpg)
 
 ## Feedback
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain&data=02).
