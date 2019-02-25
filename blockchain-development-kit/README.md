@@ -25,7 +25,7 @@ To learn more about Azure Blockchain Workbench, please visit our [product page](
 | `accelerators`    | Samples showing common end-to-end application patterns and business scenarios |
 | `connect`         | Samples showing how to produce or consume information, sending to and reading from, the blockchain through outside sources |
 | `devops`          | A series of patterns and whitepapers of how to integrate traditional software devops into a multi-party, distributed, application environments |
-| integrate         | Samples showing how to connect to traditional enterprise systems such as SQL databases, FTP, storage, or cloud file and email services |
+| `integrate`       | Samples showing how to connect to traditional enterprise systems such as SQL databases, FTP, storage, or cloud file and email services |
 | `.gitignore`      | Define what to ignore at commit time                         |
 | `CHANGELOG.md`    | List of changes to the sample                                |
 | `CONTRIBUTING.md` | Guidelines for contributing to the Azure Blockchain Devkit   |
@@ -34,7 +34,7 @@ To learn more about Azure Blockchain Workbench, please visit our [product page](
 ## Prerequisites
 - Where noted, some of the samples in this development kit may need the following
 
-  - Azure Blockchain Workbench
+  - [Azure Blockchain Workbench](https://docs.microsoft.com/en-us/azure/blockchain/workbench/deploy#deploy-blockchain-workbench)
 - Samples using the Ethereum Logic App connector available on the Azure Marketplace require an Ethereum network with a public RPC endpoint
 
   - If you wish to use the Azure Blockchain Workbench with the Ethereum Logic App connectors you will need a public RPC endpoint. You may use an existing one, or create a new one. 

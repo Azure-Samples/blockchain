@@ -46,7 +46,10 @@ __Registries__
 An [accelerator](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-development-kit/accelerators/registry-generator) that generates a custom registry and registry item smart contracts to accommodate any scenario.
 
 ## Ethereum Blockchain Connector for Logic Apps Samples
-(Coming Soon)
+**Data**
+
+- [MySQL](./mysql)
+- [PostgreSQL](./postgresql)
 
 ## Corda Ledger Connector for Logic Apps Sample (Coming Soon)
 (Coming Soon)
