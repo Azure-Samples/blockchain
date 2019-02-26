@@ -31,4 +31,5 @@ Logic Apps have been created to deliver this functionality for files added to th
 ## Integrate Samples
 - [Azure Blockchain Workbench Samples](./WBSamples.md)
 - [Ethereum Blockchain Connector for Logic Apps Samples](./EthereumLASamples.md)
-- [Corda Blockchain Connector for Logic Apps Samples](./CordaLASamples)
+- [Corda Blockchain Connector for Logic Apps Samples](./CordaLASamples.md)
+
