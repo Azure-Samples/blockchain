@@ -1,7 +1,14 @@
 ---
-services: azure-blockchain
-platforms: dotnet, java, nodejs, powershell, rest
-author: mmercuri
+topic: sample
+languages:
+  - csharp
+  - java
+  - nodejs
+  - python
+  - rest
+  - solidity
+products:
+  - azure-blockchain
 ---
 
 # ![Microsoft Azure Blockchain Workbench](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
