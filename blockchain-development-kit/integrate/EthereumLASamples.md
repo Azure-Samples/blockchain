@@ -14,6 +14,7 @@ products:
 |-------------|-------------|
 | `Data`       | [MySQL](./data/mysql) |
 | `Data`       | [PostgreSQL](./data/postgresql) |
+| `Data` | [SQL Server](./data/sql) |
 
 ## Documents and Media 
 | Scenario | Sample |
