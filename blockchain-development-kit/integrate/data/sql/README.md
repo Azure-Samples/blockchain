@@ -113,7 +113,7 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
    Note: The actual contract address comes from the ledger. Your values will be different
 
-   ![](./media/SQLResult.PNG)
+   ![](./media/SQLResult.png)
 
 
 ## Key concepts
