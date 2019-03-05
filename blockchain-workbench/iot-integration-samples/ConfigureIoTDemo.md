@@ -553,12 +553,8 @@ The template of the message to be put in the Content property is below -
 }
 ```
 
-Augment this with values from the Dynamic Content window to match the screenshot
-below -
+Augment this with values from the Dynamic Content window. 
 
-![](media/4bae35957565e503a9203cd37a120d42.png)
-
-![](media/d6d5433a02ec09048e5e584c19201907.png)
 
 Testing
 -------
