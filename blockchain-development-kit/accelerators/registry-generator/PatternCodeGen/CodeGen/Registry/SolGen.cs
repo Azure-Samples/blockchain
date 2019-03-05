@@ -157,7 +157,6 @@ $@",
 $@"    emit LogNew{_ItemName}(
 {addIndentation(propertyCommaListWithoutType, 3)}
     );
-    ContractUpdated(""Register{_ItemName}"");
 }}
 ";
             string Func32ParamList = string.Empty;
@@ -281,30 +280,9 @@ returns(address {_ItemName}{contractAddressPropertyName})
         {
             string filePath;
             string outputString =
-$@"pragma solidity ^0.4.20;
+$@"pragma solidity ^0.4.25;
 import ""./{_ItemContractName}.sol"";
-contract WorkbenchBase {{
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    constructor(string applicationName, string workflowName) internal {{
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }}
-
-    function ContractCreated() internal {{
-        emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }}
-
-    function ContractUpdated(string action) internal {{
-        emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }}
-}}
-
-contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_RegistryContracyName}"") {{
+contract {_RegistryContracyName} {{
     enum StateType {{ Created, Open, Closed}}
     StateType public State;                       
 
@@ -318,19 +296,16 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
         Name = _Name;
         Description = _Description;
         State = StateType.Created;
-        ContractCreated();
     }}
 
     function OpenRegistry() public
     {{
         State = StateType.Open;        
-        ContractUpdated(""OpenRegistry"");
     }}
 
     function CloseRegistry() public
     {{
         State = StateType.Closed;
-        ContractUpdated(""CloseRegistry"");
     }}
 
 {IsRegisteredPropertyFunctions()}
@@ -373,10 +348,10 @@ contract {_RegistryContracyName} is WorkbenchBase(""{_ApplicationName}"", ""{_Re
         protected string SolGenItem()
         {
             string s =
-$@"pragma solidity ^0.4.20;
+$@"pragma solidity ^0.4.25;
 import ""./{_ApplicationName}.sol"";
 
-contract {_ItemContractName} is WorkbenchBase(""{_ApplicationName}"", ""{_ItemContractName}"") {{
+contract {_ItemContractName} {{
 
     // Registry
     {_RegistryContracyName} My{_ItemName}Registry;
@@ -415,7 +390,6 @@ contract {_ItemContractName} is WorkbenchBase(""{_ApplicationName}"", ""{_ItemCo
 function  Retire(string retirementRecordedDateTime) public {{
     RetirementRecordedDateTime = retirementRecordedDateTime;
     State = StateType.Retired;
-    ContractUpdated(""Retire"");
 }}
 ";
             return addIndentation(codeString, 1);
@@ -455,7 +429,6 @@ function {funcName}({argList}) public {{
 
     {RegisterItem()}
     State = StateType.Active;
-    ContractUpdated(""{funcName}"");
 }}
 ";
             return addIndentation(codeString, 1);
@@ -470,7 +443,6 @@ function AssignRegistry(address _registryAddress) public
 {{
     if (RegistryAddress != 0x0) revert(); 
     RegistryAddress = _registryAddress;
-    ContractUpdated(""AssignRegistry"");
 }}";
             return addIndentation(output, 1);
         }
@@ -483,7 +455,6 @@ function AssignRegistry(address _registryAddress) public
 function AddMedia({Media_ConstructorParamList}) public
 {{
 {Media_VarAssignments}
-    ContractUpdated(""AddMedia"");
 }}";
             return addIndentation(output, 1);
         }
@@ -532,8 +503,7 @@ $@"
             }
 
             codeString +=
-$@"    ContractCreated();
-}}";
+$@"}}";
             return addIndentation(codeString,1);
         }
 
