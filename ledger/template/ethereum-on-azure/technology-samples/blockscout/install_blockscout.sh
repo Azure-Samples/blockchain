@@ -79,7 +79,7 @@ config :explorer,
       http: EthereumJSONRPC.HTTP.HTTPoison,
       url: \"http://$CONSORTIUM_IP:$RPC_PORT\",
       method_to_url: [
-        eth_call: \"http://$CONSORTIUM_IP:$RPC_PORT\,
+        eth_call: \"http://$CONSORTIUM_IP:$RPC_PORT\",
         eth_getBalance: \"http://$CONSORTIUM_IP:$RPC_PORT\",
         trace_replayTransaction: \"http://$CONSORTIUM_IP:$RPC_PORT\"
       ],
