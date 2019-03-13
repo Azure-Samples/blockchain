@@ -60,7 +60,7 @@ curl -X POST -H "Content-Type: application/json" $cordalocalnetwork/alicebob/nod
 
 # deploy the app
 curl -X POST  $cordalocalnetwork/alicebob/apps/chat/deploy \
- --data-binary  @../../cordapps/chat/lib/chat.jar 
+ --data-binary  @../../cordapps/jars/chat.jar 
 
 # start the network 
 curl -X POST  $cordalocalnetwork/alicebob/start 
@@ -96,7 +96,7 @@ to build Corda RPC calls.
 ```bash
 # deploy the app
 curl -X POST  $cordatxnbuilder/alicebob/apps/chat/deploy \
- --data-binary  @../../cordapps/chat/lib/chat.jar 
+ --data-binary  @../../cordapps/jars/chat.jar 
 
 # start an "agent" that will communicate with the network
 curl -X POST  $cordatxnbuilder/alicebob/start

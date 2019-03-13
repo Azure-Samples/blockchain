@@ -38,10 +38,13 @@ interface RpcCaller {
 }
 
 /**
- * Makes a live call using the RPC library
+ * Makes a live call using the RPC library. To use this class ensure
  */
 class LiveRpcCaller(val rpc: CordaRPCOps) : RpcCaller {
-    override fun <T : ContractState> vaultQueryBy(criteria: QueryCriteria, paging: PageSpecification, sorting: Sort, contractStateType: Class<out T>): Vault.Page<T> {
+    override fun <T : ContractState> vaultQueryBy(criteria: QueryCriteria,
+                                                  paging: PageSpecification,
+                                                  sorting: Sort, contractStateType: Class<out T>
+    ): Vault.Page<T> {
         val result = rpc.vaultQueryBy<ContractState>(criteria, paging, sorting, contractStateType)
         @Suppress("UNCHECKED_CAST")
         return result as Vault.Page<T>
@@ -65,7 +68,10 @@ class FakeRpcCaller(val reflections: ReflectionsKt = ReflectionsKt()) : RpcCalle
         return FakeFlowProgressHandler(result)
     }
 
-    override fun <T : ContractState> vaultQueryBy(criteria: QueryCriteria, paging: PageSpecification, sorting: Sort, contractStateType: Class<out T>): Vault.Page<T> {
+    override fun <T : ContractState> vaultQueryBy(criteria: QueryCriteria,
+                                                  paging: PageSpecification,
+                                                  sorting: Sort,
+                                                  contractStateType: Class<out T>): Vault.Page<T> {
         return Vault.Page(states = emptyList(),
                 statesMetadata = emptyList(),
                 totalStatesAvailable = 0,
@@ -129,6 +135,14 @@ class FakeFuture<T>(val value: T) : CordaFuture<T> {
 }
 
 
+/**
+ * Encapsulates the logic for making a call to a Corda RPC flow via reflections. To use
+ * this class it is important that all classes to be loaded via reflections are <strong>in the
+ * default classpath</strong>. The Corda RPC libraries will not load correctly if invoked
+ * from a custom class loader (this problem may have been fixed in Corda4).
+ *
+ *
+ */
 class FlowRunner(packageName: String = "net.corda",
                  val partyResolver: Resolver<Party> = InMemoryPartyResolver(),
                  val rpcCaller: RpcCaller = FakeRpcCaller(),
@@ -137,7 +151,7 @@ class FlowRunner(packageName: String = "net.corda",
     var flowClasses: List<ClassInfo> = scanJars(packageName)
 
 
-    inline fun <reified T> run(flowName: String, params: Map<String, Any?> = emptyMap()): T? {
+    inline fun <reified T> run(flowName: String, params: Map<String, Any?> = emptyMap()): T {
 
         val clazzInfo = flowClasses.first { it.simpleName == flowName }
 
@@ -164,8 +178,7 @@ class FlowRunner(packageName: String = "net.corda",
 
             return tracker.returnValue.get(30, TimeUnit.SECONDS);
         } catch (ex: Exception) {
-            ex.printStackTrace()
-            return null
+            throw ex
         }
     }
 

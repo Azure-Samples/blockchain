@@ -8,6 +8,7 @@ import net.corda.core.flows.InitiatedBy
 import net.corda.core.flows.InitiatingFlow
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.identity.Party
+import net.corda.reflections.annotations.Description
 import net.corda.reflections.workbench.TxnResult
 
 import net.corda.workbench.chat.flow.StartChatFlow
@@ -19,6 +20,8 @@ import net.corda.workbench.chat.flow.StartChatFlow
  */
 @InitiatingFlow
 @StartableByRPC
+@Description("Starts a Chat with the specified other party. A default 'hi' message " +
+        "is created")
 class WorkbenchStartFlow(private val linearId: UniqueIdentifier,
                          private val otherParty: Party
 ) : FlowLogic<TxnResult>() {

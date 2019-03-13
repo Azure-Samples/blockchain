@@ -21,8 +21,8 @@ class ChatFlowTests {
     companion object {
 
         lateinit var mockNetwork: MockNetwork
-        lateinit var a: StartedMockNode
-        lateinit var b: StartedMockNode
+        lateinit var alice: StartedMockNode
+        lateinit var bob: StartedMockNode
 
         private val allParties = ArrayList<Party>()
 
@@ -31,15 +31,15 @@ class ChatFlowTests {
         fun setup() {
             mockNetwork = MockNetwork(listOf("net.corda.workbench.chat"),
                     notarySpecs = listOf(MockNetworkNotarySpec(CordaX500Name("Notary", "London", "GB"))))
-            a = mockNetwork.createNode(MockNodeParameters())
-            b = mockNetwork.createNode(MockNodeParameters())
+            alice = mockNetwork.createNode(MockNodeParameters())
+            bob = mockNetwork.createNode(MockNodeParameters())
 
 
-            allParties.add(party(a))
-            allParties.add(party(b))
+            allParties.add(party(alice))
+            allParties.add(party(bob))
 
 
-            val startedNodes = arrayListOf(a, b)
+            val startedNodes = arrayListOf(alice, bob)
             // For real nodes this happens automatically, but we have to manually register the flow for tests
             startedNodes.forEach { it.registerInitiatedFlow(StartChatFlowResponder::class.java) }
             startedNodes.forEach { it.registerInitiatedFlow(ChatFlowResponder::class.java) }
@@ -66,10 +66,12 @@ class ChatFlowTests {
     @Test
     fun flowHappyPath() {
 
+
+        // 1. Alice starts a chat with bob
         val linearId = UniqueIdentifier()
-        val to = party(b)
+        val to = party(bob)
         val startFlow = StartChatFlow(to, linearId)
-        val future1 = a.startFlow(startFlow)
+        val future1 = alice.startFlow(startFlow)
         mockNetwork.runNetwork()
 
         // Return the unsigned(!) SignedTransaction object from the CreateFlow.
@@ -77,14 +79,14 @@ class ChatFlowTests {
         println(ptxStart.tx)
 
 
-        val chatFlow = ChatFlow("yes alice?", party(a), linearId)
-        val future = b.startFlow(chatFlow)
+        // 2. Bob answers
+        val chatFlow = ChatFlow("yes alice?", linearId)
+        val future = bob.startFlow(chatFlow)
         mockNetwork.runNetwork()
 
         // Return the unsigned(!) SignedTransaction object from the CreateFlow.
         val ptxChat: SignedTransaction = future.getOrThrow()
         println(ptxChat.tx)
-
 
         // Check the transaction is well formed...
         assert(ptxChat.tx.inputs.count() == 1)
@@ -94,5 +96,24 @@ class ChatFlowTests {
         val msg = ptxChat.tx.outputs.single().data as Message
         assert(command.signers == msg.participants.map { it.owningKey })
         assert(msg.message == "yes alice?")
+
+
+        // 3. And Alice replies back to bob
+        val chatFlow2 = ChatFlow("nothing, bob", linearId)
+        val future2= alice.startFlow(chatFlow2)
+        mockNetwork.runNetwork()
+
+        // Return the unsigned(!) SignedTransaction object from the CreateFlow.
+        val ptxChat2: SignedTransaction = future2.getOrThrow()
+        println(ptxChat2.tx)
+
+        // Check the transaction is well formed...
+        assert(ptxChat2.tx.inputs.count() == 1)
+        assert(ptxChat2.tx.outputs.single().data is Message)
+        val command2 = ptxChat2.tx.commands.single()
+        assert(command2.value is ChatContract.Commands.Chat)
+        val msg2 = ptxChat2.tx.outputs.single().data as Message
+        assert(command2.signers == msg2.participants.map { it.owningKey })
+        assert(msg2.message == "nothing, bob")
     }
 }

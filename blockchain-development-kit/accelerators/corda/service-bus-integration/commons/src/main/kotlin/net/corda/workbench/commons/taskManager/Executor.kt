@@ -1,26 +1,35 @@
 package net.corda.workbench.commons.taskManager
 
-import java.io.OutputStream
+
+import java.util.*
 
 /**
  * A simple execution context to control where messages and logging are sent to
  */
-class ExecutionContext(messageSink: (String) -> Unit = { consoleMessageSink(it) }) {
+class ExecutionContext(messageSink: (String) -> Unit = { consoleMessageSink(it) },
+                       processRegister: (Process, UUID, String) -> Unit = { _, _, _ -> },
+                       id: UUID = UUID.randomUUID()
+
+) {
 
     /**
-     * Standard output stream. Tasks should redirect any output to this stream
+     * The unique id associated with this task
      */
-    val outputStream: OutputStream = System.out
-
-    /**
-     * Standard error stream. Tasks should redirect any error to this stream
-     */
-    val errorStream: OutputStream = System.err
+    val id: UUID = id
 
     /**
      * Dedicated stream for the task's internal reporting. Should
      * be limited to basic status and progress messages
      */
+    val messageSink: (String) -> Unit = messageSink
+
+    /**
+     * Call this to register a long running process with the ProcessManager
+     */
+    val processRegister: (Process, UUID, String) -> Unit = processRegister
+
+
+    @Deprecated(message = "use messageSink instead")
     val messageStream: (String) -> Unit = messageSink
 
     /**
@@ -31,39 +40,46 @@ class ExecutionContext(messageSink: (String) -> Unit = { consoleMessageSink(it) 
         fun consoleMessageSink(m: String) {
             println(m)
         }
+
+        fun nullProcessRegister(process: Process, id: UUID, label: String) {}
     }
 }
 
 /**
- * Executes a single task with logging
+ * Executes a single task with logging, passing on any exceptions thrown
  */
 class TaskExecutor(private val taskLogMessageSink: (TaskLogMessage) -> Unit) {
+
+    private val executorId: UUID = UUID.randomUUID()
 
     fun exec(t: Task) {
 
         // wire up an execution context linked to this taskLogMessageSink, so that
         // executionContext.messageStream is sent via TaskLogMessage
-        val sink = MessageSink(t, taskLogMessageSink)
-        val executionContext = ExecutionContext({ sink.doit(it) })
+        val sink = MessageSink(executorId, t, taskLogMessageSink)
+        val executionContext = ExecutionContext({ message -> sink.invoke(message) })
 
-        taskLogMessageSink.invoke(TaskLogMessage("Starting ${t::class.java.simpleName}", t.taskID))
+        sink.invoke("Starting ${t::class.java.simpleName}")
         try {
             t.exec(executionContext)
-            taskLogMessageSink.invoke(TaskLogMessage("Completed ${t::class.java.simpleName}", t.taskID))
+            sink.invoke("Completed ${t::class.java.simpleName}")
 
         } catch (ex: Exception) {
-            taskLogMessageSink.invoke(TaskLogMessage("Failed ${t::class.java.simpleName}", t.taskID))
-            taskLogMessageSink.invoke(TaskLogMessage("Exception is: ${ex.message}", t.taskID))
+            sink.invoke("Failed ${t::class.java.simpleName}")
+            sink.invoke("Exception is: ${ex.message}")
+            throw ex
         }
     }
 
-    class MessageSink(val t: Task, private val taskLogMessageSink: (TaskLogMessage) -> Unit) {
-        fun doit(message: String) {
-            val taskLogMessage = TaskLogMessage(message, t.taskID)
+    class MessageSink(val executorId: UUID, val t: Task, private val taskLogMessageSink: (TaskLogMessage) -> Unit) {
+        fun invoke(message: String) {
+            val taskLogMessage = TaskLogMessage(executorId, message, t.taskID)
             taskLogMessageSink.invoke(taskLogMessage)
         }
     }
 }
+
+
 
 /**
  * Execute a list of tasks, waiting until the last one completes

@@ -1,0 +1,3 @@
+include 'kotlin-source'
+include 'java-source'
+include 'cordapp'

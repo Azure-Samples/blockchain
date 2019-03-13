@@ -1,0 +1,5 @@
+adal==1.2.0
+requests==2.21.0
+pprint==0.1
+numpy==1.16.1
+pandas==0.24.1

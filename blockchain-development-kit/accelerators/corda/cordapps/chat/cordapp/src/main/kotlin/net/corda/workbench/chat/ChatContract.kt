@@ -47,13 +47,17 @@ class ChatContract : Contract {
     }
 
     private fun validateChat(tx: LedgerTransaction, command: CommandWithParties<Commands>) {
+
         requireThat {
             // Generic constraints .
             "Only one input state should be consumed when chatting." using (tx.inputs.size == 1)
             "Only one output state should be created when chatting." using (tx.outputs.size == 1)
 
+
+
             val out = tx.outputsOfType<Message>().single()
             val signers = command.signers.toSet()
+            println("Signers are : ${signers.size}")
             "InterlocutorA must sign Chat transaction." using (signers.contains(out.interlocutorA.owningKey))
             "InterlocutorB must sign Chat transaction." using (signers.contains(out.interlocutorB.owningKey))
             "Incorrect number of signers." using (signers.size == 2)

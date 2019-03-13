@@ -9,6 +9,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import com.natpryce.hamkrest.assertion.*
 import net.corda.workbench.commons.event.FileEventStore
+import net.corda.workbench.commons.processManager.ProcessManager
 import net.corda.workbench.commons.registry.Registry
 import net.corda.workbench.commons.taskManager.TestContext
 import java.io.File
@@ -18,7 +19,7 @@ object StartAgentSpec : Spek({
 
     val ctx = TestContext("startagentspec")
     val es = FileEventStore()
-    val registry = Registry().store(ctx).store(es)
+    val registry = Registry().store(ctx).store(es).store(ProcessManager())
 
 
     describe("Read a node config") {

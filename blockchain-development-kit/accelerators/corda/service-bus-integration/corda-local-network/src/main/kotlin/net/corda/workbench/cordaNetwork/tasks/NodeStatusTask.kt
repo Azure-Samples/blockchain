@@ -18,8 +18,8 @@ class NodeStatusTask(val ctx: TaskContext,
         val sshTest = isSocketAlive("corda-local-network", config.sshPort)
 
         val results = HashMap<String, Any>()
-        results["socket test"] = resultOf(socketTest)
-        results["ssh connection test"] = resultOf(sshTest)
+        results["socketTest"] = resultOf(socketTest)
+        results["sshConnectionTest"] = resultOf(sshTest)
 
         return results;
     }

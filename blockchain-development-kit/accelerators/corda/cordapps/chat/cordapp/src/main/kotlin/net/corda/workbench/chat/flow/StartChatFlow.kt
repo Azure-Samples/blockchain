@@ -15,7 +15,7 @@ import net.corda.workbench.chat.ChatContract
 import net.corda.workbench.chat.Message
 
 @InitiatingFlow
-@StartableByRPC
+//@StartableByRPC
 class StartChatFlow(private val otherParty: Party, private val linearId: UniqueIdentifier = UniqueIdentifier()) : FlowLogic<SignedTransaction>() {
 
     @Suspendable

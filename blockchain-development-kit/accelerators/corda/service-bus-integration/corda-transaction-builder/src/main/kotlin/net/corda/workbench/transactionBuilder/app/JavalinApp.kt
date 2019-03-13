@@ -2,13 +2,12 @@ package net.corda.workbench.transactionBuilder.app
 
 
 import io.javalin.Javalin
-import net.corda.workbench.commons.event.FileEventStore
 import net.corda.workbench.commons.registry.Registry
-import net.corda.workbench.transactionBuilder.api.*
+import net.corda.workbench.transactionBuilder.agent.api.*
 
 class JavalinApp(private val port: Int) {
 
-    fun init(): Javalin {
+    fun init(registry: Registry): Javalin {
 
         val app = Javalin.create().apply {
             port(port)
@@ -30,18 +29,14 @@ class JavalinApp(private val port: Int) {
             //enableStaticFiles("/www", Location.CLASSPATH)
         }
 
-        val registry = Registry()
-        val dataDir = System.getProperty("user.home") + "/.corda-transaction-builder/events"
-        val es = FileEventStore().load(dataDir)
-        registry.store(es)
         registry.store(app)
-        registry.store(AgentRepo(es))
 
         PingApi(registry).register()
         QueryProxyApi(registry).register()
         FlowProxyApi(registry).register()
         ApiController(registry).register()
-        WebController(registry).register()
+        EventsController(registry).register(app)
+        //WebController(registry).register()
         app.start()
         println("Ready :)")
         return app

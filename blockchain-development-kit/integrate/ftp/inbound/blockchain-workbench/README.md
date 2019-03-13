@@ -130,15 +130,15 @@ In this scenario, the trigger will be when a file is uploaded to the configured 
 
 Within the Logic App Designer, select "Blank Logic App".
 
-![Blank Logic App](.\media\logicapp3.png)
+![Blank Logic App](./media/logicapp3.png)
 
 Search for FTP and then select the "When a file is added or modified" trigger.
 
-![Add OneDrive trigger](.\media\logicapp4.png)
+![Add OneDrive trigger](./media/logicapp4.png)
 
 Within the Logic App Designer, setup the connection to your FTP server and set your polling interval.  Click "Show advanced options" and make sure "Include file content" is set to "Yes".  When you are done configuring your settings, click + New Step.
 
-![Select folder and frequency](.\media\logicapp6.png)
+![Select folder and frequency](./media/logicapp6.png)
 
 ## Add Parsing Function
 
@@ -146,23 +146,23 @@ This next step will process the content of the CSV file and return JSON that wil
 
 Search for Azure Function and then click "Choose an Azure function".
 
-![Add Azure Function](.\media\chooseFunction1.png)
+![Add Azure Function](./media/chooseFunction1.png)
 
 Pick the Azure Function App you created at the start of this sample and then select "CSVParser" that you created earlier.
 
-![Create Azure Function](.\media\chooseFunction2.png)
+![Create Azure Function](./media/chooseFunction2.png)
 
 Click the Request Body field and select the "File Content" dynamic content from the previous step.
 
-![Function Request Body](.\media\parseContent.png)
+![Function Request Body](./media/parseContent.png)
 
 The result of the Azure Function will be JSON containing the rows and field values in the CSV file.  In order to use these properties later in the logic app, we will need to parse them.  Click + New Step and search for and select "Parse JSON".
 
-![searchParseJson](.\media\searchParseJson.png)
+![searchParseJson](./media/searchParseJson.png)
 
 In the Content field, select the "Body" dynamic content from the previous CSVParser step, then enter the following schema into the Schema field.
 
-![parseJson](.\media\parseJson.png)
+![parseJson](./media/parseJson.png)
 
 ```json
 {
@@ -210,44 +210,44 @@ In the Content field, select the "Body" dynamic content from the previous CSVPar
 
 The contract that we will be using requires two pieces of generated data: a request Id and a process time. This will be created using a variable action. Search for "Variable" and select "Initialize variable"
 
-![Set Variable](.\media\variable1.png)
+![Set Variable](./media/variable1.png)
 
 The name of the first variable is "RequestId" and the type will be "String". When you click on the Value field, the expression editor will appear. Select "Expression" and enter "guid()". This will generate a unique guid for our call to use.
 
-![Request Id variable](.\media\variable2.png)
+![Request Id variable](./media/variable2.png)
 
 Add a second variable whose name is "ProcessDateTime" and the type is "String". The expression for this variable is "utcNow()".
 
-![Process Date Time variable](.\media\variable3.png)
+![Process Date Time variable](./media/variable3.png)
 
 ## Process the records and Create a Contract Action
 
 In order to loop through the records in the data we need a Control Action.  Click + New Step.  Search for 
 "Control" and select "For each".
 
-![control](.\media\control.png)
+![control](./media/control.png)
 
 In the "For each" Action select the "Rows" dynamic content output from the Parse JSON step above.  If the dynamic content doesn't show automatically, click the "See more" link under the appropriate section(s).
 
-![seeMore](.\media\seeMore.png)
+![seeMore](./media/seeMore.png)
 
-![forEach](.\media\forEach.png)
+![forEach](./media/forEach.png)
 
 Each contract action will need its own unique RequestId so we need to generate a new one in the For each loop.  Click "Add an action", search for "Variables", and select "Set Variable".  Choose the RequestId variable created earlier and then set the "Value" to the expression guid() as you did above.
 
-![setVariable1](.\media\setVariable1.png)
+![setVariable1](./media/setVariable1.png)
 
 Repeat this step again, this time choosing ProcessDateTime and setting the "Value" to the utcNow() expression.
 
-![setVariable2](.\media\setVariable2.png)
+![setVariable2](./media/setVariable2.png)
 
 The last portion of the logic app will be to create and send a message to the Service Bus Queue for the Azure Blockchain Workbench.  Click "Add an action", search for "Service Bus", and then select "Send Message".
 
-![Select Send Message](.\media\servicebus1.png)
+![Select Send Message](./media/servicebus1.png)
 
 Select the service bus you wish to connect to, either by selecting on from your current subscription or adding the connection string if it exists in a different location.
 
-![Configure Service Bus](.\media\servicebus2.png)
+![Configure Service Bus](./media/servicebus2.png)
 
 The Send Message dialog will allow you to configure the message. For the "Queue/Topic name" select the queue used for interacting with the Azure Blockchain Workbench. Set the "Session Id" to be the RequestId variable created above. The Content will contain dynamic data that we have created along the process of the logic app. Enter the following JSON into the field:
 
@@ -274,7 +274,7 @@ The Send Message dialog will allow you to configure the message. For the "Queue/
 
 Add the dynamic fields from the previous steps and Variable sections as show here. 
 
-![Configure the message](.\media\servicebus3.png)
+![Configure the message](./media/servicebus3.png)
 
 Once this is complete. Click Save and your logic app is ready to be tested.
 

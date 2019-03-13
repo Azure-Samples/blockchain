@@ -8,6 +8,7 @@ import net.corda.core.flows.InitiatedBy
 import net.corda.core.flows.InitiatingFlow
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.identity.Party
+import net.corda.reflections.annotations.Description
 import net.corda.reflections.workbench.TxnResult
 import net.corda.workbench.chat.flow.EndChatFlow
 
@@ -20,6 +21,8 @@ import net.corda.workbench.chat.flow.StartChatFlow
  */
 @InitiatingFlow
 @StartableByRPC
+@Description("Ends the Chat with the other party. Either party can run this flow," +
+        "but the Chat must have been started with a 'WorkbenchStartFlow'.")
 class WorkbenchEndFlow(private val linearId: UniqueIdentifier,
                        private val otherParty: Party
 ) : FlowLogic<TxnResult>() {
