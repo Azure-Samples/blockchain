@@ -9,13 +9,13 @@ products:
 
 ---
 
-# Add SQL data to an Ethereum ledger using the Ethereum Logic App Connector
+# Add Ethereum ledger data to Azure Search using the Ethereum Logic App Connector
 
-![Flask sample MIT license badge](https://img.shields.io/badge/license-MIT-green.svg)
+![license badge](https://img.shields.io/badge/license-MIT-green.svg)
 
-This sample shows you how to take SQL data from a SQL table and create a new contract on the Ethereum blockchain ledger based on the table data. Once created we also show how to update the SQL table with the contract address for recordkeeping purposes. 
+This sample shows you how to take ledger data from an Ethereum ledger and add that information to Azure Search. This allows ledger data to be available to a broad range of Enterprise applications, as well as allow for unstructured searching of contract data from users. 
 
-This sample uses the Ethereum and the SQL Server Logic App Connectors available in the Azure marketplace. 
+This sample uses the Ethereum and the SQL Server Logic App Connectors available in the Azure marketplace in addition to the Azure Search service.
 
 ## Contents
 
@@ -49,18 +49,30 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
       CREATE TABLE contractrecords (id int NOT NULL IDENTITY(1,1) PRIMARY KEY, contractID VARCHAR(50), supplyChainOwner VARCHAR(50), supplyChainObserver VARCHAR(50), contractAddress VARCHAR(50));
       ```
 
-2. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) 
+2. Deploy Azure Search from the [Azure portal](https://docs.microsoft.com/en-us/azure/search/search-create-service-portal)
 
-3. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+3. Once deployment is complete copy your [service API key](https://docs.microsoft.com/en-us/azure/search/search-create-index-rest-api#identify-your-azure-search-services-admin-api-key) 
 
-4. In Logic App Designer build the following logic app flow
+4. Using Postman or Fiddler create an Azure Search index by sending this request the the service REST interface
+
+   ```http
+   
+   ```
+
+   
+
+5. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) 
+
+6. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+
+7. In Logic App Designer build the following logic app flow
 
    1. Search for the SQL server logic app and select the `when an item is created` action
 
       1. If necessary, provide the connection credentials to your database server in the logic app
       2. In the `Table name` field type in `contractrecords` as shown below
 
-      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/sql/media/SQLDetails.png)
+      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/azure-search/media/SQLDetails.png)
 
    2. Add an Ethereum Logic App connector with the action `deploy a smart contract` 
 
@@ -70,31 +82,12 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
    5. Finally use the dynamic text fields to provide inputs for `supplyChainOwner`, `supplyChainObserver` and `contractNumber` as shown below
 
-      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/sql/media/EthereumLADetails.png)
+      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/azure-search/media/EthereumLADetails.png)
 
-   6. Next add a 2nd SQL Server Logic App Connector with the action `Execute a SQL query` in the query field type the following SQL query string
+   6. Next add
 
-      ```sql
-      UPDATE contractrecords SET contractAddress = '
-      ```
+      
 
-      Note: You must include the string escape character `'` after the `=` sign to properly handle the hex user identifiers in the table
-
-   7. Use the dynamic text fields to insert  `Smart Contract Address` into the query
-
-   8. Add the final bits of the SQL query string
-
-      ```sql
-      ' WHERE contractID =
-      ```
-
-   9. Use the dynamic text fields to insert `contractID` into the query
-
-   10. The final logic app flow looks like this
-
-       ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/sql/media/LAflow.PNG)
-
-       
 
 ## Running the sample
 
