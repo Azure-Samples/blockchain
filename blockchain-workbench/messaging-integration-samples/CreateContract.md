@@ -106,54 +106,39 @@ Select the Service Bus connector and then select the “Send Message” action.
 
 ![](media/f4679f0e5391e5792fd4f790645c0f82.png)
 
-Select “activityhub”
+Select “ingressqueue”
 
 In the Session Id field, select RequestId from the Dynamic content dialog
 
 In the content field, enter the below –
 
+```
 {
-
-"ContractId": null,
-
-"WorkflowName": "",
-
-"UserChainIdentifier": "",
-
-"ContractCodeArtifactBlobStorageURL": "",
-
-"ConnectionId": ,
-
-"Parameters": [
-
-{
-
-"name": "description",
-
-"value": "ITEM DESCRIPTION GOES HERE"
-
-},
-
-{
-
-"name": "price",
-
-"value": "50000"
-
+    "requestId": "",
+    "userChainIdentifier": "",
+    "applicationName": "AssetTransfer",
+    "workflowName": "AssetTransfer",
+    "parameters": [
+        {
+            "name": "description",
+            "value": "a 1969 dodge charger"
+        },
+        {
+            "name": "price",
+            "value": "12345"
+        }
+    ],
+    "connectionId": ,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractRequest"
 }
+```
 
-],
-
-"OperationName": "CreateContract",
-
-"RequestId": ""
-
-}
 
 Using the dynamic content dialog to insert the values that were generated from
 the stored procedures. The result should resemble the image below.
 
-![](media/82d5931b3dbd9bb564985e900cabcf38.png)
+![](media/servicebus-createcontract.PNG)
 
 Click Save
 

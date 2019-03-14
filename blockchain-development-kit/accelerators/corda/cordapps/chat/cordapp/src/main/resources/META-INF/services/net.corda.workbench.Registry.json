@@ -1,0 +1,11 @@
+{
+  "id" : "312651FE-90EE-4F10-B6BF-CD9FF62AE5C8",
+  "name" : "Chat App",
+  "summary" : "Simple Chat App to demo & test Corda",
+  "slug" : "Chat",
+  "slugs" : ["Chat","chat"],
+  "version" : "1.0",
+  "authors" : ["ian.morgan@r3"],
+  "url" : "T.B.D",
+  "scannablePackages" : ["net.corda.workbench.chat"]
+}

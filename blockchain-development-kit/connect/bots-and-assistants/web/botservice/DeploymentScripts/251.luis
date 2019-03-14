@@ -1,0 +1,74 @@
+{
+  "name": "blockchain",
+  "versionId": "0.1",
+  "desc": "Basic bot BotBuilder V4 sample.",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Blockchain"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [
+    {
+      "name": "contractId",
+      "roles": []
+    }
+  ],
+  "closedLists": [],
+  "composites": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "regex_features": [],
+  "model_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "contract 1 temperature?",
+      "intent": "Blockchain",
+      "entities": [
+        {
+          "startPos": 9,
+          "endPos": 9,
+          "entity": "contractId"
+        }
+      ]
+    },
+    {
+      "text": "what is the state of contract 1?",
+      "intent": "Blockchain",
+      "entities": [
+        {
+          "startPos": 30,
+          "endPos": 30,
+          "entity": "contractId"
+        }
+      ]
+    },
+    {
+      "text": "what is the temperature for contract 1?",
+      "intent": "Blockchain",
+      "entities": [
+        {
+          "startPos": 37,
+          "endPos": 37,
+          "entity": "contractId"
+        }
+      ]
+    },
+    {
+      "text": "what is the temperature of my item with id 1?",
+      "intent": "Blockchain",
+      "entities": [
+        {
+          "startPos": 43,
+          "endPos": 43,
+          "entity": "contractId"
+        }
+      ]
+    }
+  ]
+}

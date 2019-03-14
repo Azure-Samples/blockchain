@@ -1,0 +1,33 @@
+<h1>Create Network</h1>
+
+
+<form method="POST" action="create" name="createNetwork">
+
+    <input type="submit" value="Create Network"></input></br>
+
+    <b>Network name.</b></br>
+    <i>Enter a network name. This should be a short name of just ASCII characters & numbers </i></br>
+    <input type="text" name="networkName" value="footest01"> </br></br>
+
+    <b>Corda Version</b></br>
+    <select name="cordaVersion">
+        <option value="3.2" selected="selected">3.2</option>
+        <option value="3.3">3.3</option>
+    </select></br></br>
+
+    <b>Organisations.</b></br>
+    <i>Enter a list of organisations below. If just a name is provided,
+then L=London and C=GB is assumed</i></br>
+    <textarea rows="10" cols="50" name="organisations">
+O=Alice,L=New York,C=US
+O=Bob,L=Paris,C=FR
+Charlie</textarea>
+
+
+    </br>A notary 'O=Notary,L=London,C=GB' will be created automatically</br>
+
+
+    <input type="submit" value="Create Network"></input>
+</form>
+            
+

@@ -1,0 +1,89 @@
+package net.corda.workbench.chat.flow
+
+import co.paralleluniverse.fibers.Suspendable
+import net.corda.core.contracts.Command
+import net.corda.core.contracts.UniqueIdentifier
+import net.corda.core.contracts.requireThat
+import net.corda.core.flows.*
+import net.corda.core.identity.Party
+import net.corda.core.node.services.queryBy
+import net.corda.core.node.services.vault.QueryCriteria
+import net.corda.core.transactions.SignedTransaction
+import net.corda.core.transactions.TransactionBuilder
+import net.corda.workbench.chat.ChatContract
+import net.corda.workbench.chat.Message
+
+@InitiatingFlow
+//@StartableByRPC
+class ChatFlow(private val message: String,
+               private val linearId: UniqueIdentifier = UniqueIdentifier()) : FlowLogic<SignedTransaction>() {
+
+    @Suspendable
+    override fun call(): SignedTransaction {
+
+        // simplest way of finding a notary
+        val notary = serviceHub.networkMapCache.notaryIdentities.first()
+
+        // extract current message
+        val queryCriteria = QueryCriteria.LinearStateQueryCriteria(linearId = listOf(linearId))
+        val items = serviceHub.vaultService.queryBy<Message>(queryCriteria).states
+        if (items.isEmpty()) {
+            throw IllegalArgumentException("Cannot find a message for $linearId")
+        }
+        val currentMessage = items.single()
+        val currentData = currentMessage.state.data
+
+
+        val newMessage = buildMessage(currentData)
+
+
+        // build txn
+        val participants = listOf(newMessage.interlocutorA, newMessage.interlocutorB)
+        val cmd = Command(ChatContract.Commands.Chat(), participants.map { it -> it.owningKey })
+        val builder = TransactionBuilder(notary = notary)
+                .addInputState(currentMessage)
+                .addOutputState(newMessage, ChatContract.ID)
+                .addCommand(cmd)
+
+        // verify and sign
+        builder.verify(serviceHub)
+        val ptx = serviceHub.signInitialTransaction(builder)
+
+        // make sure everyone else signs
+        val signers = participants - ourIdentity
+        val sessions = signers.map { initiateFlow(it) }
+        val stx = subFlow(CollectSignaturesFlow(ptx, sessions))
+
+        // complete and notarise
+        return subFlow(FinalityFlow(stx))
+
+    }
+
+    private fun buildMessage(currentData: Message): Message {
+        // sender of message is interlocutorA.
+        if (ourIdentity == currentData.interlocutorA) {
+            return Message(message = message, interlocutorA = ourIdentity, interlocutorB = currentData.interlocutorB, linearId = linearId)
+        }
+        if (ourIdentity == currentData.interlocutorB) {
+            return Message(message = message, interlocutorA = ourIdentity, interlocutorB = currentData.interlocutorA, linearId = linearId)
+        }
+        throw IllegalArgumentException("$ourIdentity is not part of the conversation")
+    }
+}
+
+/**
+ *
+ */
+@InitiatedBy(ChatFlow::class)
+class ChatFlowResponder(val flowSession: FlowSession) : FlowLogic<Unit>() {
+    @Suspendable
+    override fun call() {
+        val signedTransactionFlow = object : SignTransactionFlow(flowSession) {
+            override fun checkTransaction(stx: SignedTransaction) = requireThat {
+                val output = stx.tx.outputs.single().data
+                "This must be a message " using (output is Message)
+            }
+        }
+        subFlow(signedTransactionFlow)
+    }
+}

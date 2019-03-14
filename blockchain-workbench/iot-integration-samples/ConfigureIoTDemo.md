@@ -60,7 +60,7 @@ delivers to IoT Hub.
 The only properties leveraged from the payload are the deviceId, temperature,
 and humidity. You can have your clients (real or simulated) deliver the same
 schema or deliver a different schema that includes these values. For the latter,
-past that schema in the “Parse JSON” action the Logic App that will be created
+paste that schema in the “Parse JSON” action the Logic App that will be created
 later in this sample.
 
 Note – in a future version of this sample, it will be adapted to IoT Hub’s
@@ -239,9 +239,10 @@ Deploy the Stored Procedures
 
 Download the file with the stored procedures to support the IoT sample. They are
 in a single file that can be downloaded from this location.
+<https://github.com/Azure-Samples/blockchain/blob/master/blockchain-workbench/iot-integration-samples/SQL/IoTSprocs.sql>
 
 Open a web browser and navigate to the Azure portal at
-<http://portal.azure.come>
+<http://portal.azure.com>
 
 Navigate to the database for your Azure Blockchain Workbench deployment.
 
@@ -274,7 +275,7 @@ message.
 
 In the query window, enter and execute the following SQL
 
-Update User Set External Id = ‘\<your device id here\>’ where EmailAddress =
+Update [User] Set External Id = ‘\<your device id here\>’ where EmailAddress =
 ‘\<insert email address here\>’
 
 Note – when provisioning a user in AAD, an email address will be assigned, e.g.
@@ -520,7 +521,7 @@ Send a message”
 Configure the Service Bus action to use the connection pointed at the Service
 Bus in the Blockchain Workshop deployment.
 
-Set the “Queue/Topic” property to activityhub
+Set the “Queue/Topic” property to ingressQueue
 
 Set the SessionId property to RequestId
 
@@ -528,15 +529,11 @@ The template of the message to be put in the Content property is below -
 
 ``` json
 {
-    "ContractActionId": null,
-    "ConnectionId":,
-    "UserChainIdentifier": "",
-    "ContractCodeArtifactBlobStorageURL": "",
-    "OperationName": "CreateContractAction",
-    "ContractLedgerIdentifier": "",
-    "WorkflowFunctionName": "IngestTelemetry",
-    "WorkflowName": "RefrigeratedTransportation",
-    "ContractActionParameters": [
+    "requestId": "",
+    "userChainIdentifier": "",
+    "contractLedgerIdentifier": "",
+    "workflowFunctionName": "IngestTelemetry",
+    "Parameters": [
         {
             "name": "humidity",
             "value": ""
@@ -544,22 +541,20 @@ The template of the message to be put in the Content property is below -
         {
             "name": "temperature",
             "value": ""
-        },
+        }
         {
             "name": "timestamp",
-            "value":
+            "value": ""
         }
     ],
-    "RequestId": ""
+    "connectionId": ,
+    "messageSchemaVersion": "1.0.0",
+    "messageName": "CreateContractActionRequest"
 }
 ```
 
-Augment this with values from the Dynamic Content window to match the screenshot
-below -
+Augment this with values from the Dynamic Content window. 
 
-![](media/4bae35957565e503a9203cd37a120d42.png)
-
-![](media/d6d5433a02ec09048e5e584c19201907.png)
 
 Testing
 -------

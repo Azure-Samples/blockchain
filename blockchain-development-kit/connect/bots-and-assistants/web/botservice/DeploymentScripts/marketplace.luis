@@ -1,0 +1,96 @@
+{
+  "intents": [
+    {
+      "name": "Marketplace"
+    }
+  ],
+  "entities": [
+    {
+      "name": "description",
+      "roles": []
+    },
+    {
+      "name": "askingprice",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Sell painting for $123",
+      "intent": "Marketplace",
+      "entities": [
+        {
+          "entity": "description",
+          "startPos": 5,
+          "endPos": 12
+        },
+        {
+          "entity": "askingprice",
+          "startPos": 19,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "Put car on marketplace for $50345",
+      "intent": "Marketplace",
+      "entities": [
+        {
+          "entity": "description",
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "askingprice",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "Make a new contract for computer at 300 dollars",
+      "intent": "Marketplace",
+      "entities": [
+        {
+          "entity": "description",
+          "startPos": 24,
+          "endPos": 31
+        },
+        {
+          "entity": "askingprice",
+          "startPos": 36,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "Sell my shirt for 30 dollars",
+      "intent": "Marketplace",
+      "entities": [
+        {
+          "entity": "description",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "askingprice",
+          "startPos": 18,
+          "endPos": 19
+        }
+      ]
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "marketplace",
+  "desc": "",
+  "culture": "en-us"
+}

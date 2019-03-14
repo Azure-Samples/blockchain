@@ -1,0 +1,47 @@
+{
+  "requestId": "{{requestId}}",
+  "userChainIdentifier": "ContosoLtd",
+  "applicationName": "RefrigeratedTransportation",
+  "workflowName": "WorkbenchCreateFlow",
+  "parameters": [
+    {
+      "name": "linearId",
+      "value": "{{linearId}}"
+    },
+    {
+      "name": "owner",
+      "value": "ContosoLtd"
+    },
+    {
+      "name": "device",
+      "value": "device01"
+    },
+    {
+      "name": "supplyChainOwner",
+      "value": "WorldWideImporters"
+    },
+    {
+      "name": "supplyChainObserver",
+      "value": "WoodgroveBank"
+    },
+    {
+      "name": "minHumidity",
+      "value": 12
+    },
+    {
+      "name": "maxHumidity",
+      "value": 45
+    },
+    {
+      "name": "minTemperature",
+      "value": -20
+    },
+    {
+      "name": "maxTemperature",
+      "value": -7
+    }
+  ],
+  "connectionId": 1,
+  "messageSchemaVersion": "1.0.0",
+  "messageName": "CreateContractRequest"
+}

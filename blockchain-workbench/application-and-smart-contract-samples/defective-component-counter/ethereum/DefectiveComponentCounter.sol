@@ -1,27 +1,6 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    function WorkbenchBase(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract DefectiveComponentCounter is WorkbenchBase('DefectiveComponentCounter', 'DefectiveComponentCounter') {
+contract DefectiveComponentCounter {
 
      //Set of States
     enum StateType {Create, ComputeTotal}
@@ -33,15 +12,12 @@ contract DefectiveComponentCounter is WorkbenchBase('DefectiveComponentCounter',
     int public Total;
 
     // constructor function
-    function DefectiveComponentCounter(int[12] defectiveComponentsCount) public
+    constructor(int[12] defectiveComponentsCount) public
     {
         Manufacturer = msg.sender;
         DefectiveComponentsCount = defectiveComponentsCount;
         Total = 0;
         State = StateType.Create;
-
-        // call ContractCreated() to create an instance of this workflow
-        ContractCreated();
     }
 
     // call this function to send a request
@@ -59,8 +35,6 @@ contract DefectiveComponentCounter is WorkbenchBase('DefectiveComponentCounter',
         }
 
         State = StateType.ComputeTotal;
-
-        ContractUpdated('ComputeTotal');
     }
 
     // add the required getter function for array DefectiveComponentsCount

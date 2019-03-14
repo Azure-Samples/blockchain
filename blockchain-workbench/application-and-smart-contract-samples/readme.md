@@ -15,6 +15,7 @@ This section includes applications and smart contracts that can be deployed to A
 * [Room Thermostat](room-thermostat/readme.md)
 * [Defective Component Counter](defective-component-counter/readme.md)
 * [Frequent Flyer Rewards Calculator](frequent-flyer-rewards-calculator/readme.md)
+* [Ping Pong Game](ping-pong-game/readme.md)
 
 ## Deploying Applications
 To deploy an application, navigate to the web application for Azure Blockchain Workbench
@@ -30,6 +31,7 @@ A tile for your new application, will be displayed. Click it.
 [](media/deployapp4.PNG)
 You will have 0 members assigned to the contract. Click the 0 in upper right and add members as appropriate.
 
+Note: We do not support [libraries](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#libraries) in the current version of Workbench. Please move the functions from the library into your contract. 
 
 ## Prerequisites
 

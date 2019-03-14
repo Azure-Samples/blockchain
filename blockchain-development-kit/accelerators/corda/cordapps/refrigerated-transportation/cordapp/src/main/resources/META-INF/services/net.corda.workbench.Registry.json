@@ -1,0 +1,11 @@
+{
+  "id" : "19D3B4FA-FBB1-4FB3-9435-A9B32D9C4486",
+  "name" : "Refrigerated Transportation",
+  "summary" : "Azure Workbench Refrigerated Transportation Example in Corda",
+  "slug" : "RefrigeratedTransportation",
+  "slugs" : ["RefrigeratedTransportation","Refrigeration","Refrigerated-Transportation","refrigerated-transportation"],
+  "version" : "1.0",
+  "authors" : ["ian.morgan@r3"],
+  "url" : "https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/application-and-smart-contract-samples/refrigerated-transportation",
+  "scannablePackages" : ["net.corda.workbench.refrigeratedTransportation"]
+}

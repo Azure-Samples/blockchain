@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AppCenter" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.5.0" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.0" />
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.5.0" />
+    <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
+    <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.180" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="TemplatedApp.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ic_settings_black_36px.svg" />
+    <EmbeddedResource Include="Resources\about.svg" />
+    <EmbeddedResource Include="Resources\circle.svg" />
+    <EmbeddedResource Include="Resources\msft.svg" />
+    <EmbeddedResource Include="Resources\logout.svg" />
+    <EmbeddedResource Include="Resources\bordered-circle.svg" />
+    <EmbeddedResource Include="Resources\refresh.svg" />
+    <EmbeddedResource Include="Resources\workbenchadd.png" />
+    <EmbeddedResource Include="Resources\delete_outline_24px.svg" />
+    <EmbeddedResource Include="Resources\BlockchainColor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="UI\Pages\" />
+    <Folder Include="UI\Views\" />
+    <Folder Include="UI\ViewCells\" />
+    <Folder Include="Models\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Resources\" />
+    <Folder Include="UI\Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\ic_settings_black_36px.svg" />
+    <None Remove="Resources\about.svg" />
+    <None Remove="Resources\circle.svg" />
+    <None Remove="Resources\msft.svg" />
+    <None Remove="Resources\logout.svg" />
+    <None Remove="Resources\bordered-circle.svg" />
+    <None Remove="Resources\refresh.svg" />
+    <None Remove="Resources\workbenchadd.png" />
+    <None Remove="Resources\baseline-delete_outline-24px.svg" />
+    <None Remove="Resources\BlockchainColor.svg" />
+    <None Remove="Resources\BlockchainColor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Helpers\AnalyticsHelper.cs" />
+    <Compile Remove="Models\SiteBarcodeData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Workbench.Client\Workbench.Client.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "abs",
+      "id": "1",
+      "name": "blockchain_bot"
+    },
+    {
+      "type": "blob",
+      "id": "2",
+      "container": ""
+    },
+    {
+      "type": "endpoint",
+      "id": "3",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "4",
+      "name": "production",
+      "url": "https://blockchainbot-b3e9.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "generic",
+      "id": "30",
+      "name": "BlockchainApi",
+      "url": "https://prod-19.westus2.logic.azure.com:443/workflows/0326190940164a6b805712e36ce95e59/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=_InSfkO0Yyay6sub0NLFJ0rED9WoniB3Lg9nbfYVT3E",
+      "configuration": {}
+    },
+    {
+      "type": "luis",
+      "id": "marketplace",
+      "name": "marketplace"
+    }
+  ]
+}

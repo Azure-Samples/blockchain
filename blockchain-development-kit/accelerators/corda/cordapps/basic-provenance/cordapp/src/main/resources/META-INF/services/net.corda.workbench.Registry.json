@@ -1,0 +1,11 @@
+{
+  "id" : "628FA5E2-BA09-428C-A84A-6DAE47001A3C",
+  "name" : "Basic Provenance",
+  "summary" : "Workbench Basic Provenance example in Corda",
+  "slug" : "BasicProvenance",
+  "slugs" : ["BasicProvenance","basicProvenance","basic-provenance"],
+  "version" : "1.0",
+  "authors" : ["Lanfranco.Morini@cegeka.it"],
+  "url" : "T.B.D",
+  "scannablePackages" : ["net.corda.workbench.basicProvenance"]
+}

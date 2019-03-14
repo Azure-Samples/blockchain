@@ -286,3 +286,9 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# OSX & Intellij files
+.idea/
+.DS_Store
+*.iml
+

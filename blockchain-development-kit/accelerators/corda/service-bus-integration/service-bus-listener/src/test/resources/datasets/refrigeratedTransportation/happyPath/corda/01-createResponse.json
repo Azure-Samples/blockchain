@@ -1,0 +1,78 @@
+{
+  "txnHash": "560F217258FE2D6A65696F6A2C346D45FCFAC37AF512FF905B43983F95B7B06C",
+  "owner": "O=ContosoLtd, L=Seatle, C=US",
+  "contractProperties": [
+    {
+      "name": "state",
+      "value": "Created"
+    },
+    {
+      "name": "owner",
+      "value": "O=ContosoLtd, L=Seatle, C=US"
+    },
+    {
+      "name": "initiatingCounterparty",
+      "value": "O=ContosoLtd, L=Seatle, C=US"
+    },
+    {
+      "name": "counterparty",
+      "value": "O=ContosoLtd, L=Seatle, C=US"
+    },
+    {
+      "name": "previousCounterparty",
+      "value": null
+    },
+    {
+      "name": "device",
+      "value": "O=Device01, L=london, C=GB"
+    },
+    {
+      "name": "supplyChainOwner",
+      "value": "O=WorldWideImporters, L=Memphhsis, C=US"
+    },
+    {
+      "name": "supplyChainObserver",
+      "value": "O=WoodgroveBank, L=london, C=GB"
+    },
+    {
+      "name": "minHumidity",
+      "value": 12
+    },
+    {
+      "name": "maxHumidity",
+      "value": 45
+    },
+    {
+      "name": "minTemperature",
+      "value": -20
+    },
+    {
+      "name": "maxTemperature",
+      "value": -7
+    },
+    {
+      "name": "complianceSensorType",
+      "value": null
+    },
+    {
+      "name": "complianceSensorReading",
+      "value": null
+    },
+    {
+      "name": "complianceStatus",
+      "value": true
+    },
+    {
+      "name": "complianceDetail",
+      "value": null
+    },
+    {
+      "name": "lastSensorUpdateTimestamp",
+      "value": null
+    }
+  ],
+  "otherParties": [
+    "O=Device01, L=london, C=GB",
+    "O=WorldWideImporters, L=Memphhsis, C=US"
+  ]
+}

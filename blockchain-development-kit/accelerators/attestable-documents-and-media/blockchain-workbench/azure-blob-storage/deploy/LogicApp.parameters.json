@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "testblobblockchainapp"
+    },
+    "userChainIdentifier": {
+      "value": "0x935c3cf698a3ca358558147f6d171f9efe3f79ed" 
+    },
+    "LogicAppLocation": {
+      "value": "westus"
+    } 
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "ApplicationName": "BasicItemRegistry",
+  "DisplayName": "Item Registry",
+  "Description": "This application contains a Registry to register items and Item contracts that can be registered within it. Post-registration ownership is not recorded.",
+  "ApplicationRoles": [
+    {
+      "Name": "Registrar",
+      "Description": "Owner of the registry"
+    },
+    {
+      "Name": "Registrant",
+      "Description": "Party registering an item in the registry"
+    },
+    {
+      "Name": "Manufacturer",
+      "Description": "Manufacturer of the Item"
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "ItemRegistry",
+      "DisplayName": "Basic Item Registry",
+      "Description": "Registry to track Items",
+      "Initiators": ["Registrar"],
+      "StartState":  "Created",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the current scope",
+          "Type": {
+            "Name": "state"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "name",
+            "Description": "The name of the registry.",
+            "DisplayName": "Registry Name",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "description",
+            "Description": "Description of the registry.",
+            "DisplayName": "Description",
+            "Type": {
+              "Name": "string"
+            }
+          }
+
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "OpenRegistry",
+          "DisplayName": "Open Registry",
+          "Description": "Opens the registry for business.",
+          "Parameters": []
+        },
+        {
+          "Name": "RegisterItem",
+          "DisplayName": "Register Item",
+          "Description": "Add a item to a registry.",
+          "Parameters": [
+            {
+              "Name": "ItemContractAddress",
+              "Description": "Address of the Item contract being registered.",
+              "DisplayName": "Item Contract Address",
+              "Type": {
+                "Name": "address"
+              }
+            },
+            {
+              "Name": "ItemId",
+              "Description": "The Id for the item.",
+              "DisplayName": "Item Id",
+              "Type": {
+                "Name": "string"
+              }
+            }
+
+          ]
+        },
+          {
+          "Name": "CloseRegistry",
+          "DisplayName": "Close Registry",
+          "Description": "Closes the registry.",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "Created",
+          "DisplayName": "Registry Created",
+          "Description": "The registry is created.",
+          "PercentComplete": 40,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": ["Registrar"],
+              "AllowedInstanceRoles": [],
+              "Description": "Open the Registry",
+              "Function": "OpenRegistry",
+              "NextStates": [ "Open" ],
+              "DisplayName": "Registry opened."
+            }
+          ]
+        },
+        {
+          "Name": "Open",
+          "DisplayName": "Registry Opened",
+          "Description": "Retired",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": [            {
+            "AllowedRoles": ["Registrant", "Registrar"],
+            "AllowedInstanceRoles": [],
+            "Description": "RegisterItem",
+            "Function": "RegisterItem",
+            "NextStates": [ "Open" ],
+            "DisplayName": "Item registered."
+              }
+                  ,
+                  {
+                    "AllowedRoles": ["Registrar"],
+                    "AllowedInstanceRoles": [],
+                    "Description": "Close the registry.",
+                    "Function": "CloseRegistry",
+                    "NextStates": [ "Closed" ],
+                    "DisplayName": "Registry closed."
+                      }]
+        },
+        {
+          "Name": "Closed",
+          "DisplayName": "Retired",
+          "Description": "Retired",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": []
+        }
+      ]
+    },
+    {
+        "Name": "Item",
+        "DisplayName": "Item",
+        "Description": "Item being registered",
+        "Initiators": ["Manufacturer"],
+        "StartState":  "Active",
+        "Properties": [
+          {
+            "Name": "State",
+            "DisplayName": "State",
+            "Description": "Holds the state of the current scope",
+            "Type": {
+              "Name": "state"
+            }
+          },
+          {
+            "Name": "Manufacturer",
+            "DisplayName": "Manufacturer",
+            "Description": "Manufacturer of the Item",
+            "Type": {
+              "Name": "Manufacturer"
+            }
+          }, 
+          {
+            "Name": "ItemId",
+            "DisplayName": "Item Id",
+            "Description": "The Id of the Item",
+            "Type": {
+              "Name": "string"
+            }
+          }
+          ,
+          {
+            "Name": "Make",
+            "DisplayName": "Make",
+            "Description": "The Make of the Item",
+            "Type": {
+              "Name": "string"
+            }
+        },
+            {
+              "Name": "Model",
+              "DisplayName": "Model",
+              "Description": "The Model of the Item",
+              "Type": {
+                "Name": "string"
+              }
+            }
+            ,
+            {
+              "Name": "Color",
+              "DisplayName": "Color",
+              "Description": "The Color of the Item",
+              "Type": {
+                "Name": "string"
+              }
+            }
+            ,
+            {
+              "Name": "ManufactureDate",
+              "DisplayName": "Manufacture Date",
+              "Description": "The Manufacture Date of the Item",
+              "Type": {
+                "Name": "int"
+              }
+            }
+            ,
+            {
+              "Name": "FactoryId",
+              "DisplayName": "Factory Id",
+              "Description": "The ID of the Factory where the Item was manufactured.",
+              "Type": {
+                "Name": "string"
+              }
+            }
+
+        ],
+        "Constructor": {
+          "Parameters": [
+            {
+                "Name": "manufacturer",
+                "DisplayName": "Manufacturer",
+                "Description": "Manufacturer of the Item",
+                "Type": {
+                  "Name": "Manufacturer"
+                }
+              }, 
+              {
+                "Name": "itemId",
+                "DisplayName": "Item Id",
+                "Description": "The Id of the Item",
+                "Type": {
+                  "Name": "string"
+                }
+              }
+             ,
+              {
+                "Name": "make",
+                "DisplayName": "Make",
+                "Description": "The Make of the Item",
+                "Type": {
+                  "Name": "string"
+                }
+            },
+                {
+                  "Name": "model",
+                  "DisplayName": "Model",
+                  "Description": "The Model of the Item",
+                  "Type": {
+                    "Name": "string"
+                  }
+                }
+                ,
+                {
+                  "Name": "color",
+                  "DisplayName": "Color",
+                  "Description": "The Color of the Item",
+                  "Type": {
+                    "Name": "string"
+                  }
+                }
+                ,
+                {
+                  "Name": "manufactureDate",
+                  "DisplayName": "Manufacture Date",
+                  "Description": "The Manufacture Date of the Item",
+                  "Type": {
+                    "Name": "string"
+                  }
+                }
+                ,
+                {
+                  "Name": "factoryId",
+                  "DisplayName": "Factory Id",
+                  "Description": "The ID of the Factory where the Item was manufactured.",
+                  "Type": {
+                    "Name": "string"
+                  }
+                }
+    
+          ]
+        },
+        "Functions": [
+          {
+            "Name": "RegisterItem",
+            "DisplayName": "Register Ownership",
+            "Description": "Register an Owner for this Item",
+            "Parameters": [
+                {
+                    "Name": "registryAddress",
+                    "Description": "Address for the Registry for this Item",
+                    "DisplayName": "Registry Address",
+                    "Type": {
+                      "Name": "string"
+                    }
+                  }  
+            ]
+          },
+          {
+            "Name": "Retire",
+            "DisplayName": "Retire Item",
+            "Description": "Change registry status to retired.",
+            "Parameters": []
+          }
+        ],
+        "States": [
+          {
+            "Name": "Active",
+            "DisplayName": "Item Active",
+            "Description": "Item Active",
+            "PercentComplete": 40,
+            "Style": "Success",
+            "Transitions": [
+                {
+                "AllowedRoles": [],
+                "AllowedInstanceRoles": ["Manufacturer"],
+                "Description": "Register Owner of Item",
+                "Function": "RegisterItem",
+                "NextStates": [ "Active" ],
+                "DisplayName": "Item ownership recorded."
+              },
+              {
+                "AllowedRoles": [],
+                "AllowedInstanceRoles": ["Manufacturer"],
+                "Description": "Retire item",
+                "Function": "Retire",
+                "NextStates": [ "Retired" ],
+                "DisplayName": "Item retired."
+              }
+  
+            ]
+          },
+          {
+            "Name": "Retired",
+            "DisplayName": "Retired",
+            "Description": "Retired",
+            "PercentComplete": 100,
+            "Style": "Success",
+            "Transitions": []
+          }
+        ]
+      }
+  ]
+}

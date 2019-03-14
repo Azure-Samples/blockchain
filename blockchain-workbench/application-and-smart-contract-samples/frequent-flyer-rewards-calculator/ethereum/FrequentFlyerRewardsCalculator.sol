@@ -1,28 +1,7 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.25;
 
-contract WorkbenchBase {
-    event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
-    event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
-
-    string internal ApplicationName;
-    string internal WorkflowName;
-
-    function WorkbenchBase(string applicationName, string workflowName) internal {
-        ApplicationName = applicationName;
-        WorkflowName = workflowName;
-    }
-
-    function ContractCreated() internal {
-        WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
-    }
-
-    function ContractUpdated(string action) internal {
-        WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
-    }
-}
-
-contract FrequentFlyerRewardsCalculator is WorkbenchBase('FrequentFlyerRewardsCalculator', 'FrequentFlyerRewardsCalculator') {
-
+contract FrequentFlyerRewardsCalculator
+{
      //Set of States
     enum StateType {SetFlyerAndReward, MilesAdded}
 
@@ -36,7 +15,7 @@ contract FrequentFlyerRewardsCalculator is WorkbenchBase('FrequentFlyerRewardsCa
     uint public TotalRewards;
 
     // constructor function
-    function FrequentFlyerRewardsCalculator(address flyer, int rewardsPerMile) public
+    constructor(address flyer, int rewardsPerMile) public
     {
         AirlineRepresentative = msg.sender;
         Flyer = flyer;
@@ -44,9 +23,6 @@ contract FrequentFlyerRewardsCalculator is WorkbenchBase('FrequentFlyerRewardsCa
         IndexCalculatedUpto = 0;
         TotalRewards = 0;
         State = StateType.SetFlyerAndReward;
-
-        // call ContractCreated() to create an instance of this workflow
-        ContractCreated();
     }
 
     // call this function to add miles
@@ -65,9 +41,6 @@ contract FrequentFlyerRewardsCalculator is WorkbenchBase('FrequentFlyerRewardsCa
         ComputeTotalRewards();
 
         State = StateType.MilesAdded;
-
-        // call ContractUpdated() to record this action
-        ContractUpdated('AddMiles');
     }
 
     function ComputeTotalRewards() private
