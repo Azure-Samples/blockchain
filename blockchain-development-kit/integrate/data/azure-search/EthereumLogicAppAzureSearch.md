@@ -53,13 +53,35 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
 3. Once deployment is complete copy your [service API key](https://docs.microsoft.com/en-us/azure/search/search-create-index-rest-api#identify-your-azure-search-services-admin-api-key) 
 
-4. Using Postman or Fiddler create an Azure Search index by sending this request the the service REST interface
+4. Using Postman or Fiddler create an Azure Search index by sending a `POST` request the the service REST interface in this format
+
+   `URL`
 
    ```http
-   
+   https://<yoursearchservice>.search.windowsnet
    ```
 
-   
+   `header`
+
+   ```http
+   Content-Type: application/json
+   api-key: <yourapikeyfromAzureportal>
+   ```
+
+   `body`
+
+   ```json
+   {
+        "name": "contracts",  
+        "fields": [
+          {"name": "contractAddress", "type": "Edm.String", "key":true, "searchable": false},
+          {"name": "transactionHash", "type": "Edm.String", "searchable":false},
+          {"name": "contractID", "type": "Edm.String"},
+          {"name": "supplyChainObserver", "type": "Edm.String"},
+          {"name": "supplyChainOwner", "type": "Edm.String"}
+         ]
+        }
+   ```
 
 5. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) 
 
@@ -72,7 +94,7 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
       1. If necessary, provide the connection credentials to your database server in the logic app
       2. In the `Table name` field type in `contractrecords` as shown below
 
-      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/azure-search/media/SQLDetails.png)
+      ![](./media/SQLDetails.png)
 
    2. Add an Ethereum Logic App connector with the action `deploy a smart contract` 
 
@@ -82,11 +104,33 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
    5. Finally use the dynamic text fields to provide inputs for `supplyChainOwner`, `supplyChainObserver` and `contractNumber` as shown below
 
-      ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/azure-search/media/EthereumLADetails.png)
+      ![](./media/EthereumLADetails.png)
 
-   6. Next add
+   6. Next add an `HTTP` action to your logic app flow
 
-      
+      1. Create a `POST` method and add your Azure Search `URI` and `api-key` into the header fields
+      2. In the `body` field add the following (replace the text inside the <> braces below with the dynamic fields in the designer manually)
+
+      ```json
+      {
+        "value": [
+          {
+            "@@search.action": "upload",
+            "contractAddress": "<contractAddress>",
+            "contractID": "<contractID>",
+            "supplyChainObserver": "<supplyChainObserver>",
+            "supplyChainOwner": "<supplyChainOwner>",
+            "transactionHash": "<TransactionHash>"
+          }
+        ]
+      }
+      ```
+
+   7. Your final logic app flow should look like the below
+
+      ![](./media/LAFlow.png)
+
+   
 
 
 ## Running the sample
@@ -97,17 +141,52 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
    INSERT INTO contractrecords (contractID, supplyChainOwner, supplyChainObserver) VALUES (1234, '0x9a5773d9ec637f21a3007deb8c876c77b6fbb0ec', '0x9a5773d9ec637f21a3007deb8c876c77b6fbb0ec');
    ```
 
-2. Upon executing the above SQL statement, the logic app will create a new contract on the Ethereum blockchain and the address of that contract will then be appended to your table entry. To view the contract address type paste this SQL query into the Query Editor and run it
+2. Upon executing the above SQL statement, the logic app will create a new contract on the Ethereum blockchain and contract data will be sent to Azure Search. 
 
-   ```sql
-   SELECT * FROM contractrecords;
+3. This contract data is now available to any application with access to your Azure Search index through simple search queries via either `POST` or `GET` methods.
+
+   You may use either Postman or Fiddler to test your queries with the `POST` or `GET` methods below:
+
+   ### Search using POST
+
+   `URL`
+
+   ```http
+   https://<yoursearchservice>.search.windowsnet/indexes/contracts/docs/search?api-version=2017-11-11
    ```
 
-3. On completion of the above query, you should see something similar to the below
+   `header`
 
-   Note: The actual contract address comes from the ledger. Your values will be different
+   ```http
+   Content-Type: application/json
+   api-key: <yourapikeyfromAzureportal>
+   ```
 
-   ![](C:/blockchain/blockchain/blockchain-development-kit/integrate/data/sql/media/SQLResult.png)
+   `body`
+
+   ```json
+   {
+       "search": "1234",
+       "select": "contractAddress"
+   }
+   ```
+
+   ### Search using GET
+
+   `URL`
+
+   ```http
+   https://<yoursearchservice>.search.windowsnet/indexes/contracts/docs?search=1234&api-version=2017-11-11
+   ```
+
+   `header`
+
+   ```http
+   Content-Type: application/json
+   api-key: <yourapikeyfromAzureportal>
+   ```
+
+   
 
 ## Key concepts
 
@@ -116,7 +195,7 @@ Let's take a quick review of what's happening in this example.
 - A new entry into a SQL table is added. In this case we are using simple SQL queries added via the Azure Query editor, but in practice these may come from any number of backend systems which track contract creation and status
 - After being triggered by the new table entry, the logic app flow gets the newly added information from the SQL server
 - With the new SQL data, the Ethereum Logic App creates a new Provenance Contract as defined in the `BasicProvenance.sol` file included in this sample
-- Once the contract is created the Ethereum Logic App sends the new contract address back to a SQL server logic app connector which writes the new contract address into the SQL record
+- Once the contract is created the Ethereum Logic App sends the new contract and creation information into Azure Search where it is available to any service with access to the search index.
 
 ## Next steps
 
