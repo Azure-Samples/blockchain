@@ -39,9 +39,11 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
 
 ## Setup
 
-1. Clone or download this sample repository
+1. In the Azure portal, open the MySQL database blade, navigate to `Connection Security` and disable `SSL settings`
 
-2. Open the Visual Studio Code project in `./src` 
+2. Clone or download this sample repository
+
+3. Open the Visual Studio Code project in `./src` 
 
     1. To test the project locally, you must add a `local.settings.json` file to the project and add your MySQL database credentials as shown below
 
@@ -55,7 +57,7 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
 
         ![](./media/AzureFunctionApplicationSettingsKeys.PNG)
 
-3. [Create a database and table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server.
+4. [Create a database and table](https://docs.microsoft.com/en-us/azure/mysql/tutorial-design-database-using-portal#connect-to-the-server-using-mysql) in your MySQL server.
 
     1. Name the database `blockchaintestdb`
 
@@ -65,11 +67,11 @@ In this sample we use the Ethereum Logic App connector to take an action when tr
         CREATE TABLE contractaction (id serial PRIMARY KEY, previouscounterparty VARCHAR(50), supplychainobserver VARCHAR(50), counterparty VARCHAR(50), supplychainowner VARCHAR(50), initiatingcounteraparty VARCHAR(50), state INTEGER);
         ```
 
-4. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
+5. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
 
-5. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+6. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
 
-6. In Logic App Designer build the following logic app flow
+7. In Logic App Designer build the following logic app flow
 
     1. Add an Event Grid watcher to the logic app designer
 

@@ -37,9 +37,11 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
 ## Setup
 
-1. Clone or download this sample repository
+1. In the Azure portal, open the PostgreSQL database blade, navigate to `Connection Security` and disable `SSL settings`
 
-2. Open the Visual Studio Code project in `./src` 
+2. Clone or download this sample repository
+
+3. Open the Visual Studio Code project in `./src` 
 
     1. To test the project locally, you must add a `local.settings.json` file to the project and add your PostgreSQL database credentials as shown below
 
@@ -53,7 +55,7 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
 
         ![](./media/AzureFunctionApplicationSettingsKeys.PNG)
 
-3. [Create a database and table](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal#connect-to-the-postgresql-database-using-psql) in your PostgreSQL server.
+4. [Create a database and table](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal#connect-to-the-postgresql-database-using-psql) in your PostgreSQL server.
 
     1. Name the database `blockchaintestdb`
 
@@ -63,11 +65,11 @@ The preliminary difference in this sample is that in this PostgreSQL sample, we 
         CREATE TABLE contractaction (id serial PRIMARY KEY, previouscounterparty VARCHAR(50), supplychainobserver VARCHAR(50), counterparty VARCHAR(50), supplychainowner VARCHAR(50), initiatingcounteraparty VARCHAR(50), state INTEGER);
         ```
 
-4. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
+5. Create a new [Azure Logic App](https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow) and deploy it to the same Azure subscription your Azure Blockchain Workbench resides
 
-5. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
+6. In the Azure portal, select your new logic app and select the logic app designer, create a new *blank* logic app
 
-6. In Logic App Designer build the following logic app flow
+7. In Logic App Designer build the following logic app flow
 
     1. Add the Ethereum Logic App connector, select the trigger `when a smart contract event occurs` as shown below
 

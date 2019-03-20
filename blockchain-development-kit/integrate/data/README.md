@@ -15,7 +15,7 @@ These samples show you how to integrate blockhain ledgers into common enterprise
 
 | File/folder | Description |
 |-------------|-------------|
-| `azure-search` | coming soon |
+| `azure-search` | Example of how to use the Ethereum Logic App connector to push data to Azure Search |
 | cosmosdb               | Example to show how to push blockchain data into a Cosmos database |
 | `excel` | Example to show how to pull blockchain information out of Azure Blockchain Workbench and view/explore the data in Excel |
 | `mysql` | Example of how to trigger a logic app from event grid and push data from a blockchain into an Azure MySQL server |

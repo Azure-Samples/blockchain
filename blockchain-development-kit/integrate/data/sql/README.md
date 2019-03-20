@@ -90,7 +90,7 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
     10. The final logic app flow looks like this
 
-        ![](./media/LAflow.PNG)
+        ![](./media/LAFlow.png)
 
         
 
@@ -113,7 +113,7 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
    Note: The actual contract address comes from the ledger. Your values will be different
 
-   ![](./media/SQLResult.PNG)
+   ![](./media/SQLResult.png)
 
 
 ## Key concepts
