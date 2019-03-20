@@ -122,7 +122,7 @@ namespace Workbench.Forms
 
         public static async Task Logout(bool shouldDeleteEnvironments = false)
         {
-            ServiceContainer.Resolve<IAuthentication>().clearTokenFromCache(App.ViewModel?.SelectedEnvironment?.TenantId);
+            ServiceContainer.Resolve<IAuthentication>().clearTokenFromCache($"https://login.windows.net/{App.ViewModel?.SelectedEnvironment?.TenantId}");
 
             App.ViewModel.WorkbenchEnvironments = new List<Models.BlockchainEnvironment>();
 
