@@ -90,7 +90,7 @@ This sample uses the Ethereum and the SQL Server Logic App Connectors available 
 
     10. The final logic app flow looks like this
 
-        ![](./media/LAflow.png)
+        ![](./media/LAFlow.png)
 
         
 
