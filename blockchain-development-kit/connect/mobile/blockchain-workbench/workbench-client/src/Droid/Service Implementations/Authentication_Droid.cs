@@ -23,7 +23,7 @@ namespace Workbench.Forms.Droid.ServiceImplementations
 			{
 				Android.Webkit.CookieManager.Instance.RemoveAllCookies(null);
 
-				var authContext = new AuthenticationContext($"https://login.microsoftonline.com/{authority}");
+				var authContext = new AuthenticationContext(authority);
 				authContext.TokenCache.Clear();
 
 				var editor = SharedPreferences.Edit();

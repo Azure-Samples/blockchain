@@ -84,7 +84,7 @@ namespace Workbench.Forms.iOS.ServiceImplementations
 		{
 			if (string.IsNullOrWhiteSpace(authority)) return;
 
-			var authContext = new AuthenticationContext($"https://login.microsoftonline.com/{authority}");
+			var authContext = new AuthenticationContext(authority);
 			authContext.TokenCache.Clear();
 
 			foreach (var cookie in NSHttpCookieStorage.SharedStorage.Cookies)
