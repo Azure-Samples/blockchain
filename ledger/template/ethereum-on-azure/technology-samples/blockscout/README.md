@@ -49,19 +49,18 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 	- Ensure you have the appropriate permissions to run the script: `chmod +x install_blockscout.sh`
 3. Execute the script using the following parameters:
 
-	| Parameter                                                      | Description                                                                                                      |
-	|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-	| Consortium IP Address                                          | This is the IP Address of the Load Balancer.                                                                     |
-	| WebSocket IP Address*                                          | This must be the IP Address of a **specific node** within the PoA Consortium (not the Load Balancer IP Address). |
-	| Database Password                                              | This will be the password to use when generating the BlockScout PostgreSQL database.                             |
-	| RPC Port  (*Optional - Will use default if not supplied)       | The Parity PoA Template JSON RPC Port (default: 8540)                                                                         |
-	| WebSocket Port  (*Optional - Will use default if not supplied) | The Parity PoA Template WebSocket Port (default: 8547)                                                                        |
+| Parameter                                                      | Description                                                                                                      |
+|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| RPC Endpoint                                          | This is the URL of the RPC Endpoint Balancer.                                                                     |
+| WebSocket Endpoint*                                          | This must use the IP Address of a **specific node** within the PoA Consortium (not the Load Balancer IP Address). |
+| Database Password                                              | This will be the password to use when generating the BlockScout PostgreSQL database.                             |
+
 
 	*The WebSocket IP Address is the Private IP Address of a specific node when deploying behind a VPN with a VNet Gateway.
 
      Example:
 
-        ./install_blockscout.sh "192.168.0.1" "192.168.0.2" "Password123!" "8540" "8547"
+        ./install_blockscout.sh "http://192.168.0.1:8540" "ws://192.168.0.2:8547" "Password123!"
 
     ![Deployment Script](./media/deployment_script.png)
 
