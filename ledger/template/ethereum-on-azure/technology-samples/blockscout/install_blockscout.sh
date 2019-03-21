@@ -1,29 +1,29 @@
 #!/bin/bash
 
-if [ $# -lt 3 ]; then 
+if [ $# -lt 3 ]; then
 	echo "Insufficient # of parameters supplied."
 	exit 1
 else
-	if [[ "$1" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]; then
+	rpcRegex='(https?)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+	if [[ "$1" =~ $rpcRegex ]]; then
 		echo "Valid Consortium IP Address"
-	else 
+	else
 		echo "$(tput setaf 1)Invalid Consortium IP Address supplied."
 		exit 1
 	fi
-	
-	if [[ "$2" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]; then
+
+	wsRegex='(wss|ws?)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+	if [[ "$2" =~ $wsRegex ]]; then
 		echo "Valid WebSocket IP Address"
-	else 
+	else
 		echo "$(tput setaf 1)Invalid WebSocket IP Address supplied."
 		exit 1
 	fi
 fi
 
-CONSORTIUM_IP=$1
-WEBSOCKET_IP=$2
+RPC_ENDPOINT=$1
+WEBSOCKET_ENDPOINT=$2
 DATABASE_PW=$3
-RPC_PORT=${4:-8540}
-WEBSOCKET_PORT=${5:-8547}
 
 # Erlang VM & Elixir Install
 wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
@@ -42,7 +42,7 @@ sudo apt-get -y install nginx && sudo ufw allow 'Nginx HTTP'
 # Node.js & NPM Install
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get -y install nodejs
-sudo ln -s /usr/bin/nodejs /usr/bin/node 
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # PostgreSQL Install
 echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' sudo tee -a /etc/apt/sources.list.d/pgdg.list
@@ -77,11 +77,11 @@ config :explorer,
     transport: EthereumJSONRPC.HTTP,
     transport_options: [
       http: EthereumJSONRPC.HTTP.HTTPoison,
-      url: \"http://$CONSORTIUM_IP:$RPC_PORT\",
+      url: \"$RPC_ENDPOINT\",
       method_to_url: [
-        eth_call: \"http://$CONSORTIUM_IP:$RPC_PORT\",
-        eth_getBalance: \"http://$CONSORTIUM_IP:$RPC_PORT\",
-        trace_replayTransaction: \"http://$CONSORTIUM_IP:$RPC_PORT\"
+        eth_call: \"$RPC_ENDPOINT\",
+        eth_getBalance: \"$RPC_ENDPOINT\",
+        trace_replayTransaction: \"$RPC_ENDPOINT\"
       ],
       http_options: [recv_timeout: :timer.minutes(1), timeout: :timer.minutes(1), hackney: [pool: :ethereum_jsonrpc]]
     ],
@@ -91,10 +91,10 @@ config :explorer,
     transport: EthereumJSONRPC.WebSocket,
     transport_options: [
       web_socket: EthereumJSONRPC.WebSocket.WebSocketClient,
-      url: \"ws://$WEBSOCKET_IP:$WEBSOCKET_PORT\"
+      url: \"$WEBSOCKET_ENDPOINT\"
     ],
     variant: EthereumJSONRPC.Parity
- ]" | sudo tee parity.exs 
+ ]" | sudo tee parity.exs
 cd -
 
 cd apps/explorer/config
@@ -121,7 +121,7 @@ variant =
     |> String.split(\".\")
     |> List.last()
     |> String.downcase()
-  end" | sudo tee prod.exs 
+  end" | sudo tee prod.exs
 cd -
 
 # Update Indexer Configuration Files
@@ -136,11 +136,11 @@ config :indexer,
     transport: EthereumJSONRPC.HTTP,
     transport_options: [
       http: EthereumJSONRPC.HTTP.HTTPoison,
-      url: \"http://$CONSORTIUM_IP:$RPC_PORT\",
+      url: \"$RPC_ENDPOINT\",
       method_to_url: [
-        eth_getBalance: \"http://$CONSORTIUM_IP:$RPC_PORT\",
-        trace_block: \"http://$CONSORTIUM_IP:$RPC_PORT\",
-        trace_replayTransaction: \"http://$CONSORTIUM_IP:$RPC_PORT\"
+        eth_getBalance: \"$RPC_ENDPOINT\",
+        trace_block: \"$RPC_ENDPOINT\",
+        trace_replayTransaction: \"$RPC_ENDPOINT\"
       ],
       http_options: [recv_timeout: :timer.minutes(1), timeout: :timer.minutes(1), hackney: [pool: :ethereum_jsonrpc]]
     ],
@@ -150,10 +150,10 @@ config :indexer,
     transport: EthereumJSONRPC.WebSocket,
     transport_options: [
       web_socket: EthereumJSONRPC.WebSocket.WebSocketClient,
-      url: \"ws://$WEBSOCKET_IP:$WEBSOCKET_PORT\"
+      url: \"$WEBSOCKET_ENDPOINT\"
     ]
   ]
-" | sudo tee parity.exs 
+" | sudo tee parity.exs
 cd -
 
 # Update Blockscout Web Configuration Files
@@ -169,7 +169,7 @@ config :block_scout_web, BlockScoutWeb.Endpoint,
     scheme: \"http\",
     port: \"4000\",
 	host: \"*.azure.com\"
-  ]" | sudo tee prod.exs 
+  ]" | sudo tee prod.exs
 cd -
 
 # Drop Old DB (If Exists) && Create + Migrate DB
