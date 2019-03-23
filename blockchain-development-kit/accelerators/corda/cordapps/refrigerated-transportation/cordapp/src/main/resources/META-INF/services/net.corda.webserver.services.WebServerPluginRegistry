@@ -1,3 +1,0 @@
-# Register a ServiceLoader service extending from net.corda.node.CordaPluginRegistry
-net.corda.workbench.refrigeratedTransportation.plugin.TransportationPlugin
-

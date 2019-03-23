@@ -1,7 +1,0 @@
-{
-  "id" : "db857426-4be7-4c1a-99df-10b2ed13dd02",
-  "type" : "AggregateEvent",
-  "timestamp": 1509618174218,
-  "creator": "test",
-  "aggregateId" : "123"
-}

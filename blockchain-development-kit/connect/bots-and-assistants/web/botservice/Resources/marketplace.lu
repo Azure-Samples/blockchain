@@ -1,5 +1,0 @@
-# Marketplace
-- Sell {description=painting} for ${askingprice=123}
-- Put {description=car} on marketplace for ${askingprice=50345}
-- Make a new contract for {description=computer} at {askingprice=300} dollars
-- Sell my {description=shirt} for {askingprice=30} dollars

@@ -1,9 +1,0 @@
-.nodes
-.idea
-.gradle
-.cache
-.test
-build/classes
-build/kotlin
-build/tmp
-out
