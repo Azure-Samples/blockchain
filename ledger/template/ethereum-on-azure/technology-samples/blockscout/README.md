@@ -56,13 +56,13 @@ In order to deploy BlockScout, a separate Linux Virtual Machine must first be cr
 | Database Password                                              | This will be the password to use when generating the BlockScout PostgreSQL database.                             |
 
 
-	*The WebSocket IP Address is the Private IP Address of a specific node when deploying behind a VPN with a VNet Gateway.
+*The WebSocket IP Address is the Private IP Address of a specific node when deploying behind a VPN with a VNet Gateway.
 
-     Example:
+Example:
 
-        ./install_blockscout.sh "http://192.168.0.1:8540" "ws://192.168.0.2:8547" "Password123!"
+`./install_blockscout.sh "http://192.168.0.1:8540" "ws://192.168.0.2:8547" "Password123!"`
 
-    ![Deployment Script](./media/deployment_script.png)
+![Deployment Script](./media/deployment_script.png)
 
 4. Wait approximately 5-10 minutes for the script to complete execution.
 
