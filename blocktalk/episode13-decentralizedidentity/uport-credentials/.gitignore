@@ -1,0 +1,12 @@
+node_modules
+lib
+dist
+.vscode/settings.json
+coverage
+yarn.lock
+
+*.log
+
+*.tgz
+*/**/.DS_Store
+/.DS_Store
