@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract BasicProvenance
 {
@@ -48,6 +48,6 @@ contract BasicProvenance
 
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
-        Counterparty = 0x0;
+        Counterparty = 0x0000000000000000000000000000000000000000;
     }
 }

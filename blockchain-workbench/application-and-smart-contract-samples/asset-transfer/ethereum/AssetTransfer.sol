@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract AssetTransfer
 {
@@ -13,7 +13,7 @@ contract AssetTransfer
     address public InstanceInspector;
     address public InstanceAppraiser;
 
-    constructor(string description, uint256 price) public
+    constructor(string memory description, uint256 price) public
     {
         InstanceOwner = msg.sender;
         AskingPrice = price;
@@ -31,7 +31,7 @@ contract AssetTransfer
         State = StateType.Terminated;
     }
 
-    function Modify(string description, uint256 price) public
+    function Modify(string memory description, uint256 price) public
     {
         if (State != StateType.Active)
         {
@@ -48,7 +48,7 @@ contract AssetTransfer
 
     function MakeOffer(address inspector, address appraiser, uint256 offerPrice) public
     {
-        if (inspector == 0x0 || appraiser == 0x0 || offerPrice == 0)
+        if (inspector == 0x0000000000000000000000000000000000000000 || appraiser == 0x0000000000000000000000000000000000000000 || offerPrice == 0)
         {
             revert();
         }
@@ -94,7 +94,7 @@ contract AssetTransfer
             revert();
         }
 
-        InstanceBuyer = 0x0;
+        InstanceBuyer = 0x0000000000000000000000000000000000000000;
         State = StateType.Active;
     }
 
@@ -168,7 +168,7 @@ contract AssetTransfer
             revert();
         }
 
-        InstanceBuyer = 0x0;
+        InstanceBuyer = 0x0000000000000000000000000000000000000000;
         OfferPrice = 0;
         State = StateType.Active;
     }

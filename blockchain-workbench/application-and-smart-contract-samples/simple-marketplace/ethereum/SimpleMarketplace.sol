@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract SimpleMarketplace
 {
@@ -16,7 +16,7 @@ contract SimpleMarketplace
     address public InstanceBuyer;
     int public OfferPrice;
 
-    constructor(string description, int price) public
+    constructor(string memory description, int price) public
     {
         InstanceOwner = msg.sender;
         AskingPrice = price;
@@ -58,7 +58,7 @@ contract SimpleMarketplace
             revert();
         }
 
-        InstanceBuyer = 0x0;
+        InstanceBuyer = 0x0000000000000000000000000000000000000000;
         State = StateType.ItemAvailable;
     }
 

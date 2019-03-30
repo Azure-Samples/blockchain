@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract DigitalLocker
 {
@@ -16,7 +16,7 @@ contract DigitalLocker
     string public RejectionReason;
     StateType public State;
 
-    constructor(string lockerFriendlyName, address bankAgent) public
+    constructor(string memory lockerFriendlyName, address bankAgent) public
     {
         Owner = msg.sender;
         LockerFriendlyName = lockerFriendlyName;
@@ -31,7 +31,7 @@ contract DigitalLocker
         /* Need to update, likely with registry to confirm sender is agent
         Also need to add a function to re-assign the agent.
         */
-     if (Owner == msg.sender)
+        if (Owner == msg.sender)
         {
             revert();
         }
@@ -41,9 +41,9 @@ contract DigitalLocker
         State = StateType.DocumentReview;
     }
 
-    function RejectApplication(string rejectionReason) public
+    function RejectApplication(string memory rejectionReason) public
     {
-     if (BankAgent != msg.sender)
+        if (BankAgent != msg.sender)
         {
             revert();
         }
@@ -53,19 +53,19 @@ contract DigitalLocker
         State = StateType.DocumentReview;
     }
 
-    function UploadDocuments(string lockerIdentifier, string image) public
+    function UploadDocuments(string memory lockerIdentifier, string memory image) public
     {
-         if (BankAgent != msg.sender)
+        if (BankAgent != msg.sender)
         {
             revert();
         }
-            LockerStatus = "Approved";
-            Image = image;
-            LockerIdentifier = lockerIdentifier;
-            State = StateType.AvailableToShare;
+        LockerStatus = "Approved";
+        Image = image;
+        LockerIdentifier = lockerIdentifier;
+        State = StateType.AvailableToShare;
     }
 
-    function ShareWithThirdParty(address thirdPartyRequestor, string expirationDate, string intendedPurpose) public
+    function ShareWithThirdParty(address thirdPartyRequestor, string memory expirationDate, string memory intendedPurpose) public
     {
         if (Owner != msg.sender)
         {
@@ -75,7 +75,7 @@ contract DigitalLocker
         ThirdPartyRequestor = thirdPartyRequestor;
         CurrentAuthorizedUser = ThirdPartyRequestor;
 
-        LockerStatus ="Shared" ;
+        LockerStatus = "Shared";
         IntendedPurpose = intendedPurpose;
         ExpirationDate = expirationDate;
         State = StateType.SharingWithThirdParty;
@@ -98,12 +98,12 @@ contract DigitalLocker
         {
             revert();
         }
-        LockerStatus ="Available";
-        CurrentAuthorizedUser=0x0;
+        LockerStatus = "Available";
+        CurrentAuthorizedUser = 0x0000000000000000000000000000000000000000;
         State = StateType.AvailableToShare;
     }
 
-    function RequestLockerAccess(string intendedPurpose) public
+    function RequestLockerAccess(string memory intendedPurpose) public
     {
         if (Owner == msg.sender)
         {
@@ -111,7 +111,7 @@ contract DigitalLocker
         }
 
         ThirdPartyRequestor = msg.sender;
-        IntendedPurpose=intendedPurpose;
+        IntendedPurpose = intendedPurpose;
         State = StateType.SharingRequestPending;
     }
 
@@ -122,10 +122,10 @@ contract DigitalLocker
         {
             revert();
         }
-        LockerStatus ="Available";
-        ThirdPartyRequestor = 0x0;
-        CurrentAuthorizedUser = 0x0;
-        IntendedPurpose="";
+        LockerStatus = "Available";
+        ThirdPartyRequestor = 0x0000000000000000000000000000000000000000;
+        CurrentAuthorizedUser = 0x0000000000000000000000000000000000000000;
+        IntendedPurpose = "";
         State = StateType.AvailableToShare;
     }
     
@@ -135,8 +135,8 @@ contract DigitalLocker
         {
             revert();
         }
-        LockerStatus ="Available";
-        CurrentAuthorizedUser=0x0;
+        LockerStatus = "Available";
+        CurrentAuthorizedUser = 0x0000000000000000000000000000000000000000;
         State = StateType.AvailableToShare;
     }
 
@@ -146,7 +146,7 @@ contract DigitalLocker
         {
             revert();
         }
-        CurrentAuthorizedUser=0x0;
+        CurrentAuthorizedUser = 0x0000000000000000000000000000000000000000;
         State = StateType.Terminated;
     }
 }
