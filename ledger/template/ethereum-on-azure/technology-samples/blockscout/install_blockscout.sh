@@ -32,7 +32,7 @@ sudo apt-get -y install esl-erlang=1:21.1.1-1
 sudo apt-get -y install elixir=1.8.1-2
 
 # gcc, make and build-essential Install
-sudo apt-get install build-essential make automake libtool inotify-tools autoconf libgmp-dev gcc
+sudo apt-get -y install build-essential make automake libtool inotify-tools autoconf libgmp-dev gcc
 
 
 # nginx Install
