@@ -37,21 +37,17 @@ Create and configure a new Function App
 
 >   document = null;
 
->   String operationName = eventGridEvent["data"]["OperationName"].ToString();
+>   String messageName = eventGridEvent["data"]["messageName"].ToString();
 
->   switch(operationName)
+>   switch(messageName)
 
 >   {
 
->   case "AccountCreated":
+>   case "BlockMessage":
 
->   case "ContractInsertedOrUpdated":
+>   case "ContractMessage":
 
->   case "UpdateUserBalance":
-
->   case "InsertBlock":
-
->   case "InsertTransaction":
+>   case "EventMessage":
 
 >   break;
 
@@ -68,10 +64,8 @@ Full details on the data contained within the different message types and C\# re
 [here](https://docs.microsoft.com/en-us/azure/blockchain-workbench/blockchain-workbench-messages-overview).
 
 1.  Add the Event Grid subscription by clicking on the link next to the Run
-    button. Choose the topic type as “Even Grid Topics” and select the event
+    button. Choose the topic type as “Event Grid Topics” and select the event
     grid from your workbench deployment to listen to the messages.
-
-    ![](media/8e1c62de958cfdd7fba0ffe616260521.png)
 
 2.  Once the event grid subscription is added successfully, you can run the
     Azure function.

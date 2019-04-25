@@ -42,16 +42,14 @@ Create and configure a new Function App
     public static void Run(JObject eventGridEvent, TraceWriter log, out object document)
     {
         document = null;
-        String operationName = eventGridEvent["data"]["OperationName"].ToString();
-        switch(operationName)
+        String messageName = eventGridEvent["data"]["messageName"].ToString();
+        switch(messageName)
         {
-            case "AccountCreated":
-            case "ContractInsertedOrUpdated":
-            case "UpdateUserBalance":
-            case "InsertBlock":
-            case "InsertTransaction":
+            case "BlockMessage":
+            case "ContractMessage":
+            case "EventMessage":
                 document = eventGridEvent["data"];
-                log.Info("Storing " + operationName + " transaction in Cosmos DB")
+                log.Info("Storing " + messageName + " transaction in Cosmos DB")
                 break;
             }
         }
@@ -61,12 +59,8 @@ Create and configure a new Function App
     button. Choose the topic type as “Event Grid Topics” and select the event
     grid from your workbench deployment to listen to the messages.
 
-    ![](media/8a48916f27bcffc5af742e115266e863.png)
-
 6.  Once the event grid subscription is added successfully, you can run the
     Azure function.
 
 7.  Validate that you are seeing the messages in Cosmos DB . You can run queries
     on top of this to filter or project what you need.
-
-    ![](media/228e454c01c11507fca9adcb7f69ba22.png)

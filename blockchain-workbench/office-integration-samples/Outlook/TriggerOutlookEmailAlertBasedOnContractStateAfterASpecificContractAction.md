@@ -9,19 +9,13 @@ the state of the contract and allows you to take appropriate action.
 
 Specifically –
 
--   It identifies if the message is of type ContractInsertedOrUpdated
+-   It identifies if the message is of type ContractFunctionInvocation.
 
--   If true, it identifies if this is an update to an existing contract or a new
-    contract
+-   If true, it identifies if the contract function invoked was named "IngestTelemetry".
 
--   If an update, it identifies if the action executed was named
-    “IngestTelemetry”
+-   If true, it will look up the contract using the ContractLedgerIdentifier.
 
--   If true, it will cycle through the parameters in the message to find the
-    parameter named “State”
-
--   Once found, it evaluates the value of the current contract state so that the
-    appropriate logic can be executed.
+-   Once found, it evaluates the value of the current contract state.
 
 Of Note
 -------
@@ -33,6 +27,34 @@ the action (“IngestTelemetry”) or the logic related to identifying the state
 
 Other samples will further extend this to send alerts via Outlook, SMS (Twilio)
 and voice (Twilio).
+
+Running a Stored Procedure
+--------------------
+Navigate to the database for your Azure Blockchain Workbench deployment.
+
+Select the query editor.
+
+Click Login and provide your database credentials. The username will be ‘dbadmin’ and the password is the one your provided during the installation of Azure Blockchain Workbench.
+
+Click New Query and paste the following: 
+
+
+CREATE PROCEDURE [dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]
+(
+@ContractLedgerIdentifier NVARCHAR(256),
+)
+AS
+BEGIN
+
+Select Top 1 vw.StateValue from [vwContractState] vw
+Where vw.ContractLedgerIdentifier = @ContractLedgerIdentifier
+
+END
+
+Go
+
+Click the run button to create the stored procedures in the database.
+
 
 Create the Logic App
 --------------------
@@ -92,6 +114,17 @@ deployment.
 
 ![](media/f491275d3e072d2ca5affa55e51d0b41.png)
 
+
+In the Schema field, enter the following –
+
+Click the “+ New Step” button.
+
+Select Initialize Variable. 
+
+Put "ContractState" for Name, and the Type as String. Leave the value empty. 
+
+![](media/InitializeVariable.PNG)
+
 Click the “+ New Step” button.
 
 Click More and click the Add a Switch Case
@@ -102,280 +135,134 @@ evaluated.
 Click the text box and then select “Subject” which contains the name of the
 message type being delivered.
 
-In the Case message on the right, enter the value of ContractInsertedOrUpdated.
+In the Case message on the right, enter the value of ContractFunctionInvocation.
 
 Click the “…” in the upper right of the case and select Rename.
 
-Rename the case to ContractInsertedOrUpdated.
+Rename the case to ContractFunctionInvocation.
 
 Add the action “Data Operations – Parse Json” to the case.
 
 In the Content field select Body.
 
 In the Schema field, enter the following –
-
+```
 {
-
-"properties": {
-
-"data": {
-
-"properties": {
-
-"ActionName": {
-
-"type": "string"
-
-},
-
-"BlockId": {
-
-"type": "number"
-
-},
-
-"ChainId": {
-
-"type": "number"
-
-},
-
-"ContractAddress": {
-
-"type": "string"
-
-},
-
-"ContractId": {
-
-"type": "number"
-
-},
-
-"IsTopLevelUpdate": {
-
-"type": "boolean"
-
-},
-
-"IsUpdate": {
-
-"type": "boolean"
-
-},
-
-"OperationName": {
-
-"type": "string"
-
-},
-
-"OriginatingAddress": {
-
-"type": "string"
-
-},
-
-"Parameters": {
-
-"items": {
-
-"properties": {
-
-"Name": {
-
-"type": "string"
-
-},
-
-"Value": {
-
-"type": "string"
-
+    "properties": {
+        "additionalInformation": {
+            "properties": {},
+            "type": "object"
+        },
+        "caller": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "ledgerIdentifier": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "connectionId": {
+            "type": "integer"
+        },
+        "contractId": {
+            "type": "integer"
+        },
+        "contractLedgerIdentifier": {
+            "type": "string"
+        },
+        "eventName": {
+            "type": "string"
+        },
+        "functionName": {
+            "type": "string"
+        },
+        "inTransactionSequenceNumber": {
+            "type": "integer"
+        },
+        "messageName": {
+            "type": "string"
+        },
+        "messageSchemaVersion": {
+            "type": "string"
+        },
+        "parameters": {
+            "items": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "value"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "transaction": {
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "transactionId": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
 }
-
-},
-
-"required": [
-
-"Name",
-
-"Value"
-
-],
-
-"type": "object"
-
-},
-
-"type": "array"
-
-},
-
-"TopLevelInputParams": {
-
-"type": "array"
-
-},
-
-"TransactionHash": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-},
-
-"dataVersion": {
-
-"type": "string"
-
-},
-
-"eventTime": {
-
-"type": "string"
-
-},
-
-"eventType": {
-
-"type": "string"
-
-},
-
-"id": {
-
-"type": "string"
-
-},
-
-"metadataVersion": {
-
-"type": "string"
-
-},
-
-"subject": {
-
-"type": "string"
-
-},
-
-"topic": {
-
-"type": "string"
-
-}
-
-},
-
-"type": "object"
-
-}
-
-![](media/3bf2658a688788436dd74b524744b07b.png)
+```
 
 Click the “More” link and then select “add a condition”.
 
 Click in the box at the left of the condition. It will display the Dynamic
-Content window, select “IsUpdate” from the Dynamic Content list.
+Content window, select “functionName” from the Dynamic Content list.
 
 Set the condition to “is equal to”.
 
-Set the condition value to true.
+Set the condition value to IngestTelemetry.
 
-This identifies that this is an update to a contract and not the creation of a
-new contract.
+This identifies that the contract function called was IngestTelemetry.
 
-![](media/7a0a04127d71637f8b6595f7f90b24aa.png)
+Add an action in the "if true" section so you can execute a stored procedure to find whether or not the contract is in the out of compliance state after the reading was taken. 
 
-Click the three dots in the upper right corner of the Condition action and
-select Rename. Rename this action to “Check to See If This is a New Contract or
-an Action”
+Select the procedure from earlier named "[dbo].[LogicAppGetContractStateFromContractLedgerIdentifier]"
 
-In the “If true” section, click More and select “add a switch case”.
+Select the dynamic content "contractLedgerIdentifier" for the ContractLedgerIdentifier field. 
 
-Click inside the “On” field and select “ActionName” from the dynamic properties
-dialog.
+![](media/StoredProcedure.PNG)
 
-Click the three dots in the upper right of the action, select Rename, and name
-it “Check to See What Action Was Executed”
+Add another action to set the variable which was initialized at the beginning of the logic apps flow. 
 
-![](media/76e6d0ebc407cbc8b90b3d8604b0bcde.png)
+Set Name to ContractState and the value as the StateName from the SQL Stored Procedure. 
 
-In the choice on the right, set the “Equals” field to IngestTelemetry.
+![](media/SetVariable.PNG)
 
-Click the three dots in the upper right, select Rename and name this “Check to
-see if this is the IngestTelemetry action from our device”
+Add another Condition to check if the ContractState is equal to "OutofCompliance". 
 
-Click “… More” and select “Add for each”
-
-![](media/e77fbaa0dad3081ab19cb876b4c0db38.png)
-
-In the “For each” action, click in the “Select an output from previous steps”
-field and select Parameters from the Dynamic Properties dialog.
-
-Next click on the “More” button and select “add a switch case”.
-
-Right click the three dots in the upper corner of the action and select Rename.
-Rename this to “Determine what parameter this is”
-
-![](media/3df8d7ffada6d4b0a1a66ccdd288fa4a.png)
-
-Click on the newly created item on the left, and set the “Equals” field value to
-State
-
-Click on the three dots in the upper right of the action and select Rename.
-Rename this to “Confirm this is the State parameter”
-
-![](media/b64096448afefddf736fb15e90f57f81.png)
-
-Underneath that action, click the “More” link and then “add new switch case”.
-
-In the “On” field, click it select Value from the dynamic properties.
-
-For the item on the left of the switch case, set the Equals property to Created
-
-Click on the three dots in the corner of this case and select Rename. Rename it
-to “In the Created state”
-
-Click the (+) in the center of the switch case to add a new case.
-
-For the new case, set the Equals property to InTransit
-
-Click on the three dots in the corner of this case and select Rename. Rename it
-to “In the Intransit state”
-
-Click the (+) in the center of the switch case to add a new case.
-
-For the new case, set the Equals property to Completed
-
-Click on the three dots in the corner of this case and select Rename. Rename it
-to “In the Completed state”
-
-Click the (+) in the center of the switch case to add a new case.
-
-For the new case, set the Equals property to OutOfCompliance
-
-Click on the three dots in the corner of this case and select Rename. Rename it
-to “In the OutOfCompliance state”
-
-![](media/624bdc6f1051fdf5291364b54e33aa71.png)
+![](media/ConditionMet.PNG)
 
 You can now add logic that takes action based on the state after a specific
 action. In this sample, if after a device provides telemetry that it is now in
 an out of compliance state there may be a desire to send an alert.
-
-In the case for the “In the OfferPlaced state”, click “Add an action”
-
-Select “Office 365 Outlook – Send an email”
-
-![](media/641fe116bfa9f7f172203ffd152f8072.png)
 
 Populate the properties for the action supplying the subject, body, and the
 intended address.
@@ -437,17 +324,12 @@ In many workflows, there is a need to execute logic based on a state change that
 may occur after a specific action is taken on a smart contract.
 
 The logic app created in this sample facilitates this need by –
+    
+-   It identifies if the message is of type ContractFunctionInvocation.
 
--   Identifying if the message is of type ContractInsertedOrUpdated
+-   If true, it identifies if the contract function invoked was named "IngestTelemetry".
 
--   If true, it identifies if this is an update to an existing contract or a new
-    contract
-
--   If the message represents a contract update, it identifies if the action
-    executed was named “IngestTelemetry”
-
--   If that is true, it will cycle through the parameters in the message to find
-    the parameter named “State”
+-   If true, it will look up the contract using the ContractLedgerIdentifier.
 
 -   Once found, it evaluates the value of the current contract state and
     triggers an alert when appropriate.
