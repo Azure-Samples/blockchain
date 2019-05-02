@@ -8,4 +8,11 @@ A serverless approach also reduces costs and management overhead. With no VMs to
 
 The release of this connector and the connectors that will follow are another milestone in our goal to enable anyone with an idea to be a blockchain developer.
 
+The documentation for the connector can be found [here](https://docs.microsoft.com/en-us/connectors/blockchainethereum/).
+
 You can find the connector directly within Logic Apps, search for Ethereum Blockchain and it will appear on the design surface.
+
+A gallery of templates for common scenarios is also available, as shown below.
+
+![Logic App Connector](./media/gallery.png)
+
