@@ -33,7 +33,7 @@ param(
     [Parameter(Mandatory=$true)][string]$SubscriptionID,
     [Parameter(Mandatory=$true)][string]$ResourceGroupName,
     [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.7.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "REPLACE_ME_FOR_GITHUB",
+    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-c635569f-6278-46aa-bf98-f978026b1103-azure-blockchain-workbench/Artifacts",
     [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory=$false)][string]$DockerLogin = $null,
     [Parameter(Mandatory=$false)][string]$DockerPw = $null,
