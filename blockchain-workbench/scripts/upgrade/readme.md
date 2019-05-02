@@ -21,7 +21,7 @@ We recommend using [Azure CloudShell](https://shell.azure.com/powershell) since 
 2. Download the script. You can download the upgrade script automatically by using the command bellow, or you can download it from this repository manually
 
 ```powershell
-cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureBlockchainWorkbenchUpgradeTov1_6_0.ps1
+cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureBlockchainWorkbenchUpgradeTov1_7_0.ps1
 
 ```
 
@@ -29,7 +29,7 @@ cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureB
 
 
 ```powershell
-./azureBlockchainWorkbenchUpgradeTov1_6_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
+./azureBlockchainWorkbenchUpgradeTov1_7_0.ps1 -SubscriptionID <subscription_id> -ResourceGroupName <workbench-resource-group-name>
 
 ```
 
@@ -38,7 +38,7 @@ cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureB
 When the upgrade completes, you will see the following message:
 
 ```powershell
-Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.6.0.
+Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.0.
 
 WARNING: Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates.
 
