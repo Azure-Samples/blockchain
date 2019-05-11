@@ -26,15 +26,14 @@ WEBSOCKET_ENDPOINT=$2
 DATABASE_PW=$3
 
 # Erlang VM & Elixir Install
-wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
+wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+sudo dpkg -i erlang-solutions_1.0_all.deb
 sudo apt-get update
-sudo apt-get -y install esl-erlang=1:21.1.1-1
-sudo apt-get -y install elixir=1.7.4-1
+sudo apt-get -y install esl-erlang
+sudo apt-get -y install elixir
 
 # gcc, make and build-essential Install
-sudo apt-get install make
-sudo apt-get -y install gcc
-sudo apt-get -y install build-essential
+sudo apt-get -y install build-essential make automake libtool inotify-tools autoconf libgmp-dev gcc
 
 # nginx Install
 sudo apt-get -y install nginx && sudo ufw allow 'Nginx HTTP'
@@ -45,8 +44,8 @@ sudo apt-get -y install nodejs
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # PostgreSQL Install
-echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' sudo tee -a /etc/apt/sources.list.d/pgdg.list
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
 sudo apt-get update && sudo apt-get -y install postgresql
 sudo apt-get update && sudo apt-get -y install postgresql-client
 
@@ -57,7 +56,7 @@ sudo -u postgres psql -U postgres -d postgres -c "alter user postgres with passw
 sudo apt-get install -y git
 sudo git clone https://github.com/poanetwork/blockscout.git && echo "cloned"
 cd blockscout
-sudo git checkout 53ea60c3 && echo "checked out"; cd -
+sudo git checkout master && echo "checked out"; cd -
 sudo chmod -R a+x blockscout && echo "permissions granted"
 
 
@@ -196,7 +195,7 @@ echo "
 	Environment=MIX_ENV=prod
 	Environment=LANG=en_US.UTF-8
 	WorkingDirectory=/home/$USER/blockscout
-	ExecStart=/usr/local/bin/mix phx.server
+	ExecStart=/usr/bin/mix phx.server
 
 	[Install]
 	WantedBy=multi-user.target
