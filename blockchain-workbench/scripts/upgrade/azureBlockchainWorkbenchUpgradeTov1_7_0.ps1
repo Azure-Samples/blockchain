@@ -160,7 +160,7 @@ if (-Not $uiWebsite)
 $uiWebsite = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $uiWebsite.Name
 
 # Locate the service bus
-$serviceBusNs = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+$serviceBusNs = (Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue)[0]
 if (-Not $serviceBusNs)
 {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
@@ -330,7 +330,7 @@ Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for servi
 
 # Create the Service Bus queue "ingressQueue", "internalQueue" and topic "egressTopic" if they don't exist
 $queueName = "internalQueue"
-$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
+$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $queueName -ErrorAction SilentlyContinue
 if (-Not $queue)
 {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
