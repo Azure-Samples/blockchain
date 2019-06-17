@@ -160,7 +160,7 @@ if (-Not $uiWebsite)
 $uiWebsite = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $uiWebsite.Name
 
 # Locate the service bus
-$serviceBusNs = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+$serviceBusNs = (Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName)[0]
 if (-Not $serviceBusNs)
 {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
