@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.7.0.
+Upgrades Azure Blockchain Workbench to version 1.7.1.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.7.0.
+Upgrades Azure Blockchain Workbench to version 1.7.1.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,21 +24,21 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_1.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
 
 param(
-    [Parameter(Mandatory=$true)][string]$SubscriptionID,
-    [Parameter(Mandatory=$true)][string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)][string]$TargetDockerTag = "1.7.0",
-    [Parameter(Mandatory=$false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-c635569f-6278-46aa-bf98-f978026b1103-azure-blockchain-workbench/Artifacts",
-    [Parameter(Mandatory=$false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
-    [Parameter(Mandatory=$false)][string]$DockerLogin = $null,
-    [Parameter(Mandatory=$false)][string]$DockerPw = $null,
-    [Parameter(Mandatory=$false)][switch]$TestApi,
-    [Parameter(Mandatory=$false)][switch]$TestEnv
+    [Parameter(Mandatory = $true)][string]$SubscriptionID,
+    [Parameter(Mandatory = $true)][string]$ResourceGroupName,
+    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.1",
+    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-2746f4b9-2c06-4718-91e2-429c235dce07-azure-blockchain-workbench/Artifacts",
+    [Parameter(Mandatory = $false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
+    [Parameter(Mandatory = $false)][string]$DockerLogin = $null,
+    [Parameter(Mandatory = $false)][string]$DockerPw = $null,
+    [Parameter(Mandatory = $false)][switch]$TestApi,
+    [Parameter(Mandatory = $false)][switch]$TestEnv
 )
 
 #############################################
@@ -55,13 +55,11 @@ $logId = 0
 Write-Progress -Id $logId -Activity "Checking compatibility & Importing modules" -Status "Importing Az modules" -PercentComplete 0
 
 # This script only works with the AZ module. AZ is a cross platform module available for all operating systems
-if (Get-Module -ListAvailable -Name Az.Accounts)
-{
+if (Get-Module -ListAvailable -Name Az.Accounts) {
     Import-Module Az
 }
 # Remove this when Test Machines have AZ installed
-elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM))
-{
+elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM)) {
     Write-Host "Running in test env"
     Import-Module AzureRM
     ## Alias Az commands to AzureRm commands
@@ -87,7 +85,8 @@ elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM))
     Set-Alias -Name Set-AzResource -Value Set-AzureRmResource
     Set-Alias -Name Set-AzWebApp -Value Set-AzureRmWebApp
     Set-Alias -Name Restart-AzWebApp -Value Restart-AzureRmWebApp
-} else {
+}
+else {
     throw "Could not find AZ module. Please user Azure CloudShell or install the AZ module https://docs.microsoft.com/en-us/powershell/azure/install-az-ps"
 }
 
@@ -97,11 +96,9 @@ Write-Progress -Id $logId -Activity "Login & Setup" -Status "Login to Azure" -Pe
 
 $context = Get-AzContext
 
-if (-Not $context -or ($context.Name -eq "Default"))
-{
+if (-Not $context -or ($context.Name -eq "Default")) {
     $account = Connect-AzAccount -SubscriptionId $SubscriptionID
-    if (-Not $account)
-    {
+    if (-Not $account) {
         throw "Failed to login to Azure. Please try to login again."
     }
 }
@@ -111,34 +108,29 @@ Write-Progress -Id $logId -Activity "Login & Setup" -Status "Loading Azure Resou
 $context = Set-AzContext -SubscriptionId $SubscriptionID -ErrorAction Stop
 
 $rg = Get-AzResourceGroup -Name $ResourceGroupName
-if (-Not $rg)
-{
+if (-Not $rg) {
     throw "We couldn't locate the resource group $ResourceGroupName. Please check the name and try again"
 }
 
 # Locate Resources in Blockchain Workbench deployment
 
 $vmss = Get-AzVmss -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if (-Not $vmss)
-{
+if (-Not $vmss) {
     throw "Could not locate VM Scale Set within the resource group $ResourceGroupName. Verify that Resource Group contains an Azure Blockchain Workbench deployment."
 }
 
 $workerVMSS = ($vmss | Where-Object { $_.Name -like "*-worker-*" })[0] # Select the Workbench Worker VMSS
-if (-Not $workerVMSS)
-{
+if (-Not $workerVMSS) {
     throw "Could not locate Azure Blockchain Workbench Worker VMSS in $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
 $websites = Get-AzWebApp -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if (-Not $websites)
-{
+if (-Not $websites) {
     throw "Could not locate App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
 $apiWebsite = ($websites | Where-Object { $_.Name -like "*-api" })[0] # Select the Workbench API
-if (-Not $apiWebsite)
-{
+if (-Not $apiWebsite) {
     throw "Could not locate API App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
@@ -151,8 +143,7 @@ $appServicePlan = Get-AzAppServicePlan -ResourceGroupName $spResource.ResourceGr
 
 # Select the Workbench GUI
 $uiWebsite = ($websites | Where-Object { $_.Name -notlike "*-api" })[0] # Select the Workbench GUI
-if (-Not $uiWebsite)
-{
+if (-Not $uiWebsite) {
     throw "Could not locate Webapp App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
@@ -161,14 +152,12 @@ $uiWebsite = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $uiWebsite
 
 # Locate the service bus
 $serviceBusNs = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if (-Not $serviceBusNs)
-{
+if (-Not $serviceBusNs) {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
 $eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName)[0]
-if (-Not $eventGrid)
-{
+if (-Not $eventGrid) {
     throw "Could not locate EventGrid within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
@@ -176,49 +165,42 @@ $eventGridTopicEndpoint = $eventGrid.Endpoint
 
 $eventGridKey = (Get-AzEventGridTopicKey -ResourceGroupName $ResourceGroupName -Name $eventGrid.TopicName).Key1
 
-if (-Not $eventGridKey)
-{
+if (-Not $eventGridKey) {
     throw "Could not get the EventGrid key within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
 Write-Progress -Id $logId -Activity "Login & Setup" -Status "Resources loaded" -PercentComplete 100
-function Coalesce($a, $b){ if ($a) { $a } else { $b } }
+function Coalesce($a, $b) { if ($a) { $a } else { $b } }
 
-function GetEnvironmentSetting($json, $settingName)
-{
+function GetEnvironmentSetting($json, $settingName) {
     # Locate the setting from another task
-    foreach ($entry in $json)
-    {
-        if($entry.environment.$settingName)
-        {
+    foreach ($entry in $json) {
+        if ($entry.environment.$settingName) {
             return $entry.environment.$settingName
         }
     }
     throw "Couldn't set environment variable correctly, please try again later."
 }
 
-function ApplyVersionSpecificChanges1_4_0($json)
-{
+function ApplyVersionSpecificChanges1_4_0($json) {
     ## v1.4.0 Deployment Changes
     ## =========================
     ## 1) Configuration manager is added to the system
     ## 2) Cron job for dlt-watcher monitoring is removed, as dlt-watcher is replaced by eth-watcher
 
     # Removes the cron job for dlt-watcher monitoring if found
-    if ($json[0].name.Contains("Setup cron job"))
-    {
+    if ($json[0].name.Contains("Setup cron job")) {
         $json = $json | Select-Object -Skip 1
     }
 
     $dlConfigManagerCommand = $json | Where-Object { $_.name -eq "Download Config Manager Compose" }
-    if(-Not $dlConfigManagerCommand)
-    {
+    if (-Not $dlConfigManagerCommand) {
         $dlConfigManager = @{
-            name = "Download Config Manager Compose";
+            name    = "Download Config Manager Compose";
             command = "curl -f -S -s --connect-timeout 5 --retry 15 -o /root/docker-config-manager-compose.yaml `"$ArtifactsRoot/docker-compose.config-manager.yaml`"";
         }
 
-        $env = @{}
+        $env = @{ }
         $env.APPLICATION_INSIGHTS_KEY = GetEnvironmentSetting $json  "APPLICATION_INSIGHTS_KEY"
         $env.DOCKER_REPOSITORY = GetEnvironmentSetting $json  "DOCKER_REPOSITORY"
         $env.DOCKER_TAG = GetEnvironmentSetting $json  "DOCKER_TAG"
@@ -227,35 +209,31 @@ function ApplyVersionSpecificChanges1_4_0($json)
         $env.EVENT_GRID_TOPIC_ENDPOINT = GetEnvironmentSetting $json  "EVENT_GRID_TOPIC_ENDPOINT"
         $envObject = New-Object –TypeName PSObject –Prop $env
 
-        if (-Not $envObject)
-        {
+        if (-Not $envObject) {
             throw "Couldn't set environment correctly, please try again later."
         }
 
         $createConfigManager = @{
-            name = "Create Config Manager";
-            command = "docker-compose -f /root/docker-config-manager-compose.yaml up --force-recreate";
+            name        = "Create Config Manager";
+            command     = "docker-compose -f /root/docker-config-manager-compose.yaml up --force-recreate";
             environment = $envObject;
         }
 
         $firstEntry = $json[0]
         $rest = $json | Select-Object -Skip 1
 
-        $json = ,$firstEntry + $dlConfigManager + $createConfigManager + $rest
+        $json = , $firstEntry + $dlConfigManager + $createConfigManager + $rest
     }
 
     return $json
 }
-function LocateGethEndpoint($blob)
-{
+function LocateGethEndpoint($blob) {
     $stringContents = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($blob))
 
     $json = ConvertFrom-Json $stringContents
 
-    foreach ($entry in $json)
-    {
-        if($entry.environment.GETH_RPC_ENDPOINT)
-        {
+    foreach ($entry in $json) {
+        if ($entry.environment.GETH_RPC_ENDPOINT) {
             return $entry.environment.GETH_RPC_ENDPOINT
         }
     }
@@ -263,31 +241,25 @@ function LocateGethEndpoint($blob)
     return ""
 }
 
-function UpgradeInitBlob( $orig)
-{
+function UpgradeInitBlob( $orig) {
     $stringContents = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($orig))
 
     $json = ConvertFrom-Json $stringContents
 
-    foreach ($entry in $json)
-    {
-        if($entry.environment.DOCKER_TAG)
-        {
+    foreach ($entry in $json) {
+        if ($entry.environment.DOCKER_TAG) {
             $entry.environment.DOCKER_TAG = $TargetDockerTag
         }
 
-        if($entry.environment.DOCKER_REPOSITORY -and $DockerRepository)
-        {
+        if ($entry.environment.DOCKER_REPOSITORY -and $DockerRepository) {
             $entry.environment.DOCKER_REPOSITORY = $DockerRepository
         }
 
-        if($entry.environment.DOCKER_PASSWORD -and $DockerPw)
-        {
+        if ($entry.environment.DOCKER_PASSWORD -and $DockerPw) {
             $entry.environment.DOCKER_PASSWORD = $DockerPw
         }
 
-        if($entry.environment.DOCKER_LOGIN -and $DockerLogin)
-        {
+        if ($entry.environment.DOCKER_LOGIN -and $DockerLogin) {
             $entry.environment.DOCKER_LOGIN = $DockerLogin
         }
     }
@@ -315,7 +287,7 @@ function UpgradeInitBlob( $orig)
     $jsonString = $jsonString.Substring($openingBracketPos, $closingBracketPos - $openingBracketPos + 1)
 
     $bytes = [System.Text.Encoding]::ASCII.GetBytes($jsonString)
-    $encodedText =[Convert]::ToBase64String($bytes)
+    $encodedText = [Convert]::ToBase64String($bytes)
 
     return $encodedText
 }
@@ -331,8 +303,7 @@ Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for servi
 # Create the Service Bus queue "ingressQueue", "internalQueue" and topic "egressTopic" if they don't exist
 $queueName = "internalQueue"
 $queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
-if (-Not $queue)
-{
+if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
     $queue = New-AzServiceBusQueue -ResourceGroupName $ResourceGroupName `
@@ -344,8 +315,7 @@ if (-Not $queue)
         -DuplicateDetectionHistoryTimeWindow "00:10:00" `
         -ErrorAction Stop
 
-    if (-Not $queue)
-    {
+    if (-Not $queue) {
         throw "Unable to create Service Bus queue! Last Error: $($Error[0])"
     }
 
@@ -354,8 +324,7 @@ if (-Not $queue)
 
 $queueName = "ingressQueue"
 $queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
-if (-Not $queue)
-{
+if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
     $queue = New-AzServiceBusQueue -ResourceGroupName $ResourceGroupName `
@@ -367,8 +336,7 @@ if (-Not $queue)
         -DuplicateDetectionHistoryTimeWindow "00:10:00" `
         -ErrorAction Stop
 
-    if (-Not $queue)
-    {
+    if (-Not $queue) {
         throw "Unable to create Service Bus queue! Last Error: $($Error[0])"
     }
 
@@ -377,8 +345,7 @@ if (-Not $queue)
 
 $topicName = "egressTopic"
 $topic = Get-AzServiceBusTopic -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $topicName -ErrorAction SilentlyContinue
-if (-Not $topic)
-{
+if (-Not $topic) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus topic..." -PercentComplete 35
 
     $topic = New-AzServiceBusTopic `
@@ -390,8 +357,7 @@ if (-Not $topic)
         -DuplicateDetectionHistoryTimeWindow "00:10:00" `
         -ErrorAction Stop
 
-    if (-Not $topic)
-    {
+    if (-Not $topic) {
         throw "Unable to create Service Bus topic! Last Error: $($Error[0])"
     }
 
@@ -407,7 +373,7 @@ $logId++
 
 Write-Progress -Id $logId -Activity "Upgrade Worker" -Status "Downloading VM Extension Configuration" -PercentComplete 0
 
-$oldExtension = $workerVMSS.VirtualMachineProfile.ExtensionProfile.Extensions | Where-Object {$_.Name -eq "Initialize-Machine" }[0]
+$oldExtension = $workerVMSS.VirtualMachineProfile.ExtensionProfile.Extensions | Where-Object { $_.Name -eq "Initialize-Machine" }[0]
 
 $oldExtensionConfig = $oldExtension.Settings.ToString()
 $oldExtensionObject = ConvertFrom-Json $oldExtensionConfig
@@ -416,8 +382,7 @@ Write-Progress -Id $logId -Activity "Upgrade Worker" -Status "Updating VM Extens
 
 $commandLineParts = $oldExtensionObject.commandToExecute -split '\s+'
 
-if($commandLineParts.Length -lt 5)
-{
+if ($commandLineParts.Length -lt 5) {
     throw "VMSS command to execute was not in the expected format. Is this a valid Azure Blockchain Workbench deployment?"
 }
 
@@ -428,7 +393,7 @@ $gethEndpoint = LocateGethEndpoint($initBlobOld)
 
 # Create new deployment configuration
 $newExtensionConfig = @{
-    fileUris = @("$ArtifactsRoot/scripts/runScripts.sh");
+    fileUris         = @("$ArtifactsRoot/scripts/runScripts.sh");
     commandToExecute = "/bin/bash runScripts.sh $gethEndpoint $ArtifactsRoot $keyVaultUri $initBlob"
 }
 
@@ -440,8 +405,7 @@ $workerVMSS = Add-AzVmssExtension -VirtualMachineScaleSet $workerVMSS -Name Init
 
 # This cmdlet will perform an update on the VMSS if required, or just return if the goal configuration is the same as the current configuration
 $workerVMSS = Update-AzVmss -ResourceGroupName $ResourceGroupName -VMScaleSetName $workerVMSS.Name -VirtualMachineScaleSet $workerVMSS
-if(-Not $workerVMSS)
-{
+if (-Not $workerVMSS) {
     throw "Unable to update the Workbench Worker VM. Please wait several minutes and try to run this script again. A description of the error can be found above."
 }
 
@@ -465,9 +429,9 @@ $logId++
 
 Write-Progress -Id $logId -Activity "Upgrade Workbench API" -Status "Applying New Configuration" -PercentComplete 0
 
-$apiConfig = @{}
+$apiConfig = @{ }
 
-ForEach($setting in $apiWebsite.SiteConfig.AppSettings) {
+ForEach ($setting in $apiWebsite.SiteConfig.AppSettings) {
     $apiConfig[$setting.Name] = $setting.Value
 }
 
@@ -497,21 +461,19 @@ $apiWebsiteConfig = Set-AzResource -ApiVersion '2018-02-01' `
     -ResourceType 'Microsoft.Web/sites/config' `
     -Force `
     -PropertyObject @{
-        minTlsVersion = $MIN_TLS_VERSION
-        linuxFxVersion = "DOCKER|$DockerRepository/appbuilder.api:$TargetDockerTag"
-    } `
+    minTlsVersion  = $MIN_TLS_VERSION
+    linuxFxVersion = "DOCKER|$DockerRepository/appbuilder.api:$TargetDockerTag"
+} `
     -ErrorAction Stop
 
-if(-Not $apiWebsite -or -Not $apiWebsiteConfig)
-{
+if (-Not $apiWebsite -or -Not $apiWebsiteConfig) {
     throw "Unable to update the Workbench API. More information is contained above. Please try again in a few minutes."
 }
 
 Write-Progress -Id $logId -Activity "Workbench API" -Status "Restarting Web Application" -PercentComplete 75
 
 $apiWebsite = Restart-AzWebApp -WebApp $apiWebsite -ErrorAction Stop
-if(-Not $apiWebsite)
-{
+if (-Not $apiWebsite) {
     throw "Unable to restart the Workbench API. More information is contained above. Please try again in a few minutes."
 }
 
@@ -524,10 +486,10 @@ $logId++
 
 Write-Progress -Id $logId -Activity "Upgrade Workbench Website" -Status "Applying New Configuration" -PercentComplete 0
 
-$uiConfig = @{}
+$uiConfig = @{ }
 
 # Copy the original values
-ForEach($setting in $uiWebsite.SiteConfig.AppSettings) {
+ForEach ($setting in $uiWebsite.SiteConfig.AppSettings) {
     $uiConfig[$setting.Name] = $setting.Value
 }
 
@@ -563,21 +525,19 @@ $uiWebsiteConfig = Set-AzResource -ApiVersion '2018-02-01' `
     -ResourceType 'Microsoft.Web/sites/config' `
     -Force `
     -PropertyObject @{
-        minTlsVersion = $MIN_TLS_VERSION
-        linuxFxVersion = "DOCKER|$DockerRepository/webapp:$TargetDockerTag"
-    } `
+    minTlsVersion  = $MIN_TLS_VERSION
+    linuxFxVersion = "DOCKER|$DockerRepository/webapp:$TargetDockerTag"
+} `
     -ErrorAction Stop
 
-if(-Not $uiWebsite -or -Not $uiWebsiteConfig)
-{
+if (-Not $uiWebsite -or -Not $uiWebsiteConfig) {
     throw "Unable to update the Workbench Website. More information is contained above. Please try again in a few minutes."
 }
 
 Write-Progress -Id $logId -Activity "Upgrade Workbench Website" -Status "Restarting Web Application" -PercentComplete 75
 
 $uiWebSite = Restart-AzWebApp -WebApp $uiWebsite -ErrorAction Stop
-if(-Not $uiWebsite)
-{
+if (-Not $uiWebsite) {
     throw "Unable to restart the Workbench Website. More information is contained above. Please try again in a few minutes."
 }
 
@@ -587,8 +547,7 @@ Write-Progress -Id $logId -Activity "Upgrade Workbench Website" -Status "Complet
 #  Wait for and test for api success
 #############################################
 
-if ($TestApi)
-{
+if ($TestApi) {
     Write-Progress -Id $logId -Activity "Testing upgrade complete" -Status "Testing Upgrade of Workbench API" -PercentComplete 0
 
     $stop = $false
@@ -596,21 +555,17 @@ if ($TestApi)
     $numberOfRetries = 10
     $sleepTime = 30
 
-    While ($stop -eq $false)
-    {
+    While ($stop -eq $false) {
         $endPoint = $apiWebsite.EnabledHostNames[0] + "/api/health"
         $response = Invoke-WebRequest $endPoint
-        if ($response.StatusCode -eq 200)
-        {
+        if ($response.StatusCode -eq 200) {
             Write-Progress -Id $logId -Activity "Testing upgrade complete" -Status "Completed Testing of Upgrade of Workbench API" -PercentComplete 100
             $stop = $true
         }
-        if ($retryCount -gt $numberOfRetries)
-        {
+        if ($retryCount -gt $numberOfRetries) {
             throw "Workbench API not up after $numberOfRetries retries. Upgrade failed. Waited for $($sleepTime * $numOfRetries) seconds"
         }
-        else
-        {
+        else {
             Write-Host "Request to Workbench API returned $($response.StatusCode), retrying in $sleepTime seconds..."
             Start-Sleep -Seconds $sleepTime
             $retryCount = $retryCount + 1
@@ -622,5 +577,5 @@ if ($TestApi)
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.1."
 Write-Warning "Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates."
