@@ -41,6 +41,8 @@ param(
     [Parameter(Mandatory = $false)][switch]$TestEnv
 )
 
+Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+
 #############################################
 #  Constants
 #############################################
@@ -156,7 +158,7 @@ if (-Not $serviceBusNs) {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName)[0]
+$eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName).PsTopicsList
 if (-Not $eventGrid) {
     throw "Could not locate EventGrid within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
