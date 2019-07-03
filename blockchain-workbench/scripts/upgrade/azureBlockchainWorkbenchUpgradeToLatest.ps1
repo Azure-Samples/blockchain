@@ -76,9 +76,7 @@ elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM)) {
     Set-Alias -Name Get-AzServiceBusNamespace -Value Get-AzureRmServiceBusNamespace
     Set-Alias -Name Get-AzEventGridTopic -Value Get-AzureRmEventGridTopic
     Set-Alias -Name Get-AzEventGridTopicKey -Value Get-AzureRmEventGridTopicKey
-    Set-Alias -Name Get-AzServiceBusQueue -Value Get-AzureRmServiceBusQueue
     Set-Alias -Name New-AzServiceBusQueue -Value New-AzureRmServiceBusQueue
-    Set-Alias -Name Get-AzServiceBusTopic -Value Get-AzureRmServiceBusTopic
     Set-Alias -Name New-AzServiceBusTopic -Value New-AzureRmServiceBusTopic
     Set-Alias -Name Remove-AzVmssExtension -Value Remove-AzureRmVmssExtension
     Set-Alias -Name Add-AzVmssExtension -Value Add-AzureRmVmssExtension
@@ -153,7 +151,7 @@ if (-Not $uiWebsite) {
 $uiWebsite = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $uiWebsite.Name
 
 # Locate the service bus
-$serviceBusNs = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+$serviceBusNs = (Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue)[0]
 if (-Not $serviceBusNs) {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
@@ -311,7 +309,7 @@ Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for servi
 
 # Create the Service Bus queue "ingressQueue", "internalQueue" and topic "egressTopic" if they don't exist
 $queueName = "internalQueue"
-$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
+$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $queueName -ErrorAction SilentlyContinue
 if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
@@ -332,7 +330,7 @@ if (-Not $queue) {
 }
 
 $queueName = "ingressQueue"
-$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
+$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $queueName -ErrorAction SilentlyContinue
 if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
@@ -353,7 +351,7 @@ if (-Not $queue) {
 }
 
 $topicName = "egressTopic"
-$topic = Get-AzServiceBusTopic -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $topicName -ErrorAction SilentlyContinue
+$topic = Get-AzServiceBusTopic -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $topicName -ErrorAction SilentlyContinue
 if (-Not $topic) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus topic..." -PercentComplete 35
 
