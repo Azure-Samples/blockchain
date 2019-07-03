@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.7.1.
+Upgrades Azure Blockchain Workbench to version 1.7.2.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.7.1.
+Upgrades Azure Blockchain Workbench to version 1.7.2.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_1.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory = $true)][string]$SubscriptionID,
     [Parameter(Mandatory = $true)][string]$ResourceGroupName,
-    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.1",
-    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-2746f4b9-2c06-4718-91e2-429c235dce07-azure-blockchain-workbench/Artifacts",
+    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.2",
+    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-c92dd56c-382d-4a3d-9d9b-0d74fd3fa2e4-azure-blockchain-workbench/Artifacts",
     [Parameter(Mandatory = $false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory = $false)][string]$DockerLogin = $null,
     [Parameter(Mandatory = $false)][string]$DockerPw = $null,
@@ -76,9 +76,7 @@ elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM)) {
     Set-Alias -Name Get-AzServiceBusNamespace -Value Get-AzureRmServiceBusNamespace
     Set-Alias -Name Get-AzEventGridTopic -Value Get-AzureRmEventGridTopic
     Set-Alias -Name Get-AzEventGridTopicKey -Value Get-AzureRmEventGridTopicKey
-    Set-Alias -Name Get-AzServiceBusQueue -Value Get-AzureRmServiceBusQueue
     Set-Alias -Name New-AzServiceBusQueue -Value New-AzureRmServiceBusQueue
-    Set-Alias -Name Get-AzServiceBusTopic -Value Get-AzureRmServiceBusTopic
     Set-Alias -Name New-AzServiceBusTopic -Value New-AzureRmServiceBusTopic
     Set-Alias -Name Remove-AzVmssExtension -Value Remove-AzureRmVmssExtension
     Set-Alias -Name Add-AzVmssExtension -Value Add-AzureRmVmssExtension
@@ -153,12 +151,19 @@ if (-Not $uiWebsite) {
 $uiWebsite = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $uiWebsite.Name
 
 # Locate the service bus
-$serviceBusNs = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+$serviceBusNs = (Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue)[0]
 if (-Not $serviceBusNs) {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName).PsTopicsList
+# Discrepancy between Az and AzureRM
+if ($TestEnv) {
+    $eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName)[0]
+}
+else {
+    $eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName).PsTopicsList
+}
+
 if (-Not $eventGrid) {
     throw "Could not locate EventGrid within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
@@ -304,7 +309,7 @@ Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for servi
 
 # Create the Service Bus queue "ingressQueue", "internalQueue" and topic "egressTopic" if they don't exist
 $queueName = "internalQueue"
-$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
+$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $queueName -ErrorAction SilentlyContinue
 if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
@@ -325,7 +330,7 @@ if (-Not $queue) {
 }
 
 $queueName = "ingressQueue"
-$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $queueName -ErrorAction SilentlyContinue
+$queue = Get-AzServiceBusQueue -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $queueName -ErrorAction SilentlyContinue
 if (-Not $queue) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus queue..." -PercentComplete 35
 
@@ -346,7 +351,7 @@ if (-Not $queue) {
 }
 
 $topicName = "egressTopic"
-$topic = Get-AzServiceBusTopic -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs -Name $topicName -ErrorAction SilentlyContinue
+$topic = Get-AzServiceBusTopic -ResourceGroupName $ResourceGroupName -Namespace $serviceBusNs.Name -Name $topicName -ErrorAction SilentlyContinue
 if (-Not $topic) {
     Write-Progress -Id $logID -Activity "Pre-Requisites" -Status "Checking for service bus topic..." -PercentComplete 35
 
@@ -579,5 +584,4 @@ if ($TestApi) {
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.1."
-Write-Warning "Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.2."
