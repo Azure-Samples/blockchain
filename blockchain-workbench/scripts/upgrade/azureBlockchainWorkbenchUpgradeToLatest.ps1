@@ -76,7 +76,9 @@ elseif ($TestEnv -And (Get-Module -ListAvailable -Name AzureRM)) {
     Set-Alias -Name Get-AzServiceBusNamespace -Value Get-AzureRmServiceBusNamespace
     Set-Alias -Name Get-AzEventGridTopic -Value Get-AzureRmEventGridTopic
     Set-Alias -Name Get-AzEventGridTopicKey -Value Get-AzureRmEventGridTopicKey
+    Set-Alias -Name Get-AzServiceBusQueue -Value Get-AzureRmServiceBusQueue
     Set-Alias -Name New-AzServiceBusQueue -Value New-AzureRmServiceBusQueue
+    Set-Alias -Name Get-AzServiceBusTopic -Value Get-AzureRmServiceBusTopic
     Set-Alias -Name New-AzServiceBusTopic -Value New-AzureRmServiceBusTopic
     Set-Alias -Name Remove-AzVmssExtension -Value Remove-AzureRmVmssExtension
     Set-Alias -Name Add-AzVmssExtension -Value Add-AzureRmVmssExtension
