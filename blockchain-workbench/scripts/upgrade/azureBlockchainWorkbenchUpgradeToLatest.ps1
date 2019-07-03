@@ -41,8 +41,7 @@ param(
     [Parameter(Mandatory = $false)][switch]$TestEnv
 )
 
-# Comment the next line in before publishing
-# Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
 
 #############################################
 #  Constants
