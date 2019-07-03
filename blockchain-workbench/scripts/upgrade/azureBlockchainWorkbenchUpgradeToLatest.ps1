@@ -41,7 +41,8 @@ param(
     [Parameter(Mandatory = $false)][switch]$TestEnv
 )
 
-Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+# Comment the next line in before publishing
+# Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
 
 #############################################
 #  Constants
@@ -158,7 +159,14 @@ if (-Not $serviceBusNs) {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName).PsTopicsList
+# Discrepancy between Az and AzureRM
+if ($TestEnv) {
+    $eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName)[0]
+}
+else {
+    $eventGrid = (Get-AzEventGridTopic -ResourceGroupName $ResourceGroupName).PsTopicsList
+}
+
 if (-Not $eventGrid) {
     throw "Could not locate EventGrid within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
@@ -580,4 +588,3 @@ if ($TestApi) {
 #############################################
 
 Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.2."
-Write-Warning "Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates."
