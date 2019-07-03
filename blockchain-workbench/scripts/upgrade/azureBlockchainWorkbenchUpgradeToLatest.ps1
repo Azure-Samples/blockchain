@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.7.1.
+Upgrades Azure Blockchain Workbench to version 1.7.2.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.7.1.
+Upgrades Azure Blockchain Workbench to version 1.7.2.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_1.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory = $true)][string]$SubscriptionID,
     [Parameter(Mandatory = $true)][string]$ResourceGroupName,
-    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.1",
-    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-2746f4b9-2c06-4718-91e2-429c235dce07-azure-blockchain-workbench/Artifacts",
+    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.2",
+    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-c92dd56c-382d-4a3d-9d9b-0d74fd3fa2e4-azure-blockchain-workbench/Artifacts",
     [Parameter(Mandatory = $false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory = $false)][string]$DockerLogin = $null,
     [Parameter(Mandatory = $false)][string]$DockerPw = $null,
@@ -579,5 +579,5 @@ if ($TestApi) {
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.1."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.2."
 Write-Warning "Important: If you are upgrading from a version older than 1.5.0 you will need to upgrade your AAD application registration as well. Please visit https://aka.ms/workbenchAADUpgrade to perform the necessary updates."
