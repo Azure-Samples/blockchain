@@ -44,7 +44,7 @@ Create and configure a new Function App
            break;
        }
     }
-```
+    ```
 
 Each of the case statements identifies which type of message is being delivered from Workbench via the event grid.
 
