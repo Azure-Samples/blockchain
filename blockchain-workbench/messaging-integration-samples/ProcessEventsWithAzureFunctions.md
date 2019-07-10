@@ -30,31 +30,21 @@ Create and configure a new Function App
 
 2.  In the function body, paste the following snippet :
 
->   public static void Run(JObject eventGridEvent, TraceWriter log, out object
->   document)
+    ```csharp
+    public static void Run(JObject eventGridEvent, TraceWriter log, out object document)
+    {
+       document = null;
+       String messageName = eventGridEvent["data"]["messageName"].ToString();
 
->   {
-
->   document = null;
-
->   String messageName = eventGridEvent["data"]["messageName"].ToString();
-
->   switch(messageName)
-
->   {
-
->   case "BlockMessage":
-
->   case "ContractMessage":
-
->   case "EventMessage":
-
->   break;
-
->   }
-
->   }
-
+       switch(messageName)
+       {
+           case "BlockMessage":
+           case "ContractMessage":
+           case "EventMessage":
+           break;
+       }
+    }
+```
 
 Each of the case statements identifies which type of message is being delivered from Workbench via the event grid.
 
