@@ -1,5 +1,5 @@
 ---
-topic: sample
+page_type: sample
 languages:
   - csharp
   - java
@@ -8,7 +8,11 @@ languages:
   - rest
   - solidity
 products:
-  - azure-blockchain
+  - dotnet
+  - azure
+  - azure-blockchain-workbench
+  - azure-blockchain-service
+description: "This repository contains content and samples for the Azure Blockchain Workbench."
 ---
 
 # ![Microsoft Azure Blockchain Workbench](https://raw.githubusercontent.com/Azure-Samples/blockchain/master/blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
