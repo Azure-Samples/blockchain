@@ -76,15 +76,110 @@ deployment.
 
 ![](media/f491275d3e072d2ca5affa55e51d0b41.png)
 
+Edit the default parameters.
+
+In the Prefix filter, add EventMessage.
+
 Click the “+ New Step” button.
+
+Search for control, then select Condition.
+
+In the And field, select "Subject" and in the second field write EventMessage
+
+![](media/eventmessage.png)
+
+In the "If True" section, click on "Add an action".
+
+Add the action “Data Operations – Parse Json”.
+
+In the content field, select dynamic object "Data object".
+
+In the schema field, enter the following -
+
+``` json
+
+{
+    "properties": {
+        "AdditionalInformation": {},
+        "Caller": {},
+        "ConnectionId": {
+            "type": "integer"
+        },
+        "ContractId": {
+            "type": "integer"
+        },
+        "ContractLedgerIdentifier": {
+            "type": "string"
+        },
+        "EventName": {
+            "type": "string"
+        },
+        "FunctionName": {
+            "type": "string"
+        },
+        "InTransactionSequenceNumber": {
+            "type": "integer"
+        },
+        "MessageName": {
+            "type": "string"
+        },
+        "MessageSchemaVersion": {
+            "type": "string"
+        },
+        "Parameters": {
+            "items": {
+                "properties": {
+                    "Name": {
+                        "type": "string"
+                    },
+                    "Value": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "Name",
+                    "Value"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "Transaction": {
+            "properties": {
+                "From": {
+                    "type": "string"
+                },
+                "ProvisioningStatus": {
+                    "type": "integer"
+                },
+                "To": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "TransactionHash": {
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}
+
+```
+
 
 Click More and click the Add a Switch Case
 
 For the Switch, there is an “On” field that identifies what value will be
 evaluated.
 
-Click the text box and then select “Subject” which contains the name of the
-message type being delivered.
+In the On field, put EventName.
 
 In the Case message on the right, enter the value of ContractFunctionInvocation.
 
@@ -144,52 +239,19 @@ In the Schema field, enter the following –
         "messageSchemaVersion": {
             "type": "string"
         },
-        "parameters": {
-            "items": {
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "value": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "name",
-                    "value"
-                ],
-                "type": "object"
-            },
-            "type": "array"
-        },
-        "transaction": {
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "to": {
-                    "type": "string"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "transactionId": {
-                    "type": "integer"
-                }
-            },
-            "type": "object"
-        }
+        "parameters": {}
     },
     "type": "object"
 }
+
 ```
 
-![](media/ContractFunctionInvocation.png)
+![](media/switch.png)
 
 Click the “More” link and then select “add a condition”.
 
 Click in the box at the left of the condition. It will display the Dynamic
-Content window, select “functionName” from the Dynamic Content list.
+Content window, select “data.FunctionName”.
 
 Set the condition to “is equal to”.
 
@@ -198,6 +260,9 @@ Set the condition value to IngestTelemetry.
 This identifies that the contract function called was IngestTelemetry.
 
 Now you can add an action in the "if true" section so you can execute logic of your choice. 
+
+![](media/condition.png)
+
 
 Testing
 -------
