@@ -104,8 +104,7 @@ contract AdminSet {
 
     // Solidity doesn't support return of dynamic sized arrays
     function getAddressList() public view callerIsOwner returns (address[200] staticList) {
-        for (uint i = 0; i < addressList.length; i++)
-        {
+        for (uint i = 0; i < addressList.length; i++) {
             staticList[i] = addressList[i];
         }
     }
