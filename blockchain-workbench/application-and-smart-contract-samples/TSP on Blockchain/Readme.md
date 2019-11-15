@@ -18,19 +18,16 @@ Application Roles
 | Name       | Description                                                                                         |
 |------------|-----------------------------------------------------------------------------------------------------|
 | Assigner   |  The person who creates a task and assign it to someone.                                            |
-| Reviewer   | The one who reviews whether a task completed by an assignee is up to the mark.                      |            |
+| Reviewer   | The one who reviews whether a task completed by an assignee is up to the mark.                      |         
 | Assignee   | The person who is assigned a task by an assigner.                                                   |
 
 
 States 
 -------
 
-| Name                 | Description                                                                                                 |
-|----------------------|-------------------------------------------------------------------------------------------------------------|
-| Active               |  A task is in active state if it is still being worked upon by an assignee.                                 |                                                 
-| Under Review         | A task is under review when the assignee has completed it and it is being reviewed by a reviewer.           |                                                                
-| Completed            | A task is marked complete if the reviewer verifies and accept it as valid.                                  |               
-| Expired              | An expired task is one whose allowed time has finished and it is still incomplete.                          |
+| Name                 | Description                                                                                        |
+|----------------------|----------------------------------------------------------------------------------------------------|
+| Active               |  A task is in active state if it is still being worked upon by an assignee.                        |  | Under Review         | A task is under review when the assignee has completed it and it is being reviewed by a reviewer.  | | Completed            | A task is marked complete if the reviewer verifies and accept it as valid.                         | | Expired              | An expired task is one whose allowed time has finished and it is still incomplete.                 |
                                  
                  
 
