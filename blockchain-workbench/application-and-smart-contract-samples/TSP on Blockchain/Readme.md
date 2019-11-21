@@ -27,7 +27,10 @@ States
 
 | Name                 | Description                                                                                        |
 |----------------------|----------------------------------------------------------------------------------------------------|
-| Active               |  A task is in active state if it is still being worked upon by an assignee.                        |  | Under Review         | A task is under review when the assignee has completed it and it is being reviewed by a reviewer.  | | Completed            | A task is marked complete if the reviewer verifies and accept it as valid.                         | | Expired              | An expired task is one whose allowed time has finished and it is still incomplete.                 |
+| Active               |  A task is in active state if it is still being worked upon by an assignee.                        | 
+| Under Review         | A task is under review when the assignee has completed it and it is being reviewed by a reviewer.  | 
+| Completed            | A task is marked complete if the reviewer verifies and accept it as valid.                         | 
+| Expired              | An expired task is one whose allowed time has finished and it is still incomplete.                 |
                                  
                  
 
