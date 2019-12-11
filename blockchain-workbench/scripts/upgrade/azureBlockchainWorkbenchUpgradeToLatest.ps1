@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.7.3.
+Upgrades Azure Blockchain Workbench to version 1.8.0.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.7.3.
+Upgrades Azure Blockchain Workbench to version 1.8.0.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_3.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_8_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_7_3.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory = $true)][string]$SubscriptionID,
     [Parameter(Mandatory = $true)][string]$ResourceGroupName,
-    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.7.3",
-    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-fbfa6ed1-74c3-4c74-a0f8-373bf89b5fc8-azure-blockchain-workbench/Artifacts",
+    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.8.0",
+    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-466ec686-381e-4fbc-856a-fd1e76aaddaa-azure-blockchain-workbench/Artifacts",
     [Parameter(Mandatory = $false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory = $false)][string]$DockerLogin = $null,
     [Parameter(Mandatory = $false)][string]$DockerPw = $null,
@@ -586,4 +586,4 @@ if ($TestApi) {
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.7.3."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.8.0."
