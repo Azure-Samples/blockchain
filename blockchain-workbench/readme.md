@@ -1,6 +1,6 @@
 # ![Microsoft Azure Blockchain Workbench](./media/logo_small.png) Microsoft Azure Blockchain Workbench
 
-*New!* Version 1.7.0 of Workbench has been released. Please see our [Release Notes](./CHANGELOG.md) and [Upgrade Instructions](./scripts/upgrade/readme.md) if you're running an older version.
+*New!* Version 1.8.0 of Workbench has been released. Please see our [Release Notes](./CHANGELOG.md) and [Upgrade Instructions](./scripts/upgrade/readme.md) if you're running an older version.
 
 This repository contains content and samples in number of areas, including:
 
@@ -24,5 +24,3 @@ To provide feedback on these samples, please see our [Contribution Guidelines](.
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain).
 
 To request additional features or samples, visit our [UserVoice site](https://feedback.azure.com/forums/586780-blockchain).
-
-
