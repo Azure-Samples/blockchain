@@ -19,7 +19,7 @@ name: "Microsoft Azure Blockchain Workbench Samples"
 
 # ![Microsoft Azure Blockchain Workbench](https://raw.githubusercontent.com/Azure-Samples/blockchain/master/blockchain-workbench/media/logo_small.png) Microsoft Azure Blockchain Workbench
 
-*New!* Version 1.7.0 of Workbench has been released. Please see our [Release Notes](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/CHANGELOG.md) and [Upgrade Instructions](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/upgrade/readme.md) if you're running an older version.
+*New!* Version 1.8.0 of Workbench has been released. Please see our [Release Notes](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/CHANGELOG.md) and [Upgrade Instructions](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/upgrade/readme.md) if you're running an older version.
 
 
 
@@ -52,5 +52,3 @@ To provide feedback on these samples, please see our [Contribution Guidelines](h
 For general product feedback, please visit our [forum](https://techcommunity.microsoft.com/t5/Blockchain/bd-p/AzureBlockchain).
 
 To request additional features or samples, visit our [UserVoice site](https://feedback.azure.com/forums/586780-blockchain).
-
-
