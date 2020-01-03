@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.25 <0.6.0;
 
 contract Starter
 {
@@ -8,10 +8,10 @@ contract Starter
 
     string public PingPongGameName;
     address public GameStarter;
-    address public GamePlayer;
+    Player public GamePlayer;
     int public PingPongTimes;
 
-    constructor (string gameName) public{
+    constructor (string memory gameName) public{
         PingPongGameName = gameName;
         GameStarter = msg.sender;
 
@@ -20,30 +20,28 @@ contract Starter
         State = StateType.GameProvisioned;
     }
 
-    function StartPingPong(int pingPongTimes) public 
+    function StartPingPong(int pingPongTimes) public
     {
         PingPongTimes = pingPongTimes;
 
-        Player player = Player(GamePlayer);
         State = StateType.Pingponging;
 
-        player.Ping(pingPongTimes);
+        GamePlayer.Ping(pingPongTimes);
     }
 
-    function Pong(int currentPingPongTimes) public 
+    function Pong(int currentPingPongTimes) public
     {
-        currentPingPongTimes = currentPingPongTimes - 1;
+        int remainingPingPongTimes = currentPingPongTimes - 1;
 
-        Player player = Player(GamePlayer);
-        if(currentPingPongTimes > 0)
+        if(remainingPingPongTimes > 0)
         {
             State = StateType.Pingponging;
-            player.Ping(currentPingPongTimes);
+            GamePlayer.Ping(remainingPingPongTimes);
         }
         else
         {
             State = StateType.GameFinished;
-            player.FinishGame();
+            GamePlayer.FinishGame();
         }
     }
 
@@ -62,22 +60,22 @@ contract Player
     address public GameStarter;
     string public PingPongGameName;
 
-    constructor (string pingPongGameName) public {
+    constructor (string memory pingPongGameName) public {
         GameStarter = msg.sender;
         PingPongGameName = pingPongGameName;
 
         State = StateType.PingpongPlayerCreated;
     }
 
-    function Ping(int currentPingPongTimes) public 
+    function Ping(int currentPingPongTimes) public
     {
-        currentPingPongTimes = currentPingPongTimes - 1;
+        int remainingPingPongTimes = currentPingPongTimes - 1;
 
         Starter starter = Starter(msg.sender);
-        if(currentPingPongTimes > 0)
+        if(remainingPingPongTimes > 0)
         {
             State = StateType.PingPonging;
-            starter.Pong(currentPingPongTimes);
+            starter.Pong(remainingPingPongTimes);
         }
         else
         {
