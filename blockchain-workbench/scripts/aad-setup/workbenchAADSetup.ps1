@@ -109,13 +109,26 @@ function Log-Error {
 if (Get-Module -ListAvailable -Name "AzureAD.Standard.Preview") {
     Log-Debug "Importing module AzureAD.Standard.Preview"
     Import-Module "AzureAD.Standard.Preview"
+
+    # Issue: https://github.com/Azure-Samples/blockchain/issues/222
+    # Azure cloud shell deliberately hided Connect-AzureAD cmdlet in a 2020 Feb update and used a wrapper with identical
+    # name Connect-AzureAD. This change pollutes cmdlet names in this script. The following line fixes the issue:
+
+    # Create an alias for Connect-AzureAD cmdlet depending on the version of AAD module
+    # so that the cmdlet could be used easier later
+    Set-Alias -Name Connect-AzureADAlias -Value "AzureAD.Standard.Preview\Connect-AzureAD"
+
 # For Windows PowerShell
 } elseif (Get-Module -ListAvailable -Name "AzureADPreview")  {
     Log-Debug "Importing module AzureADPreview"
     Import-Module "AzureADPreview"
+    Set-Alias -Name Connect-AzureADAlias -Value "AzureADPreview\Connect-AzureAD"
+
 } elseif (Get-Module -ListAvailable -Name "AzureAD")  {
     Log-Debug "Importing module AzureAD"
     Import-Module  "AzureAD"
+    Set-Alias -Name Connect-AzureADAlias -Value "AzureAD\Connect-AzureAD"
+
 } else {
     Log-Error "This script is not compatible with your computer, Please use Azure CloudShell https://shell.azure.com/powershell" -Exit
 }
@@ -181,7 +194,7 @@ Do  {
     try {
         if ($TenantName) {
             Log-Debug "Trying to login to $TenantName"
-            $currentUser = Connect-AzureAD -TenantId $TenantName -ErrorAction SilentlyContinue
+            $currentUser = Connect-AzureADAlias -TenantId $TenantName -ErrorAction SilentlyContinue
         } else {
             continue;
         }
