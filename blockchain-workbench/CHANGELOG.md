@@ -1,6 +1,10 @@
+# Azure Blockchain Workbench Release Notes - Version 1.8.1
+
+Thank you all for your continued support and interest in Azure Blockchain Workbench. We’re excited to announce the release of Workbench 1.8.1, in which we have resolved all the accessibility bugs, Azure Blockchain Workbench is now fully compliant with accessibility. We have also fixed a bug in the scripts that is used to connect AAD to your Workbench to support some breaking changes in the azure cloud shell. You can deploy a new instance of Workbench through the Azure Portal or upgrade your existing deployments to 1.8.1 using our [upgrade script](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/upgrade/readme.md).
+
 # Azure Blockchain Workbench Release Notes - Version 1.8.0
 
-Thank you all for your continued support and interest in Azure Blockchain Workbench. We’re excited to announce the release of Workbench 1.8.0, in which we have made component improvements and added availability in more Azure Regions. You can deploy a new instance of Workbench through the Azure Portal or upgrade your existing deployments to 1.8.0 using our [upgrade script](https://github.com/Azure-Samples/blockchain/tree/master/blockchain-workbench/scripts/upgrade/readme.md).
+Thank you all for your continued support and interest in Azure Blockchain Workbench. We’re excited to announce the release of Workbench 1.8.0, in which we have made component improvements and added availability in more Azure Regions.
 
 This update includes the following improvements:
 
