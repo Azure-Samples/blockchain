@@ -1,12 +1,12 @@
 ﻿<#
 .SYNOPSIS
 
-Upgrades Azure Blockchain Workbench to version 1.8.0.
+Upgrades Azure Blockchain Workbench to version 1.8.1.
 
 
 .DESCRIPTION
 
-Upgrades Azure Blockchain Workbench to version 1.8.0.
+Upgrades Azure Blockchain Workbench to version 1.8.1.
 
 .PARAMETER SubscriptionID
 SubscriptionID to create or locate all resources.
@@ -24,7 +24,7 @@ None. You cannot pipe objects to this script.
 None. This script does not generate any output.
 .EXAMPLE
 
-C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_8_0.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
+C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_8_1.ps1 -SubscriptionID "<subscription_id>" -ResourceGroupName "<workbench-resource-group-name>"
 
 #>
 
@@ -32,8 +32,8 @@ C:\tmp> .\azureBlockchainWorkbenchUpgradeTov1_8_0.ps1 -SubscriptionID "<subscrip
 param(
     [Parameter(Mandatory = $true)][string]$SubscriptionID,
     [Parameter(Mandatory = $true)][string]$ResourceGroupName,
-    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.8.0",
-    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-466ec686-381e-4fbc-856a-fd1e76aaddaa-azure-blockchain-workbench/Artifacts",
+    [Parameter(Mandatory = $false)][string]$TargetDockerTag = "1.8.1",
+    [Parameter(Mandatory = $false)][string]$ArtifactsRoot = "https://catalogartifact.azureedge.net/publicartifacts/microsoft-azure-blockchain.azure-blockchain-workbench-8504ab85-6940-42ed-8b4e-5f05a4d93b69-azure-blockchain-workbench/Artifacts",
     [Parameter(Mandatory = $false)][string]$DockerRepository = "blockchainworkbenchprod.azurecr.io",
     [Parameter(Mandatory = $false)][string]$DockerLogin = $null,
     [Parameter(Mandatory = $false)][string]$DockerPw = $null,
@@ -41,7 +41,8 @@ param(
     [Parameter(Mandatory = $false)][switch]$TestEnv
 )
 
-Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+# Comment the next line in before publishing
+# Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
 
 #############################################
 #  Constants
@@ -586,4 +587,4 @@ if ($TestApi) {
 #  Script exit
 #############################################
 
-Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.8.0."
+Write-Output "Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.8.1."

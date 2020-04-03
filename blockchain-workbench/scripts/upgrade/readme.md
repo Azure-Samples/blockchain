@@ -38,7 +38,7 @@ cd; Invoke-WebRequest -Uri https://aka.ms/workbenchUpgradeScript -OutFile azureB
 When the upgrade completes, you will see the following message:
 
 ```powershell
-Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.8.0.
+Azure Blockchain Workbench in Resource Group $ResourceGroupName was successfully updated to version 1.8.1.
 
 ```
 
