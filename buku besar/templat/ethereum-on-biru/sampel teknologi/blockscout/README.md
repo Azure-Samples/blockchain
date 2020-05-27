@@ -66,7 +66,7 @@ Example:
 
 4. Wait approximately 5-10 minutes for the script to complete execution.
 
-#### (Optional) Add Custom DNS Name
+#### (Optional) Add Custom DNS Name syaifudin857
 
 1. You can optionally add a Custom DNS for the BlockScout site by navigating to the IP Address for the newly created VM.
 2. Navigate to the "Configuration" blade and under "DNS name label", choose an appropriate DNS name.
