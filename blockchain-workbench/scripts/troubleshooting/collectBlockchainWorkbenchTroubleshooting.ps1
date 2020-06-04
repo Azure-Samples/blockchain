@@ -79,10 +79,6 @@ function Get-AzCachedAccessToken()
 {
   $ErrorActionPreference = 'Stop'
   
-#    if(-not (Get-Module Az.Profile)) {
-#      Import-Module Az.Profile
-#    }
-  
   $currentAzureContext = Get-AzContext
   $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
   if(-not $azProfile.Accounts.Count) {
