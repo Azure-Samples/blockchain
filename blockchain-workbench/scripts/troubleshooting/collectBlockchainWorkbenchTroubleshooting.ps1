@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 
 Collects logs and metrics from an Azure Blockchain Workbench instance for
@@ -75,30 +75,16 @@ param(
 ##############################################
 ## AppInsights query - Helper Functions
 ##############################################
-function Get-AzureRmCachedAccessToken()
+function Get-AzCachedAccessToken()
 {
   $ErrorActionPreference = 'Stop'
   
-  if(-not (Get-Module AzureRm.Profile)) {
-    Import-Module AzureRm.Profile
+  $currentAzureContext = Get-AzContext
+  $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
+  if(-not $azProfile.Accounts.Count) {
+    Write-Error "Ensure you have logged in before calling this function."    
   }
-  $azureRmProfileModuleVersion = (Get-Module AzureRm.Profile).Version
-  # refactoring performed in AzureRm.Profile v3.0 or later
-  if($azureRmProfileModuleVersion.Major -ge 3) {
-    $azureRmProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
-    if(-not $azureRmProfile.Accounts.Count) {
-      Write-Error "Ensure you have logged in before calling this function."    
-    }
-  } else {
-    # AzureRm.Profile < v3.0
-    $azureRmProfile = [Microsoft.WindowsAzure.Commands.Common.AzureRmProfileProvider]::Instance.Profile
-    if(-not $azureRmProfile.Context.Account.Count) {
-      Write-Error "Ensure you have logged in before calling this function."    
-    }
-  }
-  
-  $currentAzureContext = Get-AzureRmContext
-  $profileClient = New-Object Microsoft.Azure.Commands.ResourceManager.Common.RMProfileClient($azureRmProfile)
+  $profileClient = New-Object Microsoft.Azure.Commands.ResourceManager.Common.RMProfileClient($azProfile)
   Write-Debug ("Getting access token for tenant" + $currentAzureContext.Subscription.TenantId)
   $token = $profileClient.AcquireAccessToken($currentAzureContext.Subscription.TenantId)
   $token.AccessToken
@@ -108,7 +94,7 @@ function Execute-InsightsQuery([string]$subscription, [string]$resourceGroup, [s
 {
     $queryUrlEscaped = [uri]::EscapeDataString($query)
     $requestUrl = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/microsoft.insights/components/{2}/api/query?query={3}&api-version=2015-05-01" -f $subscription, $resourceGroup, $aiName, $queryUrlEscaped
-    $bearer = Get-AzureRmCachedAccessToken
+    $bearer = Get-AzCachedAccessToken
     Invoke-RestMethod -Uri $requestUrl -Headers @{'Authorization' = 'Bearer ' + $bearer }
 }
 
@@ -147,7 +133,7 @@ $apiVersion = "2017-01-01-preview"
         Invokes a query against the Log Analtyics Query API.
 
     .EXAMPLE
-        Invoke-LogAnaltyicsQuery -WorkspaceName my-workspace -SubscriptionId 0f991b9d-ab0e-4827-9cc7-984d7319017d -ResourceGroup my-resourcegroup
+        Invoke-LogAnalyticsQuery -WorkspaceName my-workspace -SubscriptionId 0f991b9d-ab0e-4827-9cc7-984d7319017d -ResourceGroup my-resourcegroup
             -Query "union * | limit 1" -CreateObjectView
 
     .PARAMETER WorkspaceName
@@ -277,12 +263,12 @@ param(
 }
 
 function GetAccessToken {
-    $azureCmdlet = get-command -Name Get-AzureRMContext -ErrorAction SilentlyContinue
+    $azureCmdlet = get-command -Name Get-AzContext -ErrorAction SilentlyContinue
     if ($azureCmdlet -eq $null)
     {
-        $null = Import-Module AzureRM -ErrorAction Stop;
+        $null = Import-Module Az -ErrorAction Stop;
     }
-    $AzureContext = & "Get-AzureRmContext" -ErrorAction Stop;
+    $AzureContext = & "Get-AzContext" -ErrorAction Stop;
     $authenticationFactory = New-Object -TypeName Microsoft.Azure.Commands.Common.Authentication.Factories.AuthenticationFactory
     if ((Get-Variable -Name PSEdition -ErrorAction Ignore) -and ('Core' -eq $PSEdition)) {
         [Action[string]]$stringAction = {param($s)}
@@ -369,7 +355,7 @@ param(
         $preferString += ",include-render=true"
     }
 
-    if ($ServerTimeout -ne $null) {
+    if ($null -ne $ServerTimeout) {
         $preferString += ",wait=$ServerTimeout"
     }
 
@@ -426,27 +412,27 @@ if (($LookbackHours -lt 1) -or ($LookbackHours -gt 90))
 }
 $LookbackHoursStr = "$LookbackHours" + "h"
 
-if ((Get-Command "Login-AzureRmAccount" -errorAction SilentlyContinue) -eq $null)
+if ($null -eq (Get-Command "Login-AzAccount" -errorAction SilentlyContinue))
 {
-    throw "Azure Powershell cmdlets were not detected. We recommend that you follow the instructions on
-    https://www.powershellgallery.com/packages/AzureRM/6.0.1 to obtain the latest version. Or, you can run 
+    throw "Azure Powershell Az module was not detected. We recommend that you follow the instructions on
+    https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.2.0 to obtain the latest version. Or, you can run 
     this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
-$rmWebApp = Get-Command "Get-AzureRmWebApp"
-if ($rmWebApp.Source -ne "AzureRM.Websites.Netcore" -and $rmWebApp.Version.Major -lt 5)
+$AzWebApp = Get-Command "Get-AzWebApp"
+if ($AzWebApp.Source -ne "Az.Websites" -and $AzWebApp.Version.Major -lt 1)
 {
-    throw "The required version of the Azure Powershell cmdlets was not detected. We recommend that you follow the 
-    instructions on https://www.powershellgallery.com/packages/AzureRM/6.0.1 to update to a compatible version. Or,
+    throw "The required version of the Azure Powershell Az module was not detected. We recommend that you follow the 
+    instructions on https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.2.0 to update to a compatible version. Or,
     you can run  this script using Azure Cloud shell at https://shell.azure.com/powershell"
 }
 
-$context = Get-AzureRmContext
+$context = Get-AzContext
 
-if ($context -eq $null -or ($context.Name -eq "Default"))
+if ($null -eq $context -or ($context.Name -eq "Default"))
 {
-    $account = Login-AzureRmAccount -SubscriptionId $SubscriptionID
-    if ($account -eq $null)
+    $account = Login-AzAccount -SubscriptionId $SubscriptionID
+    if ($null -eq $account)
     {
         throw "Failed to login to Azure. Please try to login again."
     }
@@ -455,42 +441,42 @@ if ($context -eq $null -or ($context.Name -eq "Default"))
 Write-Progress -Id $logId -Activity "Login & Setup" -Status "Loading Azure Resources" -PercentComplete 35
 
 
-$rg = Get-AzureRmResourceGroup -Name $ResourceGroupName
-if ($rg -eq $null)
+$rg = Get-AzResourceGroup -Name $ResourceGroupName
+if ($null -eq $rg)
 {
     throw "We couldn't locate the resource group $ResourceGroupName. Please check the name and try again"
 }
 
 # Locate Resources in Blockchain Workbench deployment
 
-$appInsightsResource = Get-AzureRmApplicationInsights -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if ($appInsightsResource -eq $null)
+$appInsightsResource = Get-AzApplicationInsights -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+if ($null -eq $appInsightsResource)
 {
     throw "Could not locate App Insights within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 $appInsightsResource = $appInsightsResource[0] # Select the App Insights
 
-$websites = Get-AzureRmWebApp -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if ($websites -eq $null)
+$websites = Get-AzWebApp -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+if ($null -eq $websites)
 {
     throw "Could not locate App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
 $apiWebsite = ($websites | Where-Object { $_.Name -like "*-api" })[0] # Select the Workbench API
-if ($apiWebsite -eq $null)
+if ($null -eq $apiWebsite)
 {
     throw "Could not locate API App Service within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 
-$serviceBus = Get-AzureRmServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
-if ($serviceBus -eq $null)
+$serviceBus = Get-AzServiceBusNamespace -ResourceGroupName $ResourceGroupName -ErrorAction SilentlyContinue
+if ($null -eq $serviceBus)
 {
     throw "Could not locate Service Bus within the resource group $ResourceGroupName. Is this a Blockchain Workbench deployment?"
 }
 $serviceBus = $serviceBus[0]
 
-$logAnalytics = Get-AzureRmResource -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
-if ($logAnalytics -ne $null)
+$logAnalytics = Get-AzResource -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
+if ($null -ne $logAnalytics)
 {
     $logAnalytics = $logAnalytics[0]
     $OmsSubscriptionId = $SubscriptionID
@@ -500,15 +486,15 @@ if ($logAnalytics -ne $null)
 else
 {
     # Fall back to manually specified OMS if it's not in the same resource group
-    if ($OmsSubscriptionId -ne $null -and $OmsResourceGroup -ne $null -and $OmsWorkspaceName -ne $null)
+    if ($OmsSubscriptionId -and $OmsResourceGroup -and $OmsWorkspaceName)
     {
-        Set-Azurermcontext -SubscriptionId $OmsSubscriptionId
-        $logAnalytics = Get-AzureRmResource -ResourceGroupName $OmsResourceGroup -ResourceName $OmsWorkspaceName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
-        if ($logAnalytics -ne $null)
+        Set-AzContext -SubscriptionId $OmsSubscriptionId
+        $logAnalytics = Get-AzResource -ResourceGroupName $OmsResourceGroup -ResourceName $OmsWorkspaceName -ResourceType "Microsoft.OperationalInsights/workspaces" -ErrorAction SilentlyContinue
+        if ($null -ne $logAnalytics)
         {
             $logAnalytics = $logAnalytics[0]
         }
-        Set-AzureRmContext -SubscriptionId $SubscriptionID
+        Set-AzContext -SubscriptionId $SubscriptionID
     }
 }
 
@@ -559,13 +545,13 @@ Add-Content $summaryFile "Summary Report Output"
 Add-Content $summaryFile "====================="
 Add-Content $summaryFile ""
 
-$runningServices = RestQueryResultsToObjectView($lastEvent) | select ServiceName | foreach { $_.ServiceName }
+$runningServices = RestQueryResultsToObjectView($lastEvent) | Select-Object ServiceName | ForEach-Object { $_.ServiceName }
 $services = @("sql-consumer", "dlt-consumer", "appbuilder.api", "dlt-native-api", "key-service", "dlt-api", "dlt-watcher", "telemetry-collector" )
 
 Add-Content $summaryFile "[1] Recommended Actions"
 if($services.Count -ne $runningServices.Count)
 {
-    Add-Content $summaryFile (" * Did not detect heartbeat from the following services: " + ((Compare-Object $runningServices $services) | select -ExpandProperty InputObject) -join ",")
+    Add-Content $summaryFile (" * Did not detect heartbeat from the following services: " + ((Compare-Object $runningServices $services) | Select-Object -ExpandProperty InputObject) -join ",")
 }
 Add-Content $summaryFile ""
 
@@ -600,12 +586,12 @@ RestQueryResultsToObjectView($lastExceptions) | ConvertTo-Csv | out-file $except
 Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecting API Metrics" -PercentComplete 25
 $apiMetrics = Join-Path $outputPath "\metrics\workbench\apiMetrics.txt"
 
-$http5xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http5xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$http4xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http4xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$http3xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http3xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$http2xx = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Http2xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$requests = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName Requests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
-$avgRespTime = Get-AzureRmMetric -ResourceId $apiWebsite.Id -MetricName AverageResponseTime -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 00:01:00 -WarningAction Ignore
+$http5xx = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName Http5xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http4xx = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName Http4xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http3xx = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName Http3xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$http2xx = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName Http2xx -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$requests = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName Requests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
+$avgRespTime = Get-AzMetric -ResourceId $apiWebsite.Id -MetricName AverageResponseTime -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 00:01:00 -WarningAction Ignore
 
 Add-Content $apiMetrics "Web API Metrics" 
 Add-Content $apiMetrics "====================="
@@ -640,10 +626,10 @@ Add-Content $apiMetrics ""
 Write-Progress -Id $logId -Activity "Workbench Log Collection" -Status "Collecting Service Bus Metrics" -PercentComplete 45
 $sbMetrics = Join-Path $outputPath "\metrics\workbench\sbMetrics.txt"
 
-$incomingMessages = Get-AzureRmMetric -ResourceId $serviceBus.Id -MetricName IncomingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$outgoingMeesages = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName OutgoingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$serverErrors = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName ServerErrors -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
-$requests = Get-AzureRmMetric -ResourceId $serviceBus.Id  -MetricName IncomingRequests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
+$incomingMessages = Get-AzMetric -ResourceId $serviceBus.Id -MetricName IncomingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$outgoingMeesages = Get-AzMetric -ResourceId $serviceBus.Id  -MetricName OutgoingMessages -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$serverErrors = Get-AzMetric -ResourceId $serviceBus.Id  -MetricName ServerErrors -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00 -WarningAction Ignore
+$requests = Get-AzMetric -ResourceId $serviceBus.Id  -MetricName IncomingRequests -StartTime (get-date).AddHours(0 - $LookbackHours) -TimeGrain 01:00:00  -WarningAction Ignore
 
 Add-Content $sbMetrics "Service Bus Metrics" 
 Add-Content $sbMetrics "====================="
@@ -748,7 +734,7 @@ if ($logAnalytics -ne $null)
 #############################################
 #  Create final zip
 #############################################
-$timestamp = Get-Date -Format o | foreach {$_ -replace ":", "."}
+$timestamp = Get-Date -Format o | ForEach-Object {$_ -replace ":", "."}
 $finalPath = Join-Path $OutputDirectory "\workbench-logs-$timestamp.zip"
 ZipFiles $finalPath $outputPath
 
