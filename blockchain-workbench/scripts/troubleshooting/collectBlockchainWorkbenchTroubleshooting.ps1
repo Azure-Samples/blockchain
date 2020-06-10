@@ -546,7 +546,7 @@ Add-Content $summaryFile "====================="
 Add-Content $summaryFile ""
 
 $runningServices = RestQueryResultsToObjectView($lastEvent) | Select-Object ServiceName | ForEach-Object { $_.ServiceName }
-$services = @("sql-consumer", "dlt-consumer", "appbuilder.api", "dlt-native-api", "key-service", "dlt-api", "dlt-watcher", "telemetry-collector" )
+$services = @("appbuilder.api", "eth-watcher", "eth-tx-submitter", "appbuilder.messaging", "telemetry-collector" )
 
 Add-Content $summaryFile "[1] Recommended Actions"
 if($services.Count -ne $runningServices.Count)
