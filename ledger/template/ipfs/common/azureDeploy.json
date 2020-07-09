@@ -87,12 +87,6 @@
             "metadata": {
                 "description": "Location/region to deploy the gochain assets"
             }
-        },
-        "artifactsLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location of scripts"
-            }
         }
     },
     "variables": {
@@ -258,7 +252,7 @@
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2018-06-01",
-            "name": "[concat(variables('namePrefix'), '/newuserscript')]",
+            "name": "[concat(variables('namePrefix'), '/customscript')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines/', variables('namePrefix'))]"
@@ -270,14 +264,14 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "[uri(parameters('artifactsLocation'), 'scripts/config.sh')]",
-                        "[uri(parameters('artifactsLocation'), 'scripts/docker/dockerconfig.sh')]",
-                        "[uri(parameters('artifactsLocation'), 'scripts/docker/Dockerfile')]",
-                        "[uri(parameters('artifactsLocation'), 'scripts/docker-compose.yml')]"
+                        "https://raw.githubusercontent.com/Azure-Samples/blockchain/caleteet-ipfs-template/ledger/template/ipfs/common/scripts/config.sh",
+                        "https://raw.githubusercontent.com/Azure-Samples/blockchain/caleteet-ipfs-template/ledger/template/ipfs/common/scripts/docker/dockerconfig.sh",
+                        "https://raw.githubusercontent.com/Azure-Samples/blockchain/caleteet-ipfs-template/ledger/template/ipfs/common/scripts/docker/Dockerfile",
+                        "https://raw.githubusercontent.com/Azure-Samples/blockchain/caleteet-ipfs-template/ledger/template/ipfs/common/scripts/docker-compose.yml"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('/bin/bash config.sh \"', parameters('adminUsername'), '\" \"', parameters('artifactsLocation'), '\" \"', variables('namePrefix'), '\" \"', parameters('bootnode'), '\" \"', parameters('swarmkey'), '\" \"', parameters('memberId'), '\"')]"
+                    "commandToExecute": "[concat('/bin/bash config.sh \"', parameters('adminUsername'), '\" \"', variables('namePrefix'), '\" \"', parameters('bootnode'), '\" \"', parameters('swarmkey'), '\" \"', parameters('memberId'), '\"')]"
                 }
             }
         }

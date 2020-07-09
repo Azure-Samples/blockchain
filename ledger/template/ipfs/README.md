@@ -4,6 +4,16 @@
 
 This template deploys a single Ubuntu VM using the 18.04LTS image. This will create a new virtual network and subnet and will install and configure the IPFS software.
 
+# Creating the network | Initial node
+
+To create a new IPFS network, first create a single VM that will serve as the bootnode for additional nodes.
+
+`NOTE: The additional nodes do __NOT__ need to be in the same Azure Virtual Network or even in the same Azure Subscription. The template does not setup the network connectivity (peering, vnet, etc.) which rely on standard Azure Networking concepts.`
+
+# Connecting IPFS nodes in a network
+
+The deployment by default will create a new VM running a private network.
+
 If you are new to IPFS, see:
 
 - [IPFS concepts](https://docs.ipfs.io/concepts/)

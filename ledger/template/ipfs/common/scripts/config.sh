@@ -4,11 +4,10 @@
 # Parameters
 #############
 AZUREUSER=$1
-ARTIFACTS_URL_PREFIX=$2
-DNS_NAME=$3
-BOOT_NODE=$4
-SWARM_KEY=$5
-MEMBER_ID=$6
+DNS_NAME=$2
+BOOT_NODE=$3
+SWARM_KEY=$4
+MEMBER_ID=$5
 
 #############
 # Constants
