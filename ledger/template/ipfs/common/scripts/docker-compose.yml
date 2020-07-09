@@ -1,0 +1,14 @@
+version: '3'
+services:
+  ipfs-node1:
+    container_name: ipfs-node
+    environment:
+      - IPFS_VERSION=#IPFS_VERSION
+      - BOOTNODEIP=#BOOTNODE
+      - NODEID=#NODEID
+      - SWARM_KEY=#SWARMKEY
+    image: ipfs
+    restart: always
+    ports:
+      - 4001:4001
+      - 5001:5001
