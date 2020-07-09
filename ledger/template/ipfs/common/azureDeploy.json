@@ -51,7 +51,7 @@
         },
         "memberId": {
             "type": "int",
-            "defaultValue": "1",
+            "defaultValue": 1,
             "allowedValues": [
                 1,
                 2,
