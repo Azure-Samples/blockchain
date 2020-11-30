@@ -3,7 +3,7 @@ pragma solidity >=0.4.25 <0.6.0;
 contract Starter
 {
     enum StateType { GameProvisioned, Pingponging, GameFinished}
-
+    event Log(string _myString);
     StateType public State;
 
     string public PingPongGameName;
@@ -21,7 +21,7 @@ contract Starter
     }
 
     function StartPingPong(int pingPongTimes) public
-    {
+    {   
         PingPongTimes = pingPongTimes;
 
         State = StateType.Pingponging;
@@ -30,16 +30,19 @@ contract Starter
     }
 
     function Pong(int currentPingPongTimes) public
-    {
+    {   
+        //
         int remainingPingPongTimes = currentPingPongTimes - 1;
 
         if(remainingPingPongTimes > 0)
         {
             State = StateType.Pingponging;
+            emit Log("Inside_Contract_1");
             GamePlayer.Ping(remainingPingPongTimes);
         }
         else
         {
+            emit Log("Inside_Contract_1");
             State = StateType.GameFinished;
             GamePlayer.FinishGame();
         }
@@ -54,7 +57,7 @@ contract Starter
 contract Player
 {
     enum StateType {PingpongPlayerCreated, PingPonging, GameFinished}
-
+    event Log(string _myString);
     StateType public State;
 
     address public GameStarter;
@@ -75,10 +78,12 @@ contract Player
         if(remainingPingPongTimes > 0)
         {
             State = StateType.PingPonging;
+            emit Log("Inside_Contract_2");
             starter.Pong(remainingPingPongTimes);
         }
         else
         {
+            emit Log("Inside_Contract_2");
             State = StateType.GameFinished;
             starter.FinishGame();
         }
