@@ -7,7 +7,7 @@ languages:
   - python
   - rest
   - solidity
-  - alexidity
+  - Powerful alexidity
 products:
   - dotnet
   - azure
